@@ -9,10 +9,10 @@ import org.junit.Test;
 import controller.UsuarioController;
 import model.acesso.HashSenha;
 import model.acesso.PerfilDAO;
-import model.acesso.PerfilModel;
-import model.acesso.PermissaoModel;
+import model.acesso.Perfil;
+import model.acesso.Permissao;
 import model.acesso.UsuarioDAO;
-import model.acesso.UsuarioModel;
+import model.acesso.Usuario;
 
 /**
  * @author Sprint 3
@@ -28,7 +28,7 @@ public class UsuarioControllerTest {
 	@Test
 	public void testeSeEmailValido() {
 		UsuarioController userControl = new UsuarioController();
-		UsuarioModel user = new UsuarioModel();
+		Usuario user = new Usuario();
 		user.setLoginDoUsuario("colaborador@empresa.com");
 		assertTrue(userControl.validarEmail(user.getLoginDoUsuario()));
 	}
@@ -36,7 +36,7 @@ public class UsuarioControllerTest {
 	@Test
 	public void testeSeEmailInvalido() {
 		UsuarioController userControl = new UsuarioController();
-		UsuarioModel user = new UsuarioModel();
+		Usuario user = new Usuario();
 		user.setLoginDoUsuario("colaboradorempresa.com");
 		assertFalse(userControl.validarEmail(user.getLoginDoUsuario()));
 	}
@@ -44,7 +44,7 @@ public class UsuarioControllerTest {
 	@Test
 	public void testeSeEmailVazio() {
 		UsuarioController userControl = new UsuarioController();
-		UsuarioModel user = new UsuarioModel();
+		Usuario user = new Usuario();
 		user.setLoginDoUsuario("");
 		assertFalse(userControl.validarEmail(user.getLoginDoUsuario()));
 	}
@@ -125,7 +125,7 @@ public class UsuarioControllerTest {
 		
 		int idUsuarioAtualizar = userController.daoUsuario.buscarUsuario("colaborador2@empresa.com.br").getIdDoUsuario();
 		
-		UsuarioModel usuarioAtualizar = new UsuarioModel(userController.daoUsuario.buscarUsuario("colaborador2@empresa.com.br").getHashSenhaDoUsuario(), "atualizado2@empresa.com.br");
+		Usuario usuarioAtualizar = new Usuario(userController.daoUsuario.buscarUsuario("colaborador2@empresa.com.br").getHashSenhaDoUsuario(), "atualizado2@empresa.com.br");
 				
 		assertTrue(userController.atualizaUsuarioController(idUsuarioAtualizar, usuarioAtualizar));		
 	}	
@@ -145,7 +145,7 @@ public class UsuarioControllerTest {
 		
 		int idUsuarioAtualizar = userController.daoUsuario.buscarUsuario("colaborador2@empresa.com.br").getIdDoUsuario();
 		
-		UsuarioModel usuarioAtualizar = new UsuarioModel(userController.converterSenhaEmHashSenha("DAMKmdsa44415#"), "colaborador2@empresa.com.br");
+		Usuario usuarioAtualizar = new Usuario(userController.converterSenhaEmHashSenha("DAMKmdsa44415#"), "colaborador2@empresa.com.br");
 				
 		assertTrue(userController.atualizaUsuarioController(idUsuarioAtualizar, usuarioAtualizar));		
 	}	
@@ -162,7 +162,7 @@ public class UsuarioControllerTest {
 		userController.criarUsuarioController("colaborador2@empresa.com.br", "DAMKmdsa46615#");
 		userController.criarUsuarioController("colaborador3@empresa.com.br", "DAMKmsa466@");
 
-		UsuarioModel usuarioBuscado = userController.buscarUsuarioController(userController.daoUsuario.buscarUsuario("colaborador3@empresa.com.br").getIdDoUsuario());
+		Usuario usuarioBuscado = userController.buscarUsuarioController(userController.daoUsuario.buscarUsuario("colaborador3@empresa.com.br").getIdDoUsuario());
 		
 		assertEquals(usuarioBuscado.getLoginDoUsuario(), "colaborador3@empresa.com.br");
 		assertEquals(usuarioBuscado.getHashSenhaDoUsuario(), userController.converterSenhaEmHashSenha("DAMKmsa466@"));
@@ -180,7 +180,7 @@ public class UsuarioControllerTest {
 		userController.criarUsuarioController("colaborador2@empresa.com.br", "DAMKmdsa46615#");
 		userController.criarUsuarioController("colaborador3@empresa.com.br", "DAMKmsa466@");
 
-		ArrayList<UsuarioModel> listaDeUsuariosBuscados = userController.buscarTodosUsuariosController();
+		ArrayList<Usuario> listaDeUsuariosBuscados = userController.buscarTodosUsuariosController();
 		
 		assertEquals(listaDeUsuariosBuscados.size(),3);
 	}

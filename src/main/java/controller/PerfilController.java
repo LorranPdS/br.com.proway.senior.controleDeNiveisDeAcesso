@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.acesso.PerfilDAO;
-import model.acesso.PerfilModel;
+import model.acesso.Perfil;
 import model.acesso.PermissaoDAO;
-import model.acesso.PermissaoModel;
+import model.acesso.Permissao;
 
 /**
  * Classe PerfilController
@@ -69,7 +69,7 @@ public class PerfilController {
 	 * @param nomeDoPerfil String
 	 * @return boolean
 	 */
-	public boolean criarPerfilVazioTemporarioController(PerfilModel perfilModel) {
+	public boolean criarPerfilVazioTemporarioController(Perfil perfilModel) {
 
 		if(dao.buscarTodosOsPerfis() == null || dao.buscarTodosOsPerfis().size() == 0) {
 			dao.criarPerfilVazioTemporario(perfilModel);
@@ -116,7 +116,7 @@ public class PerfilController {
 	 * @param id Integer
 	 * @return PerfilModel
 	 */
-	public PerfilModel buscarPerfil(Integer id) {
+	public Perfil buscarPerfil(Integer id) {
 		return dao.buscarPerfil(id);
 	}
 	
@@ -128,7 +128,7 @@ public class PerfilController {
 	 * @param nomeDoPerfil String
 	 * @return PerfilModel
 	 */
-	public PerfilModel buscarPerfil(String nomeDoPerfil) {
+	public Perfil buscarPerfil(String nomeDoPerfil) {
 		return dao.buscarPerfil(nomeDoPerfil);
 	}
 
@@ -139,7 +139,7 @@ public class PerfilController {
 	 * 
 	 * @return ArrayList<PerfilModel>
 	 */
-	public ArrayList<PerfilModel> buscarTodosOsPerfis() {
+	public ArrayList<Perfil> buscarTodosOsPerfis() {
 		return dao.buscarTodosOsPerfis();
 	}
 
@@ -153,7 +153,7 @@ public class PerfilController {
 	 * @return boolean
 	 */
 	public boolean alterarNomePerfilController(Integer idDoPerfil, String novoNomePerfil) {
-		PerfilModel perfilModel = this.buscarPerfil(idDoPerfil);
+		Perfil perfilModel = this.buscarPerfil(idDoPerfil);
 		if(!(perfilModel == null)) {
 			perfilModel.setNomeDoPerfil(novoNomePerfil);
 			return dao.atualizarPerfil(idDoPerfil, perfilModel);
@@ -171,7 +171,7 @@ public class PerfilController {
 	 * @return boolean
 	 */
 	public boolean alterarDataInicioPerfilController(Integer idDoPerfil, LocalDate novaDataInicio) {
-		PerfilModel perfilModel = this.buscarPerfil(idDoPerfil);
+		Perfil perfilModel = this.buscarPerfil(idDoPerfil);
 		if(!(perfilModel == null)) {
 			perfilModel.setInicioValidadePerfil(novaDataInicio);
 			return dao.atualizarPerfil(idDoPerfil, perfilModel);
@@ -189,7 +189,7 @@ public class PerfilController {
 	 * @return boolean
 	 */
 	public boolean alterarDataFimPerfilController(Integer idDoPerfil, LocalDate novaDataFim) {
-		PerfilModel perfilModel = this.buscarPerfil(idDoPerfil);
+		Perfil perfilModel = this.buscarPerfil(idDoPerfil);
 		if(!(perfilModel == null)) {
 			perfilModel.setFimValidadePerfil(novaDataFim);
 			return dao.atualizarPerfil(idDoPerfil, perfilModel);
@@ -207,7 +207,7 @@ public class PerfilController {
 	 * @return boolean
 	 */
 	public boolean alterarStatusPerfilController(Integer idDoPerfil, boolean statusPerfil) {
-		PerfilModel perfilModel = this.buscarPerfil(idDoPerfil);
+		Perfil perfilModel = this.buscarPerfil(idDoPerfil);
 		if(!(perfilModel == null)) {
 			perfilModel.setPerfilAtivo(statusPerfil);
 			return dao.atualizarPerfil(idDoPerfil, perfilModel);
@@ -224,8 +224,8 @@ public class PerfilController {
 	 * @param novoPerfil PerfilModel
 	 * @return boolean
 	 */
-	public boolean atualizarPerfilController(Integer idDoPerfil, PerfilModel novoPerfil) {
-		PerfilModel perfilModel = this.buscarPerfil(idDoPerfil);
+	public boolean atualizarPerfilController(Integer idDoPerfil, Perfil novoPerfil) {
+		Perfil perfilModel = this.buscarPerfil(idDoPerfil);
 		if(!(perfilModel == null)) {
 			return dao.atualizarPerfil(idDoPerfil, novoPerfil);
 		} 

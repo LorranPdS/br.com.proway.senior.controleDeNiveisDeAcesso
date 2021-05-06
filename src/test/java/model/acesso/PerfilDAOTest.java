@@ -52,7 +52,7 @@ public class PerfilDAOTest {
 		PerfilDAO perfilDAO = new PerfilDAO();		
 		perfilDAO.db.limparDB("perfilTabela");
 		
-		PerfilModel perfil = new PerfilModel("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
+		Perfil perfil = new Perfil("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
 		perfilDAO.criarPerfilVazioTemporario(perfil);
 		
 		try {
@@ -107,10 +107,10 @@ public class PerfilDAOTest {
 		PerfilDAO perfilDAO = new PerfilDAO();
 		perfilDAO.db.limparDB("perfilTabela");
 		
-		PerfilModel perfil = new PerfilModel("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
+		Perfil perfil = new Perfil("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
 		perfilDAO.criarPerfilVazioTemporario(perfil);
 		
-		PerfilModel perfilAtualizado = new PerfilModel("RH", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
+		Perfil perfilAtualizado = new Perfil("RH", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
 		
 		int i = 0;
 		try {
@@ -133,7 +133,7 @@ public class PerfilDAOTest {
 		PerfilDAO perfilDAO = new PerfilDAO();
 		perfilDAO.db.limparDB("perfilTabela");
 		
-		PerfilModel perfil = new PerfilModel("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
+		Perfil perfil = new Perfil("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
 		perfilDAO.criarPerfilVazioTemporario(perfil);
 
 		int i = 0;
@@ -144,7 +144,7 @@ public class PerfilDAOTest {
 			} else {
 				fail("Banco não acessado");
 			}
-			PerfilModel pm = perfilDAO.buscarPerfil(i);
+			Perfil pm = perfilDAO.buscarPerfil(i);
 			
 			assertTrue(perfil.getNomeDoPerfil().equals(pm.getNomeDoPerfil()));		
 		} catch (SQLException e) {
@@ -158,13 +158,13 @@ public class PerfilDAOTest {
 		PerfilDAO perfilDAO = new PerfilDAO();
 		perfilDAO.db.limparDB("perfilTabela");
 		
-		PerfilModel perfil = new PerfilModel("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
+		Perfil perfil = new Perfil("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false);
 		perfilDAO.criarPerfilVazioTemporario(perfil);
 
 		try {
 			ResultSet rs = perfilDAO.db.executeQuery("select max(idperfil) from perfilTabela");
 			if(rs.next()) {
-				PerfilModel pm = perfilDAO.buscarPerfil(perfil.getNomeDoPerfil());
+				Perfil pm = perfilDAO.buscarPerfil(perfil.getNomeDoPerfil());
 				assertTrue(perfil.getNomeDoPerfil().equals(pm.getNomeDoPerfil()));		
 			} else {
 				fail("Banco não acessado");
@@ -180,16 +180,16 @@ public class PerfilDAOTest {
 		PerfilDAO perfilDAO = new PerfilDAO();
 		perfilDAO.db.limparDB("perfilTabela");
 
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Cadastro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Férias", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Controle de Ponto", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Financeiro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Cadastro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Férias", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Controle de Ponto", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Financeiro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
 
 		try {
 			ResultSet rs = perfilDAO.db.executeQuery("select max(idperfil) from perfilTabela");
 			if(rs.next()) {
-				ArrayList<PerfilModel> pmLista = perfilDAO.buscarPerfil(false);
+				ArrayList<Perfil> pmLista = perfilDAO.buscarPerfil(false);
 				assertEquals(pmLista.size(), 3);
 			} else {
 				fail("Banco não acessado");
@@ -204,16 +204,16 @@ public class PerfilDAOTest {
 		PerfilDAO perfilDAO = new PerfilDAO();
 		perfilDAO.db.limparDB("perfilTabela");
 
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Cadastro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Férias", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Controle de Ponto", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
-		perfilDAO.criarPerfilVazioTemporario(new PerfilModel("Financeiro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Recursos Humanos", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Cadastro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Férias", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Controle de Ponto", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), false));
+		perfilDAO.criarPerfilVazioTemporario(new Perfil("Financeiro", LocalDate.of(2000, 05, 03), LocalDate.of(2000, 05, 03), true));
 
 		try {
 			ResultSet rs = perfilDAO.db.executeQuery("select max(idperfil) from perfilTabela");
 			if(rs.next()) {
-				ArrayList<PerfilModel> pmLista = perfilDAO.buscarTodosOsPerfis();
+				ArrayList<Perfil> pmLista = perfilDAO.buscarTodosOsPerfis();
 				assertEquals(pmLista.size(), 5);
 			} else {
 				fail("Banco não acessado");

@@ -3,7 +3,7 @@ package controller;
 import java.util.ArrayList;
 
 import model.acesso.PermissaoDAO;
-import model.acesso.PermissaoModel;
+import model.acesso.Permissao;
 
 /**
  * Classe PermissaoController
@@ -44,8 +44,8 @@ public class PermissaoController {
 	 * @return boolean
 	 */
 	public boolean criarPermissaoController(String nomeDaPermissao) {
-		ArrayList<PermissaoModel> permissaoModelLista = dao.buscarTodasAsPermissoes();		
-		for (PermissaoModel permissaoModel : permissaoModelLista) {
+		ArrayList<Permissao> permissaoModelLista = dao.buscarTodasAsPermissoes();		
+		for (Permissao permissaoModel : permissaoModelLista) {
 			if(permissaoModel.getNomeDaPermissao().equals(nomeDaPermissao)) {
 				return false;
 			}
@@ -85,7 +85,7 @@ public class PermissaoController {
 	 * 
 	 * @return ArrayList<PermissaoModel>
 	 */
-	public ArrayList<PermissaoModel> buscarTodasAsPermissoes() {
+	public ArrayList<Permissao> buscarTodasAsPermissoes() {
 		return dao.buscarTodasAsPermissoes();
 	}
 	
@@ -96,7 +96,7 @@ public class PermissaoController {
 	 * @param nome String
 	 * @return PermissaoModel
 	 */
-	public PermissaoModel buscarPermissao(String nome) {
+	public Permissao buscarPermissao(String nome) {
 		return dao.buscarPermissao(nome);
 	}
 	
@@ -107,7 +107,7 @@ public class PermissaoController {
 	 * @param id Integer
 	 * @return PermissaoModel
 	 */
-	public PermissaoModel buscarPermissao(Integer id) {
+	public Permissao buscarPermissao(Integer id) {
 		return dao.buscarPermissao(id);
 	}
 	
@@ -120,7 +120,7 @@ public class PermissaoController {
 	 * @param novaPermissao PermissaoModel
 	 * @return boolean
 	 */
-	public boolean atualizarPermissao(Integer id, PermissaoModel novaPermissao) {
+	public boolean atualizarPermissao(Integer id, Permissao novaPermissao) {
 		return dao.atualizarPermissao(id, novaPermissao);
 	}
 }

@@ -26,7 +26,8 @@ public class UsuarioDAOTest {
 	
 	@Test
 	public void testCriarUsuarioQualquer() {
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+		
 		usuarioDAO.criarUsuario("ekjfajlkfbngj", "Marcos");
 		usuarioDAO.criarUsuario("jsngjg", "Pedro");
 		usuarioDAO.criarUsuario("ekjfajlkfbakjbgkajbgjkngj", "João");
@@ -79,8 +80,8 @@ public class UsuarioDAOTest {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		usuarioDAO.db.limparDB("usuariostabela");
 		usuarioDAO.criarUsuario("irioweuriowueriouwer", "Joao");;
-		UsuarioModel pmteste = new UsuarioModel("irioweuriowueriouwer", "Joao");
-		UsuarioModel pm = usuarioDAO.buscarUsuario("Joao");
+		Usuario pmteste = new Usuario("irioweuriowueriouwer", "Joao");
+		Usuario pm = usuarioDAO.buscarUsuario("Joao");
 		assertTrue(pmteste.getLoginDoUsuario().equals(pm.getLoginDoUsuario()));		
 	 
 	}
@@ -92,13 +93,13 @@ public class UsuarioDAOTest {
 		usuarioDAO.criarUsuario("Remover", "Joao");
 		usuarioDAO.criarUsuario("Adicionar", "Maria");
 		usuarioDAO.criarUsuario("Mover", "José");
-		UsuarioModel umteste1 = new UsuarioModel("Remover", "Joao");
-		UsuarioModel umteste2 = new UsuarioModel("Adicionar", "Maria");
-		UsuarioModel umteste3 = new UsuarioModel("Mover", "José");
-		ArrayList<UsuarioModel> listaUMteste = new ArrayList<UsuarioModel>();
+		Usuario umteste1 = new Usuario("Remover", "Joao");
+		Usuario umteste2 = new Usuario("Adicionar", "Maria");
+		Usuario umteste3 = new Usuario("Mover", "José");
+		ArrayList<Usuario> listaUMteste = new ArrayList<Usuario>();
 		listaUMteste.addAll(Arrays.asList(umteste1, umteste2, umteste3));
 		
-		ArrayList<UsuarioModel> listaUM = usuarioDAO.buscarTodosUsuarios();
+		ArrayList<Usuario> listaUM = usuarioDAO.buscarTodosUsuarios();
 		
 		assertTrue(listaUMteste.get(0).getLoginDoUsuario().equals(listaUM.get(0).getLoginDoUsuario()));		
 		assertTrue(listaUMteste.get(1).getLoginDoUsuario().equals(listaUM.get(1).getLoginDoUsuario()));		
@@ -110,7 +111,7 @@ public class UsuarioDAOTest {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		usuarioDAO.db.limparDB("usuariostabela");
 		usuarioDAO.criarUsuario("Remover", "Carol");
-		UsuarioModel pm = new UsuarioModel("qweqweqwe", "Aline");
+		Usuario pm = new Usuario("qweqweqwe", "Aline");
 		int i = 0;
 		try {
 			ResultSet rs = usuarioDAO.db.executeQuery("select max(idusuario) from usuariostabela");
