@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import model.acesso.HashSenha;
+import utils.HashSenha;
 
 public class HashSenhaTest {
 

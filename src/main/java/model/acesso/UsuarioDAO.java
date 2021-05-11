@@ -69,4 +69,16 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ArrayList<Perfil> listarPerfis (int idUsuario){
+		return null;
+	}
+	
+	public ArrayList<Permissao> listarPermissoes(int idUsuario){
+		return null;
+	}
+	
+	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil) {
+
+	}
 }
