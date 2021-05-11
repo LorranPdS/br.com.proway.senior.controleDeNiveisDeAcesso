@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import controller.UsuarioController;
-import model.acesso.HashSenha;
 import model.acesso.PerfilDAO;
 import model.acesso.Perfil;
 import model.acesso.Permissao;
 import model.acesso.UsuarioDAO;
+import utils.HashSenha;
 import model.acesso.Usuario;
 
 /**

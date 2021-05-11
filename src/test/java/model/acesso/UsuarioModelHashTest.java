@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import utils.HashSenha;
+
 public class UsuarioModelHashTest {
 
 	@Test

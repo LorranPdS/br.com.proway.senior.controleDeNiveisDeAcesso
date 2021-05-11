@@ -1,6 +1,6 @@
 package model.acesso;
 
-import controller.ValidarDados;
+import utils.ValidarDados;
 
 /**
  * Classe Usuario
@@ -60,6 +60,7 @@ public class Usuario {
 	}
 
 	public void setHash_senha(String hash_senha) {
+		ValidarDados.validarSenha(hash_senha);
 		this.hash_senha = hash_senha;
 	}
 

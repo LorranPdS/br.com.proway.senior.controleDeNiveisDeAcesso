@@ -28,7 +28,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	public DBConnection db;
 
 	/**
-	 * Método para conectar com o DB
+	 * Mï¿½todo para conectar com o DB
 	 */
 	public PerfilDAO() {
 		db = DBConnection.getInstance();
@@ -62,6 +62,14 @@ public class PerfilDAO implements ICrud<Perfil> {
 	public Perfil consultarPorNome(String nome) {
 		// TODO
 		return null;
+	}
+	
+	public ArrayList<Permissao> listarPermissoes(int idPerfil){
+		return null;
+	}
+	
+	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
+
 	}
 
 }
