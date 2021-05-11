@@ -91,12 +91,12 @@ public class Controller {
 		return null;
 	}
 
-	public ArrayList<Perfil> listarTodosOsPerfis() {
+	public ArrayList<Perfil> listarTodosOsPerfils() {
 		return null;
 	}
 
-	public ArrayList<Permissao> listarPermissoesDeUmPerfil(Perfil perfil) {
-		return null;
+	public void listarPermissoesDeUmPerfil(Perfil perfil) {
+
 	}
 
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
@@ -145,7 +145,7 @@ public class Controller {
 	public String enviarEmailDeConfirmacaoDeLogin(String loginDoUsuario) {
 
 		String codigo = "" + this.gerarCodigo();
-		if (ValidarDados.validarEmail(loginDoUsuario)) {
+		if (this.validarEmail(loginDoUsuario)) {
 			// Faz conex�o com BD e envia e-mail para usu�rio
 			return codigo;
 		}
@@ -175,7 +175,7 @@ public class Controller {
 
 	}
 
-	public void expirarTodasAsSenhasDoSistema() {
+	public void expirarTodasAsSenhaDoSistema() {
 
 	}
 

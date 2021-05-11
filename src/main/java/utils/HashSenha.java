@@ -2,6 +2,14 @@ package utils;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Base64;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 /**
  * Classe HashSenha
@@ -26,16 +34,25 @@ public class HashSenha {
 	 * @return senhaCriptografada
 	 */
 	public static String criptografarSenha(String senhaNaoCriptografada) {
-		String senhaCriptografada = null;
 		try {
-			MessageDigest digest = MessageDigest.getInstance("SHA-512");
-			digest.reset();
-			digest.update(senhaNaoCriptografada.getBytes("utf8"));
-			senhaCriptografada = String.format("%064x", new BigInteger(1, digest.digest()));
-		} catch (Exception e) {
-			e.printStackTrace();
+			SecureRandom random = new SecureRandom();
+			byte[] salt = new byte[16];
+			random.nextBytes(salt);
+
+			KeySpec spec = new PBEKeySpec(senhaNaoCriptografada.toCharArray(), salt, 1000000, 256);
+			
+			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+			
+			byte[] hash = factory.generateSecret(spec).getEncoded();
+			 
+			Base64.Encoder enc = Base64.getEncoder();
+			return enc.encodeToString(hash);
+		}catch(NoSuchAlgorithmException e) {
+			e.getMessage();
+		}catch(InvalidKeySpecException e) {
+			e.getMessage();
 		}
-		return senhaCriptografada;
+		return null;
 	}
 
 }
