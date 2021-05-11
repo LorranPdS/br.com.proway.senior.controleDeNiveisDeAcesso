@@ -1,6 +1,6 @@
 package model.interfaces;
 
-import model.acesso.UsuarioModel;
+import model.acesso.Usuario;
 
 /**
  * @author Sprint 3

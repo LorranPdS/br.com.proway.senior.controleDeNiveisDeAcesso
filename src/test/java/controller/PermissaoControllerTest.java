@@ -8,7 +8,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import controller.PermissaoController;
-import model.acesso.PermissaoModel;
+import model.acesso.Permissao;
 
 /**
  * @author Lucas Ivan, lucas.ivan@senior.com.br
@@ -79,11 +79,11 @@ public class PermissaoControllerTest {
 		permissaoController.criarPermissaoController("Excluir");
 		permissaoController.criarPermissaoController("Remover");
 		
-		ArrayList<PermissaoModel> listaPermissoes = permissaoController.buscarTodasAsPermissoes();
+		ArrayList<Permissao> listaPermissoes = permissaoController.buscarTodasAsPermissoes();
 		
-		PermissaoModel p1 = new PermissaoModel("Adicionar");
-		PermissaoModel p2 = new PermissaoModel("Excluir");
-		PermissaoModel p3 = new PermissaoModel("Remover");
+		Permissao p1 = new Permissao("Adicionar");
+		Permissao p2 = new Permissao("Excluir");
+		Permissao p3 = new Permissao("Remover");
 		
 		listaPermissoes.addAll(Arrays.asList(p1, p2, p3));
 		assertEquals(listaPermissoes.get(0).getNomeDaPermissao(), p1.getNomeDaPermissao());
@@ -98,7 +98,7 @@ public class PermissaoControllerTest {
 		permissaoController.criarPermissaoController("Adicionar");
 		
 		
-		PermissaoModel p1 = permissaoController.buscarPermissao(permissaoController.buscarPermissao("Adicionar").getIdDaPermissao());
+		Permissao p1 = permissaoController.buscarPermissao(permissaoController.buscarPermissao("Adicionar").getIdDaPermissao());
 		
 		assertEquals(p1.getNomeDaPermissao(), "Adicionar");
 	}
@@ -108,7 +108,7 @@ public class PermissaoControllerTest {
 		PermissaoController permissaoController = new PermissaoController();
 		permissaoController.getDao().db.limparDB("permissoestabela");
 		permissaoController.criarPermissaoController("Adicionar");
-		PermissaoModel pm = new PermissaoModel("Remover");
+		Permissao pm = new Permissao("Remover");
 		
 		permissaoController.atualizarPermissao(permissaoController.buscarPermissao("Adicionar").getIdDaPermissao(), pm);
 		assertEquals(pm.getNomeDaPermissao(), permissaoController.buscarPermissao("Remover").getNomeDaPermissao());

@@ -11,7 +11,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import model.acesso.PerfilModel;
+import model.acesso.Perfil;
+
 
 /**
  * @author Lucas Ivan, lucas.ivan@senior.com.br
@@ -19,7 +20,7 @@ import model.acesso.PerfilModel;
  */
 
 public class PerfilControllerTest {
-
+	
 	@Test
 	public void verificaSeOcorreACriacaoDeUmPerfil() {
 
@@ -34,7 +35,7 @@ public class PerfilControllerTest {
 		PerfilController perfilController = new PerfilController();
 		perfilController.getDao().db.limparDB("perfiltabela");
 		
-		PerfilModel pm = new PerfilModel("Vale vale", LocalDate.of(2012, 10, 29), LocalDate.of(2028, 4, 23), true);
+		Perfil pm = new Perfil("Vale vale", LocalDate.of(2012, 10, 29), LocalDate.of(2028, 4, 23), true);
 		assertTrue(perfilController.criarPerfilVazioTemporarioController(pm));
 	}
 
@@ -74,7 +75,7 @@ public class PerfilControllerTest {
 		perfilController.getDao().db.limparDB("perfiltabela");
 		
 		perfilController.criarPerfilVazioController("Vale alimentação");
-		PerfilModel pm = perfilController.buscarPerfil("Vale alimentação");
+		Perfil pm = perfilController.buscarPerfil("Vale alimentação");
 		
 		assertEquals(pm.getNomeDoPerfil(), "Vale alimentação");
 	}
@@ -85,7 +86,7 @@ public class PerfilControllerTest {
 		perfilController.getDao().db.limparDB("perfiltabela");
 		
 		perfilController.criarPerfilVazioController("Vale alimentação");
-		PerfilModel pm = perfilController.buscarPerfil(perfilController.buscarPerfil("Vale alimentação").getIdDoPerfil());
+		Perfil pm = perfilController.buscarPerfil(perfilController.buscarPerfil("Vale alimentação").getIdDoPerfil());
 		
 		assertEquals(pm.getNomeDoPerfil(), "Vale alimentação");
 	}
@@ -99,7 +100,7 @@ public class PerfilControllerTest {
 		perfilController.criarPerfilVazioController("Vale refeição");
 		perfilController.criarPerfilVazioController("Vale transporte");
 		
-		ArrayList<PerfilModel> pmLista = perfilController.buscarTodosOsPerfis();
+		ArrayList<Perfil> pmLista = perfilController.buscarTodosOsPerfis();
 		assertEquals("Vale alimentação", pmLista.get(0).getNomeDoPerfil());
 		assertEquals("Vale refeição", pmLista.get(1).getNomeDoPerfil());
 		assertEquals("Vale transporte", pmLista.get(2).getNomeDoPerfil());	
@@ -155,7 +156,7 @@ public class PerfilControllerTest {
 		perfilController.getDao().db.limparDB("perfiltabela");
 		
 		perfilController.criarPerfilVazioController("Vale alimentação");
-		PerfilModel novoPerfil = new PerfilModel("Vale alimentação", LocalDate.of(2020, 3, 6), LocalDate.of(2023, 5, 18), true);
+		Perfil novoPerfil = new Perfil("Vale alimentação", LocalDate.of(2020, 3, 6), LocalDate.of(2023, 5, 18), true);
 		perfilController.atualizarPerfilController(perfilController.buscarPerfil("Vale alimentação").getIdDoPerfil(), novoPerfil);
 		
 		assertEquals(false, perfilController.buscarPerfil("Vale alimentação").isPerfilAtivo());

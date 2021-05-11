@@ -6,9 +6,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import model.acesso.HashSenha;
-import model.acesso.PerfilModel;
-import model.acesso.PermissaoModel;
-import model.acesso.UsuarioModel;
+import model.acesso.Perfil;
+import model.acesso.Permissao;
+import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
 import model.interfaces.InterfaceUsuarioController;
 
@@ -29,76 +29,11 @@ public class UsuarioController implements InterfaceUsuarioController {
 
 	public UsuarioDAO daoUsuario = new UsuarioDAO();
 	
-	/**
-	 * Verifica se os endereços de email foram cadastrados corretamente ou se
-	 * possuem caracteres especiais.
-	 * 
-	 * A variável expression relaciona os caracteres que serão buscados dentro da
-	 * variável email. O método matcher() é empregado para procurar um padrão na
-	 * string, retornando um objeto Matcher que contém informações sobre a pesquisa
-	 * realizada.
-	 * 
-	 * @param String email
-	 * @return isValidaEmail
-	 * 
-	 */	
-	public boolean validarEmail(String email) {
-		boolean emailValido = false;
-		if (email != null && email.length() > 0) {
-			String expressao = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-			Pattern pattern = Pattern.compile(expressao, Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(email);
-			if (matcher.matches()) {
-				emailValido = true;
-			}
-		}
-		return emailValido;
-	}
 
-	/**
-	 * Verifica se a senha corresponde aos pre requisitos da expressao. 
-	 *
-	 * @param String senha
-	 * @return boolean
-	 */
+
+
 	
-	public boolean validarSenha(String senha) {
-		boolean senhaValida = false;
-		if (senha != null && senha.length() > 0) {
-			String expressao = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,24}";
-			Pattern pattern = Pattern.compile(expressao, Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(senha);
-			if (matcher.matches()) {
-				senhaValida = true;
-			}
-		}
-		return senhaValida;
-	}
-	
-	/**
-	 * Recebe a String correspondente à senha real do usuário e retorna o valor codificado (hash) dessa senha.
-	 * 
-	 * @param senha String
-	 * @return String 
-	 */
-	public String converterSenhaEmHashSenha(String senha) {
-		return HashSenha.senhaDoUsuario(senha);
-	}
-	
-	/**
-	 * Compara a hash da senha fornecida pelo usuário com a hash salva.
-	 * 
-	 * @param usuarioID Integer
-	 * @param senha String
-	 * @return boolean
-	 */
-	public boolean verificarHashSenha(Integer usuarioID, String senha) {		
-	
-		if(this.converterSenhaEmHashSenha(senha).equals(daoUsuario.buscarUsuario(usuarioID).getHashSenhaDoUsuario())) {
-			return true;
-		}
-		return false;
-	}	
+
 //	
 //	/**
 //	 * Método que altera a senha do usuario
@@ -172,7 +107,7 @@ public class UsuarioController implements InterfaceUsuarioController {
 	 */
 	public boolean criarUsuarioController(String loginDoUsuario, String senha) {
 				
-		for (UsuarioModel usuarioModel : daoUsuario.buscarTodosUsuarios()) {
+		for (Usuario usuarioModel : daoUsuario.buscarTodosUsuarios()) {
 			if(usuarioModel.getLoginDoUsuario().equals(loginDoUsuario)) {
 				return false;
 			}
@@ -192,7 +127,7 @@ public class UsuarioController implements InterfaceUsuarioController {
 	 */
 	public boolean deletarUsuarioController(Integer idDoUsuario, String loginDoUsuario) {
 		
-		for (UsuarioModel usuarioModel : daoUsuario.buscarTodosUsuarios()) {
+		for (Usuario usuarioModel : daoUsuario.buscarTodosUsuarios()) {
 			if (usuarioModel.getLoginDoUsuario().equals(loginDoUsuario)) {
 				daoUsuario.deletarUsuario(idDoUsuario);
 				return true;
@@ -208,7 +143,7 @@ public class UsuarioController implements InterfaceUsuarioController {
 	 *  @param loginDoUsuario String
 	 *  @return boolean
 	 */
-	public boolean atualizaUsuarioController(Integer idDoUsuario, UsuarioModel usuarioAtualizar) {
+	public boolean atualizaUsuarioController(Integer idDoUsuario, Usuario usuarioAtualizar) {
 		
 		if (daoUsuario.buscarUsuario(idDoUsuario) == null) {
 			return false;
@@ -226,7 +161,7 @@ public class UsuarioController implements InterfaceUsuarioController {
 	 *  @param loginDoUsuario String
 	 *  @return UsuarioModel
 	 */
-	public UsuarioModel buscarUsuarioController(Integer idDoUsuario) {
+	public Usuario buscarUsuarioController(Integer idDoUsuario) {
 				return daoUsuario.buscarUsuario(idDoUsuario);
 	}
 		
@@ -236,7 +171,7 @@ public class UsuarioController implements InterfaceUsuarioController {
 	 *  
 	 *  @return ArrayList<UsuarioModel>
 	 */
-	public ArrayList<UsuarioModel> buscarTodosUsuariosController() {
+	public ArrayList<Usuario> buscarTodosUsuariosController() {
 		return daoUsuario.buscarTodosUsuarios();
 	}
 	
@@ -258,40 +193,6 @@ public class UsuarioController implements InterfaceUsuarioController {
 //		return false;
 //	}
 	
-	/**
-	 * Envia um e-mail
-	 * 
-	 * Envia o e-mail para o usuário com o código aleatório gerado para a
-	 * confirmação.
-	 * 
-	 * @param email        Email do usuário
-	 * @param codigoGerado Código aleatório gerado pelo sistema
-	 */
-	public String enviarEmail(String loginDoUsuario) {
-		
-		String codigo = "" + this.gerarCodigo();
-		if (this.validarEmail(loginDoUsuario)) {
-			// Faz conexão com BD e envia e-mail para usuário
-			return codigo;
-		}
-		return codigo;
-	}	
-	
-	/**
-	 * Gera um código aleatório
-	 * 
-	 * Gera o cógigo random para a verificação de usuário
-	 * 
-	 * @return codigo de 5 digitos
-	 */
-	public boolean gerarCodigo() {
 
-		Random random = new Random();
-		int codigo = random.nextInt(99999);
-		if (codigo <= 10000) {
-			codigo += 10000;
-		}
-		return true;
-	}
 	
 }

@@ -80,13 +80,13 @@ public class PermissaoDAOTest {
 		PermissaoDAO permissaoDAO = new PermissaoDAO();
 		permissaoDAO.db.limparDB("permissoestabela");
 		permissaoDAO.criarPermissao("Remover");
-		PermissaoModel pmteste = new PermissaoModel("Remover");
+		Permissao pmteste = new Permissao("Remover");
 		int i = 0;
 		try {
 			ResultSet rs = permissaoDAO.db.executeQuery("select max(idpermissao) from permissoestabela");
 			if(rs.next()) {
 				i = rs.getInt(1);
-				PermissaoModel pm = permissaoDAO.buscarPermissao(i);
+				Permissao pm = permissaoDAO.buscarPermissao(i);
 				assertTrue(pmteste.getNomeDaPermissao().equals(pm.getNomeDaPermissao()));	
 			} else {
 				fail("Banco não acessado");
@@ -102,8 +102,8 @@ public class PermissaoDAOTest {
 		PermissaoDAO permissaoDAO = new PermissaoDAO();
 		permissaoDAO.db.limparDB("permissoestabela");
 		permissaoDAO.criarPermissao("Remover");
-		PermissaoModel pmteste = new PermissaoModel("Remover");
-		PermissaoModel pm = permissaoDAO.buscarPermissao("Remover");
+		Permissao pmteste = new Permissao("Remover");
+		Permissao pm = permissaoDAO.buscarPermissao("Remover");
 		assertTrue(pmteste.getNomeDaPermissao().equals(pm.getNomeDaPermissao()));		
 	 
 	}
@@ -115,13 +115,13 @@ public class PermissaoDAOTest {
 		permissaoDAO.criarPermissao("Remover");
 		permissaoDAO.criarPermissao("Adicionar");
 		permissaoDAO.criarPermissao("Mover");
-		PermissaoModel pmteste1 = new PermissaoModel("Remover");
-		PermissaoModel pmteste2 = new PermissaoModel("Adicionar");
-		PermissaoModel pmteste3 = new PermissaoModel("Mover");
-		ArrayList<PermissaoModel> listaPMteste = new ArrayList<PermissaoModel>();
+		Permissao pmteste1 = new Permissao("Remover");
+		Permissao pmteste2 = new Permissao("Adicionar");
+		Permissao pmteste3 = new Permissao("Mover");
+		ArrayList<Permissao> listaPMteste = new ArrayList<Permissao>();
 		listaPMteste.addAll(Arrays.asList(pmteste1, pmteste2, pmteste3));
 		
-		ArrayList<PermissaoModel> listaPM = permissaoDAO.buscarTodasAsPermissoes();
+		ArrayList<Permissao> listaPM = permissaoDAO.buscarTodasAsPermissoes();
 		
 		assertTrue(listaPMteste.get(0).getNomeDaPermissao().equals(listaPM.get(0).getNomeDaPermissao()));		
 		assertTrue(listaPMteste.get(1).getNomeDaPermissao().equals(listaPM.get(1).getNomeDaPermissao()));		
@@ -153,7 +153,7 @@ public class PermissaoDAOTest {
 		PermissaoDAO permissaoDAO = new PermissaoDAO();
 		permissaoDAO.db.limparDB("permissoestabela");
 		permissaoDAO.criarPermissao("Remover");
-		PermissaoModel pm = new PermissaoModel("Adicionar");
+		Permissao pm = new Permissao("Adicionar");
 		int i = 0;
 		try {
 			ResultSet rs = permissaoDAO.db.executeQuery("select max(idpermissao) from permissoestabela");
