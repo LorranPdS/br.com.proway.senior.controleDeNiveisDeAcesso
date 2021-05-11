@@ -39,13 +39,13 @@ public class PermissaoDAO implements ICrud<Permissao> {
 
 	}
 
-	public void alterar(Permissao object) {
-		// TODO Auto-generated method stub
+	public boolean alterar(Permissao object) {
+		return false;
 
 	}
 
-	public void deletar(int id) {
-		// TODO Auto-generated method stub
+	public boolean deletar(int id) {
+		return false;
 
 	}
 

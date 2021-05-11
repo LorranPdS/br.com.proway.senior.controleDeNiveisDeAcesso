@@ -39,14 +39,12 @@ public class PerfilDAO implements ICrud<Perfil> {
 
 	}
 
-	public void alterar(Perfil object) {
-		// TODO Auto-generated method stub
-
+	public boolean alterar(Perfil object) {
+		return false;
 	}
 
-	public void deletar(int id) {
-		// TODO Auto-generated method stub
-
+	public boolean deletar(int id) {
+		return false;
 	}
 
 	public Perfil consultarPorId(int id) {

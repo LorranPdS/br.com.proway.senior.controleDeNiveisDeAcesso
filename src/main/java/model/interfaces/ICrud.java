@@ -11,9 +11,9 @@ public interface ICrud<T> {
 
 	public void criar(T object);
 
-	public void alterar(T object);
+	public boolean alterar(T object);
 
-	public void deletar(int id);
+	public boolean deletar(int id);
 
 	public T consultarPorId(int id);
 
