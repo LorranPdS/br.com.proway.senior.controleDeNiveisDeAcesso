@@ -32,27 +32,26 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	private UsuarioDAO() {
 		db = DBConnection.getInstance();
 	}
-	
+
 	public static UsuarioDAO getInstance() {
 		if (instance == null) {
 			instance = new UsuarioDAO();
 		}
 		return instance;
 	}
-	
+
 	public void criar(Usuario object) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void alterar(Usuario object) {
-		// TODO Auto-generated method stub
+	public boolean alterar(Usuario object) {
+		return false;
 
 	}
 
-	public void deletar(int id) {
-		// TODO Auto-generated method stub
-
+	public boolean deletar(int id) {
+		return false;
 	}
 
 	public Usuario consultarPorId(int id) {
@@ -69,15 +68,15 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public ArrayList<Perfil> listarPerfis (int idUsuario){
+
+	public ArrayList<Perfil> listarPerfis(int idUsuario) {
 		return null;
 	}
-	
-	public ArrayList<Permissao> listarPermissoes(int idUsuario){
+
+	public ArrayList<Permissao> listarPermissoes(int idUsuario) {
 		return null;
 	}
-	
+
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil) {
 
 	}
