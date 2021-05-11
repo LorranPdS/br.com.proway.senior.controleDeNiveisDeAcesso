@@ -7,8 +7,8 @@ import model.acesso.Perfil;
 import model.acesso.Permissao;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
+import utils.Email;
 import utils.HashSenha;
-import utils.ValidarDados;
 
 public class Controller {
 
@@ -141,15 +141,16 @@ public class Controller {
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
 	 * @param codigoGerado   Cï¿½digo aleatï¿½rio gerado pelo sistema
+	 * @throws Exception 
 	 */
-	public String enviarEmailDeConfirmacaoDeLogin(String loginDoUsuario) {
-
-		String codigo = "" + this.gerarCodigo();
-		if (this.validarEmail(loginDoUsuario)) {
-			// Faz conexï¿½o com BD e envia e-mail para usuï¿½rio
-			return codigo;
-		}
-		return codigo;
+	public void enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {		
+		Email email = new Email(
+				emailDoDestinario,
+				"Grupo 3",
+				"2FA Niveis de Acesso",
+				"O seu código é: " + gerarCodigo().toString());
+			
+			email.enviarEmail();
 	}
 
 	/**
@@ -159,14 +160,14 @@ public class Controller {
 	 * 
 	 * @return codigo de 5 digitos
 	 */
-	private boolean gerarCodigo() {
+	private Integer gerarCodigo() {
 
 		Random random = new Random();
 		int codigo = random.nextInt(99999);
 		if (codigo <= 10000) {
 			codigo += 10000;
 		}
-		return true;
+		return codigo;
 	}
 
 	// ROTINAS AUTOMATICAS
