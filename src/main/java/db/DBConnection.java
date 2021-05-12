@@ -6,12 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 /**
  * Classe DBConnection
  * 
- * Classe responsavel pela conexao com o banco de dados (DB)
+ * Classe responsavel pela conexao com o banco de dados utilizando o Hibernate (DB)
  * 
- * @author Sprint 4
+ * @author Sprint 5
  * @author Elton Oliveira, elton.oliveira@senior.com.br
  * @author Lucas Ivan, lucas.ivan@senior.com.br
  * @author Thiago Barbieri, thiago.barbieri@senior.com.br
@@ -19,110 +23,35 @@ import java.sql.Statement;
  * @author Vitor Gehrke, vitor.gehrke@senior.com.br
  */
 public class DBConnection {
+	private static SessionFactory sessionFactory;
+	private static Session session;
 
-	static String url = "jdbc:postgresql://localhost:5432/grupo3";
-	static String user = "grupo3";
-	static String password = "grupo3";
-
-	public static Connection con;
-
-	static DBConnection dbConnection = null;
-
-	private DBConnection() {
-		this.connect();
+	public static SessionFactory getSessionFactory() {
+		if (sessionFactory == null)
+			sessionFactory = buildSessionFactory();
+		return sessionFactory;
 	}
 
-	/**
-	 * Implementacao do singleton da classe.
-	 * Retorna a instancia unica da conexao com o banco de dados
-	 * @return DBConnection
-	 */
-	public static DBConnection getInstance() {
-		if (dbConnection == null) {
-			dbConnection = new DBConnection();
-		}
-		return dbConnection;
+	public static Session getSession() {
+		getSessionFactory();
+		if (session == null)
+			session = sessionFactory.openSession();
+		return session;
 	}
 
-	/**
-	 * Metodo para conectar com o DB a partir dos atributos necessarios (url, user e
-	 * password)
-	 * 
-	 * @return void
-	 */
-	public void connect() {
+	private static SessionFactory buildSessionFactory() {
 		try {
-			con = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	/**
-	 * Metodo que executa uma query
-	 * 
-	 * @param query String
-	 * @throws SQLException
-	 * @return void
-	 */
-	public void executeUpdate(String query) throws SQLException {
-		try {
-			con.createStatement().executeUpdate(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		} catch (Throwable e) {
+			System.err.println("Initial SessionFactory creation failed: " + e);
+			throw new ExceptionInInitializerError(e);
 		}
 	}
 
-	/**
-	 * Metodo que executa uma query
-	 * 
-	 * @param query String
-	 * @throws SQLException
-	 * @return ResultSet
-	 */
-	public ResultSet executeQuery(String query) throws SQLException {
-
-		try {
-			return con.createStatement().executeQuery(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * Metodo que retorna a versao do DB
-	 * 
-	 * @return String
-	 */
-	public String dbVersion() {
-		try {
-			if (con == null) {
-				connect();
-			}
-			ResultSet rs = executeQuery("SELECT VERSION()");
-			if (rs.next()) {
-				return rs.getString(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
-	 * Metodo que limpa uma tabela no DB
-	 * 
-	 * @param nomeTabela String
-	 * @return void
-	 */
-	public void limparDB(String nomeTabela) {
-		String limparTabela = "delete from " + nomeTabela + ";";
-		try {
-			dbConnection.executeUpdate(limparTabela);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public static void shutdown() {
+		session.close();
+		session = null;
+		getSessionFactory().close();
+		sessionFactory = null;
 	}
 }
