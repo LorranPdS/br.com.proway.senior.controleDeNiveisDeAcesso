@@ -1,12 +1,71 @@
 package model.acesso;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
+import db.DBConnection;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PerfilDAOTest {
+
+
 	@Test
-	public void test() {
-		fail();
+	public void testASalvarPerfil() {
+		Perfil perfil = new Perfil("BAR");
+		PerfilDAO.getInstance().criar(perfil);
+		Perfil perfilEncontrado = PerfilDAO.getInstance().consultarPorId(perfil.getIdPerfil());
+		assertEquals(perfil, perfilEncontrado);
 	}
+
+	@Test
+	public void testBAtualizar() {
+		Perfil perfilOriginal = new Perfil ("Secretaria");
+		PerfilDAO.getInstance().criar(perfilOriginal);
+		perfilOriginal.setNomePerfil("Comprador");
+		PerfilDAO.getInstance().alterar(perfilOriginal);
+		Perfil perfilEncontrado = PerfilDAO.getInstance().consultarPorId(perfilOriginal.getIdPerfil());
+		assertEquals("Comprador", perfilEncontrado.getNomePerfil());
+	}
+
+	@Test
+	public void testCDeletar() {
+		Perfil perfil = new Perfil ("ADMIN");
+		System.out.println(perfil.toString());
+		boolean resultado = PerfilDAO.getInstance().deletar(perfil);
+		// List<Perfil> listaPerfisDepoisDeDeletar = PerfilDAO.getInstance().listar();
+		assertTrue(resultado);
+	}
+	
+	@Test
+	public void testConsultarPorNome() {
+		Perfil resultado = PerfilDAO.getInstance().consultarPorNome("SECT");
+		System.out.println(resultado);
+	}
+
+	@Test
+	public void testListarTodos() {
+		List<Perfil> listaPerfis = PerfilDAO.getInstance().listar();
+		assertNotNull(listaPerfis);
+	}
+
+	@Test
+	public void testXLimparBanco() {
+
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession().createSQLQuery("TRUNCATE TABLE perfil CASCADE;").executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
+
 }
