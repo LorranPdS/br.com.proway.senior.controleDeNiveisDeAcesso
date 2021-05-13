@@ -1,14 +1,17 @@
 package model.acesso;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import utils.HashSenha;
-import utils.ValidarDados;
 
 /**
  * Classe Usuario
@@ -29,40 +32,44 @@ import utils.ValidarDados;
  */
 
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuario")
 public class Usuario {
 
 	@Id
 	@Column(name = "id_usuario")
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id_usuario;
+	private int idUsuario;
+
 	@Column(name = "login")
 	private String login;
+
 	@Column(name = "hash_senha")
-	private String hash_senha;
+	private String hashSenha;
+
+	@Column(name = "ultima_alteracao_senha")
+	private LocalDate ultimaAlteracaoSenha;
+
+	@Column(name = "ultimo_codigo_2fa")
+	private Integer ultimoCodigo2FA;
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<UsuarioPerfil> perfis = new HashSet<UsuarioPerfil>();
 
 	public Usuario() {
-		
+
 	}
-	
-	/**
-	 * Modelo para o banco de dados na tabela usuariostabela
-	 * 
-	 * @param id_usuario
-	 * @param loginDoUsuario
-	 * @param hashSenhaDoUsuario
-	 */
-	public Usuario(String login, String senha) {
+
+	public Usuario(String login, String hashSenha) {
 		this.login = login;
-		setHash_senha(senha);
+		this.hashSenha = hashSenha;
 	}
 
-	public int getId_usuario() {
-		return id_usuario;
+	public int getIdUsuario() {
+		return idUsuario;
 	}
 
-	public void setId_usuario(int id_usuario) {
-		this.id_usuario = id_usuario;
+	public void setIdUsuario(int idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public String getLogin() {
@@ -70,32 +77,58 @@ public class Usuario {
 	}
 
 	public void setLogin(String login) {
-		ValidarDados.validarEmail(login);
 		this.login = login;
 	}
 
-	public String getHash_senha() {
-		return hash_senha;
+	public String getHashSenha() {
+		return hashSenha;
 	}
 
-	public void setHash_senha(String senha) {
-		if(ValidarDados.validarSenha(senha)) {
-			this.hash_senha = HashSenha.criptografarSenha(senha);
-		}
+	public void setHashSenha(String hashSenha) {
+		this.hashSenha = hashSenha;
+	}
+
+	public LocalDate getUltimaAlteracaoSenha() {
+		return ultimaAlteracaoSenha;
+	}
+
+	public void setUltimaAlteracaoSenha(LocalDate ultimaAlteracaoSenha) {
+		this.ultimaAlteracaoSenha = ultimaAlteracaoSenha;
+	}
+
+	public Integer getUltimoCodigo2FA() {
+		return ultimoCodigo2FA;
+	}
+
+	public void setUltimoCodigo2FA(Integer ultimoCodigo2FA) {
+		this.ultimoCodigo2FA = ultimoCodigo2FA;
+	}
+
+	public Set<UsuarioPerfil> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(Set<UsuarioPerfil> perfis) {
+		this.perfis = perfis;
 	}
 
 	@Override
 	public String toString() {
-		return "Usuario [id_usuario=" + id_usuario + ", login=" + login + ", hash_senha=" + hash_senha + "]";
+		return "Usuario [idUsuario=" + idUsuario + ", login=" + login + ", hashSenha=" + hashSenha
+				+ ", ultimaAlteracaoSenha=" + ultimaAlteracaoSenha + ", ultimoCodigo2FA=" + ultimoCodigo2FA
+				+ ", perfis=" + perfis + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hash_senha == null) ? 0 : hash_senha.hashCode());
-		result = prime * result + id_usuario;
+		result = prime * result + ((hashSenha == null) ? 0 : hashSenha.hashCode());
+		result = prime * result + idUsuario;
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
+		result = prime * result + ((perfis == null) ? 0 : perfis.hashCode());
+		result = prime * result + ((ultimaAlteracaoSenha == null) ? 0 : ultimaAlteracaoSenha.hashCode());
+		result = prime * result + ((ultimoCodigo2FA == null) ? 0 : ultimoCodigo2FA.hashCode());
 		return result;
 	}
 
@@ -108,22 +141,34 @@ public class Usuario {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (hash_senha == null) {
-			if (other.hash_senha != null)
+		if (hashSenha == null) {
+			if (other.hashSenha != null)
 				return false;
-		} else if (!hash_senha.equals(other.hash_senha))
+		} else if (!hashSenha.equals(other.hashSenha))
 			return false;
-		if (id_usuario != other.id_usuario)
+		if (idUsuario != other.idUsuario)
 			return false;
 		if (login == null) {
 			if (other.login != null)
 				return false;
 		} else if (!login.equals(other.login))
 			return false;
+		if (perfis == null) {
+			if (other.perfis != null)
+				return false;
+		} else if (!perfis.equals(other.perfis))
+			return false;
+		if (ultimaAlteracaoSenha == null) {
+			if (other.ultimaAlteracaoSenha != null)
+				return false;
+		} else if (!ultimaAlteracaoSenha.equals(other.ultimaAlteracaoSenha))
+			return false;
+		if (ultimoCodigo2FA == null) {
+			if (other.ultimoCodigo2FA != null)
+				return false;
+		} else if (!ultimoCodigo2FA.equals(other.ultimoCodigo2FA))
+			return false;
 		return true;
 	}
 
-	
-
-	
 }

@@ -2,6 +2,8 @@ package model.acesso;
 
 import java.util.ArrayList;
 
+import org.hibernate.Session;
+
 import db.DBConnection;
 import model.interfaces.ICrud;
 
@@ -25,13 +27,18 @@ import model.interfaces.ICrud;
 
 public class PermissaoDAO implements ICrud<Permissao> {
 
-	public DBConnection db;
+	private static PermissaoDAO instance;
+	private Session session;
 
-	/**
-	 * Metodo para conectar com o DB
-	 */
-	public PermissaoDAO() {
-		db = DBConnection.getInstance();
+	private PermissaoDAO(Session session) {
+		this.session = session;
+	}
+
+	public static PermissaoDAO getInstance() {
+		if (instance == null) {
+			instance = new PermissaoDAO(DBConnection.getSession());
+		}
+		return instance;
 	}
 
 	public void criar(Permissao object) {

@@ -42,20 +42,6 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return instance;
 	}
 
-//	public Usuario getByIndex(Integer id) {
-//		Player p = null;
-//		try {
-//			session.beginTransaction();
-//			p = session.find(Player.class, id);
-//			session.getTransaction().commit();
-//			return p;
-//		} catch (Exception e) {
-//			session.getTransaction().rollback();
-//			e.printStackTrace();
-//		}
-//		return p;
-//	}
-
 	public void criar(Usuario object) {
 		try {
 			session.beginTransaction();
@@ -90,12 +76,10 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	public ArrayList<Usuario> listar() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Usuario consultarPorLogin(String login) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -13,7 +13,7 @@ public class UsuarioDAOTest {
 	public void testACriarUsuarioEConsultarPorId() {
 		Usuario usuarioASerCriado = new Usuario("loginTest", "senhaTest");
 		UsuarioDAO.getInstance().criar(usuarioASerCriado);
-		Usuario usuarioEncontrado = UsuarioDAO.getInstance().consultarPorId(usuarioASerCriado.getId_usuario());
+		Usuario usuarioEncontrado = UsuarioDAO.getInstance().consultarPorId(usuarioASerCriado.getIdUsuario());
 		assertEquals(usuarioASerCriado, usuarioEncontrado);
 	}
 
