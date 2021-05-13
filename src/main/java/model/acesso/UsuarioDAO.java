@@ -2,6 +2,8 @@ package model.acesso;
 
 import java.util.ArrayList;
 
+import org.hibernate.Session;
+
 import db.DBConnection;
 import model.interfaces.ICrud;
 
@@ -26,23 +28,29 @@ import model.interfaces.ICrud;
 
 public class UsuarioDAO implements ICrud<Usuario> {
 
-	public DBConnection db;
 	private static UsuarioDAO instance;
+	private Session session;
 
-	private UsuarioDAO() {
-		db = DBConnection.getInstance();
+	private UsuarioDAO(Session session) {
+		this.session = session;
 	}
 
 	public static UsuarioDAO getInstance() {
 		if (instance == null) {
-			instance = new UsuarioDAO();
+			instance = new UsuarioDAO(DBConnection.getSession());
 		}
 		return instance;
 	}
 
 	public void criar(Usuario object) {
-		// TODO Auto-generated method stub
-
+		try {
+			session.beginTransaction();
+			session.save(object);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+		}
 	}
 
 	public boolean alterar(Usuario object) {
@@ -55,17 +63,23 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	public Usuario consultarPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			session.beginTransaction();
+			Usuario u = session.find(Usuario.class, id);
+			session.getTransaction().commit();
+			return u;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public ArrayList<Usuario> listar() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public Usuario consultarPorLogin(String login) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

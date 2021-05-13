@@ -18,7 +18,7 @@ public class Controller {
 																		// banco.
 
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin(login);
-		String senhaBanco = usuario.getHash_senha();
+		String senhaBanco = usuario.getHashSenha();
 
 		if (senhaCriptografada.equals(senhaBanco)) {
 			return true;
@@ -148,7 +148,7 @@ public class Controller {
 				emailDoDestinario,
 				"Grupo 3",
 				"2FA Niveis de Acesso",
-				"O seu código é: " + gerarCodigo().toString());
+				"O seu cï¿½digo ï¿½: " + gerarCodigo().toString());
 			
 			email.enviarEmail();
 	}

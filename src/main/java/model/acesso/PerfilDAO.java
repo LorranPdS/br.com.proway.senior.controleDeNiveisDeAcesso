@@ -2,6 +2,8 @@ package model.acesso;
 
 import java.util.ArrayList;
 
+import org.hibernate.Session;
+
 import db.DBConnection;
 import model.interfaces.ICrud;
 
@@ -25,13 +27,18 @@ import model.interfaces.ICrud;
 
 public class PerfilDAO implements ICrud<Perfil> {
 
-	public DBConnection db;
+	private static PerfilDAO instance;
+	private Session session;
 
-	/**
-	 * M�todo para conectar com o DB
-	 */
-	public PerfilDAO() {
-		db = DBConnection.getInstance();
+	private PerfilDAO(Session session) {
+		this.session = session;
+	}
+
+	public static PerfilDAO getInstance() {
+		if (instance == null) {
+			instance = new PerfilDAO(DBConnection.getSession());
+		}
+		return instance;
 	}
 
 	public void criar(Perfil object) {
