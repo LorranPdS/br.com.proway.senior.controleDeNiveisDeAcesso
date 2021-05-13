@@ -1,6 +1,6 @@
 package model.interfaces;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Sprint 3
@@ -13,10 +13,10 @@ public interface ICrud<T> {
 
 	public boolean alterar(T object);
 
-	public boolean deletar(int id);
+	public boolean deletar(T object);
 
 	public T consultarPorId(int id);
 
-	public ArrayList<T> listar();
+	public List<T> listar();
 
 }
