@@ -1,6 +1,12 @@
 package model.acesso;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 
@@ -41,38 +47,90 @@ public class PerfilDAO implements ICrud<Perfil> {
 		return instance;
 	}
 
-	public void criar(Perfil object) {
-		// TODO Auto-generated method stub
+	public void criar(Perfil perfil) {
+		try {
+			session.beginTransaction();
+			session.save(perfil);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+		}
 
 	}
 
-	public boolean alterar(Perfil object) {
-		return false;
+	public boolean alterar(Perfil perfil) {
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(perfil);
+			session.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public boolean deletar(Perfil object) {
-		return false;
+	public boolean deletar(Perfil perfil) {
+		try {
+			session.beginTransaction();
+			session.delete(perfil);
+			session.getTransaction().commit();
+			return true;
+
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public Perfil consultarPorId(int id) {
-		// TODO Auto-generated method stub
+		try {
+			session.beginTransaction();
+			Perfil perfilEncontrado = session.find(Perfil.class, id);
+			session.getTransaction().commit();
+			return perfilEncontrado;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Perfil> listar() {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Perfil> criteria = builder.createQuery(Perfil.class);
+
+		criteria.from(Perfil.class);
+
+		Query query = session.createQuery(criteria);
+
+		@SuppressWarnings("unchecked")
+		List<Perfil> selecionarPerfis = query.getResultList();
+
+		return selecionarPerfis;
+	}
+
+	@SuppressWarnings("unchecked")
+	public Perfil consultarPorNome(String nome_perfil) {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Perfil> criteria = builder.createQuery(Perfil.class);
+		Root<Perfil> root = criteria.from(Perfil.class);
+		criteria.select(root);
+		@SuppressWarnings("rawtypes")
+		Expression nomeEx = (Expression) root.get("nomePerfil");
+		criteria.select(root).where(builder.like(nomeEx, nome_perfil));
+    
+		Query query = session.createQuery(criteria);
+		return (Perfil) query.getSingleResult();
+	}
+
+	public List<Permissao> listarPermissoesPorPerfil(int idPerfil) {
 		return null;
 	}
 
-	public ArrayList<Perfil> listar() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Perfil consultarPorNome(String nome) {
-		// TODO
-		return null;
-	}
-	
-	public ArrayList<Permissao> listarPermissoes(int idPerfil){
-		return null;
-	}
-	
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
 
 	}
