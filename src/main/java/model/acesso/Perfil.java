@@ -38,7 +38,7 @@ public class Perfil {
 
 	@Id
 	@Column(name = "id_perfil")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gerador_idperfil")
 	private Integer idPerfil;
 
 	@Column(name = "nome_perfil")

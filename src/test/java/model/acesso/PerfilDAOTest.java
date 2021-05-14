@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -39,7 +38,6 @@ public class PerfilDAOTest {
 		Perfil perfil = new Perfil("ADMIN");
 		System.out.println(perfil.toString());
 		boolean resultado = PerfilDAO.getInstance().deletar(perfil);
-		// List<Perfil> listaPerfisDepoisDeDeletar = PerfilDAO.getInstance().listar();
 		assertTrue(resultado);
 	}
 
@@ -60,16 +58,18 @@ public class PerfilDAOTest {
 	}
 
 	@Test
-	public void testXLimparBanco() {
+	public void testXLimparBancoPerfil() {
 
 		try {
 			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession().createSQLQuery("TRUNCATE TABLE perfil CASCADE;").executeUpdate();
+			DBConnection.getSession()
+					.createSQLQuery("TRUNCATE TABLE perfil CASCADE; ALTER SEQUENCE gerador_idperfil RESTART 1;")
+					.executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
 		} catch (Exception e) {
 			DBConnection.getSession().getTransaction().rollback();
 			e.printStackTrace();
 		}
 	}
-
+	
 }

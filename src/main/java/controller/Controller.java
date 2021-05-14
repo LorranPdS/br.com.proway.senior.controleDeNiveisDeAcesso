@@ -12,6 +12,18 @@ import utils.HashSenha;
 
 public class Controller {
 
+	static Controller instance;
+	
+	private Controller() {
+	}
+	
+	public static Controller getInstance() {
+		if(instance == null) {
+			instance = new Controller();
+		}
+		return instance;
+	}
+	
 	public boolean logar(String login, String senha) {
 
 		String senhaCriptografada = HashSenha.criptografarSenha(senha); // Criptografa a senha antes de comparar a do
@@ -27,14 +39,19 @@ public class Controller {
 	}
 
 	// TODO
-	public boolean requererPermissao(Usuario usuario, Permissao permissao) {
+	public boolean verificarPermissao(Usuario usuario, Permissao permissao) {
+		return false;
+	}
+
+	public boolean verificarPermissao(Perfil perfil, Permissao permissao) {
 		return false;
 	}
 
 	// DAO - Usuario
 
 	public void criarUsuario(String login, String senha) {
-		//
+		Usuario usuario1 = new Usuario(login, senha);
+		UsuarioDAO.getInstance().criar(usuario1);
 	}
 
 	public void deletarUsuario(Integer id) {
@@ -50,7 +67,7 @@ public class Controller {
 	}
 
 	public Usuario consultarUsuario(String login) {
-		return null;
+		return UsuarioDAO.getInstance().consultarPorLogin(login);
 	}
 
 	public ArrayList<Usuario> listarTodosOsUsuarios() {
