@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import utils.HashSenha;
+
 /**
  * Classe Usuario
  * 
@@ -60,9 +62,9 @@ public class Usuario {
 
 	}
 
-	public Usuario(String login, String hashSenha) {
+	public Usuario(String login, String senha) {
 		this.login = login;
-		this.hashSenha = hashSenha;
+		this.hashSenha = HashSenha.criptografarSenha(login, senha);
 	}
 
 	public int getIdUsuario() {

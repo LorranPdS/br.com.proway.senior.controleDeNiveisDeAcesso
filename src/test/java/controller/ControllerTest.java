@@ -1,12 +1,12 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -23,15 +23,18 @@ import model.acesso.UsuarioPerfilId;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
 
-	@Ignore // Verificar se há uma necessidade de criar retornos no email para fazermos o
-			// assertEquals
 	public void testEmail() throws Exception {
-		Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("abc@gmail.com");
+		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("NOMEFICTICIO@gmail.com");
+		assertTrue(resultadoEnvioEmail);
 	}
 
 	@Test
-	public void testLogar() {
-		fail("Not yet implemented");
+	public void testDLogar() {
+		String login = "Grijo";
+		String senha= "234";
+		Controller.getInstance().criarUsuario(login, senha);
+		boolean logar = Controller.getInstance().logar(login, senha);
+		System.out.println(logar);
 	}
 
 	@Test
@@ -45,12 +48,11 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testACriarUsuario() {
+	public void testACriarEConsultarUsuario() {
 		String login = "jonata";
 		String hashSenha = "123";
 		Controller.getInstance().criarUsuario(login, hashSenha);
 		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(login);
-		System.out.println(usuarioEncontrado.toString());
 		assertEquals(login, usuarioEncontrado.getLogin());
 	}
 
@@ -67,8 +69,11 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testCriarPerfil() {
-		fail("Not yet implemented");
+	public void testBCriarEConsultarPerfil() {
+		String  perfil = "Administrativo";
+		Controller.getInstance().criarPerfil(perfil);
+		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(perfil);
+		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
 
 	@Test
@@ -85,9 +90,11 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testCriarPermissao() {
+	public void testCriarEConsultarPermissao() {
 		String permissao = "ADMIN";
 		Controller.getInstance().criarPermissao(permissao);
+		Permissao retornoPermissao = Controller.getInstance().consultarPermissao(permissao);
+		assertEquals(permissao, retornoPermissao.getNomePermissao());
 	}
 
 	@Test
@@ -95,7 +102,7 @@ public class ControllerTest {
 		try {
 			DBConnection.getSession().beginTransaction();
 			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE usuario CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
+					.createSQLQuery("TRUNCATE TABLE usuario,perfil CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
 					.executeUpdate();
 			DBConnection.getSession()
 					.createSQLQuery("TRUNCATE TABLE perfil CASCADE; ALTER SEQUENCE gerador_id_perfil RESTART 1;")

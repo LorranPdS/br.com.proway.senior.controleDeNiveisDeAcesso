@@ -7,7 +7,6 @@ import java.util.Random;
 import model.acesso.Perfil;
 import model.acesso.PerfilDAO;
 import model.acesso.Permissao;
-import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
 import model.acesso.UsuarioPerfil;
@@ -15,24 +14,34 @@ import model.acesso.UsuarioPerfilId;
 import utils.Email;
 import utils.HashSenha;
 
+/**
+ * Classe Controller
+ * 
+ * Classe responsável por intermediar os dados da View e Model
+ * 
+ * @author Gabriel Simon, gabrielsimon775@gmail.com
+ * @author Jonata Caetano, jonatacaetano88@gmail.com
+ * @author Lorran, lorransantospereira@yahoo.com.br
+ * @author Lucas Grijó, rksgrijo@gmail.com
+ * @author Thiago, thiagoluizbarbieri@gmail.com
+ */
 public class Controller {
 
 	static Controller instance;
-	
+
 	private Controller() {
 	}
-	
+
 	public static Controller getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new Controller();
 		}
 		return instance;
 	}
-	
+
 	public boolean logar(String login, String senha) {
 
-		String senhaCriptografada = HashSenha.criptografarSenha(senha); // Criptografa a senha antes de comparar a do
-																		// banco.
+		String senhaCriptografada = HashSenha.criptografarSenha(login, senha);
 
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin(login);
 		String senhaBanco = usuario.getHashSenha();
@@ -43,7 +52,6 @@ public class Controller {
 		return false;
 	}
 
-	// TODO
 	public boolean verificarPermissao(Usuario usuario, Permissao permissao) {
 		return false;
 	}
@@ -60,7 +68,7 @@ public class Controller {
 	}
 
 	public void deletarUsuario(Integer id) {
-		//UsuarioDAO.getInstance().deletar(id);
+		// UsuarioDAO.getInstance().deletar(id);
 	}
 
 	public void alterarUsuario(Integer idUsuario, Usuario usuario) {
@@ -96,6 +104,8 @@ public class Controller {
 	// DAO - Perfil
 
 	public void criarPerfil(String nomePerfil) {
+		Perfil perfil = new Perfil(nomePerfil);
+		PerfilDAO.getInstance().criar(perfil);
 
 	}
 
@@ -112,7 +122,7 @@ public class Controller {
 	}
 
 	public Perfil consultarPerfil(String nome) {
-		return null;
+	  return PerfilDAO.getInstance().consultarPorNome(nome);
 	}
 
 	public ArrayList<Perfil> listarTodosOsPerfils() {
@@ -130,8 +140,8 @@ public class Controller {
 	// DAO - Permissao
 
 	public void criarPermissao(String nomePermissao) {
-//		Permissao permissao = new Permissao(nomePermissao);
-//		PermissaoDAO.getInstance().criar(permissao);
+		Permissao permissao = new Permissao(nomePermissao);
+		PermissaoDAO.getInstance().criar(permissao);
 	}
 
 	public void alterarPermissao(Integer idPermissao, Permissao permissao) {
@@ -146,8 +156,14 @@ public class Controller {
 		return null;
 	}
 
-	public Permissao consultarPermissao(String nome) {
-		return null;
+	/**
+	 * Consultará no banco de dados a permissão
+	 * 
+	 * @param nomePermissao
+	 * @return Permissao
+	 */
+	public Permissao consultarPermissao(String nomePermissao) {
+		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
 
 	public ArrayList<Permissao> listarTodasAsPermissoes() {
@@ -161,24 +177,30 @@ public class Controller {
 	/**
 	 * Envia um e-mail
 	 * 
-	 * Envia o e-mail para o usu�rio com o c�digo aleat�rio gerado para a
-	 * confirma��o.
+	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a
+	 * confirmacao.
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
-	 * @param codigoGerado   C�digo aleat�rio gerado pelo sistema
+	 * @param codigoGerado Codigo aleatorio gerado pelo sistema
 	 * @throws Exception
 	 */
-	public void enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
+	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
 		Email email = new Email(emailDoDestinario, "Grupo 3", "2FA Niveis de Acesso",
-				"O seu c�digo �: " + gerarCodigo().toString());
+				"O seu código é: " + gerarCodigo().toString());
 
-		email.enviarEmail();
+		// ABSTRAIR MAIS ESSA LÓGICA (usar condicional ternaria)
+		boolean resultadoEnvio = email.enviarEmail();
+		if (resultadoEnvio == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
-	 * Gera um c�digo aleat�rio
+	 * Gera um codigo aleatorio
 	 * 
-	 * Gera o c�gigo random para a verifica��o de usu�rio
+	 * Gera o codigo random para a verificacao de usuario
 	 * 
 	 * @return codigo de 5 digitos
 	 */
