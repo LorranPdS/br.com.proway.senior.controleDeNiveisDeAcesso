@@ -2,6 +2,7 @@ package model.acesso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -123,27 +124,41 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return (Usuario) query.getSingleResult();
 	}
 
-//	public List<Perfil> listarPerfis(int idUsuario) {
-//		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-//		CriteriaQuery<Perfil> criteriaQuery = criteriaBuilder.createQuery(Perfil.class);
-//		CriteriaQuery<Usuario> criteriaUsuarioQuery = criteriaBuilder.createQuery(Usuario.class);
-//		
-//		Root<Usuario> usuarioRoot = criteriaQuery.from(Usuario.class);
-//		//criteriaUsuarioQuery.select(usuarioRoot.get());
-//		
-//		criteriaQuery.where(criteriaBuilder.equal(usuarioRoot.get(Usuario_.idUsuario), idUsuario));
-//		
-//		SetJoin<Usuario, Perfil> perfisDoUsuario = usuarioRoot.join(Answer.collaborators);
-//		
-//		CriteriaQuery<Perfil> cq = criteriaQuery.select(perfisDoUsuario);
-//		
-//		TypedQuery<Perfil> query = session.createQuery(cq);
-//		
-//		return query.getResultList();
-//	}
+	public List<Perfil> listarPerfis(int idUsuario) {
+		Usuario usuario = consultarPorId(idUsuario);
 
-	public ArrayList<Permissao> listarPermissoes(int idUsuario) {
-		return null;
+		Set<UsuarioPerfil> listaDeUsuarioPerfisDoUsuario = usuario.getPerfis();
+
+		System.out.println("Todas os UsuarioPerfil de um usuario: " + listaDeUsuarioPerfisDoUsuario.size());
+		for (UsuarioPerfil up : listaDeUsuarioPerfisDoUsuario) {
+			System.out.println("1");
+		}
+
+		ArrayList<Perfil> listaDePerfisDoUsuario = new ArrayList<Perfil>();
+		for (UsuarioPerfil usuarioperfil : listaDeUsuarioPerfisDoUsuario) {
+			System.out.println("PERFILLL :   " + usuarioperfil.getPerfil());
+			listaDePerfisDoUsuario.add(usuarioperfil.getPerfil());
+		}
+
+//		System.out.println("Todas os perfis do usuario: ");
+//		System.out.println(listaDePerfisDoUsuario.toString());
+		return listaDePerfisDoUsuario;
+	}
+
+	public List<Permissao> listarPermissoes(int idUsuario) {
+
+		List<Perfil> listaDePerfisDoUsuario = listarPerfis(idUsuario);
+		List<Permissao> todasAsPermissoesDoUsuario = new ArrayList<Permissao>();
+
+		for (Perfil perfil : listaDePerfisDoUsuario) {
+			Set<Permissao> permissoesDessePerfil = perfil.getPermissoes();
+			for (Permissao permissao : permissoesDessePerfil) {
+				todasAsPermissoesDoUsuario.add(permissao);
+			}
+		}
+//		System.out.println("Todas as permissões do usuario: ");
+//		System.out.println(todasAsPermissoesDoUsuario.toString());
+		return (List<Permissao>) todasAsPermissoesDoUsuario;
 	}
 
 	public void atribuirPerfilAUmUsuario(UsuarioPerfil usuarioPerfil) {

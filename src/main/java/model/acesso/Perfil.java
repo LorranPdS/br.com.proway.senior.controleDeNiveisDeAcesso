@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,13 +39,13 @@ public class Perfil {
 
 	@Id
 	@Column(name = "id_perfil")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gerador_idperfil")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gerador_id_perfil")
 	private Integer idPerfil;
 
 	@Column(name = "nome_perfil")
 	private String nomePerfil;
 
-	@OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(targetEntity = UsuarioPerfil.class, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "perfil")
 	private Set<UsuarioPerfil> usuarios = new HashSet<UsuarioPerfil>();
 
 	@ManyToMany(cascade = { CascadeType.ALL })

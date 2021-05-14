@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,6 +9,8 @@ import model.acesso.PerfilDAO;
 import model.acesso.Permissao;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
+import model.acesso.UsuarioPerfil;
+import model.acesso.UsuarioPerfilId;
 import utils.Email;
 import utils.HashSenha;
 
@@ -92,8 +95,10 @@ public class Controller {
 
 	}
 
-	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil) {
-
+	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExp) {
+		UsuarioPerfilId userPerfilId = new UsuarioPerfilId(usuario.getIdUsuario(), perfil.getIdPerfil());
+		UsuarioPerfil usuarioPerfil = new UsuarioPerfil(userPerfilId, usuario, perfil, dataExp);
+		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPerfil);
 	}
 
 	// DAO - Perfil
@@ -129,8 +134,8 @@ public class Controller {
 	}
 
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
-
-	}
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);	
+	}		
 
 	// DAO - Permissao
 

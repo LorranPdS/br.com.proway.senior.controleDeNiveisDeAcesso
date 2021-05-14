@@ -3,6 +3,7 @@ package model.acesso;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -11,7 +12,7 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PermissaoDAOTest {
 
-	@Test
+	@Ignore
 	public void testAlimparBancoPermissao() {
 		try {
 			DBConnection.getSession().beginTransaction();
@@ -29,7 +30,7 @@ public class PermissaoDAOTest {
 	public void testBcriarPermissao() {
 		Permissao permissao = new Permissao("permissao1");
 		PermissaoDAO.getInstance().criar(permissao);
-		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorId(1);
+		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorNome("permissao1");
 		assertEquals(permissao, permissaoEncontrada);
 	}
 
