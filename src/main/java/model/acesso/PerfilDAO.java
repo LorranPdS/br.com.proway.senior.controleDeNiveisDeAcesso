@@ -122,7 +122,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 		@SuppressWarnings("rawtypes")
 		Expression nomeEx = (Expression) root.get("nomePerfil");
 		criteria.select(root).where(builder.like(nomeEx, nome_perfil));
-    
+
 		Query query = session.createQuery(criteria);
 		return (Perfil) query.getSingleResult();
 	}
@@ -131,8 +131,10 @@ public class PerfilDAO implements ICrud<Perfil> {
 		return null;
 	}
 
-	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
-
+	public void atribuirPermissaoAUmPerfil(Integer idPermissao, Perfil perfil) {
+		Permissao permissao = PermissaoDAO.getInstance().consultarPorId(idPermissao);
+		perfil.getPermissoes().add(permissao);
+		alterar(perfil);
 	}
 
 }
