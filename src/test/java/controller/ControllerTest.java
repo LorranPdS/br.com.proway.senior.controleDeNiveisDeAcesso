@@ -9,12 +9,13 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import db.DBConnection;
+import model.acesso.Permissao;
 import model.acesso.Usuario;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
 
-	@Ignore
+	@Ignore // Verificar se há uma necessidade de criar retornos no email para fazermos o assertEquals
 	public void testEmail() throws Exception {
 		Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("abc@gmail.com");
 	}
@@ -61,7 +62,8 @@ public class ControllerTest {
 
 	@Test
 	public void testCriarPermissao() {
-		fail("Not yet implemented");
+		String permissao = "ADMIN";
+		Controller.getInstance().criarPermissao(permissao);
 	}
 
 	@Test

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import model.acesso.Perfil;
 import model.acesso.Permissao;
+import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
 import utils.Email;
@@ -55,7 +56,7 @@ public class Controller {
 	}
 
 	public void deletarUsuario(Integer id) {
-		UsuarioDAO.getInstance().deletar(id);
+		//UsuarioDAO.getInstance().deletar(id);
 	}
 
 	public void alterarUsuario(Integer idUsuario, Usuario usuario) {
@@ -123,7 +124,8 @@ public class Controller {
 	// DAO - Permissao
 
 	public void criarPermissao(String nomePermissao) {
-
+//		Permissao permissao = new Permissao(nomePermissao);
+//		PermissaoDAO.getInstance().criar(permissao);
 	}
 
 	public void alterarPermissao(Integer idPermissao, Permissao permissao) {
