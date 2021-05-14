@@ -1,6 +1,5 @@
 package model.acesso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -109,6 +108,7 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		return listaPermissoes;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Permissao consultarPorNome(String nome) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
