@@ -52,18 +52,33 @@ public class UsuarioDAOTest {
 	}
 
 	@Test
-	public void testLigacao() {
+	public void testFAtribuirPerfilAUmUsuario() {
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(2);
-		Perfil perfil = PerfilDAO.getInstance().consultarPorId(2);
-		LocalDate data = LocalDate.of(2021, 05, 13);
+		Perfil perfil = PerfilDAO.getInstance().consultarPorId(4);
+		LocalDate dateDeExpiracao = LocalDate.of(2021, 05, 13);
 		
 		UsuarioPerfilId userPerfilId = new UsuarioPerfilId(usuario.getIdUsuario(), perfil.getIdPerfil());
-		UsuarioPerfil usuarioPer = new UsuarioPerfil(userPerfilId, usuario, perfil, data);
-
+		UsuarioPerfil usuarioPer = new UsuarioPerfil(userPerfilId, usuario, perfil, dateDeExpiracao);
+//		System.out.println("Antes da atribuição");
+//		usuario.getPerfis().toString();
+		
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPer);
+		//UsuarioDAO.getInstance().alterar(usuario);
+//		System.out.println("Dps da atribuição");
+//		usuario.getPerfis().toString();
+	}
+	
+	@Ignore 
+	public void testGListarPermissoesDeUmUsuario() {		
+		System.out.println(UsuarioDAO.getInstance().listarPermissoes(2).toString());
+	}
+	
+	@Test
+	public void testTListar() {
+		//System.out.println(UsuarioDAO.getInstance().listarPerfis(2).toString());
 	}
 
-	@Test
+	@Ignore
 	public void testAlimparBanco() {
 		try {
 			DBConnection.getSession().beginTransaction();

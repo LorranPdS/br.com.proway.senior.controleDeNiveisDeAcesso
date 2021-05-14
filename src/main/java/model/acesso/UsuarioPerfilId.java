@@ -45,6 +45,11 @@ public class UsuarioPerfilId implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return "UsuarioPerfilId [idUsuario=" + idUsuario + ", idPerfil=" + idPerfil + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

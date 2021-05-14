@@ -5,8 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -16,7 +18,7 @@ import db.DBConnection;
 public class PerfilDAOTest {
 
 	@Test
-	public void testASalvarPerfil() {
+	public void testBSalvarPerfil() {
 		Perfil perfil = new Perfil("ADMIN");
 		PerfilDAO.getInstance().criar(perfil);
 		Perfil perfilEncontrado = PerfilDAO.getInstance().consultarPorId(perfil.getIdPerfil());
@@ -24,7 +26,7 @@ public class PerfilDAOTest {
 	}
 
 	@Test
-	public void testBAtualizar() {
+	public void testCAtualizar() {
 		Perfil perfilOriginal = new Perfil("Secretaria");
 		PerfilDAO.getInstance().criar(perfilOriginal);
 		perfilOriginal.setNomePerfil("Comprador");
@@ -34,7 +36,7 @@ public class PerfilDAOTest {
 	}
 
 	@Test
-	public void testCDeletar() {
+	public void testDDeletar() {
 		Perfil perfil = new Perfil("ADMIN");
 		System.out.println(perfil.toString());
 		boolean resultado = PerfilDAO.getInstance().deletar(perfil);
@@ -42,7 +44,7 @@ public class PerfilDAOTest {
 	}
 
 	@Test
-	public void testDBuscarPorNome() {
+	public void testEBuscarPorNome() {
 		Perfil perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
 		Perfil perfilEncontrado = PerfilDAO.getInstance().consultarPorNome("Vendedor");
@@ -52,24 +54,27 @@ public class PerfilDAOTest {
 	}
 	
 	@Test
-	public void testListarTodos() {
+	public void testFListarTodos() {
 		List<Perfil> listaPerfis = PerfilDAO.getInstance().listar();
 		assertNotNull(listaPerfis);
 	}
 	
 	@Test
 	public void testGatribuirPermissaoAUmPerfil() {
-		Perfil perfil = PerfilDAO.getInstance().consultarPorNome("Perfil Dois");
-		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(2, perfil);
+		Perfil perfil = new Perfil("PerfilTestAtribuicao");
+		PerfilDAO.getInstance().criar(perfil);
+		Permissao permissao = new Permissao("PermissaoTestAtribuicao");
+		PermissaoDAO.getInstance().criar(permissao);		
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);
 	}
 
-	@Test
-	public void testXLimparBancoPerfil() {
+	@Ignore
+	public void testALimparBancoPerfil() {
 
 		try {
 			DBConnection.getSession().beginTransaction();
 			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE perfil CASCADE; ALTER SEQUENCE gerador_idperfil RESTART 1;")
+					.createSQLQuery("TRUNCATE TABLE perfil CASCADE; ALTER SEQUENCE gerador_id_perfil RESTART 1;")
 					.executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
 		} catch (Exception e) {

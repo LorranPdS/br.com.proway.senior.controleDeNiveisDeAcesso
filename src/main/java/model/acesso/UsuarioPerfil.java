@@ -2,9 +2,11 @@ package model.acesso;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,12 +18,12 @@ public class UsuarioPerfil {
 	@EmbeddedId
 	private UsuarioPerfilId id;
 
-	@ManyToOne
-	@JoinColumn(name = "id_usuario",insertable = false, updatable = false)
+	@ManyToOne(targetEntity = Usuario.class, optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_usuario", insertable = false, updatable = false)
 	private Usuario usuario;
 
-	@ManyToOne
-	@JoinColumn(name = "id_perfil",insertable = false, updatable = false)
+	@ManyToOne(targetEntity = Perfil.class, optional = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_perfil", insertable = false, updatable = false)
 	private Perfil perfil;
 
 	@Column(name = "data_expiracao")
@@ -39,9 +41,21 @@ public class UsuarioPerfil {
 		this.dataExpiracao = dataExpiracao;
 	}
 
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public UsuarioPerfilId getCompositeKey() {
+		return id;
+	}
+
 	@Override
 	public String toString() {
-		return "UsuarioPerfil [id=" + id + ", usuario=" + usuario + ", perfil=" + perfil + ", dataExpiracao="
+		return "UsuarioPerfil [id=" + id.toString() + ", usuario=" + usuario + ", perfil=" + perfil + ", dataExpiracao="
 				+ dataExpiracao + "]";
 	}
 
