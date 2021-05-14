@@ -50,7 +50,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 		return false;
 	}
 
-	public boolean deletar(int id) {
+	public boolean deletar(Perfil object) {
 		return false;
 	}
 
