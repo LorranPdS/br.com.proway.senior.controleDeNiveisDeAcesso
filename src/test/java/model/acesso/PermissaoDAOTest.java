@@ -1,11 +1,15 @@
 package model.acesso;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import db.DBConnection;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PermissaoDAOTest {
 
 	@Test
@@ -13,7 +17,7 @@ public class PermissaoDAOTest {
 		try {
 			DBConnection.getSession().beginTransaction();
 			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE permissao CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
+					.createSQLQuery("TRUNCATE TABLE permissao CASCADE; ALTER SEQUENCE seq_id_permissao RESTART 1;")
 					.executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
 		} catch (Exception e) {
@@ -28,5 +32,32 @@ public class PermissaoDAOTest {
 		PermissaoDAO.getInstance().criar(permissao);
 		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorId(1);
 		assertEquals(permissao, permissaoEncontrada);
+	}
+
+	@Test
+	public void testCconsultarPermissoesPorNome() {
+		Permissao permissao = new Permissao("ThiagoXitado");
+		PermissaoDAO.getInstance().criar(permissao);
+		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorNome("ThiagoXitado");
+		assertEquals("ThiagoXitado", permissaoEncontrada.getNomePermissao());
+	}
+
+	@Test
+	public void testDlterarPermissao() {
+		Permissao permissao = new Permissao("Permissao2");
+		PermissaoDAO.getInstance().criar(permissao);
+		permissao.setNomePermissao("alteracaoTeste");
+		PermissaoDAO.getInstance().alterar(permissao);
+		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorId(permissao.getIdPermissao());
+		assertEquals("alteracaoTeste", permissaoEncontrada.getNomePermissao());
+	}
+	
+	@Test
+	public void testEDeletarPermissao() {
+		Permissao permissao = new Permissao("permissao3");
+		PermissaoDAO.getInstance().criar(permissao);
+		int tamanhoAntesDeDeletar = PermissaoDAO.getInstance().listar().size();
+		PermissaoDAO.getInstance().deletar(permissao);
+		assertEquals(tamanhoAntesDeDeletar - 1, PermissaoDAO.getInstance().listar().size());
 	}
 }

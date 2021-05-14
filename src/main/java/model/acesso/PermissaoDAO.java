@@ -1,6 +1,13 @@
 package model.acesso;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 
@@ -46,19 +53,36 @@ public class PermissaoDAO implements ICrud<Permissao> {
 			session.beginTransaction();
 			session.save(object);
 			session.getTransaction().commit();
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.getStackTrace();
 			session.getTransaction().rollback();
 		}
 	}
 
 	public boolean alterar(Permissao object) {
-		return false;
-
+		try {
+			session.beginTransaction();
+			session.update(object);
+			session.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public boolean deletar(Permissao object) {
-		return false;
+		try {
+			session.beginTransaction();
+			session.delete(object);
+			session.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return false;
+		}
 
 	}
 
@@ -75,13 +99,26 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		}
 	}
 
-	public ArrayList<Permissao> listar() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Permissao> listar() {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
+		criteria.from(Permissao.class);
+		Query query = session.createQuery(criteria);
+		@SuppressWarnings("unchecked")
+		List<Permissao> listaPermissoes = query.getResultList();
+		return listaPermissoes;
 	}
 
 	public Permissao consultarPorNome(String nome) {
-		// TODO
-		return null;
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
+		Root<Permissao> root = criteria.from(Permissao.class);
+
+		criteria.select(root);
+		Expression nomeEX = (Expression) root.get("nomePermissao");
+
+		criteria.select(root).where(builder.like(nomeEX, nome + "%"));
+		Query query = session.createQuery(criteria);
+		return (Permissao) query.getSingleResult();
 	}
 }
