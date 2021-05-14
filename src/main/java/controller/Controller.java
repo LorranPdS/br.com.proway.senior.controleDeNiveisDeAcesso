@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.acesso.Perfil;
+import model.acesso.PerfilDAO;
 import model.acesso.Permissao;
-import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
 import utils.Email;
@@ -14,21 +14,20 @@ import utils.HashSenha;
 public class Controller {
 
 	static Controller instance;
-	
+
 	private Controller() {
 	}
-	
+
 	public static Controller getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new Controller();
 		}
 		return instance;
 	}
-	
+
 	public boolean logar(String login, String senha) {
 
-		String senhaCriptografada = HashSenha.criptografarSenha(senha); // Criptografa a senha antes de comparar a do
-																		// banco.
+		String senhaCriptografada = HashSenha.criptografarSenha(login, senha);
 
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin(login);
 		String senhaBanco = usuario.getHashSenha();
@@ -56,7 +55,7 @@ public class Controller {
 	}
 
 	public void deletarUsuario(Integer id) {
-		//UsuarioDAO.getInstance().deletar(id);
+		// UsuarioDAO.getInstance().deletar(id);
 	}
 
 	public void alterarUsuario(Integer idUsuario, Usuario usuario) {
@@ -90,6 +89,8 @@ public class Controller {
 	// DAO - Perfil
 
 	public void criarPerfil(String nomePerfil) {
+		Perfil perfil = new Perfil(nomePerfil);
+		PerfilDAO.getInstance().criar(perfil);
 
 	}
 
@@ -106,7 +107,7 @@ public class Controller {
 	}
 
 	public Perfil consultarPerfil(String nome) {
-		return null;
+		return PerfilDAO.getInstance().consultarPorNome(nome);
 	}
 
 	public ArrayList<Perfil> listarTodosOsPerfils() {
