@@ -5,6 +5,7 @@ import java.util.Random;
 
 import model.acesso.Perfil;
 import model.acesso.Permissao;
+import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
 import utils.Email;
@@ -12,6 +13,18 @@ import utils.HashSenha;
 
 public class Controller {
 
+	static Controller instance;
+	
+	private Controller() {
+	}
+	
+	public static Controller getInstance() {
+		if(instance == null) {
+			instance = new Controller();
+		}
+		return instance;
+	}
+	
 	public boolean logar(String login, String senha) {
 
 		String senhaCriptografada = HashSenha.criptografarSenha(senha); // Criptografa a senha antes de comparar a do
@@ -27,18 +40,23 @@ public class Controller {
 	}
 
 	// TODO
-	public boolean requererPermissao(Usuario usuario, Permissao permissao) {
+	public boolean verificarPermissao(Usuario usuario, Permissao permissao) {
+		return false;
+	}
+
+	public boolean verificarPermissao(Perfil perfil, Permissao permissao) {
 		return false;
 	}
 
 	// DAO - Usuario
 
 	public void criarUsuario(String login, String senha) {
-		//
+		Usuario usuario1 = new Usuario(login, senha);
+		UsuarioDAO.getInstance().criar(usuario1);
 	}
 
 	public void deletarUsuario(Integer id) {
-//
+		//UsuarioDAO.getInstance().deletar(id);
 	}
 
 	public void alterarUsuario(Integer idUsuario, Usuario usuario) {
@@ -50,7 +68,7 @@ public class Controller {
 	}
 
 	public Usuario consultarUsuario(String login) {
-		return null;
+		return UsuarioDAO.getInstance().consultarPorLogin(login);
 	}
 
 	public ArrayList<Usuario> listarTodosOsUsuarios() {
@@ -106,7 +124,8 @@ public class Controller {
 	// DAO - Permissao
 
 	public void criarPermissao(String nomePermissao) {
-
+//		Permissao permissao = new Permissao(nomePermissao);
+//		PermissaoDAO.getInstance().criar(permissao);
 	}
 
 	public void alterarPermissao(Integer idPermissao, Permissao permissao) {

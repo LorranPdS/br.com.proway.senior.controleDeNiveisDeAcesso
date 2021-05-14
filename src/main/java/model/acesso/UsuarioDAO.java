@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
 
 import org.hibernate.Session;
 
@@ -51,10 +49,10 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return instance;
 	}
 
-	public void criar(Usuario object) {
+	public void criar(Usuario usuario) {
 		try {
 			session.beginTransaction();
-			session.save(object);
+			session.save(usuario);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -62,10 +60,10 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 	}
 
-	public boolean alterar(Usuario object) {
+	public boolean alterar(Usuario usuario) {
 		try {
 			session.beginTransaction();
-			session.update(object);
+			session.update(usuario);
 			session.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
@@ -75,10 +73,10 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 	}
 
-	public boolean deletar(Usuario object) {
+	public boolean deletar(Usuario usuario) {
 		try {
 			session.beginTransaction();
-			session.delete(object);
+			session.delete(usuario);
 			session.getTransaction().commit();
 			return true;
 		} catch (Exception e) {
