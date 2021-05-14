@@ -63,7 +63,7 @@ public class HashSenha {
 	 * @return valorCodificado
 	 */
 	private static byte[] criptografarSalt(String login) {
-		String stringDoSalt = "O login desse usu·rio È: " + login + "!";
+		String stringDoSalt = "O login desse usu√°rio √©: " + login + "!";
 		try {
 			MessageDigest digest = MessageDigest.getInstance("SHA-512");
 			digest.reset();

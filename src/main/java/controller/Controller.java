@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.acesso.Perfil;
+import model.acesso.PerfilDAO;
 import model.acesso.Permissao;
-import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
 import utils.Email;
@@ -14,12 +14,12 @@ import utils.HashSenha;
 /**
  * Classe Controller
  * 
- * Classe respons·vel por intermediar os dados da View e Model
+ * Classe respons√°vel por intermediar os dados da View e Model
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
  * @author Lorran, lorransantospereira@yahoo.com.br
- * @author Lucas GrijÛ, rksgrijo@gmail.com
+ * @author Lucas Grij√≥, rksgrijo@gmail.com
  * @author Thiago, thiagoluizbarbieri@gmail.com
  */
 public class Controller {
@@ -29,10 +29,6 @@ public class Controller {
 	private Controller() {
 	}
 
-	/**
-	 * 
-	 * @return Controller
-	 */
 	public static Controller getInstance() {
 		if (instance == null) {
 			instance = new Controller();
@@ -103,6 +99,8 @@ public class Controller {
 	// DAO - Perfil
 
 	public void criarPerfil(String nomePerfil) {
+		Perfil perfil = new Perfil(nomePerfil);
+		PerfilDAO.getInstance().criar(perfil);
 
 	}
 
@@ -119,9 +117,7 @@ public class Controller {
 	}
 
 	public Perfil consultarPerfil(String nome) {
-		// TODO fazer esse negÛcio
-		Perfil perfil = new Perfil();
-		return perfil;
+	  return PerfilDAO.getInstance().consultarPorNome(nome);
 	}
 
 	public ArrayList<Perfil> listarTodosOsPerfils() {
@@ -156,7 +152,7 @@ public class Controller {
 	}
 
 	/**
-	 * Consultar· no banco de dados a permiss„o
+	 * Consultar√° no banco de dados a permiss√£o
 	 * 
 	 * @param nomePermissao
 	 * @return Permissao
@@ -185,9 +181,9 @@ public class Controller {
 	 */
 	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
 		Email email = new Email(emailDoDestinario, "Grupo 3", "2FA Niveis de Acesso",
-				"O seu cÛdigo È: " + gerarCodigo().toString());
+				"O seu c√≥digo √©: " + gerarCodigo().toString());
 
-		// ABSTRAIR MAIS ESSA L”GICA (usar condicional ternaria)
+		// ABSTRAIR MAIS ESSA L√ìGICA (usar condicional ternaria)
 		boolean resultadoEnvio = email.enviarEmail();
 		if (resultadoEnvio == true) {
 			return true;

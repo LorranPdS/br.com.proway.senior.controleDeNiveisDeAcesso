@@ -9,24 +9,23 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import db.DBConnection;
-import model.acesso.Permissao;
+import model.acesso.Perfil;
 import model.acesso.Usuario;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
-
-	@Test
 	public void testEmail() throws Exception {
 		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("NOMEFICTICIO@gmail.com");
 		assertTrue(resultadoEnvioEmail);
 	}
 
 	@Test
-	public void testLogar() {
-		String login = "jonataD";
-		String senha = "123";
+	public void testDLogar() {
+		String login = "Grijo";
+		String senha= "234";
 		Controller.getInstance().criarUsuario(login, senha);
-		assertEquals(true, Controller.getInstance().logar(login, senha));
+		boolean logar = Controller.getInstance().logar(login, senha);
+		System.out.println(logar);
 	}
 
 	@Test
@@ -45,18 +44,19 @@ public class ControllerTest {
 		String hashSenha = "123";
 		Controller.getInstance().criarUsuario(login, hashSenha);
 		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(login);
-		System.out.println(usuarioEncontrado.toString());
 		assertEquals(login, usuarioEncontrado.getLogin());
 	}
 
 	@Test
 	public void testAtribuirPerfilAUmUsuario() {
-		// TODO está sendo implementado
 	}
 
 	@Test
-	public void testCriarPerfil() {
-		fail("Not yet implemented");
+	public void testBCriarEConsultarPerfil() {
+		String  perfil = "Administrativo";
+		Controller.getInstance().criarPerfil(perfil);
+		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(perfil);
+		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class ControllerTest {
 		try {
 			DBConnection.getSession().beginTransaction();
 			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE usuario CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
+					.createSQLQuery("TRUNCATE TABLE usuario,perfil CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
 					.executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
 		} catch (Exception e) {
