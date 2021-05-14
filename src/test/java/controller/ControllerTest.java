@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -15,11 +14,9 @@ import model.acesso.Usuario;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
-
-	@Ignore // Verificar se h� uma necessidade de criar retornos no email para fazermos o
-			// assertEquals
 	public void testEmail() throws Exception {
-		Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("abc@gmail.com");
+		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("NOMEFICTICIO@gmail.com");
+		assertTrue(resultadoEnvioEmail);
 	}
 
 	@Test
@@ -29,7 +26,6 @@ public class ControllerTest {
 		Controller.getInstance().criarUsuario(login, senha);
 		boolean logar = Controller.getInstance().logar(login, senha);
 		System.out.println(logar);
-		
 	}
 
 	@Test
@@ -43,7 +39,7 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testACriarUsuario() {
+	public void testACriarEConsultarUsuario() {
 		String login = "jonata";
 		String hashSenha = "123";
 		Controller.getInstance().criarUsuario(login, hashSenha);
@@ -53,7 +49,6 @@ public class ControllerTest {
 
 	@Test
 	public void testAtribuirPerfilAUmUsuario() {
-		
 	}
 
 	@Test
@@ -70,9 +65,11 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testCriarPermissao() {
+	public void testCriarEConsultarPermissao() {
 		String permissao = "ADMIN";
 		Controller.getInstance().criarPermissao(permissao);
+		Permissao retornoPermissao = Controller.getInstance().consultarPermissao(permissao);
+		assertEquals(permissao, retornoPermissao.getNomePermissao());
 	}
 
 	@Test

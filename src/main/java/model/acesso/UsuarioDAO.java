@@ -109,6 +109,7 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return selectedUsuarios;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Usuario consultarPorLogin(String login) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
