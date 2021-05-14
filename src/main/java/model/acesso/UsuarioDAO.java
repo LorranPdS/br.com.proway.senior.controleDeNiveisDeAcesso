@@ -147,7 +147,14 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return null;
 	}
 
-	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil) {
-
+	public void atribuirPerfilAUmUsuario(UsuarioPerfil usuarioPerfil) {
+		try {
+			session.beginTransaction();
+			session.save(usuarioPerfil);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+		}
 	}
 }

@@ -24,7 +24,6 @@ public class UsuarioPerfilId implements Serializable {
 	}
 
 	public UsuarioPerfilId(int idUsuario, int idPerfil) {
-		super();
 		this.idUsuario = idUsuario;
 		this.idPerfil = idPerfil;
 	}
