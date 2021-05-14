@@ -58,6 +58,12 @@ public class PerfilDAOTest {
 		List<Perfil> listaPerfis = PerfilDAO.getInstance().listar();
 		assertNotNull(listaPerfis);
 	}
+	
+	@Test
+	public void testGatribuirPermissaoAUmPerfil() {
+		Perfil perfil = PerfilDAO.getInstance().consultarPorNome("Perfil Dois");
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(2, perfil);
+	}
 
 	@Test
 	public void testXLimparBanco() {

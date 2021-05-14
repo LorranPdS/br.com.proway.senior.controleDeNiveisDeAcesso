@@ -38,7 +38,7 @@ public class Controller {
 	}
 
 	public void deletarUsuario(Integer id) {
-		UsuarioDAO.getInstance().deletar(id);
+//
 	}
 
 	public void alterarUsuario(Integer idUsuario, Usuario usuario) {
