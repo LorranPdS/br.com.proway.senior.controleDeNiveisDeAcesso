@@ -34,7 +34,7 @@ public class Permissao {
 
 	@Id
 	@Column(name = "id_permissao")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_id_permissao")
 	private Integer idPermissao;
 
 	@Column(name = "nome_permissao")

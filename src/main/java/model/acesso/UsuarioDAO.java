@@ -124,24 +124,24 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return (Usuario) query.getSingleResult();
 	}
 
-	public List<Perfil> listarPerfis(int idUsuario) {
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<Perfil> criteriaQuery = criteriaBuilder.createQuery(Perfil.class);
-		CriteriaQuery<Usuario> criteriaUsuarioQuery = criteriaBuilder.createQuery(Usuario.class);
-		
-		Root<Usuario> usuarioRoot = criteriaQuery.from(Usuario.class);
-		//criteriaUsuarioQuery.select(usuarioRoot.get());
-		
-		criteriaQuery.where(criteriaBuilder.equal(usuarioRoot.get(Usuario_.idUsuario), idUsuario));
-		
-		SetJoin<Usuario, Perfil> perfisDoUsuario = usuarioRoot.join(Answer.collaborators);
-		
-		CriteriaQuery<Perfil> cq = criteriaQuery.select(perfisDoUsuario);
-		
-		TypedQuery<Perfil> query = session.createQuery(cq);
-		
-		return query.getResultList();
-	}
+//	public List<Perfil> listarPerfis(int idUsuario) {
+//		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//		CriteriaQuery<Perfil> criteriaQuery = criteriaBuilder.createQuery(Perfil.class);
+//		CriteriaQuery<Usuario> criteriaUsuarioQuery = criteriaBuilder.createQuery(Usuario.class);
+//		
+//		Root<Usuario> usuarioRoot = criteriaQuery.from(Usuario.class);
+//		//criteriaUsuarioQuery.select(usuarioRoot.get());
+//		
+//		criteriaQuery.where(criteriaBuilder.equal(usuarioRoot.get(Usuario_.idUsuario), idUsuario));
+//		
+//		SetJoin<Usuario, Perfil> perfisDoUsuario = usuarioRoot.join(Answer.collaborators);
+//		
+//		CriteriaQuery<Perfil> cq = criteriaQuery.select(perfisDoUsuario);
+//		
+//		TypedQuery<Perfil> query = session.createQuery(cq);
+//		
+//		return query.getResultList();
+//	}
 
 	public ArrayList<Permissao> listarPermissoes(int idUsuario) {
 		return null;
