@@ -1,6 +1,5 @@
 package model.acesso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -114,20 +113,21 @@ public class PerfilDAO implements ICrud<Perfil> {
 		return selecionarPerfis;
 	}
 
-	public Perfil consultarPorNome(String nome) {
+	@SuppressWarnings("unchecked")
+	public Perfil consultarPorNome(String nome_perfil) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Perfil> criteria = builder.createQuery(Perfil.class);
 		Root<Perfil> root = criteria.from(Perfil.class);
-
-		CriteriaQuery<Perfil> rootQuery = criteria.select(root);
-		Expression perfilNome = root.get("nome");
-
-		criteria.select(root).where(builder.like(perfilNome, nome + "%"));
+		criteria.select(root);
+		@SuppressWarnings("rawtypes")
+		Expression nomeEx = (Expression) root.get("nomePerfil");
+		criteria.select(root).where(builder.like(nomeEx, nome_perfil));
+    
 		Query query = session.createQuery(criteria);
 		return (Perfil) query.getSingleResult();
 	}
 
-	public ArrayList<Permissao> listarPermissoes(int idPerfil) {
+	public List<Permissao> listarPermissoesPorPerfil(int idPerfil) {
 		return null;
 	}
 

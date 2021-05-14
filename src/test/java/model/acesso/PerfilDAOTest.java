@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -15,10 +16,9 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PerfilDAOTest {
 
-
 	@Test
 	public void testASalvarPerfil() {
-		Perfil perfil = new Perfil("BAR");
+		Perfil perfil = new Perfil("ADMIN");
 		PerfilDAO.getInstance().criar(perfil);
 		Perfil perfilEncontrado = PerfilDAO.getInstance().consultarPorId(perfil.getIdPerfil());
 		assertEquals(perfil, perfilEncontrado);
@@ -26,7 +26,7 @@ public class PerfilDAOTest {
 
 	@Test
 	public void testBAtualizar() {
-		Perfil perfilOriginal = new Perfil ("Secretaria");
+		Perfil perfilOriginal = new Perfil("Secretaria");
 		PerfilDAO.getInstance().criar(perfilOriginal);
 		perfilOriginal.setNomePerfil("Comprador");
 		PerfilDAO.getInstance().alterar(perfilOriginal);
@@ -36,19 +36,23 @@ public class PerfilDAOTest {
 
 	@Test
 	public void testCDeletar() {
-		Perfil perfil = new Perfil ("ADMIN");
+		Perfil perfil = new Perfil("ADMIN");
 		System.out.println(perfil.toString());
 		boolean resultado = PerfilDAO.getInstance().deletar(perfil);
 		// List<Perfil> listaPerfisDepoisDeDeletar = PerfilDAO.getInstance().listar();
 		assertTrue(resultado);
 	}
-	
-	@Test
-	public void testConsultarPorNome() {
-		Perfil resultado = PerfilDAO.getInstance().consultarPorNome("SECT");
-		System.out.println(resultado);
-	}
 
+	@Test
+	public void testDBuscarPorNome() {
+		Perfil perfil = new Perfil("Vendedor");
+		PerfilDAO.getInstance().criar(perfil);
+		Perfil perfilEncontrado = PerfilDAO.getInstance().consultarPorNome("Vendedor");
+		
+		System.out.println(perfilEncontrado.getNomePerfil());
+		assertEquals(perfil.getNomePerfil(), perfilEncontrado.getNomePerfil());
+	}
+	
 	@Test
 	public void testListarTodos() {
 		List<Perfil> listaPerfis = PerfilDAO.getInstance().listar();
