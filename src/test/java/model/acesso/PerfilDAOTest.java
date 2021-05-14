@@ -53,8 +53,6 @@ public class PerfilDAOTest {
 		assertEquals(perfil.getNomePerfil(), perfilEncontrado.getNomePerfil());
 	}
 	
-	
-
 	@Test
 	public void testListarTodos() {
 		List<Perfil> listaPerfis = PerfilDAO.getInstance().listar();

@@ -63,16 +63,13 @@ public class PerfilDAO implements ICrud<Perfil> {
 		try {
 			session.beginTransaction();
 			session.saveOrUpdate(perfil);
-			;
 			session.getTransaction().commit();
 			return true;
-
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
 	public boolean deletar(Perfil perfil) {
@@ -87,7 +84,6 @@ public class PerfilDAO implements ICrud<Perfil> {
 			e.printStackTrace();
 			return false;
 		}
-
 	}
 
 	public Perfil consultarPorId(int id) {
@@ -122,11 +118,11 @@ public class PerfilDAO implements ICrud<Perfil> {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Perfil> criteria = builder.createQuery(Perfil.class);
 		Root<Perfil> root = criteria.from(Perfil.class);
-
 		criteria.select(root);
 		@SuppressWarnings("rawtypes")
 		Expression nomeEx = (Expression) root.get("nomePerfil");
 		criteria.select(root).where(builder.like(nomeEx, nome_perfil));
+    
 		Query query = session.createQuery(criteria);
 		return (Perfil) query.getSingleResult();
 	}

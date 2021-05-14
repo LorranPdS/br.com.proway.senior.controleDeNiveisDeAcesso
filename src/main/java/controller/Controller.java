@@ -141,16 +141,13 @@ public class Controller {
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
 	 * @param codigoGerado   C�digo aleat�rio gerado pelo sistema
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public void enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {		
-		Email email = new Email(
-				emailDoDestinario,
-				"Grupo 3",
-				"2FA Niveis de Acesso",
+	public void enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
+		Email email = new Email(emailDoDestinario, "Grupo 3", "2FA Niveis de Acesso",
 				"O seu c�digo �: " + gerarCodigo().toString());
-			
-			email.enviarEmail();
+
+		email.enviarEmail();
 	}
 
 	/**
