@@ -48,4 +48,5 @@ public class DBConnection {
 		getSessionFactory().close();
 		sessionFactory = null;
 	}
+	
 }

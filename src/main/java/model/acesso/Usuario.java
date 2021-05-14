@@ -37,7 +37,7 @@ public class Usuario {
 
 	@Id
 	@Column(name = "id_usuario")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_id_usuario")
 	private int idUsuario;
 
 	@Column(name = "login")

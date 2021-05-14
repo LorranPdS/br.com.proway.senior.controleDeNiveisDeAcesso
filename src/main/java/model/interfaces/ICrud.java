@@ -1,5 +1,4 @@
 package model.interfaces;
-
 import java.util.List;
 
 /**

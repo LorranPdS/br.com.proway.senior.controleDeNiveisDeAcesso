@@ -42,8 +42,14 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	public void criar(Permissao object) {
-		// TODO Auto-generated method stub
-
+		try {
+			session.beginTransaction();
+			session.save(object);
+			session.getTransaction().commit();
+		}catch(Exception e) {
+			e.getStackTrace();
+			session.getTransaction().rollback();
+		}
 	}
 
 	public boolean alterar(Permissao object) {
@@ -51,14 +57,22 @@ public class PermissaoDAO implements ICrud<Permissao> {
 
 	}
 
-	public boolean deletar(int id) {
+	public boolean deletar(Permissao object) {
 		return false;
 
 	}
 
 	public Permissao consultarPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			session.beginTransaction();
+			Permissao u = session.find(Permissao.class, id);
+			session.getTransaction().commit();
+			return u;
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public ArrayList<Permissao> listar() {
