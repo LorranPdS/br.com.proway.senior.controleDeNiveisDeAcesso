@@ -131,7 +131,6 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
 			listaPerfil.add(usuarioPerfil.getPerfil());
 		}
-		
 		return listaPerfil;
 	}
 
@@ -143,7 +142,6 @@ public class UsuarioDAO implements ICrud<Usuario> {
 			List<Permissao> permissoesDessePerfil = perfil.getPermissoes();
 			todasAsPermissoesDoUsuario.addAll(permissoesDessePerfil);
 		}
-		
 		return todasAsPermissoesDoUsuario;
 	}
 

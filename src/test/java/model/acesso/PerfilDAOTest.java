@@ -61,10 +61,13 @@ public class PerfilDAOTest {
 	
 	@Test
 	public void testListaPermissoesDoPerfil() {
-		List<Permissao> listaPermissao = PerfilDAO.getInstance().listarPermissoes(1);
+		List<Permissao> listaPermissao = PerfilDAO.getInstance().listarPermissoes(3);
 		
 		System.out.println(listaPermissao.size());
-		System.out.println(listaPermissao.get(0).getNomePermissao());
+		System.out.println("---- TAMANHO LISTA PERMISSOES DO PERFIL ---- " + listaPermissao.size());
+		for (Permissao permissao : listaPermissao) {
+			System.out.println("----Perfis: "+permissao.getNomePermissao());
+		}
 	}
 	
 	@Test
@@ -74,7 +77,9 @@ public class PerfilDAOTest {
 //		Permissao permissao = new Permissao("permissao1");
 //		PermissaoDAO.getInstance().criar(permissao);	
 		
+		// Pegando Perfil 3(Vendedor) e colocando Permissoes 1/2 (Visualizar E Alterar).
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(2, PerfilDAO.getInstance().consultarPorId(3));
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(1, PerfilDAO.getInstance().consultarPorId(3));
 	}
 
 	@Ignore

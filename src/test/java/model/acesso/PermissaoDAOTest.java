@@ -28,33 +28,33 @@ public class PermissaoDAOTest {
 
 	@Test
 	public void testBcriarPermissao() {
-		Permissao permissao = new Permissao("permissao1");
+		Permissao permissao = new Permissao("Visualizar");
 		PermissaoDAO.getInstance().criar(permissao);
-		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorNome("permissao1");
+		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorNome("Visualizar");
 		assertEquals(permissao, permissaoEncontrada);
 	}
 
 	@Test
 	public void testCconsultarPermissoesPorNome() {
-		Permissao permissao = new Permissao("ThiagoXitado");
+		Permissao permissao = new Permissao("Alterar");
 		PermissaoDAO.getInstance().criar(permissao);
-		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorNome("ThiagoXitado");
-		assertEquals("ThiagoXitado", permissaoEncontrada.getNomePermissao());
+		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorNome("Alterar");
+		assertEquals("Alterar", permissaoEncontrada.getNomePermissao());
 	}
 
 	@Test
 	public void testDlterarPermissao() {
-		Permissao permissao = new Permissao("Permissao2");
+		Permissao permissao = new Permissao("PermissaoErrada");
 		PermissaoDAO.getInstance().criar(permissao);
-		permissao.setNomePermissao("alteracaoTeste");
+		permissao.setNomePermissao("Remover");
 		PermissaoDAO.getInstance().alterar(permissao);
 		Permissao permissaoEncontrada = PermissaoDAO.getInstance().consultarPorId(permissao.getIdPermissao());
-		assertEquals("alteracaoTeste", permissaoEncontrada.getNomePermissao());
+		assertEquals("Remover", permissaoEncontrada.getNomePermissao());
 	}
 	
 	@Test
 	public void testEDeletarPermissao() {
-		Permissao permissao = new Permissao("permissao3");
+		Permissao permissao = new Permissao("PermissaoParaDeletar");
 		PermissaoDAO.getInstance().criar(permissao);
 		int tamanhoAntesDeDeletar = PermissaoDAO.getInstance().listar().size();
 		PermissaoDAO.getInstance().deletar(permissao);

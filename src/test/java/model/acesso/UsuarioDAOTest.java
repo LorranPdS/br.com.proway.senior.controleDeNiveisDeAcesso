@@ -17,34 +17,34 @@ import db.DBConnection;
 public class UsuarioDAOTest {
 
 	@Test
-	public void testBCriarUsuarioEConsultarPorId() {
-		Usuario usuarioDeTeste = new Usuario("loginTest", "senhaTest");
+	public void testACriarUsuarioEConsultarPorId() {
+		Usuario usuarioDeTeste = new Usuario("Thiago@gmail.com", "senha1");
 		UsuarioDAO.getInstance().criar(usuarioDeTeste);
 		Usuario usuarioEncontrado = UsuarioDAO.getInstance().consultarPorId(usuarioDeTeste.getIdUsuario());
 		assertEquals(usuarioDeTeste, usuarioEncontrado);
 	}
 
 	@Test
-	public void testCAlterarUsuario() {
-		Usuario usuarioDeTeste = new Usuario("LoginTeste2", "Cenha muito boa");
+	public void testBAlterarUsuario() {
+		Usuario usuarioDeTeste = new Usuario("Errado@gmail.com", "senha2");
 		UsuarioDAO.getInstance().criar(usuarioDeTeste);
-		usuarioDeTeste.setLogin("alteracaoTeste");
+		usuarioDeTeste.setLogin("Luiz@gmail.com");
 		UsuarioDAO.getInstance().alterar(usuarioDeTeste);
 		Usuario usuarioEncontrado = UsuarioDAO.getInstance().consultarPorId(usuarioDeTeste.getIdUsuario());
-		assertEquals("alteracaoTeste", usuarioEncontrado.getLogin());
+		assertEquals("Luiz@gmail.com", usuarioEncontrado.getLogin());
 	}
 
 	@Test
-	public void testDconsultarUsuarioPorLogin() {
-		Usuario usuarioDeTeste = new Usuario("thiagose@gmail12.com", "123qwe123");
+	public void testCconsultarUsuarioPorLogin() {
+		Usuario usuarioDeTeste = new Usuario("Joao@gmail.com", "senha3");
 		UsuarioDAO.getInstance().criar(usuarioDeTeste);
-		Usuario usuarioEncontrado = UsuarioDAO.getInstance().consultarPorLogin("thiagose@gmail12.com");
-		assertEquals("thiagose@gmail12.com", usuarioEncontrado.getLogin());
+		Usuario usuarioEncontrado = UsuarioDAO.getInstance().consultarPorLogin("Joao@gmail.com");
+		assertEquals("Joao@gmail.com", usuarioEncontrado.getLogin());
 	}
 
 	@Test
-	public void testEDeletarUsuario() {
-		Usuario usuarioParaDeletar = new Usuario("XAu", "Tchau");
+	public void testDDeletarUsuario() {
+		Usuario usuarioParaDeletar = new Usuario("Marco@gmail.com", "senha4");
 		UsuarioDAO.getInstance().criar(usuarioParaDeletar);
 		int tamanhoAntesDeDeletar = UsuarioDAO.getInstance().listar().size();
 		UsuarioDAO.getInstance().deletar(usuarioParaDeletar);
@@ -53,39 +53,36 @@ public class UsuarioDAOTest {
 	}
 
 	@Test
-	public void testFAtribuirPerfilAUmUsuario() {
+	public void testEAtribuirPerfilAUmUsuario() {
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(2);
 		Perfil perfil = PerfilDAO.getInstance().consultarPorId(3);
 		LocalDate dateDeExpiracao = LocalDate.of(2021, 05, 13);
 
 		UsuarioPerfilId userPerfilId = new UsuarioPerfilId(usuario.getIdUsuario(), perfil.getIdPerfil());
 		UsuarioPerfil usuarioPer = new UsuarioPerfil(userPerfilId, usuario, perfil, dateDeExpiracao);
-//		System.out.println("Antes da atribuição");
-//		usuario.getPerfis().toString();
 
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPer);
-		// UsuarioDAO.getInstance().alterar(usuario);
-//		System.out.println("Dps da atribuição");
-//		usuario.getPerfis().toString();
 	}
 
 	@Test
 	public void testGListarPermissoesDeUmUsuario() {
 		List<Permissao> listaPermissao = UsuarioDAO.getInstance().listarPermissoes(2);
 		
-		System.out.println(listaPermissao.size());
+		System.out.println("---- TAMANHO LISTA PERMISSOES ---- " + listaPermissao.size());
+		for (Permissao permissao : listaPermissao) {
+			System.out.println("---- Permissoes: "+permissao.getNomePermissao());
+		}
 
-		System.out.println("______________________ " + listaPermissao.size());
-		System.out.println(listaPermissao.get(0).getNomePermissao());
 	}
 
 	@Test
-	public void testTListar() {
+	public void testFListar() {
 		List<Perfil> listaPerfil = UsuarioDAO.getInstance().listarPerfis(2);
 
-		System.out.println("______________________ " + listaPerfil.size());
-
-		System.out.println(listaPerfil.get(0).getNomePerfil());
+		System.out.println("---- TAMANHO LISTA PERFIS ---- " + listaPerfil.size());
+		for (Perfil perfil : listaPerfil) {
+			System.out.println("---- Perfis: "+perfil.getNomePerfil());
+		}
 	}
 
 	@Ignore
