@@ -1,6 +1,8 @@
 package model.acesso;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -46,16 +48,14 @@ public class Perfil {
 	private String nomePerfil;
 
 	@OneToMany(targetEntity = UsuarioPerfil.class, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "perfil")
-	private Set<UsuarioPerfil> usuarios = new HashSet<UsuarioPerfil>();
+	private List<Usuario> usuarios = new ArrayList<>();
 
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "perfil_permissao", joinColumns = { @JoinColumn(name = "id_perfil") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_permissao") })
-	private Set<Permissao> permissoes = new HashSet<>();
+	private List<Permissao> permissoes = new ArrayList<Permissao>();
 
-	public Perfil() {
-
-	}
+	public Perfil() {}
 
 	public Perfil(String nomePerfil) {
 		super();
@@ -78,19 +78,19 @@ public class Perfil {
 		this.nomePerfil = nomePerfil;
 	}
 
-	public Set<UsuarioPerfil> getUsuarios() {
+	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}
 
-	public void setUsuarios(Set<UsuarioPerfil> usuarios) {
-		this.usuarios = usuarios;
+	public void setUsuarios(Usuario usuario) {
+		this.usuarios.add(usuario);
 	}
 
-	public Set<Permissao> getPermissoes() {
+	public List<Permissao> getPermissoes() {
 		return permissoes;
 	}
 
-	public void setPermissoes(Set<Permissao> permissoes) {
+	public void setPermissoes(List<Permissao> permissoes) {
 		this.permissoes = permissoes;
 	}
 

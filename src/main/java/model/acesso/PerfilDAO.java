@@ -132,7 +132,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	@SuppressWarnings("unchecked")
 	public List<Permissao> listarPermissoes(int idPerfil) {
 		Perfil p = consultarPorId(idPerfil);
-		return (List<Permissao>) p.getPermissoes();
+		return p.getPermissoes();
 	}
 
 	public void atribuirPermissaoAUmPerfil(Integer idPermissao, Perfil perfil) {

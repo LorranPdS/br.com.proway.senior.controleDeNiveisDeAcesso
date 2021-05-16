@@ -60,12 +60,21 @@ public class PerfilDAOTest {
 	}
 	
 	@Test
+	public void testListaPermissoesDoPerfil() {
+		List<Permissao> listaPermissao = PerfilDAO.getInstance().listarPermissoes(1);
+		
+		System.out.println(listaPermissao.size());
+		System.out.println(listaPermissao.get(0).getNomePermissao());
+	}
+	
+	@Test
 	public void testGatribuirPermissaoAUmPerfil() {
-		Perfil perfil = new Perfil("PerfilTestAtribuicao");
-		PerfilDAO.getInstance().criar(perfil);
-		Permissao permissao = new Permissao("PermissaoTestAtribuicao");
-		PermissaoDAO.getInstance().criar(permissao);		
-		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);
+//		Perfil perfil = new Perfil("PerfilTestAtribuicao");
+//		PerfilDAO.getInstance().criar(perfil);
+//		Permissao permissao = new Permissao("permissao1");
+//		PermissaoDAO.getInstance().criar(permissao);	
+		
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(2, PerfilDAO.getInstance().consultarPorId(3));
 	}
 
 	@Ignore

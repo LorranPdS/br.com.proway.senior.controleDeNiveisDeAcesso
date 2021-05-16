@@ -7,6 +7,7 @@ import java.util.Random;
 import model.acesso.Perfil;
 import model.acesso.PerfilDAO;
 import model.acesso.Permissao;
+import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
 import model.acesso.UsuarioPerfil;

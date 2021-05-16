@@ -1,7 +1,8 @@
 package model.acesso;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -56,7 +57,7 @@ public class Usuario {
 	private Integer ultimoCodigo2FA;
 
 	@OneToMany(targetEntity = UsuarioPerfil.class, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "usuario")
-	private Set<UsuarioPerfil> perfis = new HashSet<UsuarioPerfil>();
+	private List<UsuarioPerfil> perfis = new ArrayList<>();
 
 	public Usuario() {
 
@@ -107,12 +108,12 @@ public class Usuario {
 		this.ultimoCodigo2FA = ultimoCodigo2FA;
 	}
 
-	public Set<UsuarioPerfil> getPerfis() {
+	public List<UsuarioPerfil> getPerfis() {
 		return perfis;
 	}
 
-	public void setPerfis(Set<UsuarioPerfil> perfis) {
-		this.perfis = perfis;
+	public void setPerfis(UsuarioPerfil usuarioPerfil) {
+		this.perfis.add(usuarioPerfil);
 	}
 
 	@Override
