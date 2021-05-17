@@ -80,7 +80,8 @@ public class Controller {
 	}
 
 	public void deletarUsuario(Integer id) {
-		// UsuarioDAO.getInstance().deletar(id);
+		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(id);
+		UsuarioDAO.getInstance().deletar(usuario);
 	}
 
 	public boolean alterarUsuario(Integer idUsuario, Usuario usuario) {
@@ -89,7 +90,7 @@ public class Controller {
 	}
 
 	public Usuario consultarUsuario(Integer idUsuario) {
-		return null;
+		return UsuarioDAO.getInstance().consultarPorId(idUsuario);
 	}
 
 	public Usuario consultarUsuario(String login) {
@@ -106,8 +107,8 @@ public class Controller {
 		return UsuarioDAO.getInstance().listarPermissoes(idUsuario);
 	}
 
-	public List<Perfil> listarPerfisDeUmUsuario(Usuario usuario) {
-		return null;
+	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
+		return UsuarioDAO.getInstance().listarPerfis(idUsuario);
 	}
 
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExp) {
@@ -127,8 +128,7 @@ public class Controller {
 	}
 
 	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
-		Perfil perfil = new Perfil();
-		perfil.setIdPerfil(idPerfil);
+		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		perfil.setNomePerfil(nomePerfil);
 		PerfilDAO.getInstance().alterar(perfil);
 	}

@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -76,15 +75,17 @@ public class ControllerTest {
 //	int tamanhoAntesDeDeletar = PermissaoDAO.getInstance().listar().size();
 //	PermissaoDAO.getInstance().deletar(permissao);
 //	assertEquals(tamanhoAntesDeDeletar - 1, PermissaoDAO.getInstance().listar().size());
+
 	
 	@Ignore
 	public void testDeletarUsuario() {
-		String login="thiagoXitado@bol.com";
-		String senha="thiago123";
+		String login = "thiagoXitado@bol.com";
+		String senha = "thiago123";
 		Controller.getInstance().criarUsuario(login, senha);
-		Integer usuarios = Controller.getInstance().listarTodosOsUsuarios().size();
-		Controller.getInstance().deletarUsuario(usuarios);
-		
+		int idUsuario = Controller.getInstance().consultarUsuario(login).getIdUsuario();
+		Controller.getInstance().deletarUsuario(idUsuario);
+		Usuario usuario = Controller.getInstance().consultarUsuario(idUsuario);
+		assertNull(usuario);
 	}
 
 	@Ignore
@@ -107,7 +108,7 @@ public class ControllerTest {
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
 
-	@Ignore
+	@Test
 	public void testAlterarPerfil() {
 		String nomePerfil = "Engenharia";
 		Controller.getInstance().criarPerfil("Logistica");
@@ -116,18 +117,18 @@ public class ControllerTest {
 		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(idPerfilLogistica);
 		assertEquals(nomePerfil, perfilEncontrado.getNomePerfil());
 	}
-
-	@Ignore
-	public void testAlterarPerfilNome() {
-		Perfil perfilAlterar = new Perfil("Motorista");
-		PerfilDAO.getInstance().criar(perfilAlterar);
-		perfilAlterar.setNomePerfil("Logistica");
-		PerfilDAO.getInstance().alterar(perfilAlterar);
-		Perfil perfilAlteradoEncontrado = PerfilDAO.getInstance().consultarPorNome(perfilAlterar.getNomePerfil());
-		assertNotEquals(perfilAlterar.getNomePerfil(), perfilAlteradoEncontrado.getNomePerfil());
+	
+	@Test
+	public void testConsultarUsuarioPorId() {
+		String usuario = "lorran@gmail";
+		String senha = "123";
+		Controller.getInstance().criarUsuario(usuario, senha);
+		int usuarioId = UsuarioDAO.getInstance().consultarPorLogin(usuario).getIdUsuario();
+		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(usuarioId);
+		assertEquals(usuarioId, usuarioEncontrado.getLogin());
 	}
 
-	@Ignore
+	@Test
 	public void testBConsultarPerfilPorId() {
 		String perfil = "ST";
 		Controller.getInstance().criarPerfil(perfil);
@@ -140,18 +141,18 @@ public class ControllerTest {
 	public void testAlterarDadosUsuario() {
 		String loginUsuario = "roberto";
 		String senhaUsuario = "jaqueta";
-		
+
 		Controller.getInstance().criarUsuario(loginUsuario, senhaUsuario);
 		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(loginUsuario);
 		assertEquals(loginUsuario, usuarioEncontrado.getLogin());
-		
+
 		loginUsuario = "mauricio";
 		usuarioEncontrado.setLogin(loginUsuario);
 		Controller.getInstance().alterarUsuario(usuarioEncontrado.getIdUsuario(), usuarioEncontrado);
 		usuarioEncontrado = Controller.getInstance().consultarUsuario(loginUsuario);
 		assertEquals(loginUsuario, usuarioEncontrado.getLogin());
 	}
-  
+
 	@Ignore
 	public void testBAtribuirPermissaoAUmPerfil() {
 		Perfil perfilCriado = new Perfil("perfil Teste");
@@ -172,7 +173,7 @@ public class ControllerTest {
 		assertEquals(nomeDaPermissao, permissaoEncontradaPorNome.getNomePermissao(), permissaoEncontradaPorId.getNomePermissao());
 		
 	}
-	
+
 	@Test
 	public void testEAlterarPermissao() {
 		String nomeDaPermissao = "PermissaoDeTesteDeAlteraçãoAntesDaAlteração";
@@ -227,7 +228,7 @@ public class ControllerTest {
 		ArrayList<Usuario> listaUsuarios = Controller.getInstance().listarTodosOsUsuarios();
 		assertNotNull(listaUsuarios);
 	}
-	
+
 	@Test
 	public void testLverificarEListarPermissaoDeUmPerfil() {
 		String nomePerfil = "PerfilDeTesteDeVerificaçãoDePermissão";
@@ -253,8 +254,8 @@ public class ControllerTest {
 
 		System.out.println("0");
 		listaPermissao.toString();
-		
-		assertEquals(2, listaPermissao.size());	
+
+		assertEquals(2, listaPermissao.size());
 		System.out.println("1");
 		assertTrue(Controller.getInstance().verificarPermissao(perfil, listaPermissao.get(1)));
 		System.out.println("2");
