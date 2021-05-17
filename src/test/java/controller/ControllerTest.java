@@ -25,8 +25,6 @@ import model.acesso.UsuarioDAO;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
-
-	
 	
 	@Ignore
 	public void testEmail() throws Exception {
@@ -88,7 +86,7 @@ public class ControllerTest {
 
 	@Test
 	public void testBCriarEConsultarPerfil() {
-		String  perfil = "Administrativo";
+		String  perfil = "ADMIN";
 		Controller.getInstance().criarPerfil(perfil);
 		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(perfil);
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
@@ -102,7 +100,6 @@ public class ControllerTest {
 		Controller.getInstance().alterarPerfil(idPerfilLogistica, nomePerfil);
 		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(idPerfilLogistica);
 		assertEquals(nomePerfil, perfilEncontrado.getNomePerfil());
-		
 	}
 	
 	@Test
@@ -121,8 +118,22 @@ public class ControllerTest {
 		int idPerfil = PerfilDAO.getInstance().consultarPorNome(perfil).getIdPerfil();
 		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(idPerfil);
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
+	}
+	
+	@Test
+	public void testAlterarDadosUsuario() {
+		String loginUsuario = "roberto";
+		String senhaUsuario = "jaqueta";
 		
+		Controller.getInstance().criarUsuario(loginUsuario, senhaUsuario);
+		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(loginUsuario);
+		assertEquals(loginUsuario, usuarioEncontrado.getLogin());
 		
+		loginUsuario = "mauricio";
+		usuarioEncontrado.setLogin(loginUsuario);
+		Controller.getInstance().alterarUsuario(usuarioEncontrado.getIdUsuario(), usuarioEncontrado);
+		usuarioEncontrado = Controller.getInstance().consultarUsuario(loginUsuario);
+		assertEquals(loginUsuario, usuarioEncontrado.getLogin());
 	}
 
 
@@ -147,7 +158,7 @@ public class ControllerTest {
 	
 	@Test
 	public void testListarTodosPerfis() {
-		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfils();
+		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfis();
 		assertNotNull(listaPerfis);
 	}
 
