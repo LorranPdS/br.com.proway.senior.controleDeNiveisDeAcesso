@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import java.time.LocalDate;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -17,12 +18,13 @@ import model.acesso.Permissao;
 import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
-import model.acesso.UsuarioPerfil;
-import model.acesso.UsuarioPerfilId;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
 
+	
+	
+	@Ignore
 	public void testEmail() throws Exception {
 		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("NOMEFICTICIO@gmail.com");
 		assertTrue(resultadoEnvioEmail);

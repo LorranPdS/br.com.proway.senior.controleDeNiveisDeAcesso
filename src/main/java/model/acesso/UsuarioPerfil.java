@@ -44,8 +44,6 @@ public class UsuarioPerfil {
 	}
 
 	public void setPerfil(Perfil perfil) {
-		System.out.println("USUARIOPERFIL - SET DO PERFIL: " + perfil.getIdPerfil());
-		System.out.println(usuario.getIdUsuario());
 		perfil.setUsuarios(usuario);
 		this.perfil = perfil;
 	}
@@ -55,7 +53,6 @@ public class UsuarioPerfil {
 	}
 
 	public void setUsuario(Usuario usuario) {
-		System.out.println("USUARIOPERFIL - SET DO USUARIO: " + usuario.getIdUsuario());
 		this.usuario = usuario;
 	}
 	
@@ -75,9 +72,11 @@ public class UsuarioPerfil {
 		this.dataExpiracao = dataExpiracao;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Usuario Perfil (Tabela Liga��o) [idUsuarioPerfil=" + id + ", usuario=" + usuario.getLogin() + ", perfil=" + perfil.getNomePerfil() + ", dataExpiracao="
+		return "Usuario Perfil [idUsuarioPerfil=" + id + ", usuario=" + usuario.getLogin() + ", perfil=" + perfil.getNomePerfil() + ", dataExpiracao="
 				+ dataExpiracao + "]";
 	}
 

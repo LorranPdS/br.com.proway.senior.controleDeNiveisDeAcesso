@@ -12,22 +12,9 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PermissaoDAOTest {
 
-	@Ignore
-	public void testAlimparBancoPermissao() {
-		try {
-			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE permissao CASCADE; ALTER SEQUENCE seq_id_permissao RESTART 1;")
-					.executeUpdate();
-			DBConnection.getSession().getTransaction().commit();
-		} catch (Exception e) {
-			DBConnection.getSession().getTransaction().rollback();
-			e.printStackTrace();
-		}
-	}
 	
 	@Test
-	public void testAlimparPermissoesDeTeste() {
+	public void testXlimparPermissoesDeTeste() {
 		String sql1 = "DELETE FROM permissao WHERE nome_permissao = 'Visualizar';";
 		String sql2 = "DELETE FROM permissao WHERE nome_permissao = 'Alterar';";
 		String sql3 = "DELETE FROM permissao WHERE nome_permissao = 'Remover';";
