@@ -141,7 +141,7 @@ public class Controller {
 	}
 
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
-//		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);
 	}
 
 	// DAO - Permissao
