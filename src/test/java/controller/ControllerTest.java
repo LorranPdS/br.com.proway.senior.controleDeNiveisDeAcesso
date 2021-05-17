@@ -75,9 +75,10 @@ public class ControllerTest {
 		String login = "thiagoXitado@bol.com";
 		String senha = "thiago123";
 		Controller.getInstance().criarUsuario(login, senha);
-		Integer usuarios = Controller.getInstance().listarTodosOsUsuarios().size();
-		Controller.getInstance().deletarUsuario(usuarios);
-
+		int idUsuario = Controller.getInstance().consultarUsuario(login).getIdUsuario();
+		Controller.getInstance().deletarUsuario(idUsuario);
+		Usuario usuario = Controller.getInstance().consultarUsuario(idUsuario);
+		assertNull(usuario);
 	}
 
 	@Ignore
@@ -100,7 +101,7 @@ public class ControllerTest {
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
 
-	@Ignore
+	@Test
 	public void testAlterarPerfil() {
 		String nomePerfil = "Engenharia";
 		Controller.getInstance().criarPerfil("Logistica");
@@ -109,18 +110,18 @@ public class ControllerTest {
 		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(idPerfilLogistica);
 		assertEquals(nomePerfil, perfilEncontrado.getNomePerfil());
 	}
-
-	@Ignore
-	public void testAlterarPerfilNome() {
-		Perfil perfilAlterar = new Perfil("Motorista");
-		PerfilDAO.getInstance().criar(perfilAlterar);
-		perfilAlterar.setNomePerfil("Logistica");
-		PerfilDAO.getInstance().alterar(perfilAlterar);
-		Perfil perfilAlteradoEncontrado = PerfilDAO.getInstance().consultarPorNome(perfilAlterar.getNomePerfil());
-		assertNotEquals(perfilAlterar.getNomePerfil(), perfilAlteradoEncontrado.getNomePerfil());
+	
+	@Test
+	public void testConsultarUsuarioPorId() {
+		String usuario = "lorran@gmail";
+		String senha = "123";
+		Controller.getInstance().criarUsuario(usuario, senha);
+		int usuarioId = UsuarioDAO.getInstance().consultarPorLogin(usuario).getIdUsuario();
+		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(usuarioId);
+		assertEquals(usuarioId, usuarioEncontrado.getLogin());
 	}
 
-	@Ignore
+	@Test
 	public void testBConsultarPerfilPorId() {
 		String perfil = "ST";
 		Controller.getInstance().criarPerfil(perfil);

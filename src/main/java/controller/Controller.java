@@ -80,7 +80,8 @@ public class Controller {
 	}
 
 	public void deletarUsuario(Integer id) {
-		// UsuarioDAO.getInstance().deletar(id);
+		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(id);
+		UsuarioDAO.getInstance().deletar(usuario);
 	}
 
 	public boolean alterarUsuario(Integer idUsuario, Usuario usuario) {
@@ -89,7 +90,7 @@ public class Controller {
 	}
 
 	public Usuario consultarUsuario(Integer idUsuario) {
-		return null;
+		return UsuarioDAO.getInstance().consultarPorId(idUsuario);
 	}
 
 	public Usuario consultarUsuario(String login) {
@@ -127,8 +128,7 @@ public class Controller {
 	}
 
 	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
-		Perfil perfil = new Perfil();
-		perfil.setIdPerfil(idPerfil);
+		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		perfil.setNomePerfil(nomePerfil);
 		PerfilDAO.getInstance().alterar(perfil);
 	}
@@ -185,7 +185,7 @@ public class Controller {
 	}
 
 	public Permissao consultarPermissao(Integer idPermissao) {
-		return null;
+		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
 	}
 
 	/**
@@ -198,8 +198,8 @@ public class Controller {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
 
-	public ArrayList<Permissao> listarTodasAsPermissoes() {
-		return null;
+	public List<Permissao> listarTodasAsPermissoes() {
+		return PermissaoDAO.getInstance().listar();
 	}
 
 	// ...
