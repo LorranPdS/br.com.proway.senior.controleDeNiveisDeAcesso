@@ -157,11 +157,31 @@ public class ControllerTest {
 	}
 	
 	@Test
-	public void testListarTodosPerfis() {
+	public void testListarTodosPerfisNull() {
+		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfis();
+		assertNull(listaPerfis);
+	}
+
+	@Test
+	public void testListarTodosPerfisNotNull() {
 		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfis();
 		assertNotNull(listaPerfis);
 	}
+	
+	@Test
+	public void testListarTodosUsuariosNull() {
+		ArrayList<Usuario> listaUsuarios = Controller.getInstance().listarTodosOsUsuarios();
+		assertNull(listaUsuarios);
+	}
 
+	@Test
+	public void testListarTodosUsuariosNotNull() {
+		ArrayList<Usuario> listaUsuarios = Controller.getInstance().listarTodosOsUsuarios();
+		assertNotNull(listaUsuarios);
+	}
+	
+
+	
 	@Test
 	public void testXlimparBanco() {
 		try {

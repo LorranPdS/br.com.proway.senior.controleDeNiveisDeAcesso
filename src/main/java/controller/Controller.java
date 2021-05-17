@@ -86,7 +86,9 @@ public class Controller {
 	}
 
 	public ArrayList<Usuario> listarTodosOsUsuarios() {
-		return null;
+		ArrayList<Usuario> usuariosEncontrados = (ArrayList<Usuario>) UsuarioDAO.getInstance().listar();
+		ArrayList<Usuario> resultado = !usuariosEncontrados.isEmpty() ? usuariosEncontrados : null;
+		return resultado;
 	}
 
 	public void listarPermissoesDeUmUsuario(Usuario usuario) {
@@ -138,15 +140,14 @@ public class Controller {
 
 	public ArrayList<Perfil> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
-		ArrayList<Perfil> resultado = perfisEncontrados.isEmpty() ? null : perfisEncontrados;
+		ArrayList<Perfil> resultado = !perfisEncontrados.isEmpty() ? perfisEncontrados : null;
 		return resultado;
-		
+
 	}
 
 	public void listarPermissoesDeUmPerfil(Perfil perfil) {
 
 	}
-
 
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
