@@ -1,6 +1,7 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -9,6 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -25,48 +27,36 @@ import model.acesso.UsuarioDAO;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
-
-	
-	
 	@Ignore
 	public void testEmail() throws Exception {
-		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin("NOMEFICTICIO@gmail.com");
+		boolean resultadoEnvioEmail = Controller.getInstance()
+				.enviarEmailDeConfirmacaoDeLogin("NOMEFICTICIO@gmail.com");
 		assertTrue(resultadoEnvioEmail);
 	}
 
-	@Test
+	@Ignore
 	public void testDLogar() {
 		String login = "Grijo";
-		String senha= "234";
+		String senha = "234";
 		Controller.getInstance().criarUsuario(login, senha);
 		boolean logar = Controller.getInstance().logar(login, senha);
 		System.out.println(logar);
 	}
-	
-	@Test
-	public void testVerificarPermissaoUsuario() {
-		fail("Not yet implemented");
-	}
 
-	@Test
-	public void testVerificarPermissaoPerfil() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
+	@Ignore
 	public void testDeletarPerfil() {
 		String novoPerfil = "GERENCIA";
 		Controller.getInstance().criarPerfil(novoPerfil);
 		Perfil perfilCadastrado = Controller.getInstance().consultarPerfil(novoPerfil);
 		assertEquals(novoPerfil, perfilCadastrado.getNomePerfil());
-		
+
 		Controller.getInstance().deletarPerfil(perfilCadastrado);
-		
+
 		perfilCadastrado = Controller.getInstance().consultarPerfil(perfilCadastrado.getIdPerfil());
 		assertNull(perfilCadastrado);
 	}
 
-	@Test
+	@Ignore
 	public void testACriarEConsultarUsuario() {
 		String login = "jonata";
 		String hashSenha = "123";
@@ -91,7 +81,7 @@ public class ControllerTest {
 		
 	}
 
-	@Test
+	@Ignore
 	public void testAtribuirPerfilAUmUsuario() {
 		Usuario usuario = new Usuario("Gabriel@gmail.com", "hashSenha123");
 		UsuarioDAO.getInstance().criar(usuario);
@@ -102,15 +92,16 @@ public class ControllerTest {
 		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil, data);
 	}
 
-	@Test
+	@Ignore
 	public void testBCriarEConsultarPerfil() {
-		String  perfil = "Administrativo";
+		String perfil = "Administrativo";
+
 		Controller.getInstance().criarPerfil(perfil);
-		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(perfil);
+		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(perfil);
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
-	
-	@Test
+
+	@Ignore
 	public void testAlterarPerfil() {
 		String nomePerfil = "Engenharia";
 		Controller.getInstance().criarPerfil("Logistica");
@@ -118,10 +109,9 @@ public class ControllerTest {
 		Controller.getInstance().alterarPerfil(idPerfilLogistica, nomePerfil);
 		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(idPerfilLogistica);
 		assertEquals(nomePerfil, perfilEncontrado.getNomePerfil());
-		
 	}
-	
-	@Test
+
+	@Ignore
 	public void testAlterarPerfilNome() {
 		Perfil perfilAlterar = new Perfil("Motorista");
 		PerfilDAO.getInstance().criar(perfilAlterar);
@@ -130,19 +120,33 @@ public class ControllerTest {
 		Perfil perfilAlteradoEncontrado = PerfilDAO.getInstance().consultarPorNome(perfilAlterar.getNomePerfil());
 		assertNotEquals(perfilAlterar.getNomePerfil(), perfilAlteradoEncontrado.getNomePerfil());
 	}
-	
+
+	@Ignore
 	public void testBConsultarPerfilPorId() {
-		String  perfil = "ST";
+		String perfil = "ST";
 		Controller.getInstance().criarPerfil(perfil);
 		int idPerfil = PerfilDAO.getInstance().consultarPorNome(perfil).getIdPerfil();
-		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(idPerfil);
+		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(idPerfil);
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
-		
-		
 	}
-
-
+	
 	@Test
+	public void testAlterarDadosUsuario() {
+		String loginUsuario = "roberto";
+		String senhaUsuario = "jaqueta";
+		
+		Controller.getInstance().criarUsuario(loginUsuario, senhaUsuario);
+		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(loginUsuario);
+		assertEquals(loginUsuario, usuarioEncontrado.getLogin());
+		
+		loginUsuario = "mauricio";
+		usuarioEncontrado.setLogin(loginUsuario);
+		Controller.getInstance().alterarUsuario(usuarioEncontrado.getIdUsuario(), usuarioEncontrado);
+		usuarioEncontrado = Controller.getInstance().consultarUsuario(loginUsuario);
+		assertEquals(loginUsuario, usuarioEncontrado.getLogin());
+	}
+  
+	@Ignore
 	public void testBAtribuirPermissaoAUmPerfil() {
 		Perfil perfilCriado = new Perfil("perfil Teste");
 		PerfilDAO.getInstance().criar(perfilCriado);
@@ -153,7 +157,7 @@ public class ControllerTest {
 		Controller.getInstance().atribuirPermissaoAUmPerfil(permissao, perfil);
 	}
 
-	@Test
+	@Ignore
 	public void testCriarEConsultarPermissao() {
 		String permissao = "ADMIN";
 		Controller.getInstance().criarPermissao(permissao);
@@ -162,12 +166,91 @@ public class ControllerTest {
 	}
 	
 	@Test
-	public void testListarTodosPerfis() {
-		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfils();
-		assertNotNull(listaPerfis);
+	public void testListarTodosPerfisNull() {
+		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfis();
+		assertNull(listaPerfis);
 	}
 
 	@Test
+	public void testListarTodosPerfisNotNull() {
+		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfis();
+		assertNotNull(listaPerfis);
+	}
+	
+	@Test
+	public void testListarTodosUsuariosNull() {
+		ArrayList<Usuario> listaUsuarios = Controller.getInstance().listarTodosOsUsuarios();
+		assertNull(listaUsuarios);
+	}
+
+	@Test
+	public void testListarTodosUsuariosNotNull() {
+		ArrayList<Usuario> listaUsuarios = Controller.getInstance().listarTodosOsUsuarios();
+		assertNotNull(listaUsuarios);
+	}
+	
+	@Test
+	public void cleanDB() {
+		DBConnection.truncateTablesAndRestartSequences();
+	}
+
+	@Test
+	public void testLverificarEListarPermissaoDeUmPerfil() {
+		String nomePerfil = "PerfilDeTesteDeVerificaçãoDePermissão";
+		Controller.getInstance().criarPerfil(nomePerfil);
+
+		String nomePermissao1 = "PermissaoTesteDeAtribuicao1";
+		Controller.getInstance().criarPermissao(nomePermissao1);
+		String nomePermissao2 = "PermissaoTesteDeAtribuicao2";
+		Controller.getInstance().criarPermissao(nomePermissao2);
+		String nomePermissao3 = "PermissaoTesteDeAtribuicao3";
+		Controller.getInstance().criarPermissao(nomePermissao3);
+
+		Perfil perfil = Controller.getInstance().consultarPerfil(nomePerfil);
+		Permissao permissao1 = Controller.getInstance().consultarPermissao(nomePermissao1);
+		Permissao permissao2 = Controller.getInstance().consultarPermissao(nomePermissao2);
+		Permissao permissao3 = Controller.getInstance().consultarPermissao(nomePermissao3);
+
+		Controller.getInstance().atribuirPermissaoAUmPerfil(permissao1, perfil);
+		Controller.getInstance().atribuirPermissaoAUmPerfil(permissao2, perfil);
+		DBConnection.shutdown();
+
+		List<Permissao> listaPermissao = Controller.getInstance().listarPermissoesDeUmPerfil(perfil.getIdPerfil());
+
+		System.out.println("0");
+		listaPermissao.toString();
+		
+		assertEquals(2, listaPermissao.size());	
+		System.out.println("1");
+		assertTrue(Controller.getInstance().verificarPermissao(perfil, listaPermissao.get(1)));
+		System.out.println("2");
+		assertFalse(Controller.getInstance().verificarPermissao(perfil, permissao3));
+
+	}
+
+	@Test
+	public void testMLverificarEListarPermissaoDeUmUsuario() {
+		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
+		String senhaUsuario = "244466666";
+		Controller.getInstance().criarUsuario(loginUsuario, senhaUsuario);
+		String nomePerfil = "PerfilDeTesteDeVerificaçãoDePermissão";
+
+		Usuario usuario = Controller.getInstance().consultarUsuario(loginUsuario);
+		Perfil perfil = Controller.getInstance().consultarPerfil(nomePerfil);
+
+		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil, null);
+		DBConnection.shutdown();
+
+		String nomePermissao2 = "PermissaoTesteDeAtribuicao2";
+		String nomePermissao3 = "PermissaoTesteDeAtribuicao3";
+		Permissao permissao2 = Controller.getInstance().consultarPermissao(nomePermissao2);
+		Permissao permissao3 = Controller.getInstance().consultarPermissao(nomePermissao3);
+
+		assertTrue(Controller.getInstance().verificarPermissao(perfil, permissao2));
+		assertFalse(Controller.getInstance().verificarPermissao(perfil, permissao3));
+	}
+
+	@Ignore
 	public void testXlimparBanco() {
 		try {
 			DBConnection.getSession().beginTransaction();
@@ -186,6 +269,5 @@ public class ControllerTest {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 }
