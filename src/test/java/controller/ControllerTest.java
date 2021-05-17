@@ -64,6 +64,22 @@ public class ControllerTest {
 		Usuario usuarioEncontrado = Controller.getInstance().consultarUsuario(login);
 		assertEquals(login, usuarioEncontrado.getLogin());
 	}
+//
+//	Permissao permissao = new Permissao("PermissaoParaDeletar");
+//	PermissaoDAO.getInstance().criar(permissao);
+//	int tamanhoAntesDeDeletar = PermissaoDAO.getInstance().listar().size();
+//	PermissaoDAO.getInstance().deletar(permissao);
+//	assertEquals(tamanhoAntesDeDeletar - 1, PermissaoDAO.getInstance().listar().size());
+	
+	@Test
+	public void testDeletarUsuario() {
+		String login="thiagoXitado@bol.com";
+		String senha="thiago123";
+		Controller.getInstance().criarUsuario(login, senha);
+		Integer usuarios = Controller.getInstance().listarTodosOsUsuarios().size();
+		Controller.getInstance().deletarUsuario(usuarios);
+		
+	}
 
 	@Ignore
 	public void testAtribuirPerfilAUmUsuario() {
