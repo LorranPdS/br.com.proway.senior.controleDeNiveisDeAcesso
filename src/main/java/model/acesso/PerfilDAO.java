@@ -48,6 +48,10 @@ public class PerfilDAO implements ICrud<Perfil> {
 		}
 		return instance;
 	}
+	
+	public static void shutdown() {
+		instance = null;
+	}
 
 	public void criar(Perfil perfil) {
 		try {

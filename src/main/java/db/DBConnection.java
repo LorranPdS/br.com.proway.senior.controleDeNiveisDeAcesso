@@ -4,6 +4,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import model.acesso.PerfilDAO;
+import model.acesso.PermissaoDAO;
+import model.acesso.UsuarioDAO;
+
 /**
  * Classe DBConnection
  * 
@@ -47,6 +51,9 @@ public class DBConnection {
 		session = null;
 		getSessionFactory().close();
 		sessionFactory = null;
+		UsuarioDAO.getInstance().shutdown();
+		PerfilDAO.getInstance().shutdown();
+		PermissaoDAO.getInstance().shutdown();
 	}
 	
 }

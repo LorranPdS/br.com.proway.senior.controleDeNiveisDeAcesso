@@ -49,6 +49,10 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 		return instance;
 	}
+	
+	public static void shutdown() {
+		instance = null;
+	}
 
 	public void criar(Usuario usuario) {
 		try {
@@ -88,9 +92,11 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	public Usuario consultarPorId(int id) {
+		System.out.println("O ID É::: "  + id);
 		try {
 			session.beginTransaction();
 			Usuario u = session.find(Usuario.class, id);
+			//Usuario u = session.getReference(Usuario.class, id);
 			session.getTransaction().commit();
 			return u;
 		} catch (Exception e) {
@@ -125,10 +131,12 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	public List<Perfil> listarPerfis(int idUsuario) {
+		System.out.println("4");
 		Usuario usuario = consultarPorId(idUsuario);
-
+		System.out.println("LISTANDO PERFIS DO USUARIO " + usuario.toString());
 		List<Perfil> listaPerfil = new ArrayList<>();
 		for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
+			System.out.println(usuarioPerfil.toString());
 			listaPerfil.add(usuarioPerfil.getPerfil());
 		}
 		return listaPerfil;
@@ -146,6 +154,8 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	public void atribuirPerfilAUmUsuario(UsuarioPerfil usuarioPerfil) {
+		System.out.println("A");
+		System.out.println(usuarioPerfil.getId().getIdUsuario() + " X " + usuarioPerfil.getId().getIdPerfil());
 		try {
 			session.beginTransaction();
 			session.save(usuarioPerfil);

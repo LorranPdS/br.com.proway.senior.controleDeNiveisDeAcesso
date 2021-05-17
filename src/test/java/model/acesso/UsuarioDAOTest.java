@@ -98,26 +98,37 @@ public class UsuarioDAOTest {
 		UsuarioDAO.getInstance().criar(usuario);
 		Perfil perfil1 = new Perfil("PerfilAtribuido1");
 		PerfilDAO.getInstance().criar(perfil1);
-		Perfil perfil2 = new Perfil("PerfilAtribuido2");
-		PerfilDAO.getInstance().criar(perfil2);
 		LocalDate dateDeExpiracao = LocalDate.of(2021, 05, 13);
 		
-		int idUsuario = usuario.getIdUsuario();
-		System.out.println("OK");
+		Integer idUsuario = usuario.getIdUsuario();
+		System.out.println("1");
 		UsuarioPerfilId PK1 = new UsuarioPerfilId(idUsuario, perfil1.getIdPerfil());
 		UsuarioPerfil UP1 = new UsuarioPerfil(PK1, usuario, perfil1, dateDeExpiracao);
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP1);
-
+		System.out.println("2");
+		
+		DBConnection.shutdown();
+		
+		Perfil perfil2 = new Perfil("PerfilAtribuido2");
+		PerfilDAO.getInstance().criar(perfil2);
+		usuario = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com");
+		idUsuario = usuario.getIdUsuario();
 		UsuarioPerfilId PK2 = new UsuarioPerfilId(idUsuario, perfil2.getIdPerfil());
 		UsuarioPerfil UP2 = new UsuarioPerfil(PK2, usuario, perfil2, dateDeExpiracao);
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP2);
-
+		
+		DBConnection.shutdown();
+		System.out.println("3");
+		usuario = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com");
+		idUsuario = usuario.getIdUsuario();
+		//Integer idUsuarioDps = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com").getIdUsuario();
 		List<Perfil> listaDePerfis = UsuarioDAO.getInstance().listarPerfis(idUsuario);
 		assertEquals(2, listaDePerfis.size());
 
 	}
+	
 
-	@Test
+	@Ignore
 	public void testGListarPermissoesDeUmUsuario() {
 		Permissao p1 = new Permissao("Viver");
 		PermissaoDAO.getInstance().criar(p1);
