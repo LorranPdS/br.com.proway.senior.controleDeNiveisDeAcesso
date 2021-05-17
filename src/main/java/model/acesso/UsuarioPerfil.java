@@ -29,15 +29,13 @@ public class UsuarioPerfil {
 	@Column(name = "data_expiracao")
 	private LocalDate dataExpiracao;
 
-	public UsuarioPerfil() {
-
-	}
+	public UsuarioPerfil() {}
 
 	public UsuarioPerfil(UsuarioPerfilId id, Usuario usuario, Perfil perfil, LocalDate dataExpiracao) {
 		super();
 		this.id = id;
-		this.usuario = usuario;
-		this.perfil = perfil;
+		setUsuario(usuario);
+		setPerfil(perfil);
 		this.dataExpiracao = dataExpiracao;
 	}
 
@@ -46,16 +44,41 @@ public class UsuarioPerfil {
 	}
 
 	public void setPerfil(Perfil perfil) {
+		perfil.setUsuarios(usuario);
 		this.perfil = perfil;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public UsuarioPerfilId getCompositeKey() {
 		return id;
 	}
+	
+	public UsuarioPerfilId getId() {
+		return id;
+	}
+
+	public void setId(UsuarioPerfilId id) {
+		this.id = id;
+	}
+
+	public LocalDate getDataExpiracao() {
+		return dataExpiracao;
+	}
+
+	public void setDataExpiracao(LocalDate dataExpiracao) {
+		this.dataExpiracao = dataExpiracao;
+	}
 
 	@Override
 	public String toString() {
-		return "UsuarioPerfil [id=" + id.toString() + ", usuario=" + usuario + ", perfil=" + perfil + ", dataExpiracao="
+		return "Usuario Perfil (Tabela Ligação) [idUsuarioPerfil=" + id + ", usuario=" + usuario.getLogin() + ", perfil=" + perfil.getNomePerfil() + ", dataExpiracao="
 				+ dataExpiracao + "]";
 	}
 

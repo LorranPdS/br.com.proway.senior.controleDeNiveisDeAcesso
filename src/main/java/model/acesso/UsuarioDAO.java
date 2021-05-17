@@ -121,44 +121,28 @@ public class UsuarioDAO implements ICrud<Usuario> {
 
 		criteria.select(root).where(builder.like(loginEx, login + "%"));
 		Query query = session.createQuery(criteria);
-		return (Usuario) query.getSingleResult();
+		return  (Usuario) query.getSingleResult();
 	}
 
 	public List<Perfil> listarPerfis(int idUsuario) {
 		Usuario usuario = consultarPorId(idUsuario);
 
-		Set<UsuarioPerfil> listaDeUsuarioPerfisDoUsuario = usuario.getPerfis();
-
-		System.out.println("Todas os UsuarioPerfil de um usuario: " + listaDeUsuarioPerfisDoUsuario.size());
-		for (UsuarioPerfil up : listaDeUsuarioPerfisDoUsuario) {
-			System.out.println("1");
+		List<Perfil> listaPerfil = new ArrayList<>();
+		for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
+			listaPerfil.add(usuarioPerfil.getPerfil());
 		}
-
-		ArrayList<Perfil> listaDePerfisDoUsuario = new ArrayList<Perfil>();
-		for (UsuarioPerfil usuarioperfil : listaDeUsuarioPerfisDoUsuario) {
-			System.out.println("PERFILLL :   " + usuarioperfil.getPerfil());
-			listaDePerfisDoUsuario.add(usuarioperfil.getPerfil());
-		}
-
-//		System.out.println("Todas os perfis do usuario: ");
-//		System.out.println(listaDePerfisDoUsuario.toString());
-		return listaDePerfisDoUsuario;
+		return listaPerfil;
 	}
 
 	public List<Permissao> listarPermissoes(int idUsuario) {
-
 		List<Perfil> listaDePerfisDoUsuario = listarPerfis(idUsuario);
+		
 		List<Permissao> todasAsPermissoesDoUsuario = new ArrayList<Permissao>();
-
 		for (Perfil perfil : listaDePerfisDoUsuario) {
-			Set<Permissao> permissoesDessePerfil = perfil.getPermissoes();
-			for (Permissao permissao : permissoesDessePerfil) {
-				todasAsPermissoesDoUsuario.add(permissao);
-			}
+			List<Permissao> permissoesDessePerfil = perfil.getPermissoes();
+			todasAsPermissoesDoUsuario.addAll(permissoesDessePerfil);
 		}
-//		System.out.println("Todas as permissões do usuario: ");
-//		System.out.println(todasAsPermissoesDoUsuario.toString());
-		return (List<Permissao>) todasAsPermissoesDoUsuario;
+		return todasAsPermissoesDoUsuario;
 	}
 
 	public void atribuirPerfilAUmUsuario(UsuarioPerfil usuarioPerfil) {

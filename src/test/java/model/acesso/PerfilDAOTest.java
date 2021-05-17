@@ -17,6 +17,41 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PerfilDAOTest {
 
+	@Ignore
+	public void testALimparBancoPerfil() {
+
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession().createSQLQuery(
+					"TRUNCATE TABLE perfil CASCADE; TRUNCATE TABLE permissao CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
+					.executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testAlimparPerfisDeTeste() {
+		String sql1 = "DELETE FROM perfil WHERE nome_perfil = 'Comprador';";
+		String sql2 = "DELETE FROM perfil WHERE nome_perfil = 'Vendedor';";
+		String sql3 = "DELETE FROM perfil WHERE nome_perfil = 'ADMIN';";
+		String sql4 = "TRUNCATE TABLE perfil_permissao CASCADE;";
+		String sql5 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao1';";
+		String sql6 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao2';";
+		String sql7 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilTestAtribuicao';";
+
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession().createSQLQuery(sql1 + sql2 + sql3 + sql4 + sql5 + sql6 + sql7).executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
+
 	@Test
 	public void testBSalvarPerfil() {
 		Perfil perfil = new Perfil("ADMIN");
@@ -26,7 +61,7 @@ public class PerfilDAOTest {
 	}
 
 	@Test
-	public void testCAtualizar() {
+	public void testCAtualizarUmPerfil() {
 		Perfil perfilOriginal = new Perfil("Secretaria");
 		PerfilDAO.getInstance().criar(perfilOriginal);
 		perfilOriginal.setNomePerfil("Comprador");
@@ -36,51 +71,48 @@ public class PerfilDAOTest {
 	}
 
 	@Test
-	public void testDDeletar() {
-		Perfil perfil = new Perfil("ADMIN");
+	public void testDDeletarUmPerfil() {
+		Perfil perfil = new Perfil("PerfilASerDeletado");
 		System.out.println(perfil.toString());
 		boolean resultado = PerfilDAO.getInstance().deletar(perfil);
 		assertTrue(resultado);
 	}
 
 	@Test
-	public void testEBuscarPorNome() {
+	public void testEBuscarPerfilPorNome() {
 		Perfil perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
 		Perfil perfilEncontrado = PerfilDAO.getInstance().consultarPorNome("Vendedor");
-		
+
 		System.out.println(perfilEncontrado.getNomePerfil());
 		assertEquals(perfil.getNomePerfil(), perfilEncontrado.getNomePerfil());
 	}
-	
+
 	@Test
-	public void testFListarTodos() {
+	public void testFListarTodosOsPerfis() {
 		List<Perfil> listaPerfis = PerfilDAO.getInstance().listar();
-		assertNotNull(listaPerfis);
+		assertEquals(3, listaPerfis.size());
 	}
-	
+
 	@Test
-	public void testGatribuirPermissaoAUmPerfil() {
+	public void testGAtribuirPermissaoAUmPerfilEListarPermissoes() {
 		Perfil perfil = new Perfil("PerfilTestAtribuicao");
 		PerfilDAO.getInstance().criar(perfil);
-		Permissao permissao = new Permissao("PermissaoTestAtribuicao");
-		PermissaoDAO.getInstance().criar(permissao);		
-		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);
+		Permissao permissao1 = new Permissao("PermissaoTesteDeAtribuicao1");
+		PermissaoDAO.getInstance().criar(permissao1);
+		Permissao permissao2 = new Permissao("PermissaoTesteDeAtribuicao2");
+		PermissaoDAO.getInstance().criar(permissao2);
+
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao1);
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao2);
+
+		List<Permissao> listaPermissao = PerfilDAO.getInstance().listarPermissoes(perfil.getIdPerfil());
+//		System.out.println("---- TAMANHO LISTA PERMISSOES DO PERFIL ---- " + listaPermissao.size());
+//		for (Permissao permissao : listaPermissao) {
+//			System.out.println("----Perfis: " + permissao.getNomePermissao());
+//		}
+
+		assertEquals(2, listaPermissao.size());
 	}
 
-	@Ignore
-	public void testALimparBancoPerfil() {
-
-		try {
-			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE perfil CASCADE; ALTER SEQUENCE gerador_id_perfil RESTART 1;")
-					.executeUpdate();
-			DBConnection.getSession().getTransaction().commit();
-		} catch (Exception e) {
-			DBConnection.getSession().getTransaction().rollback();
-			e.printStackTrace();
-		}
-	}
-	
 }
