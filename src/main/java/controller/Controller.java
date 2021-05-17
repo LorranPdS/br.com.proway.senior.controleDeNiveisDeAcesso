@@ -176,24 +176,21 @@ public class Controller {
 		PermissaoDAO.getInstance().criar(permissao);
 	}
 
-	public void alterarPermissao(Integer idPermissao, Permissao permissao) {
-
+	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
+		Permissao p = consultarPermissao(idPermissao);
+		p.setNomePermissao(nomePermissao);
+		PermissaoDAO.getInstance().alterar(p);
 	}
-
+			
 	public void deletarPermissao(Integer idPermissao) {
-
+		Permissao p = consultarPermissao(idPermissao);
+		PermissaoDAO.getInstance().deletar(p);
 	}
 
 	public Permissao consultarPermissao(Integer idPermissao) {
 		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
 	}
 
-	/**
-	 * Consultará no banco de dados a permissão
-	 * 
-	 * @param nomePermissao
-	 * @return Permissao
-	 */
 	public Permissao consultarPermissao(String nomePermissao) {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
