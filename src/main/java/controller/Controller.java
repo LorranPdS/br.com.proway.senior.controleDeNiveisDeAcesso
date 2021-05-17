@@ -181,7 +181,7 @@ public class Controller {
 		p.setNomePermissao(nomePermissao);
 		PermissaoDAO.getInstance().alterar(p);
 	}
-
+			
 	public void deletarPermissao(Integer idPermissao) {
 		Permissao p = consultarPermissao(idPermissao);
 		PermissaoDAO.getInstance().deletar(p);
