@@ -41,7 +41,7 @@ public class Permissao {
 	private String nomePermissao;
 
 	@ManyToMany(mappedBy = "permissoes")
-	private Set<Perfil> perfis = new HashSet<>();
+	private Set<Perfil> perfis = new HashSet<Perfil>();
 
 	public Permissao() {
 

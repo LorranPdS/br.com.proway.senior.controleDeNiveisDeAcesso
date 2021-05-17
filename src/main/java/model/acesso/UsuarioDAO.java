@@ -21,19 +21,14 @@ import model.interfaces.ICrud;
  * Classe que implementa a interface que se relaciona com o banco de dados de
  * usuarios.
  * 
- * @author Sprint 3
- * @author David Willian, david.oliveira@senior.com.br
- * @author Leonardo Pereira, leonardo.pereira@senior.com.br
- * @author Vitor Peres, vitor.peres@senior.com.br
+ * @author Sprint 5
+ * @author Simon gabrielsimon775@gmail.com
+ * @author Jonata Caetano jonatacaetano88@gmail.com
+ * @author Lucas Grijó rksgrijo@gmail.com
+ * @author Lorran lorransantospereira@yahoo.com.br
+ * @author Thiago thiagoluizbarbieri@gmail.com
  * 
- * @author Sprint 4
- * @author Elton Oliveira, elton.oliveira@senior.com.br
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Thiago Barbieri, thiago.barbieri@senior.com.br
- * @author Vitor Goncalves, vitor.goncalves@senior.com.br
- * @author Vitor Gehrke, vitor.gehrke@senior.com.br
  */
-
 public class UsuarioDAO implements ICrud<Usuario> {
 
 	private static UsuarioDAO instance;
@@ -49,11 +44,18 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 		return instance;
 	}
-	
+
 	public static void shutdown() {
 		instance = null;
 	}
 
+	/**
+	 * Método responsável por criar um objeto do tipo {@link Usuario} em um banco de
+	 * dados.
+	 * 
+	 * @param Usuario - usuario
+	 * @since Sprint 5
+	 */
 	public void criar(Usuario usuario) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -65,6 +67,14 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 	}
 
+	/**
+	 * Método responsável por alterar um objeto do tipo {@link Usuario} salvo em um
+	 * banco de dados.
+	 * 
+	 * @param Usuario - usuario
+	 * @return boolean
+	 * @since Sprint 5
+	 */
 	public boolean alterar(Usuario usuario) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -78,6 +88,15 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 	}
 
+	/**
+	 * Método responsável por deletar um objeto do tipo {@link Usuario} existente em
+	 * um banco de dados.
+	 * 
+	 * @param usuario
+	 * @throws Exception - Se o retorno do usuario for false
+	 * @return boolean
+	 * @since Sprint 5
+	 */
 	public boolean deletar(Usuario usuario) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -91,12 +110,20 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 	}
 
+	/**
+	 * Método responsável por consultar um objeto do tipo {@link Usuario} através de
+	 * seu Id existente em um banco de dados.
+	 * 
+	 * @param id
+	 * @return Usuario
+	 * @since Sprint 5
+	 */
 	public Usuario consultarPorId(int id) {
 		try {
 			Transaction tx = session.beginTransaction();
-			Usuario u = session.find(Usuario.class, id);
+			Usuario usuario = session.find(Usuario.class, id);
 			tx.commit();
-			return u;
+			return usuario;
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
@@ -104,6 +131,13 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 	}
 
+	/**
+	 * Método responsável por trazer uma lista de objetos do tipo {@link Usuario}
+	 * existente do banco de dados.
+	 * 
+	 * @return List<Usuario>
+	 * @since Sprint 5
+	 */
 	public List<Usuario> listar() {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
@@ -114,6 +148,14 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return selectedUsuarios;
 	}
 
+	/**
+	 * Método responsável por consultar um objeto do tipo {@link Usuario} através de
+	 * seu login existente do banco de dados.
+	 * 
+	 * @param login
+	 * @return Usuario
+	 * @since Sprint 5
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Usuario consultarPorLogin(String login) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -125,7 +167,7 @@ public class UsuarioDAO implements ICrud<Usuario> {
 
 		criteria.select(root).where(builder.like(loginEx, login + "%"));
 		Query query = session.createQuery(criteria);
-		return  (Usuario) query.getSingleResult();
+		return (Usuario) query.getSingleResult();
 	}
 
 	public List<Perfil> listarPerfis(int idUsuario) {
@@ -140,12 +182,12 @@ public class UsuarioDAO implements ICrud<Usuario> {
 
 	public List<Permissao> listarPermissoes(int idUsuario) {
 		List<Perfil> listaDePerfisDoUsuario = listarPerfis(idUsuario);
-		
+
 		List<Permissao> todasAsPermissoesDoUsuario = new ArrayList<Permissao>();
 		for (Perfil perfil : listaDePerfisDoUsuario) {
 			List<Permissao> permissoesDessePerfil = perfil.getPermissoes();
-			for(Permissao permissao : permissoesDessePerfil) {
-				if(!todasAsPermissoesDoUsuario.contains(permissao)) {
+			for (Permissao permissao : permissoesDessePerfil) {
+				if (!todasAsPermissoesDoUsuario.contains(permissao)) {
 					todasAsPermissoesDoUsuario.add(permissao);
 				}
 			}
