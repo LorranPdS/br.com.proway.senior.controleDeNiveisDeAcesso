@@ -102,30 +102,25 @@ public class Controller {
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPerfil);
 	}
 
-	// DAO - Perfil
-
 	public void criarPerfil(String nomePerfil) {
 		Perfil perfil = new Perfil(nomePerfil);
 		PerfilDAO.getInstance().criar(perfil);
-
 	}
 
 	public void alterarPerfil(Integer idPerfil, Perfil perfil) {
 
 	}
 
-	public void deletarPerfil(Integer idPerfil) {
-
+	public void deletarPerfil(Perfil perfil) {
+		PerfilDAO.getInstance().deletar(perfil);
 	}
 
 	public Perfil consultarPerfil(Integer idPerfil) {
 		try {
-
 			return PerfilDAO.getInstance().consultarPorId(idPerfil);
 		} catch (NullPointerException e) {
 			return null;
 		}
-
 	}
 
 	public Perfil consultarPerfil(String nome) {
@@ -138,7 +133,7 @@ public class Controller {
 	}
 
 	public ArrayList<Perfil> listarTodosOsPerfils() {
-		return null;
+		return (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
 	}
 
 	public void listarPermissoesDeUmPerfil(Perfil perfil) {

@@ -55,10 +55,6 @@ public class UsuarioPerfil {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	public UsuarioPerfilId getCompositeKey() {
-		return id;
-	}
 	
 	public UsuarioPerfilId getId() {
 		return id;
@@ -76,9 +72,11 @@ public class UsuarioPerfil {
 		this.dataExpiracao = dataExpiracao;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Usuario Perfil (Tabela Ligação) [idUsuarioPerfil=" + id + ", usuario=" + usuario.getLogin() + ", perfil=" + perfil.getNomePerfil() + ", dataExpiracao="
+		return "Usuario Perfil [idUsuarioPerfil=" + id + ", usuario=" + usuario.getLogin() + ", perfil=" + perfil.getNomePerfil() + ", dataExpiracao="
 				+ dataExpiracao + "]";
 	}
 

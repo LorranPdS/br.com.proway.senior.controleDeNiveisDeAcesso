@@ -14,10 +14,10 @@ public class UsuarioPerfilId implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "id_usuario")
-	private int idUsuario;
+	private Integer idUsuario;
 
 	@Column(name = "id_perfil")
-	private int idPerfil;
+	private Integer idPerfil;
 
 	public UsuarioPerfilId() {
 
@@ -28,19 +28,23 @@ public class UsuarioPerfilId implements Serializable {
 		this.idPerfil = idPerfil;
 	}
 
-	public int getIdUsuario() {
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Integer getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdUsuario(int idUsuario) {
+	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
-	public int getIdPerfil() {
+	public Integer getIdPerfil() {
 		return idPerfil;
 	}
 
-	public void setIdPerfil(int idPerfil) {
+	public void setIdPerfil(Integer idPerfil) {
 		this.idPerfil = idPerfil;
 	}
 
