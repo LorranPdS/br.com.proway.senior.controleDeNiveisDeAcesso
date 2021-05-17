@@ -106,8 +106,8 @@ public class Controller {
 		return UsuarioDAO.getInstance().listarPermissoes(idUsuario);
 	}
 
-	public List<Perfil> listarPerfisDeUmUsuario(Usuario usuario) {
-		return null;
+	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
+		return UsuarioDAO.getInstance().listarPerfis(idUsuario);
 	}
 
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExp) {
