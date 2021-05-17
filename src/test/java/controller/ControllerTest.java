@@ -1,6 +1,7 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -94,6 +95,26 @@ public class ControllerTest {
 	}
 	
 	@Test
+	public void testAlterarPerfil() {
+		String nomePerfil = "Engenharia";
+		Controller.getInstance().criarPerfil("Logistica");
+		int idPerfilLogistica = Controller.getInstance().consultarPerfil("Logistica").getIdPerfil();
+		Controller.getInstance().alterarPerfil(idPerfilLogistica, nomePerfil);
+		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(idPerfilLogistica);
+		assertEquals(nomePerfil, perfilEncontrado.getNomePerfil());
+		
+	}
+	
+	@Test
+	public void testAlterarPerfilNome() {
+		Perfil perfilAlterar = new Perfil("Motorista");
+		PerfilDAO.getInstance().criar(perfilAlterar);
+		perfilAlterar.setNomePerfil("Logistica");
+		PerfilDAO.getInstance().alterar(perfilAlterar);
+		Perfil perfilAlteradoEncontrado = PerfilDAO.getInstance().consultarPorNome(perfilAlterar.getNomePerfil());
+		assertNotEquals(perfilAlterar.getNomePerfil(), perfilAlteradoEncontrado.getNomePerfil());
+	}
+	
 	public void testBConsultarPerfilPorId() {
 		String  perfil = "ST";
 		Controller.getInstance().criarPerfil(perfil);
@@ -103,6 +124,7 @@ public class ControllerTest {
 		
 		
 	}
+
 
 	@Test
 	public void testBAtribuirPermissaoAUmPerfil() {
@@ -148,4 +170,6 @@ public class ControllerTest {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }
