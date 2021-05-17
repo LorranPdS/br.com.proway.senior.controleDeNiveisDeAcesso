@@ -46,6 +46,10 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		}
 		return instance;
 	}
+	
+	public static void shutdown() {
+		instance = null;
+	}
 
 	public void criar(Permissao object) {
 		try {

@@ -49,6 +49,10 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 		return instance;
 	}
+	
+	public static void shutdown() {
+		instance = null;
+	}
 
 	public void criar(Usuario usuario) {
 		try {
@@ -126,9 +130,9 @@ public class UsuarioDAO implements ICrud<Usuario> {
 
 	public List<Perfil> listarPerfis(int idUsuario) {
 		Usuario usuario = consultarPorId(idUsuario);
-
 		List<Perfil> listaPerfil = new ArrayList<>();
 		for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
+			System.out.println(usuarioPerfil.toString());
 			listaPerfil.add(usuarioPerfil.getPerfil());
 		}
 		return listaPerfil;
@@ -140,7 +144,11 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		List<Permissao> todasAsPermissoesDoUsuario = new ArrayList<Permissao>();
 		for (Perfil perfil : listaDePerfisDoUsuario) {
 			List<Permissao> permissoesDessePerfil = perfil.getPermissoes();
-			todasAsPermissoesDoUsuario.addAll(permissoesDessePerfil);
+			for(Permissao permissao : permissoesDessePerfil) {
+				if(!todasAsPermissoesDoUsuario.contains(permissao)) {
+					todasAsPermissoesDoUsuario.add(permissao);
+				}
+			}
 		}
 		return todasAsPermissoesDoUsuario;
 	}
