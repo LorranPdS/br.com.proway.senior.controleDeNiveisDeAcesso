@@ -17,17 +17,15 @@ import javax.persistence.Table;
  * Recebe os atributos necessarios para instanciar uma permissao, que sera
  * vinculada a um perfil.
  * 
- * @author Sprint 3
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Sarah Brito, sarah.brito@senior.com.br
- * 
- * @author Sprint 4
- * @author Elton Oliveira, elton.oliveira@senior.com.br
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Thiago Barbieri, thiago.barbieri@senior.com.br
- * @author Vitor Goncalves, vitor.goncalves@senior.com.br
- * @author Vitor Gehrke, vitor.gehrke@senior.com.br
- */
+ * @author Sprint 5
+ * @author Gabriel Simon, gabrielsimon775@gmail.com
+ * @author Jonata Caetano, jonatacaetano88@gmail.com
+ * @author Lucas Grijó, rksgrijo@gmail.com
+ * @author Lorran, lorransantospereira@yahoo.com.br
+ * @author Thiago, thiagoluizbarbieri@gmail.com
+
+**/
+
 @Entity
 @Table(name = "permissao")
 public class Permissao {
@@ -39,39 +37,81 @@ public class Permissao {
 
 	@Column(name = "nome_permissao")
 	private String nomePermissao;
+	
+	/** 
+	 * Entidade relacionameno entre as tabelas.
+	 * 
+	 * Perfil é uma lista de perfis.
+	 *
+	 * @since sprint5 
+	 * @author TODO
+	 *   
+	**/
 
 	@ManyToMany(mappedBy = "permissoes")
 	private Set<Perfil> perfis = new HashSet<>();
-
-	public Permissao() {
-
-	}
-
+	
+	public Permissao() {}
+	
+	/**
+	 * Construtor de permissão.
+	 * 
+	 * @param nomePermissao
+	 */
 	public Permissao(String nomePermissao) {
-		super();
 		this.nomePermissao = nomePermissao;
 	}
 
+	/**
+	 * Retorna o ID da permissão.
+	 * 
+	 * @return IdPermissao
+	 */
 	public Integer getIdPermissao() {
 		return idPermissao;
 	}
 
+	/**
+	 * Define um ID de permissão.
+	 * 
+	 * @param idPermissao
+	 */
 	public void setIdPermissao(Integer idPermissao) {
 		this.idPermissao = idPermissao;
 	}
 
+	/**
+	 * Retorna o nome da permissão.
+	 * 
+	 * @return nomePermissao
+	 */
 	public String getNomePermissao() {
 		return nomePermissao;
 	}
 
+	/**
+	 * Define o nome da permissão.
+	 *  
+	 * @param nomePermissao
+	 */
 	public void setNomePermissao(String nomePermissao) {
 		this.nomePermissao = nomePermissao;
 	}
 
+	/**
+	 * Retorna uma lista de perfis.
+	 * 
+	 * @return Set<Perfil>
+	 */
 	public Set<Perfil> getPerfis() {
 		return perfis;
 	}
 
+	/**
+	 * Define uma lista de perfis
+	 * 
+	 * @param perfis
+	 */
 	public void setPerfis(Set<Perfil> perfis) {
 		this.perfis = perfis;
 	}
