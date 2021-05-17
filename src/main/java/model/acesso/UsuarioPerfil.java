@@ -30,6 +30,13 @@ public class UsuarioPerfil {
 	private LocalDate dataExpiracao;
 
 	public UsuarioPerfil() {}
+	
+	public UsuarioPerfil(UsuarioPerfilId id, Usuario usuario, Perfil perfil) {
+		super();
+		this.id = id;
+		setUsuario(usuario);
+		setPerfil(perfil);
+	}
 
 	public UsuarioPerfil(UsuarioPerfilId id, Usuario usuario, Perfil perfil, LocalDate dataExpiracao) {
 		super();

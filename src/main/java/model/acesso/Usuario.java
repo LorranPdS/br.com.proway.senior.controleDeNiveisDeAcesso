@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import utils.HashSenha;
+import utils.ValidarDados;
 
 /**
  * Classe Usuario
@@ -64,7 +65,7 @@ public class Usuario {
 	}
 
 	public Usuario(String login, String senha) {
-		this.login = login;
+		setLogin(login);
 		this.hashSenha = HashSenha.criptografarSenha(login, senha);
 	}
 
@@ -81,7 +82,8 @@ public class Usuario {
 	}
 
 	public void setLogin(String login) {
-		this.login = login;
+		if(ValidarDados.validarEmail(login))
+			this.login = login;
 	}
 
 	public String getHashSenha() {
@@ -113,8 +115,6 @@ public class Usuario {
 	}
 
 	public void setPerfis(UsuarioPerfil usuarioPerfil) {
-		System.out.println("DEU SET DO USUARIOPERFIL: " + usuarioPerfil.toString());
-		System.out.println("No Usuario: " + this.getIdUsuario());
 		this.perfis.add(usuarioPerfil);
 	}
 
