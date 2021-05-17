@@ -61,7 +61,7 @@ public class PerfilDAOTest {
 	@Test
 	public void testDDeletarUmPerfil() {
 		Perfil perfil = new Perfil("PerfilASerDeletado");
-		System.out.println(perfil.toString());
+		PerfilDAO.getInstance().criar(perfil);
 		boolean resultado = PerfilDAO.getInstance().deletar(perfil);
 		assertTrue(resultado);
 	}

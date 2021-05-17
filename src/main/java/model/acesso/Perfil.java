@@ -53,7 +53,8 @@ public class Perfil {
 			@JoinColumn(name = "id_permissao") })
 	private List<Permissao> permissoes = new ArrayList<Permissao>();
 
-	public Perfil() {}
+	public Perfil() {
+	}
 
 	public Perfil(String nomePerfil) {
 		super();
@@ -85,13 +86,14 @@ public class Perfil {
 	}
 
 	public List<Permissao> getPermissoes() {
+		System.out.println("PERMISSSOES     " + permissoes.toString());
 		return permissoes;
 	}
 
 	public void setPermissoes(Permissao permissao) {
 		this.permissoes.add(permissao);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Perfil [idPerfil=" + idPerfil + ", nomePerfil=" + nomePerfil + ", usuarios=" + usuarios

@@ -9,6 +9,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import db.DBConnection;
 import model.interfaces.ICrud;
@@ -53,9 +54,9 @@ public class PermissaoDAO implements ICrud<Permissao> {
 
 	public void criar(Permissao object) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			session.save(object);
-			session.getTransaction().commit();
+			tx.commit();
 		} catch (Exception e) {
 			e.getStackTrace();
 			session.getTransaction().rollback();
@@ -64,9 +65,9 @@ public class PermissaoDAO implements ICrud<Permissao> {
 
 	public boolean alterar(Permissao object) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			session.update(object);
-			session.getTransaction().commit();
+			tx.commit();
 			return true;
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -77,9 +78,9 @@ public class PermissaoDAO implements ICrud<Permissao> {
 
 	public boolean deletar(Permissao object) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			session.delete(object);
-			session.getTransaction().commit();
+			tx.commit();
 			return true;
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -91,9 +92,9 @@ public class PermissaoDAO implements ICrud<Permissao> {
 
 	public Permissao consultarPorId(int id) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			Permissao u = session.find(Permissao.class, id);
-			session.getTransaction().commit();
+			tx.commit();
 			return u;
 		} catch (Exception e) {
 			session.getTransaction().rollback();

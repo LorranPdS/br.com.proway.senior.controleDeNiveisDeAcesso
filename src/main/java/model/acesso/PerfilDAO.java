@@ -9,6 +9,7 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import db.DBConnection;
 import model.interfaces.ICrud;
@@ -53,9 +54,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 
 	public void criar(Perfil perfil) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			session.save(perfil);
-			session.getTransaction().commit();
+			tx.commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
@@ -65,9 +66,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 
 	public boolean alterar(Perfil perfil) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			session.saveOrUpdate(perfil);
-			session.getTransaction().commit();
+			tx.commit();
 			return true;
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -78,9 +79,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 
 	public boolean deletar(Perfil perfil) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			session.delete(perfil);
-			session.getTransaction().commit();
+			tx.commit();
 			return true;
 
 		} catch (Exception e) {
@@ -92,8 +93,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 
 	public Perfil consultarPorId(int id) {
 		try {
-			session.beginTransaction();
+			Transaction tx = session.beginTransaction();
 			Perfil perfilEncontrado = session.find(Perfil.class, id);
+			tx.commit();
 			return perfilEncontrado;
 		} catch (Exception e) {
 			session.getTransaction().rollback();
