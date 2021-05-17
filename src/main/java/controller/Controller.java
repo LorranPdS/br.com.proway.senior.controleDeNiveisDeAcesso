@@ -72,8 +72,9 @@ public class Controller {
 		// UsuarioDAO.getInstance().deletar(id);
 	}
 
-	public void alterarUsuario(Integer idUsuario, Usuario usuario) {
-
+	public boolean alterarUsuario(Integer idUsuario, Usuario usuario) {
+		boolean usuarioAtualizado = UsuarioDAO.getInstance().alterar(usuario);
+		return usuarioAtualizado;
 	}
 
 	public Usuario consultarUsuario(Integer idUsuario) {
@@ -135,8 +136,11 @@ public class Controller {
 
 	}
 
-	public ArrayList<Perfil> listarTodosOsPerfils() {
-		return (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
+	public ArrayList<Perfil> listarTodosOsPerfis() {
+		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
+		ArrayList<Perfil> resultado = perfisEncontrados.isEmpty() ? null : perfisEncontrados;
+		return resultado;
+		
 	}
 
 	public void listarPermissoesDeUmPerfil(Perfil perfil) {
@@ -145,10 +149,10 @@ public class Controller {
 
 
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
-		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao.getIdPermissao());
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}
 
-	// DAO - Permissao
+	// DAO - Permissaos
 
 	public void criarPermissao(String nomePermissao) {
 		Permissao permissao = new Permissao(nomePermissao);
