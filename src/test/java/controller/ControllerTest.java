@@ -27,6 +27,12 @@ import model.acesso.UsuarioDAO;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
+	
+	@Test
+	public void testAcleanDB() {
+		DBConnection.truncateTablesAndRestartSequences();
+	}
+	
 	@Ignore
 	public void testEmail() throws Exception {
 		boolean resultadoEnvioEmail = Controller.getInstance()
@@ -71,7 +77,7 @@ public class ControllerTest {
 //	PermissaoDAO.getInstance().deletar(permissao);
 //	assertEquals(tamanhoAntesDeDeletar - 1, PermissaoDAO.getInstance().listar().size());
 	
-	@Test
+	@Ignore
 	public void testDeletarUsuario() {
 		String login="thiagoXitado@bol.com";
 		String senha="thiago123";
@@ -130,7 +136,7 @@ public class ControllerTest {
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
 	
-	@Test
+	@Ignore
 	public void testAlterarDadosUsuario() {
 		String loginUsuario = "roberto";
 		String senhaUsuario = "jaqueta";
@@ -157,43 +163,71 @@ public class ControllerTest {
 		Controller.getInstance().atribuirPermissaoAUmPerfil(permissao, perfil);
 	}
 
-	@Ignore
-	public void testCriarEConsultarPermissao() {
-		String permissao = "ADMIN";
-		Controller.getInstance().criarPermissao(permissao);
-		Permissao retornoPermissao = Controller.getInstance().consultarPermissao(permissao);
-		assertEquals(permissao, retornoPermissao.getNomePermissao());
+	@Test
+	public void testDCriarEConsultarPermissao() {
+		String nomeDaPermissao = "PermissaoDeTesteDeCriação";
+		Controller.getInstance().criarPermissao(nomeDaPermissao);
+		Permissao permissaoEncontradaPorNome = Controller.getInstance().consultarPermissao(nomeDaPermissao);
+		Permissao permissaoEncontradaPorId = Controller.getInstance().consultarPermissao(permissaoEncontradaPorNome.getIdPermissao());
+		assertEquals(nomeDaPermissao, permissaoEncontradaPorNome.getNomePermissao(), permissaoEncontradaPorId.getNomePermissao());
+		
 	}
 	
 	@Test
+	public void testEAlterarPermissao() {
+		String nomeDaPermissao = "PermissaoDeTesteDeAlteraçãoAntesDaAlteração";
+		Controller.getInstance().criarPermissao(nomeDaPermissao);
+		Permissao permissaoConsultada = Controller.getInstance().consultarPermissao(nomeDaPermissao);
+		String novoNomeDaPermissao = "PermissaoDeTesteDeAlteraçãoDepoisDaAlteração";
+		Controller.getInstance().alterarPermissao(permissaoConsultada.getIdPermissao(), novoNomeDaPermissao);
+		permissaoConsultada = Controller.getInstance().consultarPermissao(permissaoConsultada.getIdPermissao());
+		assertEquals(novoNomeDaPermissao, permissaoConsultada.getNomePermissao());
+	}
+
+	@Test
+	public void testFdeletarPermissao() {
+		int numeroDePermissoesAntesDoTeste = Controller.getInstance().listarTodasAsPermissoes().size();
+		String nomeDaPermissao = "PermissaoDeTesteDeDeleção";
+		Controller.getInstance().criarPermissao(nomeDaPermissao);
+		Permissao permissaoASerDeletada = Controller.getInstance().consultarPermissao(nomeDaPermissao);
+		Controller.getInstance().deletarPermissao(permissaoASerDeletada.getIdPermissao());
+		int numeroDePermissoesDepoisDoTeste = Controller.getInstance().listarTodasAsPermissoes().size();
+		assertEquals(numeroDePermissoesAntesDoTeste, numeroDePermissoesDepoisDoTeste);
+		
+	}
+
+	@Test
+	public void testGListarTodasAsPermissoes() {
+		int numeroDePermissoesNoBanco = 2;
+		assertEquals(numeroDePermissoesNoBanco, Controller.getInstance().listarTodasAsPermissoes().size());
+	}
+	
+	
+	
+	@Ignore
 	public void testListarTodosPerfisNull() {
 		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfis();
 		assertNull(listaPerfis);
 	}
 
-	@Test
+	@Ignore
 	public void testListarTodosPerfisNotNull() {
 		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfis();
 		assertNotNull(listaPerfis);
 	}
 	
-	@Test
+	@Ignore
 	public void testListarTodosUsuariosNull() {
 		ArrayList<Usuario> listaUsuarios = Controller.getInstance().listarTodosOsUsuarios();
 		assertNull(listaUsuarios);
 	}
 
-	@Test
+	@Ignore
 	public void testListarTodosUsuariosNotNull() {
 		ArrayList<Usuario> listaUsuarios = Controller.getInstance().listarTodosOsUsuarios();
 		assertNotNull(listaUsuarios);
 	}
 	
-	@Test
-	public void cleanDB() {
-		DBConnection.truncateTablesAndRestartSequences();
-	}
-
 	@Test
 	public void testLverificarEListarPermissaoDeUmPerfil() {
 		String nomePerfil = "PerfilDeTesteDeVerificaçãoDePermissão";
