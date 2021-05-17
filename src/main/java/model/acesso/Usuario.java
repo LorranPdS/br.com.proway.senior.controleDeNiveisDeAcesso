@@ -1,4 +1,4 @@
-package model.acesso;
+	package model.acesso;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class Usuario {
 	@Id
 	@Column(name = "id_usuario")
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_id_usuario")
-	private int idUsuario;
+	private Integer idUsuario;
 
 	@Column(name = "login")
 	private String login;
@@ -68,11 +68,11 @@ public class Usuario {
 		this.hashSenha = HashSenha.criptografarSenha(login, senha);
 	}
 
-	public int getIdUsuario() {
+	public Integer getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdUsuario(int idUsuario) {
+	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
@@ -113,6 +113,8 @@ public class Usuario {
 	}
 
 	public void setPerfis(UsuarioPerfil usuarioPerfil) {
+		System.out.println("DEU SET DO USUARIOPERFIL: " + usuarioPerfil.toString());
+		System.out.println("No Usuario: " + this.getIdUsuario());
 		this.perfis.add(usuarioPerfil);
 	}
 

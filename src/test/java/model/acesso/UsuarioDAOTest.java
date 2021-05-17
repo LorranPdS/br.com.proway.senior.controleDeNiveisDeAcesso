@@ -16,22 +16,8 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsuarioDAOTest {
 
-	@Ignore
-	public void testAlimparBanco() {
-		try {
-			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE usuario CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
-					.executeUpdate();
-			DBConnection.getSession().getTransaction().commit();
-		} catch (Exception e) {
-			DBConnection.getSession().getTransaction().rollback();
-			e.printStackTrace();
-		}
-	}
-
 	@Test
-	public void testAlimparUsuariosDeTeste() {
+	public void testXlimparUsuariosDeTeste() {
 		String sql1 = "DELETE FROM usuario WHERE login = 'Thiago@gmail.com';";
 		String sql2 = "DELETE FROM usuario WHERE login = 'Luiz@gmail.com';";
 		String sql3 = "DELETE FROM usuario WHERE login = 'Joao@gmail.com';";
@@ -98,27 +84,34 @@ public class UsuarioDAOTest {
 		UsuarioDAO.getInstance().criar(usuario);
 		Perfil perfil1 = new Perfil("PerfilAtribuido1");
 		PerfilDAO.getInstance().criar(perfil1);
-		Perfil perfil2 = new Perfil("PerfilAtribuido2");
-		PerfilDAO.getInstance().criar(perfil2);
 		LocalDate dateDeExpiracao = LocalDate.of(2021, 05, 13);
-		
-		int idUsuario = usuario.getIdUsuario();
-		System.out.println("OK");
+
+		Integer idUsuario = usuario.getIdUsuario();
 		UsuarioPerfilId PK1 = new UsuarioPerfilId(idUsuario, perfil1.getIdPerfil());
 		UsuarioPerfil UP1 = new UsuarioPerfil(PK1, usuario, perfil1, dateDeExpiracao);
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP1);
 
+		DBConnection.shutdown();
+
+		Perfil perfil2 = new Perfil("PerfilAtribuido2");
+		PerfilDAO.getInstance().criar(perfil2);
+		usuario = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com");
+		idUsuario = usuario.getIdUsuario();
 		UsuarioPerfilId PK2 = new UsuarioPerfilId(idUsuario, perfil2.getIdPerfil());
 		UsuarioPerfil UP2 = new UsuarioPerfil(PK2, usuario, perfil2, dateDeExpiracao);
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP2);
 
+		DBConnection.shutdown();
+
+		usuario = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com");
+		idUsuario = usuario.getIdUsuario();
 		List<Perfil> listaDePerfis = UsuarioDAO.getInstance().listarPerfis(idUsuario);
 		assertEquals(2, listaDePerfis.size());
 
 	}
 
 	@Test
-	public void testGListarPermissoesDeUmUsuario() {
+	public void testFListarPermissoesDeUmUsuario() {
 		Permissao p1 = new Permissao("Viver");
 		PermissaoDAO.getInstance().criar(p1);
 		Permissao p2 = new Permissao("Comer");
@@ -127,11 +120,10 @@ public class UsuarioDAOTest {
 		PermissaoDAO.getInstance().criar(p3);
 
 		Perfil perfil1 = PerfilDAO.getInstance().consultarPorNome("PerfilAtribuido1");
-		Perfil perfil2 = PerfilDAO.getInstance().consultarPorNome("PerfilAtribuido2");
-
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil1, p1);
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil1, p2);
 
+		Perfil perfil2 = PerfilDAO.getInstance().consultarPorNome("PerfilAtribuido2");
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, p1);
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, p3);
 
@@ -139,12 +131,13 @@ public class UsuarioDAOTest {
 
 		List<Permissao> listaPermissao = UsuarioDAO.getInstance().listarPermissoes(usuario.getIdUsuario());
 
-		System.out.println("---- TAMANHO LISTA PERMISSOES ---- " + listaPermissao.size());
-		for (Permissao permissao : listaPermissao) {
-			System.out.println("---- Permissoes: " + permissao.getNomePermissao());
-		}
+//		System.out.println("---- TAMANHO LISTA PERMISSOES ---- " + listaPermissao.size());
+//		for (Permissao permissao : listaPermissao) {
+//			System.out.println("---- Permissoes: " + permissao.getNomePermissao());
+//		}
 
-		assertEquals(listaPermissao, 4);
+		assertEquals(listaPermissao.size(), 3); // 4 permissões foram adicionadas. porém uma delas é duplicada, portanto
+												// o retorno é apenas 3.
 
 	}
 

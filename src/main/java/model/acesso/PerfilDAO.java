@@ -3,12 +3,10 @@ package model.acesso;
 import java.util.List;
 
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.SetJoin;
 
 import org.hibernate.Session;
 
@@ -47,6 +45,10 @@ public class PerfilDAO implements ICrud<Perfil> {
 			instance = new PerfilDAO(DBConnection.getSession());
 		}
 		return instance;
+	}
+	
+	public static void shutdown() {
+		instance = null;
 	}
 
 	public void criar(Perfil perfil) {
@@ -128,7 +130,6 @@ public class PerfilDAO implements ICrud<Perfil> {
 		return (Perfil) query.getSingleResult();
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Permissao> listarPermissoes(int idPerfil) {
 		Perfil p = consultarPorId(idPerfil);
 		return p.getPermissoes();

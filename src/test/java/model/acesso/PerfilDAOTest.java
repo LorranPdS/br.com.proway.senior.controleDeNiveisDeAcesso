@@ -1,11 +1,9 @@
 package model.acesso;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.Set;
 
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
@@ -18,22 +16,12 @@ import db.DBConnection;
 public class PerfilDAOTest {
 
 	@Ignore
-	public void testALimparBancoPerfil() {
-
-		try {
-			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession().createSQLQuery(
-					"TRUNCATE TABLE perfil CASCADE; TRUNCATE TABLE permissao CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
-					.executeUpdate();
-			DBConnection.getSession().getTransaction().commit();
-		} catch (Exception e) {
-			DBConnection.getSession().getTransaction().rollback();
-			e.printStackTrace();
-		}
+	public void testA() {
+		DBConnection.truncateTablesAndRestartSequences();
 	}
 
 	@Test
-	public void testAlimparPerfisDeTeste() {
+	public void testXlimparPerfisDeTeste() {		
 		String sql1 = "DELETE FROM perfil WHERE nome_perfil = 'Comprador';";
 		String sql2 = "DELETE FROM perfil WHERE nome_perfil = 'Vendedor';";
 		String sql3 = "DELETE FROM perfil WHERE nome_perfil = 'ADMIN';";
@@ -90,6 +78,7 @@ public class PerfilDAOTest {
 
 	@Test
 	public void testFListarTodosOsPerfis() {
+		DBConnection.shutdown();
 		List<Perfil> listaPerfis = PerfilDAO.getInstance().listar();
 		assertEquals(3, listaPerfis.size());
 	}
