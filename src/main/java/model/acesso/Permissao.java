@@ -78,8 +78,7 @@ public class Permissao {
 
 	@Override
 	public String toString() {
-		return "Permissao [idPermissao=" + idPermissao + ", nomePermissao=" + nomePermissao + ", perfis=" + perfis
-				+ "]";
+		return "Permissao [idPermissao=" + idPermissao + ", nomePermissao=" + nomePermissao + "]";
 	}
 
 	@Override
