@@ -25,6 +25,24 @@ public class PermissaoDAOTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testAlimparPermissoesDeTeste() {
+		String sql1 = "DELETE FROM permissao WHERE nome_permissao = 'Visualizar';";
+		String sql2 = "DELETE FROM permissao WHERE nome_permissao = 'Alterar';";
+		String sql3 = "DELETE FROM permissao WHERE nome_permissao = 'Remover';";
+		
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery(sql1 + sql2 + sql3)
+					.executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	public void testBcriarPermissao() {

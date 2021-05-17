@@ -1,9 +1,7 @@
 package model.acesso;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,7 +39,7 @@ public class Perfil {
 
 	@Id
 	@Column(name = "id_perfil")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "gerador_id_perfil")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_id_perfil")
 	private Integer idPerfil;
 
 	@Column(name = "nome_perfil")
@@ -90,10 +88,10 @@ public class Perfil {
 		return permissoes;
 	}
 
-	public void setPermissoes(List<Permissao> permissoes) {
-		this.permissoes = permissoes;
+	public void setPermissoes(Permissao permissao) {
+		this.permissoes.add(permissao);
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Perfil [idPerfil=" + idPerfil + ", nomePerfil=" + nomePerfil + ", usuarios=" + usuarios

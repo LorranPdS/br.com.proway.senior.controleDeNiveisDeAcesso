@@ -16,6 +16,46 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsuarioDAOTest {
 
+	@Ignore
+	public void testAlimparBanco() {
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery("TRUNCATE TABLE usuario CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
+					.executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void testAlimparUsuariosDeTeste() {
+		String sql1 = "DELETE FROM usuario WHERE login = 'Thiago@gmail.com';";
+		String sql2 = "DELETE FROM usuario WHERE login = 'Luiz@gmail.com';";
+		String sql3 = "DELETE FROM usuario WHERE login = 'Joao@gmail.com';";
+		String sql4 = "TRUNCATE TABLE perfil_permissao CASCADE;";
+		String sql5 = "TRUNCATE TABLE usuario_perfil CASCADE;";
+		String sql6 = "DELETE FROM permissao WHERE nome_permissao = 'Viver';";
+		String sql7 = "DELETE FROM permissao WHERE nome_permissao = 'Comer';";
+		String sql8 = "DELETE FROM permissao WHERE nome_permissao = 'Morrer';";
+		String sql9 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuido1';";
+		String sql10 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuido2';";
+		String sql11 = "DELETE FROM usuario WHERE login = 'UsuarioTesteDeAtribuicaoDePerfil@gmail.com';";
+
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery(sql1 + sql2 + sql3 + sql4 + sql5 + sql6 + sql7 + sql8 + sql9 + sql10 + sql11)
+					.executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
+
 	@Test
 	public void testACriarUsuarioEConsultarPorId() {
 		Usuario usuarioDeTeste = new Usuario("Thiago@gmail.com", "senha1");
@@ -53,50 +93,59 @@ public class UsuarioDAOTest {
 	}
 
 	@Test
-	public void testEAtribuirPerfilAUmUsuario() {
-		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(2);
-		Perfil perfil = PerfilDAO.getInstance().consultarPorId(3);
+	public void testEAtribuirPerfilAUmUsuarioEListarPerfis() {
+		Usuario usuario = new Usuario("UsuarioTesteDeAtribuicaoDePerfil@gmail.com", "senha5");
+		UsuarioDAO.getInstance().criar(usuario);
+		Perfil perfil1 = new Perfil("PerfilAtribuido1");
+		PerfilDAO.getInstance().criar(perfil1);
+		Perfil perfil2 = new Perfil("PerfilAtribuido2");
+		PerfilDAO.getInstance().criar(perfil2);
 		LocalDate dateDeExpiracao = LocalDate.of(2021, 05, 13);
+		
+		int idUsuario = usuario.getIdUsuario();
+		System.out.println("OK");
+		UsuarioPerfilId PK1 = new UsuarioPerfilId(idUsuario, perfil1.getIdPerfil());
+		UsuarioPerfil UP1 = new UsuarioPerfil(PK1, usuario, perfil1, dateDeExpiracao);
+		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP1);
 
-		UsuarioPerfilId userPerfilId = new UsuarioPerfilId(usuario.getIdUsuario(), perfil.getIdPerfil());
-		UsuarioPerfil usuarioPer = new UsuarioPerfil(userPerfilId, usuario, perfil, dateDeExpiracao);
+		UsuarioPerfilId PK2 = new UsuarioPerfilId(idUsuario, perfil2.getIdPerfil());
+		UsuarioPerfil UP2 = new UsuarioPerfil(PK2, usuario, perfil2, dateDeExpiracao);
+		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP2);
 
-		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPer);
+		List<Perfil> listaDePerfis = UsuarioDAO.getInstance().listarPerfis(idUsuario);
+		assertEquals(2, listaDePerfis.size());
+
 	}
 
 	@Test
 	public void testGListarPermissoesDeUmUsuario() {
-		List<Permissao> listaPermissao = UsuarioDAO.getInstance().listarPermissoes(2);
-		
+		Permissao p1 = new Permissao("Viver");
+		PermissaoDAO.getInstance().criar(p1);
+		Permissao p2 = new Permissao("Comer");
+		PermissaoDAO.getInstance().criar(p2);
+		Permissao p3 = new Permissao("Morrer");
+		PermissaoDAO.getInstance().criar(p3);
+
+		Perfil perfil1 = PerfilDAO.getInstance().consultarPorNome("PerfilAtribuido1");
+		Perfil perfil2 = PerfilDAO.getInstance().consultarPorNome("PerfilAtribuido2");
+
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil1, p1);
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil1, p2);
+
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, p1);
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, p3);
+
+		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com");
+
+		List<Permissao> listaPermissao = UsuarioDAO.getInstance().listarPermissoes(usuario.getIdUsuario());
+
 		System.out.println("---- TAMANHO LISTA PERMISSOES ---- " + listaPermissao.size());
 		for (Permissao permissao : listaPermissao) {
-			System.out.println("---- Permissoes: "+permissao.getNomePermissao());
+			System.out.println("---- Permissoes: " + permissao.getNomePermissao());
 		}
 
-	}
+		assertEquals(listaPermissao, 4);
 
-	@Test
-	public void testFListar() {
-		List<Perfil> listaPerfil = UsuarioDAO.getInstance().listarPerfis(2);
-
-		System.out.println("---- TAMANHO LISTA PERFIS ---- " + listaPerfil.size());
-		for (Perfil perfil : listaPerfil) {
-			System.out.println("---- Perfis: "+perfil.getNomePerfil());
-		}
-	}
-
-	@Ignore
-	public void testAlimparBanco() {
-		try {
-			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE usuario CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
-					.executeUpdate();
-			DBConnection.getSession().getTransaction().commit();
-		} catch (Exception e) {
-			DBConnection.getSession().getTransaction().rollback();
-			e.printStackTrace();
-		}
 	}
 
 }

@@ -135,11 +135,11 @@ public class PerfilDAO implements ICrud<Perfil> {
 		return p.getPermissoes();
 	}
 
-	public void atribuirPermissaoAUmPerfil(Integer idPermissao, Perfil perfil) {
-		Permissao permissao = PermissaoDAO.getInstance().consultarPorId(idPermissao);
-		System.out.println(permissao.getNomePermissao());
-		perfil.getPermissoes().add(permissao);
-		System.out.println(perfil.getNomePerfil());
+	public void atribuirPermissaoAUmPerfil(Perfil perfil, Permissao permissao) {
+		System.out.println("PERMISSAO " + permissao.getIdPermissao());
+		System.out.println("NO PERFIL  " + perfil.getIdPerfil());
+		//Permissao permissao = PermissaoDAO.getInstance().consultarPorId(idPermissao);
+		perfil.setPermissoes(permissao);
 		alterar(perfil);
 	}
 
