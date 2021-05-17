@@ -84,9 +84,11 @@ public class Controller {
 		UsuarioDAO.getInstance().deletar(usuario);
 	}
 
-	public boolean alterarUsuario(Integer idUsuario, Usuario usuario) {
-		boolean usuarioAtualizado = UsuarioDAO.getInstance().alterar(usuario);
-		return usuarioAtualizado;
+	public void alterarUsuario(Integer idUsuario, String login, String senha) {
+		Usuario u = consultarUsuario(idUsuario);
+		u.setLogin(login);
+		u.setHashSenha(HashSenha.criptografarSenha(login, senha));
+		UsuarioDAO.getInstance().alterar(u);
 	}
 
 	public Usuario consultarUsuario(Integer idUsuario) {
@@ -133,8 +135,9 @@ public class Controller {
 		PerfilDAO.getInstance().alterar(perfil);
 	}
 
-	public void deletarPerfil(Perfil perfil) {
-		PerfilDAO.getInstance().deletar(perfil);
+	public void deletarPerfil(Integer idPerfil) {
+		Perfil p = PerfilDAO.getInstance().consultarPorId(idPerfil);
+		PerfilDAO.getInstance().deletar(p);
 	}
 
 	public Perfil consultarPerfil(Integer idPerfil) {
