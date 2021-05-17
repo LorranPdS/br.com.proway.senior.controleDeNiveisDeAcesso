@@ -1,6 +1,7 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -17,8 +18,6 @@ import model.acesso.Permissao;
 import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
-import model.acesso.UsuarioPerfil;
-import model.acesso.UsuarioPerfilId;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
@@ -75,6 +74,28 @@ public class ControllerTest {
 		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(perfil);
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
+	
+	@Test
+	public void testAlterarPerfil() {
+		String nomePerfil = "Engenharia";
+		Controller.getInstance().criarPerfil("Logistica");
+		int idPerfilLogistica = Controller.getInstance().consultarPerfil("Logistica").getIdPerfil();
+		Controller.getInstance().alterarPerfil(idPerfilLogistica, nomePerfil);
+		Perfil perfilEncontrado = Controller.getInstance().consultarPerfil(idPerfilLogistica);
+		assertEquals(nomePerfil, perfilEncontrado.getNomePerfil());
+		
+	}
+	
+	@Test
+	public void testAlterarPerfilNome() {
+		Perfil perfilAlterar = new Perfil("Motorista");
+		PerfilDAO.getInstance().criar(perfilAlterar);
+		perfilAlterar.setNomePerfil("Logistica");
+		PerfilDAO.getInstance().alterar(perfilAlterar);
+		Perfil perfilAlteradoEncontrado = PerfilDAO.getInstance().consultarPorNome(perfilAlterar.getNomePerfil());
+		assertNotEquals(perfilAlterar.getNomePerfil(), perfilAlteradoEncontrado.getNomePerfil());
+	}
+	
 
 	@Test
 	public void testBAtribuirPermissaoAUmPerfil() {
@@ -116,4 +137,6 @@ public class ControllerTest {
 			e.printStackTrace();
 		}
 	}
+	
+	
 }

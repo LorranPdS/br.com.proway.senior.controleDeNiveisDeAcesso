@@ -110,8 +110,11 @@ public class Controller {
 
 	}
 
-	public void alterarPerfil(Integer idPerfil, Perfil perfil) {
-
+	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
+		Perfil perfil = new Perfil();
+		perfil.setIdPerfil(idPerfil);
+		perfil.setNomePerfil(nomePerfil);
+		PerfilDAO.getInstance().alterar(perfil);
 	}
 
 	public void deletarPerfil(Integer idPerfil) {
@@ -119,7 +122,7 @@ public class Controller {
 	}
 
 	public Perfil consultarPerfil(Integer idPerfil) {
-		return null;
+		return PerfilDAO.getInstance().consultarPorId(idPerfil);
 	}
 
 	public Perfil consultarPerfil(String nome) {
@@ -134,7 +137,7 @@ public class Controller {
 
 	}
 
-	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
+	public void atribuirPermissaoAUmPerfil(Perfil perfil,Permissao permissao) {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);	
 	}		
 

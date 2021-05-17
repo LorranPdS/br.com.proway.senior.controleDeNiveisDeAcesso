@@ -92,7 +92,6 @@ public class PerfilDAO implements ICrud<Perfil> {
 		try {
 			session.beginTransaction();
 			Perfil perfilEncontrado = session.find(Perfil.class, id);
-			session.getTransaction().commit();
 			return perfilEncontrado;
 		} catch (Exception e) {
 			session.getTransaction().rollback();
