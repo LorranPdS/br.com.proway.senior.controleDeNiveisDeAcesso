@@ -78,4 +78,9 @@ public class PermissaoDAOTest {
 		PermissaoDAO.getInstance().deletar(permissao);
 		assertEquals(tamanhoAntesDeDeletar - 1, PermissaoDAO.getInstance().listar().size());
 	}
+	
+	@Test
+	public void testVerificarPermissao() {
+		
+	}
 }

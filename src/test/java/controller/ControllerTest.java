@@ -1,10 +1,13 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -17,8 +20,6 @@ import model.acesso.Permissao;
 import model.acesso.PermissaoDAO;
 import model.acesso.Usuario;
 import model.acesso.UsuarioDAO;
-import model.acesso.UsuarioPerfil;
-import model.acesso.UsuarioPerfilId;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
@@ -36,7 +37,7 @@ public class ControllerTest {
 		boolean logar = Controller.getInstance().logar(login, senha);
 		System.out.println(logar);
 	}
-
+	
 	@Test
 	public void testVerificarPermissaoUsuario() {
 		fail("Not yet implemented");
@@ -45,6 +46,19 @@ public class ControllerTest {
 	@Test
 	public void testVerificarPermissaoPerfil() {
 		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testDeletarPerfil() {
+		String novoPerfil = "GERENCIA";
+		Controller.getInstance().criarPerfil(novoPerfil);
+		Perfil perfilCadastrado = Controller.getInstance().consultarPerfil(novoPerfil);
+		assertEquals(novoPerfil, perfilCadastrado.getNomePerfil());
+		
+		Controller.getInstance().deletarPerfil(perfilCadastrado);
+		
+		perfilCadastrado = Controller.getInstance().consultarPerfil(perfilCadastrado.getIdPerfil());
+		assertNull(perfilCadastrado);
 	}
 
 	@Test
@@ -65,7 +79,6 @@ public class ControllerTest {
 		LocalDate data = LocalDate.of(2021, 02, 04);
 
 		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil, data);
-		// TODO Fazer o teste
 	}
 
 	@Test
@@ -85,8 +98,6 @@ public class ControllerTest {
 		Perfil perfil = PerfilDAO.getInstance().consultarPorNome("perfil Teste");
 		Permissao permissao = PermissaoDAO.getInstance().consultarPorNome("permissao1");
 		Controller.getInstance().atribuirPermissaoAUmPerfil(permissao, perfil);
-
-		// TODO Fazer o teste
 	}
 
 	@Test
@@ -95,6 +106,12 @@ public class ControllerTest {
 		Controller.getInstance().criarPermissao(permissao);
 		Permissao retornoPermissao = Controller.getInstance().consultarPermissao(permissao);
 		assertEquals(permissao, retornoPermissao.getNomePermissao());
+	}
+	
+	@Test
+	public void testListarTodosPerfis() {
+		ArrayList<Perfil> listaPerfis = Controller.getInstance().listarTodosOsPerfils();
+		assertNotNull(listaPerfis);
 	}
 
 	@Test
