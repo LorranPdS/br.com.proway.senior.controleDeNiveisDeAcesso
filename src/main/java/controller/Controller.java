@@ -119,11 +119,22 @@ public class Controller {
 	}
 
 	public Perfil consultarPerfil(Integer idPerfil) {
-		return null;
+		try {
+
+			return PerfilDAO.getInstance().consultarPorId(idPerfil);
+		} catch (NullPointerException e) {
+			return null;
+		}
+
 	}
 
 	public Perfil consultarPerfil(String nome) {
-	  return PerfilDAO.getInstance().consultarPorNome(nome);
+		try {
+			return PerfilDAO.getInstance().consultarPorNome(nome);
+		} catch (NullPointerException e) {
+			return null;
+		}
+
 	}
 
 	public ArrayList<Perfil> listarTodosOsPerfils() {
@@ -135,8 +146,8 @@ public class Controller {
 	}
 
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
-		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);	
-	}		
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil);
+	}
 
 	// DAO - Permissao
 
@@ -178,11 +189,10 @@ public class Controller {
 	/**
 	 * Envia um e-mail
 	 * 
-	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a
-	 * confirmacao.
+	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a confirmacao.
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
-	 * @param codigoGerado Codigo aleatorio gerado pelo sistema
+	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
 	 * @throws Exception
 	 */
 	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {

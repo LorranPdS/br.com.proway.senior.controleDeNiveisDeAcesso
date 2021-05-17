@@ -75,6 +75,17 @@ public class ControllerTest {
 		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(perfil);
 		assertEquals(perfil, perfilEncontrado.getNomePerfil());
 	}
+	
+	@Test
+	public void testBConsultarPerfilPorId() {
+		String  perfil = "ST";
+		Controller.getInstance().criarPerfil(perfil);
+		int idPerfil = PerfilDAO.getInstance().consultarPorNome(perfil).getIdPerfil();
+		Perfil perfilEncontrado =  Controller.getInstance().consultarPerfil(idPerfil);
+		assertEquals(perfil, perfilEncontrado.getNomePerfil());
+		
+		
+	}
 
 	@Test
 	public void testBAtribuirPermissaoAUmPerfil() {
@@ -102,7 +113,7 @@ public class ControllerTest {
 		try {
 			DBConnection.getSession().beginTransaction();
 			DBConnection.getSession()
-					.createSQLQuery("TRUNCATE TABLE usuario,perfil CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
+					.createSQLQuery("TRUNCATE TABLE usuario CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;")
 					.executeUpdate();
 			DBConnection.getSession()
 					.createSQLQuery("TRUNCATE TABLE perfil CASCADE; ALTER SEQUENCE gerador_id_perfil RESTART 1;")
