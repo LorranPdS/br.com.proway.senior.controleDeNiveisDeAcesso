@@ -22,16 +22,12 @@ import javax.persistence.Table;
  * Define os atributos necessarios para instanciar um perfil, o que e
  * constitui�do por permissoes.
  * 
- * @author Sprint 3
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Sarah Brito, sarah.brito@senior.com.br
- * 
- * @author Sprint 4
- * @author Elton Oliveira, elton.oliveira@senior.com.br
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Thiago Barbieri, thiago.barbieri@senior.com.br
- * @author Vitor Goncalves, vitor.goncalves@senior.com.br
- * @author Vitor Gehrke, vitor.gehrke@senior.com.br
+ * @author Simon gabrielsimon775@gmail.com
+ * @author Jonata Caetano jonatacaetano88@gmail.com
+ * @author Lucas Grijó rksgrijo@gmail.com
+ * @author Lorran lorransantospereira@yahoo.com.br
+ * @author Thiago thiagoluizbarbieri@gmail.com
+ * @since Sprint 4&5uthor Vitor Gehrke, vitor.gehrke@senior.com.br
  */
 @Entity
 @Table(name = "perfil")
