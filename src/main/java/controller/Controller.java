@@ -336,6 +336,16 @@ public class Controller {
 
 	}
 
+	/**
+	 * Lista todas as {@link Permissao} de um {@link Perfil}.
+	 * 
+	 * O método irá pesquisar todas as {@link Permissao} que o {@link Perfil} possui fazendo uma busca
+	 * pelo idPerfil, o qual será enviado ao {@link PerfilDAO}. O retorno será todas as {@link Permissao}
+	 * que um {@link Perfil} possui.
+	 * 
+	 * @param idPerfil
+	 * @return List<Permissao>
+	 */
 	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
 		return PerfilDAO.getInstance().listarPermissoes(idPerfil);
 	}
@@ -344,7 +354,7 @@ public class Controller {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}
 
-	// DAO - Permissaos
+	// DAO - Permissões
 
 	public void criarPermissao(String nomePermissao) {
 		Permissao permissao = new Permissao(nomePermissao);
@@ -357,6 +367,15 @@ public class Controller {
 		PermissaoDAO.getInstance().alterar(p);
 	}
 
+	/**
+	 * Remoção de uma {@link Permissao} pelo id.
+	 * 
+	 * Responsável por consultar uma {@link Permissao} pelo seu id no banco de dados, retornando o objeto
+	 * com os dados de uma {@link Permissao} preenchidos e, posteriormente, enviando ao {@link PermissaoDAO}
+	 * para ser removido do banco de dados.
+	 * 
+	 * @param idPermissao Integer
+	 */
 	public void deletarPermissao(Integer idPermissao) {
 		Permissao p = consultarPermissao(idPermissao);
 		PermissaoDAO.getInstance().deletar(p);
@@ -370,6 +389,14 @@ public class Controller {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
 
+	/**
+	 * Lista todas as {@link Permissao}.
+	 * 
+	 * Será feita uma consulta de todas os {@link Permissao} registrados no banco de dados. Caso haja 
+	 * {@link Permissao} registradas no banco de dados, eles serão retornados.
+	 * 
+	 * @return List<Permissao>
+	 */
 	public List<Permissao> listarTodasAsPermissoes() {
 		return PermissaoDAO.getInstance().listar();
 	}
