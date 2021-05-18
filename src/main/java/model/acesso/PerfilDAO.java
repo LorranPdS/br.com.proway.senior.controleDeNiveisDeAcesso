@@ -22,7 +22,7 @@ import model.interfaces.ICrud;
  * 
  * @author Simon gabrielsimon775@gmail.com
  * @author Jonata Caetano jonatacaetano88@gmail.com
- * @author Lucas Grijó rksgrijo@gmail.com
+ * @author Lucas Grijo rksgrijo@gmail.com
  * @author Lorran lorransantospereira@yahoo.com.br
  * @author Thiago thiagoluizbarbieri@gmail.com
  * @since Sprint 4&5

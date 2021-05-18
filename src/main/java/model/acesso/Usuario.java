@@ -29,7 +29,6 @@ import utils.ValidarDados;
  * @author Thiago thiagoluizbarbieri@gmail.com
  * @since Sprint 4&5
  */
-
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -48,16 +47,26 @@ public class Usuario {
 	@Column(name = "ultima_alteracao_senha")
 	private LocalDate ultimaAlteracaoSenha;
 
+	/**
+	 * Codigo de verificacao de duas etapas.
+	 */
 	@Column(name = "ultimo_codigo_2fa")
 	private Integer ultimoCodigo2FA;
 
 	@OneToMany(targetEntity = UsuarioPerfil.class, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "usuario")
 	private List<UsuarioPerfil> perfis = new ArrayList<>();
 
-	public Usuario() {
+	public Usuario() {}
 
-	}
-
+	/**
+	 * Cria um novo Usuario.
+	 * 
+	 * O Usuario e criado a partir de um Login e Senha, e 
+	 * a senha é criptografada.
+	 * 
+	 * @param login
+	 * @param senha
+	 */
 	public Usuario(String login, String senha) {
 		setLogin(login);
 		this.hashSenha = HashSenha.criptografarSenha(login, senha);
@@ -75,6 +84,13 @@ public class Usuario {
 		return login;
 	}
 
+	/**
+	 * Define o Login do Usuario.
+	 * 
+	 * Verifica se a String tem o '@'.
+	 * 
+	 * @param login
+	 */
 	public void setLogin(String login) {
 		if(ValidarDados.validarEmail(login))
 			this.login = login;
@@ -96,10 +112,19 @@ public class Usuario {
 		this.ultimaAlteracaoSenha = ultimaAlteracaoSenha;
 	}
 
+	/**
+	 * Retorna o ultimo codigo de verificacao de duas etapas.
+	 * 
+	 * @return ultimoCodigo2FA
+	 */
 	public Integer getUltimoCodigo2FA() {
 		return ultimoCodigo2FA;
 	}
-
+	
+	/**
+	 * Define o ultimo valor do codigo de verificacao de duas etapas.
+	 * @param ultimoCodigo2FA
+	 */
 	public void setUltimoCodigo2FA(Integer ultimoCodigo2FA) {
 		this.ultimoCodigo2FA = ultimoCodigo2FA;
 	}
