@@ -248,7 +248,16 @@ public class Controller {
 	// ROTINAS AUTOMATICAS
 
 	public void expirarTodasAsPermissoesDoSistema() {
-
+		List<Usuario> listaUsuario = UsuarioDAO.getInstance().listar();
+		for ( Usuario usuario : listaUsuario) {
+			UsuarioDAO.getInstance().consultarPorId(usuario.getIdUsuario());
+			for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
+				if (usuarioPerfil.getDataExpiracao().isBefore(LocalDate.now())) {
+					UsuarioDAO.getInstance().removerPerfilDeUmUsuario(usuarioPerfil.getPerfil().getIdPerfil(), 
+							usuarioPerfil.getUsuario().getIdUsuario());
+				}
+			}
+		}
 	}
 
 	public void expirarTodasAsSenhaDoSistema() {

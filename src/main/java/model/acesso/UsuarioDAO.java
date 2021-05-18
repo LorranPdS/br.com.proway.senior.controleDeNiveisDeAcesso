@@ -163,4 +163,17 @@ public class UsuarioDAO implements ICrud<Usuario> {
 			e.printStackTrace();
 		}
 	}
+	
+	public void removerPerfilDeUmUsuario(int idPerfil, int idUsuario) {
+		String sql1 = "delete from usuario_perfil where id_perfil = '"+idPerfil+"' and id_usuario= '"+idUsuario+"';";
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery(sql1).executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
 }

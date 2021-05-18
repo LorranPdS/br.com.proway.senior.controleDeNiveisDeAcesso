@@ -250,6 +250,10 @@ public class ControllerTest {
 		assertFalse(Controller.getInstance().verificarPermissao(perfil, permissao3));
 	}
 
+	public void testNRemoverPerfisExpirados() {
+		Controller.getInstance().expirarTodasAsPermissoesDoSistema();
+	}
+	
 	@Ignore
 	public void testXlimparBanco() {
 		try {
