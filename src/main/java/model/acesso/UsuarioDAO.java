@@ -167,6 +167,20 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 	}
 	
+
+	public void removerPerfilDeUmUsuario(int idPerfil, int idUsuario) {
+		String sql1 = "delete from usuario_perfil where id_perfil = '"+idPerfil+"' and id_usuario= '"+idUsuario+"';";
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery(sql1).executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+    }
+  }
+  
 	public Usuario verificarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
@@ -183,6 +197,7 @@ public class UsuarioDAO implements ICrud<Usuario> {
 			return (Usuario) query.getSingleResult();
 		} catch (Exception e) {
 			return null;
+
 		}
 	}
 }
