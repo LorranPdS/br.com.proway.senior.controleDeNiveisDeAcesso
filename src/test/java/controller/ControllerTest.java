@@ -2,8 +2,10 @@ package controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -34,9 +36,12 @@ public class ControllerTest {
 		String sqlPermissao2 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeAlteraçãoDepoisDaAlteração';";
 		String sqlPerfil1 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeCriação';";
 		String sqlPerfil2 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeAlteraçãoDepoisDaAlteração';";
+		String sqlPerfil3 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuicaoTestePrimeiro';";
+		String sqlPerfil4 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuicaoTesteSegundo';";
 		String sqlUsuario1 = "DELETE FROM usuario WHERE login = 'jonata@gmail.com';";
 		String sqlUsuario2 = "DELETE FROM usuario WHERE login = 'UsuarioDeTesteDepoisDaAlteracao@gmail.com';";
 		String sqlLogin1 = "DELETE FROM usuario WHERE login = 'Grijo@gmail.com';";
+		String sqlLogin2 = "DELETE FROM usuario WHERE login = 'TesteAtribuicao@gmail.com';";
 		String sqlAtribuicoes1 = "TRUNCATE TABLE perfil_permissao CASCADE;";
 		String sqlAtribuicoes2 = "TRUNCATE TABLE usuario_perfil CASCADE;";
 		String sqlAtribuicoes3 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao1';";
@@ -48,8 +53,8 @@ public class ControllerTest {
 		try {
 			DBConnection.getSession().beginTransaction();
 			DBConnection.getSession()
-					.createSQLQuery(sqlPermissao1 + sqlPermissao2 + sqlPerfil1 + sqlPerfil2 + sqlUsuario1 + sqlUsuario2
-							+ sqlLogin1 + sqlAtribuicoes1 + sqlAtribuicoes2 + sqlAtribuicoes3 + sqlAtribuicoes4
+					.createSQLQuery(sqlPermissao1 + sqlPermissao2 + sqlPerfil1 + sqlPerfil2 + sqlPerfil3 + sqlPerfil4 + sqlUsuario1 + sqlUsuario2
+							+ sqlLogin1 + sqlLogin2+ sqlAtribuicoes1 + sqlAtribuicoes2 + sqlAtribuicoes3 + sqlAtribuicoes4
 							+ sqlAtribuicoes5 + sqlAtribuicoes6 + sqlAtribuicoes7)
 					.executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
@@ -187,7 +192,7 @@ public class ControllerTest {
 	@Test
 	public void testNEnviarEConfirmarEmailDeConfirmacaoDeLogin() throws Exception {
 		
-		String destinatario = "EmailFicticio@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
+		String destinatario = "thiagoluizbarbieri@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
 		String senha = "123";
 		Controller.getInstance().criarUsuario(destinatario, senha);
 		
@@ -279,11 +284,38 @@ public class ControllerTest {
 		Permissao permissao2 = Controller.getInstance().consultarPermissao(nomePermissao2);
 		Permissao permissao3 = Controller.getInstance().consultarPermissao(nomePermissao3);
 
-		assertTrue(Controller.getInstance().verificarPermissao(perfil, permissao2));
-		assertFalse(Controller.getInstance().verificarPermissao(perfil, permissao3));
+		usuario = Controller.getInstance().consultarUsuario(loginUsuario);
+		
+		assertTrue(Controller.getInstance().verificarPermissao(usuario, permissao2));
+		assertFalse(Controller.getInstance().verificarPermissao(usuario, permissao3));
 	}
 
-	public void testNRemoverPerfisExpirados() {
+	@Test
+	public void testSRemovendoUmPerfilDeUmUsuario() {
+		String loginDoUsuario = "TesteAtribuicao@gmail.com";
+		String senhaDoUsuario = "senha10";
+		Controller.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		Usuario usuario = Controller.getInstance().consultarUsuario(loginDoUsuario);
+		
+		String nomePerfil1 = "PerfilAtribuicaoTestePrimeiro";
+		Controller.getInstance().criarPerfil(nomePerfil1);
+		Perfil perfil1 = Controller.getInstance().consultarPerfil(nomePerfil1);
+		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil1, LocalDate.of(2021, 05, 17));
+		DBConnection.shutdown();
+		
+		String nomePerfil2 = "PerfilAtribuicaoTesteSegundo";
+		Controller.getInstance().criarPerfil(nomePerfil2);
+		Perfil perfil2 = Controller.getInstance().consultarPerfil(nomePerfil2);
+		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.of(2021, 05, 19));
+		DBConnection.shutdown();
+		
+		int tamanho = Controller.getInstance().consultarUsuario(loginDoUsuario).getPerfis().size();
+		System.out.println("-----------------TAMANHO: "+ tamanho);
+		
+		DBConnection.shutdown();
 		Controller.getInstance().expirarTodasAsPermissoesDoSistema();
+		DBConnection.shutdown();
+
+		assertNotEquals(tamanho, Controller.getInstance().consultarUsuario(loginDoUsuario).getPerfis().size());
 	}
 }

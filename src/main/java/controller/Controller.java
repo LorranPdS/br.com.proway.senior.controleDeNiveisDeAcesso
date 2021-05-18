@@ -264,9 +264,11 @@ public class Controller {
 		for ( Usuario usuario : listaUsuario) {
 			UsuarioDAO.getInstance().consultarPorId(usuario.getIdUsuario());
 			for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
-				if (usuarioPerfil.getDataExpiracao().isBefore(LocalDate.now())) {
-					UsuarioDAO.getInstance().removerPerfilDeUmUsuario(usuarioPerfil.getPerfil().getIdPerfil(), 
-							usuarioPerfil.getUsuario().getIdUsuario());
+				if (usuarioPerfil.getDataExpiracao() != null) {
+					if (usuarioPerfil.getDataExpiracao().isBefore(LocalDate.now())) {
+						UsuarioDAO.getInstance().removerPerfilDeUmUsuario(usuarioPerfil.getPerfil().getIdPerfil(), 
+								usuarioPerfil.getUsuario().getIdUsuario());
+					}
 				}
 			}
 		}
