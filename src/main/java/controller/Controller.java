@@ -17,16 +17,16 @@ import utils.Email;
 import utils.HashSenha;
 
 /**
- * Classe Controller
+ * Classe responsável por intermediar os dados da View e Model.
  * 
- * Classe responsável por intermediar os dados da View e Model. Os métodos dessa
- * classe definem a API de nosso sistema.
+ * Os métodos dessa classe definem a API de nosso sistema.
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
  * @author Lorran, lorransantospereira@yahoo.com.br
  * @author Lucas Grijó, rksgrijo@gmail.com
  * @author Thiago, thiagoluizbarbieri@gmail.com
+ * @since Sprint 4&5.
  */
 public class Controller {
 
@@ -76,7 +76,7 @@ public class Controller {
 		Integer codigoDeConfirmacao = gerarCodigoDeConfirmacao();
 		u.setUltimoCodigo2FA(codigoDeConfirmacao);
 		UsuarioDAO.getInstance().alterar(u);
-		
+
 		String nomeDoRemetente = "Grupo 3";
 		String assuntoDoEmail = "2FA Niveis de Acesso";
 		String corpoDoEmail = "O seu código é: " + codigoDeConfirmacao.toString();
@@ -179,22 +179,66 @@ public class Controller {
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPerfil);
 	}
 
+	/**
+	 * Criacao de um {@link Perfil} no objeto.
+	 * 
+	 * Responsavel por criar um objeto do tipo {@link Perfil} com o atributo
+	 * nomePerfil. O objeto {@link Perfil} e enviado ao {@link PerfilDAO} para ser
+	 * persistido no banco de dados.
+	 * 
+	 * @param String - nomePerfil
+	 * 
+	 */
 	public void criarPerfil(String nomePerfil) {
 		Perfil perfil = new Perfil(nomePerfil);
 		PerfilDAO.getInstance().criar(perfil);
 	}
 
+	/**
+	 * Alteracao de um {@link Perfil}.
+	 * 
+	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
+	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * PerfilDAO,o nome do perfil e adicionado ao objeto e alterado no banco de
+	 * dados.
+	 * 
+	 * @param Integer idPerfil
+	 * @param String  nomePerfil
+	 */
 	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
 		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		perfil.setNomePerfil(nomePerfil);
 		PerfilDAO.getInstance().alterar(perfil);
 	}
 
+	/**
+	 * Remoção de um {@link Perfil} pelo id.
+	 * 
+	 * Responsável por consultar um {@link Perfil} pelo seu id no banco de dados,
+	 * retornando o objeto com os dados do {@link Perfil} preenchidos e,
+	 * posteriormente, enviando ao {@link PerfilDAO} para ser removido do banco de
+	 * dados.
+	 * 
+	 * @param Integer - idPerfil
+	 */
 	public void deletarPerfil(Integer idPerfil) {
-		Perfil p = PerfilDAO.getInstance().consultarPorId(idPerfil);
-		PerfilDAO.getInstance().deletar(p);
+		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
+		PerfilDAO.getInstance().deletar(perfil);
 	}
 
+	/**
+	 * Consulta de {@link Perfil} pelo id.
+	 * 
+	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
+	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * {@link PerfilDAO},o nome do perfil e adicionado ao objeto e alterado no banco de
+	 * dados.
+	 * 
+	 * 
+	 * @param Integer 
+	 * @throws NullPointerException Caso não exista o {@link Perfil} no banco de dados.
+	 * @return Perfil
+	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
 		try {
 			return PerfilDAO.getInstance().consultarPorId(idPerfil);
@@ -203,6 +247,11 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * 
+	 * @param nome
+	 * @return
+	 */
 	public Perfil consultarPerfil(String nome) {
 		try {
 			return PerfilDAO.getInstance().consultarPorNome(nome);
@@ -261,7 +310,7 @@ public class Controller {
 
 	public void expirarTodasAsPermissoesDoSistema() {
 		List<Usuario> listaUsuario = UsuarioDAO.getInstance().listar();
-		for ( Usuario usuario : listaUsuario) {
+		for (Usuario usuario : listaUsuario) {
 			UsuarioDAO.getInstance().consultarPorId(usuario.getIdUsuario());
 			for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
 				if (usuarioPerfil.getDataExpiracao() != null) {
@@ -279,5 +328,3 @@ public class Controller {
 	}
 
 }
-
-

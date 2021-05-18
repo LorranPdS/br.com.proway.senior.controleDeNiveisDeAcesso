@@ -27,7 +27,8 @@ import javax.persistence.Table;
  * @author Lucas Grijó rksgrijo@gmail.com
  * @author Lorran lorransantospereira@yahoo.com.br
  * @author Thiago thiagoluizbarbieri@gmail.com
- * @since Sprint 4&5uthor Vitor Gehrke, vitor.gehrke@senior.com.br
+ * @uthor Vitor Gehrke, vitor.gehrke@senior.com.br
+ * @since Sprint 4&5
  */
 @Entity
 @Table(name = "perfil")
