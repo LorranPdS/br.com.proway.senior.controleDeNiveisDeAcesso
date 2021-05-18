@@ -185,7 +185,6 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	 * @return Usuario
 	 * @since Sprint 4&5.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Usuario consultarPorLogin(String login) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
@@ -196,7 +195,11 @@ public class UsuarioDAO implements ICrud<Usuario> {
 
 		criteria.select(root).where(builder.like(loginEx, login + "%"));
 		Query query = session.createQuery(criteria);
-		return (Usuario) query.getSingleResult();
+		try {
+			return (Usuario) query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -258,6 +261,40 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
+		}
+	}
+	
+
+	public void removerPerfilDeUmUsuario(int idPerfil, int idUsuario) {
+		String sql1 = "delete from usuario_perfil where id_perfil = '"+idPerfil+"' and id_usuario= '"+idUsuario+"';";
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery(sql1).executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+    }
+  }
+  
+	public Usuario verificarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+		Root<Usuario> root = criteria.from(Usuario.class);
+
+		criteria.select(root);
+		Expression loginEx = (Expression) root.get("login");
+		Expression codigoEx = (Expression) root.get("ultimoCodigo2FA");
+
+		criteria.select(root).where(builder.like(loginEx, login + "%"));
+		criteria.select(root).where(builder.equal(codigoEx, codigoDeConfirmacao));
+		Query query = session.createQuery(criteria);
+		try {
+			return (Usuario) query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+
 		}
 	}
 }

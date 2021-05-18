@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,13 +17,10 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PerfilDAOTest {
 
-	@Ignore
-	public void testA() {
-		DBConnection.truncateTablesAndRestartSequences();
-	}
 
-	@Test
-	public void testXlimparPerfisDeTeste() {		
+	@BeforeClass
+	@AfterClass
+	public static void testAlimparPerfisDeTeste() {		
 		String sql1 = "DELETE FROM perfil WHERE nome_perfil = 'Comprador';";
 		String sql2 = "DELETE FROM perfil WHERE nome_perfil = 'Vendedor';";
 		String sql3 = "DELETE FROM perfil WHERE nome_perfil = 'ADMIN';";

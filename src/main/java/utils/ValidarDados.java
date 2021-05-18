@@ -3,21 +3,20 @@ package utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class ValidarDados {
-		
+
 	/**
-	 * Verifica se os endere�os de email foram cadastrados corretamente ou se
+	 * Verifica se os enderecos de email foram cadastrados corretamente ou se
 	 * possuem caracteres especiais.
 	 * 
-	 * A vari�vel expression relaciona os caracteres que ser�o buscados dentro da
-	 * vari�vel email. O m�todo matcher() � empregado para procurar um padr�o na
-	 * string, retornando um objeto Matcher que cont�m informa��es sobre a pesquisa
+	 * A variavel expression relaciona os caracteres que serao buscados dentro da
+	 * variavel email. O metodo matcher() e empregado para procurar um padrao na
+	 * string, retornando um objeto Matcher que contem informacoes sobre a pesquisa
 	 * realizada.
 	 * 
+	 * @author Sprint 5
 	 * @param String email
 	 * @return isValidaEmail
-	 * 
 	 */
 	public static boolean validarEmail(String email) {
 		boolean emailValido = false;
@@ -36,7 +35,7 @@ public class ValidarDados {
 	 * Verifica se a senha corresponde aos pre requisitos da expressao.
 	 *
 	 * @param String senha
-	 * @return boolean
+	 * @return issenhaValida
 	 */
 
 	public static boolean validarSenha(String senha) {

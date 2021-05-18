@@ -19,7 +19,8 @@ import utils.HashSenha;
 /**
  * Classe Controller
  * 
- * Classe responsável por intermediar os dados da View e Model
+ * Classe responsável por intermediar os dados da View e Model. Os métodos dessa
+ * classe definem a API de nosso sistema.
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
@@ -41,22 +42,76 @@ public class Controller {
 		return instance;
 	}
 
+	// Funcionalidades Principais
+
 	public boolean logar(String login, String senha) {
 
 		String senhaCriptografada = HashSenha.criptografarSenha(login, senha);
 
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin(login);
-		String senhaBanco = usuario.getHashSenha();
+		if (usuario == null) {
+			return false;
+		} else {
+			String senhaBanco = usuario.getHashSenha();
 
-		if (senhaCriptografada.equals(senhaBanco)) {
-			return true;
+			if (senhaCriptografada.equals(senhaBanco)) {
+				return true;
+			}
+			return false;
 		}
-		return false;
+
+	}
+
+	/**
+	 * Envia um e-mail
+	 * 
+	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a confirmacao.
+	 * 
+	 * @param loginDoUsuario equivalente ao email do usuario.
+	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
+	 * @throws Exception
+	 */
+	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
+		Usuario u = UsuarioDAO.getInstance().consultarPorLogin(emailDoDestinario);
+		Integer codigoDeConfirmacao = gerarCodigoDeConfirmacao();
+		u.setUltimoCodigo2FA(codigoDeConfirmacao);
+		UsuarioDAO.getInstance().alterar(u);
+		
+		String nomeDoRemetente = "Grupo 3";
+		String assuntoDoEmail = "2FA Niveis de Acesso";
+		String corpoDoEmail = "O seu código é: " + codigoDeConfirmacao.toString();
+
+		Email email = new Email(emailDoDestinario, nomeDoRemetente, assuntoDoEmail, corpoDoEmail);
+
+		return (email.enviarEmail()) ? true : false;
+	}
+
+	/**
+	 * Gera um codigo aleatorio
+	 * 
+	 * Gera o codigo random para a verificacao de usuario
+	 * 
+	 * @return codigo de 5 digitos
+	 */
+	private Integer gerarCodigoDeConfirmacao() {
+		Random random = new Random();
+		int codigo = random.nextInt(99999);
+		if (codigo <= 10000) {
+			codigo += 10000;
+		}
+		return codigo;
+	}
+
+	public boolean confirmarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
+		if (UsuarioDAO.getInstance().verificarCodigoDeConfirmacao(login, codigoDeConfirmacao) != null)
+			return true;
+		else
+			return false;
 	}
 
 	public boolean verificarPermissao(Usuario usuario, Permissao permissao) {
 		List<Permissao> listaDePermissoesDesseUsuario = listarPermissoesDeUmUsuario(usuario.getIdUsuario());
-		if(listaDePermissoesDesseUsuario.contains(permissao)) {
+		if (listaDePermissoesDesseUsuario.contains(permissao)) {
 			return true;
 		} else {
 			return false;
@@ -80,16 +135,19 @@ public class Controller {
 	}
 
 	public void deletarUsuario(Integer id) {
-		// UsuarioDAO.getInstance().deletar(id);
+		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(id);
+		UsuarioDAO.getInstance().deletar(usuario);
 	}
 
-	public boolean alterarUsuario(Integer idUsuario, Usuario usuario) {
-		boolean usuarioAtualizado = UsuarioDAO.getInstance().alterar(usuario);
-		return usuarioAtualizado;
+	public void alterarUsuario(Integer idUsuario, String login, String senha) {
+		Usuario u = consultarUsuario(idUsuario);
+		u.setLogin(login);
+		u.setHashSenha(HashSenha.criptografarSenha(login, senha));
+		UsuarioDAO.getInstance().alterar(u);
 	}
 
 	public Usuario consultarUsuario(Integer idUsuario) {
-		return null;
+		return UsuarioDAO.getInstance().consultarPorId(idUsuario);
 	}
 
 	public Usuario consultarUsuario(String login) {
@@ -106,8 +164,8 @@ public class Controller {
 		return UsuarioDAO.getInstance().listarPermissoes(idUsuario);
 	}
 
-	public List<Perfil> listarPerfisDeUmUsuario(Usuario usuario) {
-		return null;
+	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
+		return UsuarioDAO.getInstance().listarPerfis(idUsuario);
 	}
 
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExp) {
@@ -127,14 +185,14 @@ public class Controller {
 	}
 
 	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
-		Perfil perfil = new Perfil();
-		perfil.setIdPerfil(idPerfil);
+		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		perfil.setNomePerfil(nomePerfil);
 		PerfilDAO.getInstance().alterar(perfil);
 	}
 
-	public void deletarPerfil(Perfil perfil) {
-		PerfilDAO.getInstance().deletar(perfil);
+	public void deletarPerfil(Integer idPerfil) {
+		Perfil p = PerfilDAO.getInstance().consultarPorId(idPerfil);
+		PerfilDAO.getInstance().deletar(p);
 	}
 
 	public Perfil consultarPerfil(Integer idPerfil) {
@@ -176,79 +234,42 @@ public class Controller {
 		PermissaoDAO.getInstance().criar(permissao);
 	}
 
-	public void alterarPermissao(Integer idPermissao, Permissao permissao) {
-
+	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
+		Permissao p = consultarPermissao(idPermissao);
+		p.setNomePermissao(nomePermissao);
+		PermissaoDAO.getInstance().alterar(p);
 	}
 
 	public void deletarPermissao(Integer idPermissao) {
-
+		Permissao p = consultarPermissao(idPermissao);
+		PermissaoDAO.getInstance().deletar(p);
 	}
 
 	public Permissao consultarPermissao(Integer idPermissao) {
-		return null;
+		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
 	}
 
-	/**
-	 * Consultará no banco de dados a permissão
-	 * 
-	 * @param nomePermissao
-	 * @return Permissao
-	 */
 	public Permissao consultarPermissao(String nomePermissao) {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
 
-	public ArrayList<Permissao> listarTodasAsPermissoes() {
-		return null;
-	}
-
-	// ...
-
-	// MISC
-
-	/**
-	 * Envia um e-mail
-	 * 
-	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a confirmacao.
-	 * 
-	 * @param loginDoUsuario equivalente ao email do usuario.
-	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
-	 * @throws Exception
-	 */
-	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
-		Email email = new Email(emailDoDestinario, "Grupo 3", "2FA Niveis de Acesso",
-				"O seu código é: " + gerarCodigo().toString());
-
-		// ABSTRAIR MAIS ESSA LÓGICA (usar condicional ternaria)
-		boolean resultadoEnvio = email.enviarEmail();
-		if (resultadoEnvio == true) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Gera um codigo aleatorio
-	 * 
-	 * Gera o codigo random para a verificacao de usuario
-	 * 
-	 * @return codigo de 5 digitos
-	 */
-	private Integer gerarCodigo() {
-
-		Random random = new Random();
-		int codigo = random.nextInt(99999);
-		if (codigo <= 10000) {
-			codigo += 10000;
-		}
-		return codigo;
+	public List<Permissao> listarTodasAsPermissoes() {
+		return PermissaoDAO.getInstance().listar();
 	}
 
 	// ROTINAS AUTOMATICAS
 
 	public void expirarTodasAsPermissoesDoSistema() {
-
+		List<Usuario> listaUsuario = UsuarioDAO.getInstance().listar();
+		for ( Usuario usuario : listaUsuario) {
+			UsuarioDAO.getInstance().consultarPorId(usuario.getIdUsuario());
+			for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
+				if (usuarioPerfil.getDataExpiracao().isBefore(LocalDate.now())) {
+					UsuarioDAO.getInstance().removerPerfilDeUmUsuario(usuarioPerfil.getPerfil().getIdPerfil(), 
+							usuarioPerfil.getUsuario().getIdUsuario());
+				}
+			}
+		}
 	}
 
 	public void expirarTodasAsSenhaDoSistema() {

@@ -79,8 +79,6 @@ public class UsuarioPerfil {
 		this.dataExpiracao = dataExpiracao;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Usuario Perfil [idUsuarioPerfil=" + id + ", usuario=" + usuario.getLogin() + ", perfil=" + perfil.getNomePerfil() + ", dataExpiracao="

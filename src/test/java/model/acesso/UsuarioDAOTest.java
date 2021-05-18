@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,8 +19,9 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsuarioDAOTest {
 
-	@Test
-	public void testXlimparUsuariosDeTeste() {
+	@BeforeClass
+	@AfterClass
+	public static void testAlimparUsuariosDeTeste() {
 		String sql1 = "DELETE FROM usuario WHERE login = 'Thiago@gmail.com';";
 		String sql2 = "DELETE FROM usuario WHERE login = 'Luiz@gmail.com';";
 		String sql3 = "DELETE FROM usuario WHERE login = 'Joao@gmail.com';";
@@ -109,9 +113,40 @@ public class UsuarioDAOTest {
 		assertEquals(2, listaDePerfis.size());
 
 	}
+	
+	@Test
+	public void testFRemoverPerfilDeUmUsuarioEListarPerfis() {
+		Usuario usuario = new Usuario("UsuarioTesteDeAtribuicaoDePerfil@gmail.com", "senha5");
+		UsuarioDAO.getInstance().criar(usuario);
+		Perfil perfil1 = new Perfil("PerfilAtribuido1");
+		PerfilDAO.getInstance().criar(perfil1);
+		LocalDate dateDeExpiracao = LocalDate.of(2021, 05, 19);
+		LocalDate dateDeExpiracao2 = LocalDate.of(2021, 05, 17);
+
+		Integer idUsuario = usuario.getIdUsuario();
+		UsuarioPerfilId PK1 = new UsuarioPerfilId(idUsuario, perfil1.getIdPerfil());
+		UsuarioPerfil UP1 = new UsuarioPerfil(PK1, usuario, perfil1, dateDeExpiracao);
+		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP1);
+
+		DBConnection.shutdown();
+
+		Perfil perfil2 = new Perfil("PerfilAtribuido2");
+		PerfilDAO.getInstance().criar(perfil2);
+		usuario = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com");
+		idUsuario = usuario.getIdUsuario();
+		UsuarioPerfilId PK2 = new UsuarioPerfilId(idUsuario, perfil2.getIdPerfil());
+		UsuarioPerfil UP2 = new UsuarioPerfil(PK2, usuario, perfil2, dateDeExpiracao2);
+		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(UP2);
+
+		DBConnection.shutdown();
+
+		UsuarioDAO.getInstance().removerPerfilDeUmUsuario(perfil1.getIdPerfil(), usuario.getIdUsuario());
+		DBConnection.shutdown();
+		usuario = UsuarioDAO.getInstance().consultarPorLogin("UsuarioTesteDeAtribuicaoDePerfil@gmail.com");
+	}
 
 	@Test
-	public void testFListarPermissoesDeUmUsuario() {
+	public void testGListarPermissoesDeUmUsuario() {
 		Permissao p1 = new Permissao("Viver");
 		PermissaoDAO.getInstance().criar(p1);
 		Permissao p2 = new Permissao("Comer");

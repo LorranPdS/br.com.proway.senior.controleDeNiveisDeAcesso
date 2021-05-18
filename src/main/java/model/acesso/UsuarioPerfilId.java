@@ -19,9 +19,7 @@ public class UsuarioPerfilId implements Serializable {
 	@Column(name = "id_perfil")
 	private Integer idPerfil;
 
-	public UsuarioPerfilId() {
-
-	}
+	public UsuarioPerfilId() {}
 
 	public UsuarioPerfilId(int idUsuario, int idPerfil) {
 		this.idUsuario = idUsuario;
