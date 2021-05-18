@@ -30,7 +30,7 @@ import utils.HashSenha;
  */
 public class Controller {
 
-	static Controller instance;
+	private static Controller instance;
 
 	private Controller() {
 	}
