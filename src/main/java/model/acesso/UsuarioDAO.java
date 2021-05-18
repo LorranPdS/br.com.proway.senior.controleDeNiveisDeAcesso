@@ -57,6 +57,7 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	 * Finalização da instância do Singleton.
 	 * 
 	 * Método responsável por finalizar a conexão de um banco de dados.
+	 * 
 	 * @since Sprint 4&5.
 	 */
 	public static void shutdown() {
@@ -92,7 +93,8 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	 * 
 	 * @param Usuario - usuario
 	 * @return boolean
-	 * @throws Exception - Caso o {@link Usuario} não seja alterado no banco de dados.
+	 * @throws Exception - Caso o {@link Usuario} não seja alterado no banco de
+	 *                   dados.
 	 * @since Sprint 4&5.
 	 */
 	public boolean alterar(Usuario usuario) {
@@ -116,7 +118,8 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	 * 
 	 * @param Usuario - usuario
 	 * @return boolean
-	 * @throws Exception - Caso o {@link Usuario} não seja deletado no banco de dados.
+	 * @throws Exception - Caso o {@link Usuario} não seja deletado no banco de
+	 *                   dados.
 	 * @since Sprint 4&5.
 	 */
 	public boolean deletar(Usuario usuario) {
@@ -140,7 +143,8 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	 * 
 	 * @param int - id
 	 * @return Usuario
-	 * @throws Exception - Caso o {@link Usuario} não seja encontrado no banco de dados pelo seu Id.
+	 * @throws Exception - Caso o {@link Usuario} não seja encontrado no banco de
+	 *                   dados pelo seu Id.
 	 * @since Sprint 4&5.
 	 */
 	public Usuario consultarPorId(int id) {
@@ -243,14 +247,15 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 		return todasAsPermissoesDoUsuario;
 	}
- 
+
 	/**
 	 * Atribui um {@link Perfil} a um {@link Usuario}.
 	 * 
 	 * Método responsável por atribuir um {@link Perfil} a um {@link Usuario}.
 	 * 
 	 * @param UsuarioPerfil - usuarioPerfil
-	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario} não seja possivel.
+	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
+	 *                   não seja possivel.
 	 * @since Sprint 4&5
 	 */
 	public void atribuirPerfilAUmUsuario(UsuarioPerfil usuarioPerfil) {
@@ -263,21 +268,20 @@ public class UsuarioDAO implements ICrud<Usuario> {
 			e.printStackTrace();
 		}
 	}
-	
 
 	public void removerPerfilDeUmUsuario(int idPerfil, int idUsuario) {
-		String sql1 = "delete from usuario_perfil where id_perfil = '"+idPerfil+"' and id_usuario= '"+idUsuario+"';";
+		String sql1 = "delete from usuario_perfil where id_perfil = '" + idPerfil + "' and id_usuario= '" + idUsuario
+				+ "';";
 		try {
 			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession()
-					.createSQLQuery(sql1).executeUpdate();
+			DBConnection.getSession().createSQLQuery(sql1).executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
 		} catch (Exception e) {
 			DBConnection.getSession().getTransaction().rollback();
 			e.printStackTrace();
-    }
-  }
-  
+		}
+	}
+
 	public Usuario verificarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
