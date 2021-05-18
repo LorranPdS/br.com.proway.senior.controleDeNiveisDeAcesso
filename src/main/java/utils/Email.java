@@ -21,13 +21,29 @@ public class Email {
 	private String assuntoEmail = "";
 	private String textoEmail = "";
 
-	public Email(String listaDestinatarios, String nomeRemetente, String assuntoEmail, String textoEmail) {
+	/**
+	 * Construtor contendo a lista de emails, o nome do email que vai mandar os
+	 * emails, o assunto abordado no email e o corpo do email.
+	 * 
+	 * @author Sprint 5
+	 * 
+	 * @param listaDestinatarios
+	 * @param nomeRemetente
+	 * @param assuntoEmail
+	 * @param corpoEmail
+	 */
+	public Email(String listaDestinatarios, String nomeRemetente, String assuntoEmail, String corpoEmail) {
 		this.listaDestinatarios = listaDestinatarios;
 		this.nomeRemetente = nomeRemetente;
 		this.assuntoEmail = assuntoEmail;
-		this.textoEmail = textoEmail;
+		this.textoEmail = corpoEmail;
 	}
 
+	/**
+	 * Propriedades necessarias para o envio do email.
+	 * 
+	 * @return
+	 */
 	public boolean enviarEmail() {
 		try {
 			Properties properties = new Properties();
@@ -39,9 +55,15 @@ public class Email {
 			properties.put("mail.smtp.host", "smtp.gmail.com"); // Servidor Gmail
 			properties.put("mail.smtp.port", "465"); // Porta do servidor
 			properties.put("mail.smtp.socketFactory.port", "465"); // Especifica a porta a ser conectada pelo socket
-			properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); // Classe socket de conex�o
+			properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); // Classe socket de
+																								// conex�o
 																								// ao SMTP
 
+			/**
+			 * Autentica o login e senha do remetente.
+			 * 
+			 * return PasswordAuthetication
+			 */
 			Session session = Session.getInstance(properties, new Authenticator() {
 				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
@@ -49,6 +71,9 @@ public class Email {
 				}
 			});
 
+			/**
+			 * Converte listaDestinatarios para InternetAddress.
+			 */
 			Address[] toUser = InternetAddress.parse(listaDestinatarios);
 
 			Message message = new MimeMessage(session);
@@ -66,7 +91,6 @@ public class Email {
 			System.out.println("Falha no envio!");
 			return false;
 		}
-		
 
 	}
 }

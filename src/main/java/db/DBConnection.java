@@ -11,25 +11,37 @@ import model.acesso.UsuarioDAO;
 /**
  * Classe DBConnection
  * 
- * Classe responsavel pela conexao com o banco de dados utilizando o Hibernate (DB)
+ * Classe responsavel pela conexao com o banco de dados utilizando o Hibernate
+ * (DB).
  * 
  * @author Sprint 5
- * @author Elton Oliveira, elton.oliveira@senior.com.br
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Thiago Barbieri, thiago.barbieri@senior.com.br
- * @author Vitor Goncalves, vitor.goncalves@senior.com.br
- * @author Vitor Gehrke, vitor.gehrke@senior.com.br
+ * @author Gabriel Simon gabrielsimon775@gmail.com
+ * @author Jonata Caetano jonatacaetano88@gmail.com
+ * @author Lucas Grijó rksgrijo@gmail.com
+ * @author Lorran lorransantospereira@yahoo.com.br
+ * @author Thiago thiagoluizbarbieri@gmail.com
  */
 public class DBConnection {
 	private static SessionFactory sessionFactory;
 	private static Session session;
 
+	/**
+	 * Verifica se a sessionFactory e nula.
+	 * 
+	 * @return sessionFactory
+	 */
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory == null)
 			sessionFactory = buildSessionFactory();
 		return sessionFactory;
 	}
 
+	/**
+	 * Verifica se a session e nula e retorna a session.
+	 * 
+	 * @return session
+	 * @since Sprint 5
+	 */
 	public static Session getSession() {
 		getSessionFactory();
 		if (session == null)
@@ -37,6 +49,9 @@ public class DBConnection {
 		return session;
 	}
 
+	/**
+	 * Retorna uma nova configuracao do hibernate.
+	 */
 	private static SessionFactory buildSessionFactory() {
 		try {
 			return new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
@@ -46,6 +61,9 @@ public class DBConnection {
 		}
 	}
 
+	/**
+	 * Transforma a instancia em nula.
+	 */
 	public static void shutdown() {
 		session.close();
 		session = null;
@@ -55,7 +73,10 @@ public class DBConnection {
 		PerfilDAO.shutdown();
 		PermissaoDAO.shutdown();
 	}
-	
+
+	/**
+	 * Reinicia a sequencia do ID do banco para 1.
+	 */
 	public static void truncateTablesAndRestartSequences() {
 		try {
 			String sql1 = "TRUNCATE TABLE usuario CASCADE; ALTER SEQUENCE seq_id_usuario RESTART 1;";
@@ -64,15 +85,12 @@ public class DBConnection {
 			String sql4 = "TRUNCATE TABLE perfil_permissao CASCADE;";
 			String sql5 = "TRUNCATE TABLE usuario_perfil CASCADE;";
 			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession()
-					.createSQLQuery(sql1 + sql2 + sql3 + sql4 + sql5)
-					.executeUpdate();
+			DBConnection.getSession().createSQLQuery(sql1 + sql2 + sql3 + sql4 + sql5).executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
 		} catch (Exception e) {
 			DBConnection.getSession().getTransaction().rollback();
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 }
