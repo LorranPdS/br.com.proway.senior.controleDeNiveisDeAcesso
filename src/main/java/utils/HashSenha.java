@@ -26,9 +26,10 @@ public class HashSenha {
 	/**
 	 * Criptografia para senha.
 	 * 
-	 * Neste metodo esta sendo utilizado uma API do java "BigInteger" para gerar um
-	 * algoritmo para realizar a HASH da senha utilizando criptografia SHA-512.
+	 * Neste metodo esta sendo utilizado uma API do java para gerar um
+	 * algoritmo para realizar a HASH da senha utilizando criptografia PBKDF2 com SHA1.
 	 *
+	 *@param login
 	 * @param String senhaNaoCriptografada
 	 * @return senhaCriptografada
 	 */
@@ -54,13 +55,13 @@ public class HashSenha {
 	}
 	
 	/**
-	 * Criptografia para senha.
+	 * Criptografia para Salt.
 	 * 
 	 * Neste metodo esta sendo utilizado uma API do java "BigInteger" para gerar um
-	 * algoritmo para realizar a HASH da senha utilizando criptografia SHA-512.
+	 * algoritmo para realizar a HASH do Salt utilizando criptografia SHA-512.
 	 *
-	 * @param String senha
-	 * @return valorCodificado
+	 * @param String login
+	 * @return saltCriptografado
 	 */
 	private static byte[] criptografarSalt(String login) {
 		String stringDoSalt = "O login desse usuário é: " + login + "!";
