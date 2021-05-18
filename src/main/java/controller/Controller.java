@@ -17,14 +17,14 @@ import utils.Email;
 import utils.HashSenha;
 
 /**
- * Classe responsÃ¡vel por intermediar os dados da View e Model.
+ * Classe responsÃƒÂ¡vel por intermediar os dados da View e Model.
  * 
- * Os mÃ©todos dessa classe definem a API de nosso sistema.
+ * Os mÃƒÂ©todos dessa classe definem a API de nosso sistema.
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
  * @author Lorran, lorransantospereira@yahoo.com.br
- * @author Lucas GrijÃ³, rksgrijo@gmail.com
+ * @author Lucas GrijÃƒÂ³, rksgrijo@gmail.com
  * @author Thiago, thiagoluizbarbieri@gmail.com
  * @since Sprint 4&5.
  */
@@ -88,7 +88,7 @@ public class Controller {
 
 		String nomeDoRemetente = "Grupo 3";
 		String assuntoDoEmail = "2FA Niveis de Acesso";
-		String corpoDoEmail = "O seu cÃ³digo Ã©: " + codigoDeConfirmacao.toString();
+		String corpoDoEmail = "O seu cÃƒÂ³digo ÃƒÂ©: " + codigoDeConfirmacao.toString();
 
 		Email email = new Email(emailDoDestinario, nomeDoRemetente, assuntoDoEmail, corpoDoEmail);
 
@@ -125,7 +125,14 @@ public class Controller {
 		else
 			return false;
 	}
-
+	
+	/**
+	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se o {@link Usuario} tem permissoes.
+	 * 
+	 * @param usuario - Usuario
+	 * @param permissao - Permissao
+	 * @return ArrayList<Permissao>
+	 */
 	public boolean verificarPermissao(Usuario usuario, Permissao permissao) {
 		List<Permissao> listaDePermissoesDesseUsuario = listarPermissoesDeUmUsuario(usuario.getIdUsuario());
 		if (listaDePermissoesDesseUsuario.contains(permissao)) {
@@ -135,6 +142,14 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Vai ser feita uma consulta no banco de dados pelo ID do perfil para saber se o {@link Perfil} 
+	 * tem permissoes.
+	 * 
+	 * @param perfil - Perfil
+	 * @param permissao - Permissao
+	 * @return ArrayList<Permissao>
+	 */
 	public boolean verificarPermissao(Perfil perfil, Permissao permissao) {
 		List<Permissao> listaDePermissoesDessePerfil = listarPermissoesDeUmPerfil(perfil.getIdPerfil());
 		if (listaDePermissoesDessePerfil.contains(permissao)) {
@@ -193,11 +208,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo id
 	 * 
-	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu id, o qual retornarï¿½ o objeto
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu id, o qual retornara o objeto
 	 * completo.
 	 * 
 	 * @param Integer - idUsuario
-	 * @throws NullPointerException - Caso nï¿½o exista o usuï¿½rio no banco de dados.
+	 * @throws NullPointerException - Caso nao exista o usuario no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(Integer idUsuario) {
@@ -211,11 +226,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo login.
 	 * 
-	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu nome, o qual retornarï¿½ o objeto
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu nome, o qual retornara o objeto
 	 * completo.
 	 * 
 	 * @param String
-	 * @throws NullPointerException caso nï¿½o exista o {@link Usuario} no banco de dados.
+	 * @throws NullPointerException caso nao exista o {@link Usuario} no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(String login) {
@@ -229,8 +244,8 @@ public class Controller {
 	/**
 	 * Lista todos os {@link Usuario}.
 	 * 
-	 * Serï¿½ feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
-	 * {@link Usuario} registrados no banco de dados, eles serï¿½o retornados, caso contrï¿½rio, serï¿½ retornado null.
+	 * Sera feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
+	 * {@link Usuario} registrados no banco de dados, eles serao retornados, caso contrario, sera retornado null.
 	 * 
 	 * @return ArrayList<Usuario>
 	 */
@@ -243,8 +258,8 @@ public class Controller {
 	/**
 	 * Lista todas as {@link Permissao} do {@link Usuario}.
 	 * 
-	 * Será feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
-	 * {@link Permissao} registradas no banco de dados, elas serão retornadas, caso contrário, será retornado null.
+	 * SerÃ¡ feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
+	 * {@link Permissao} registradas no banco de dados, elas serÃ£o retornadas, caso contrÃ¡rio, serÃ¡ retornado null.
 	 * 
 	 * @param idUsuario - int
 	 * @return List<Permissao>
@@ -258,8 +273,8 @@ public class Controller {
 	/**
 	 * Lista todos os {@link Perfil} do {@link Usuario}.
 	 * 
-	 * Será feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
-	 * {@link Perfil} registrados no banco de dados, eles serão retornados, caso contrário, será retornado null.
+	 * SerÃ¡ feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
+	 * {@link Perfil} registrados no banco de dados, eles serÃ£o retornados, caso contrÃ¡rio, serÃ¡ retornado null.
 	 * 
 	 * @param idUsuario - int
 	 * @return List<Perfil>
@@ -270,6 +285,15 @@ public class Controller {
 		return resultado;
 	}
 
+	/**
+	 * Ã‰ atribuido um {@link Perfil} a um {@link Usuario} quando Ã© passado um {@link Usuario} para aquele {@link Perfil}.
+	 * ApÃ³s criado, vai verificar se a data de expiracao nao e nula e vai criar um {@link Perfil} com a data expiracao, se 
+	 * caso a data de expiracao for nula e criado um {@link Perfil} sem data de expiracao.
+	 * 
+	 * @param usuario Usuario
+	 * @param perfil Perfil
+	 * @param dataExp LocalDate
+	 */
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExp) {
 		UsuarioPerfilId userPerfilId = new UsuarioPerfilId(usuario.getIdUsuario(), perfil.getIdPerfil());
 		UsuarioPerfil usuarioPerfil;
@@ -314,10 +338,10 @@ public class Controller {
 	}
 
 	/**
-	 * RemoÃ§Ã£o de um {@link Perfil} pelo id.
+	 * RemoÃƒÂ§ÃƒÂ£o de um {@link Perfil} pelo id.
    *
-	 * ResponsÃ¡vel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
-	 * O objeto {@link Perfil} Ã© enviado ao {@link Perfil} para ser removido no banco de dados.
+	 * ResponsÃƒÂ¡vel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+	 * O objeto {@link Perfil} ÃƒÂ© enviado ao {@link Perfil} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
 	 */
@@ -336,7 +360,7 @@ public class Controller {
 	 * 
 	 * 
 	 * @param Integer 
-	 * @throws NullPointerException Caso nÃ£o exista o {@link Perfil} no banco de dados.
+	 * @throws NullPointerException Caso nÃƒÂ£o exista o {@link Perfil} no banco de dados.
 	 * @return Perfil
 	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
@@ -378,8 +402,8 @@ public class Controller {
 	/**
 	 * Lista todas as {@link Permissao} de um {@link Perfil}.
 	 * 
-	 * O m�todo ir� pesquisar todas as {@link Permissao} que o {@link Perfil} possui fazendo uma busca
-	 * pelo idPerfil, o qual ser� enviado ao {@link PerfilDAO}. O retorno ser� todas as {@link Permissao}
+	 * O método irá pesquisar todas as {@link Permissao} que o {@link Perfil} possui fazendo uma busca
+	 * pelo idPerfil, o qual será enviado ao {@link PerfilDAO}. O retorno será todas as {@link Permissao}
 	 * que um {@link Perfil} possui.
 	 * 
 	 * @param idPerfil
@@ -389,11 +413,18 @@ public class Controller {
 		return PerfilDAO.getInstance().listarPermissoes(idPerfil);
 	}
 
+	/**
+	 *  Ã‰ atribuido uma {@link Permissao} a um {@link Perfil} quando Ã© passado uma {@link Permissao} 
+	 *  para aquele {@link Perfil}.
+	 * 
+	 * @param permissao Permissao
+	 * @param perfil Perfil
+	 */
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}
 
-	// DAO - Permiss�es
+	// DAO - Permissões
 
 	/**
 	 * Criacao de um {@link Permissao} no objeto.
@@ -411,8 +442,8 @@ public class Controller {
 	/**
 	 * Alteracao de uma {@link Permissao}.
 	 * 
-	 * Será feita uma consulta da {@link Permissao} no banco de dados através do id e nome da permissao,
-	 * o qual retornará o objeto completo. Feito isso, o novo nome da {@link Permissao} será setado ao objeto
+	 * SerÃ¡ feita uma consulta da {@link Permissao} no banco de dados atravÃ©s do id e nome da permissao,
+	 * o qual retornarÃ¡ o objeto completo. Feito isso, o novo nome da {@link Permissao} serÃ¡ setado ao objeto
 	 * e enviado ao {@link PermissaoDAO} para ser atualizado no banco de dados.
 	 * 
 	 * @param idPermissao - Interger
@@ -425,9 +456,9 @@ public class Controller {
 	}
 
 	/**
-	 * Remo��o de uma {@link Permissao} pelo id.
+	 * Remoção de uma {@link Permissao} pelo id.
 	 * 
-	 * Respons�vel por consultar uma {@link Permissao} pelo seu id no banco de dados, retornando o objeto
+	 * Responsável por consultar uma {@link Permissao} pelo seu id no banco de dados, retornando o objeto
 	 * com os dados de uma {@link Permissao} preenchidos e, posteriormente, enviando ao {@link PermissaoDAO}
 	 * para ser removido do banco de dados.
 	 * 
@@ -467,8 +498,8 @@ public class Controller {
 	/**
 	 * Lista todas as {@link Permissao}.
 	 * 
-	 * Ser� feita uma consulta de todas os {@link Permissao} registrados no banco de dados. Caso haja 
-	 * {@link Permissao} registradas no banco de dados, eles ser�o retornados.
+	 * Será feita uma consulta de todas os {@link Permissao} registrados no banco de dados. Caso haja 
+	 * {@link Permissao} registradas no banco de dados, eles serão retornados.
 	 * 
 	 * @return List<Permissao>
 	 */
