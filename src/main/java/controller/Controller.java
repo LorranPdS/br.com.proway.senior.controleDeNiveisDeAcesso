@@ -127,33 +127,96 @@ public class Controller {
 		}
 	}
 
-	// DAO - Usuario
-
+	/**
+	 * Criação de um {@link Usuario} no objeto.
+	 * 
+	 * Responsável por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
+	 * O objeto {@link Usuario} é enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
+	 * 
+	 * @param login
+	 * @param senha
+	 */
 	public void criarUsuario(String login, String senha) {
 		Usuario usuario1 = new Usuario(login, senha);
 		UsuarioDAO.getInstance().criar(usuario1);
 	}
 
+	/**
+	 * Remoção de um {@link Usuario} pelo id.
+	 * 
+	 * Responsável por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
+	 * com os dados do {@link Usuario} preenchidos e, posteriormente, enviando ao {@link UsuarioDAO} para
+	 * ser removido do banco de dados.
+	 * 
+	 * @param Integer - id
+	 */
 	public void deletarUsuario(Integer id) {
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(id);
 		UsuarioDAO.getInstance().deletar(usuario);
 	}
 
+	 /**
+	 * Alteracao de um {@link Usuario}.
+	 * 
+	 * Será feita uma consulta do {@link Usuario} no banco de dados através do id, o qual retornará o objeto
+	 * completo. Feito isso, o login e a senha serão setados ao objeto e enviado ao {@link UsuarioDAO} para ser
+	 * atualizado no banco de dados.
+	 * 
+	 * @param Integer - idUsuario
+	 * @param String - login
+	 * @param String - senha
+	 */
 	public void alterarUsuario(Integer idUsuario, String login, String senha) {
-		Usuario u = consultarUsuario(idUsuario);
-		u.setLogin(login);
-		u.setHashSenha(HashSenha.criptografarSenha(login, senha));
-		UsuarioDAO.getInstance().alterar(u);
+		Usuario usuario = consultarUsuario(idUsuario);
+		usuario.setLogin(login);
+		usuario.setHashSenha(HashSenha.criptografarSenha(login, senha));
+		UsuarioDAO.getInstance().alterar(usuario);
 	}
 
+	/**
+	 * Consulta de {@link Usuario} pelo id
+	 * 
+	 * Será feita uma consulta do {@link Usuario} no banco de dados através de seu id, o qual retornará o objeto
+	 * completo.
+	 * 
+	 * @param Integer - idUsuario
+	 * @throws NullPointerException - Caso não exista o usuário no banco de dados.
+	 * @return Usuario
+	 */
 	public Usuario consultarUsuario(Integer idUsuario) {
-		return UsuarioDAO.getInstance().consultarPorId(idUsuario);
+		try {
+			return UsuarioDAO.getInstance().consultarPorId(idUsuario);
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 
+	/**
+	 * Consulta de {@link Usuario} pelo login.
+	 * 
+	 * Será feita uma consulta do {@link Usuario} no banco de dados através de seu nome, o qual retornará o objeto
+	 * completo.
+	 * 
+	 * @param String
+	 * @throws NullPointerException caso não exista o {@link Usuario} no banco de dados.
+	 * @return Usuario
+	 */
 	public Usuario consultarUsuario(String login) {
-		return UsuarioDAO.getInstance().consultarPorLogin(login);
+		try {
+			return UsuarioDAO.getInstance().consultarPorLogin(login);			
+		} catch (NullPointerException e) {
+			return null;
+		}
 	}
 
+	/**
+	 * Lista todos os {@link Usuario}.
+	 * 
+	 * Será feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
+	 * {@link Usuario} registrados no banco de dados, eles serão retornados, caso contrário, será retornado null.
+	 * 
+	 * @return ArrayList<Usuario>
+	 */
 	public ArrayList<Usuario> listarTodosOsUsuarios() {
 		ArrayList<Usuario> usuariosEncontrados = (ArrayList<Usuario>) UsuarioDAO.getInstance().listar();
 		ArrayList<Usuario> resultado = !usuariosEncontrados.isEmpty() ? usuariosEncontrados : null;
