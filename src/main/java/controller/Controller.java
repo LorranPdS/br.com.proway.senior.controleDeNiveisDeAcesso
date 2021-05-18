@@ -179,22 +179,50 @@ public class Controller {
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPerfil);
 	}
 
+	/**
+	 * Criação de um {@link Perfil} no objeto.
+	 * 
+	 * Responsável por criar um objeto do tipo {@link Perfil} com os atributos nomePerfil.
+	 * O objeto {@link Perfil} é enviado ao {@link PerfilDAO} para ser persistido no banco de dados.
+	 * 
+	 * @param nomePerfil - String
+	 */
 	public void criarPerfil(String nomePerfil) {
 		Perfil perfil = new Perfil(nomePerfil);
 		PerfilDAO.getInstance().criar(perfil);
 	}
 
+	/**
+	 * Responsável por alterar um objeto do tipo {@link Perfil} com os atributos idPerfil e nomePerfil.
+	 * O objeto {@link Perfil} é enviado ao {@link Perfil} para ser atualizado no banco de dados.
+	 * 
+	 * @param idPerfil - Integer
+	 * @param nomePerfil - String
+	 */
 	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
 		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		perfil.setNomePerfil(nomePerfil);
 		PerfilDAO.getInstance().alterar(perfil);
 	}
 
+	/**
+	 * Responsável por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+	 * O objeto {@link Perfil} é enviado ao {@link Perfil} para ser removido no banco de dados.
+	 * 
+	 * @param idPerfil - Integer
+	 */
 	public void deletarPerfil(Integer idPerfil) {
 		Perfil p = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		PerfilDAO.getInstance().deletar(p);
 	}
 
+	/**
+	 * Tem a funcao de consultar por id um objeto do tipo {@link Perfil} com o atributo idPerfil.
+	 * O objeto {@link Perfil}  vai ser consultado no banco de dados pelo ID.
+	 * 
+	 * @param idPerfil - Integer
+	 * @return {@link Perfil} 
+	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
 		try {
 			return PerfilDAO.getInstance().consultarPorId(idPerfil);
@@ -203,6 +231,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Tem a funcao de consultar por nome um objeto do tipo {@link Perfil} com o atributo nomePerfil.
+	 * O objeto {@link Perfil} vai ser consultado no banco de dados pelo nome.
+	 * 
+	 * @param nome - String
+	 * @return {@link Perfil} 
+	 */
 	public Perfil consultarPerfil(String nome) {
 		try {
 			return PerfilDAO.getInstance().consultarPorNome(nome);
@@ -212,6 +247,11 @@ public class Controller {
 
 	}
 
+	/**
+	 * Consulta todos os perfis no banco de dados.
+	 * 
+	 * @return resultado - ArrayList<Perfil>
+	 */
 	public ArrayList<Perfil> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
 		ArrayList<Perfil> resultado = !perfisEncontrados.isEmpty() ? perfisEncontrados : null;
@@ -258,11 +298,15 @@ public class Controller {
 	}
 
 	// ROTINAS AUTOMATICAS
-
+	/**
+	 * Remove todas as permissoes expiradas. 
+	 * 
+	 * Lista todos os {@link Usuario}s e remove a atribuicao de {@link Perfil}, 
+	 * caso a data tenha vencido.
+	 */
 	public void expirarTodasAsPermissoesDoSistema() {
 		List<Usuario> listaUsuario = UsuarioDAO.getInstance().listar();
 		for ( Usuario usuario : listaUsuario) {
-			UsuarioDAO.getInstance().consultarPorId(usuario.getIdUsuario());
 			for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
 				if (usuarioPerfil.getDataExpiracao() != null) {
 					if (usuarioPerfil.getDataExpiracao().isBefore(LocalDate.now())) {
