@@ -21,12 +21,12 @@ import model.interfaces.ICrud;
  * Classe que implementa a interface que se relaciona com o banco de dados de
  * usuarios.
  * 
- * @author Sprint 5
  * @author Simon gabrielsimon775@gmail.com
  * @author Jonata Caetano jonatacaetano88@gmail.com
  * @author Lucas Grijó rksgrijo@gmail.com
  * @author Lorran lorransantospereira@yahoo.com.br
  * @author Thiago thiagoluizbarbieri@gmail.com
+ * @since Sprint 4&5
  * 
  */
 public class UsuarioDAO implements ICrud<Usuario> {
@@ -38,6 +38,14 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		this.session = session;
 	}
 
+	/**
+	 * Conexão com banco de dados.
+	 * 
+	 * Conexão de um banco de dados realizada atráves de um Singleton.
+	 * 
+	 * @return instance.
+	 * @since Sprint 4&5.
+	 */
 	public static UsuarioDAO getInstance() {
 		if (instance == null) {
 			instance = new UsuarioDAO(DBConnection.getSession());
@@ -45,16 +53,25 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return instance;
 	}
 
+	/**
+	 * Finalização da instância do Singleton.
+	 * 
+	 * Método responsável por finalizar a conexão de um banco de dados.
+	 * @since Sprint 4&5.
+	 */
 	public static void shutdown() {
 		instance = null;
 	}
 
 	/**
+	 * Criação de um {@link Usuario}.
+	 * 
 	 * Método responsável por criar um objeto do tipo {@link Usuario} em um banco de
 	 * dados.
 	 * 
 	 * @param Usuario - usuario
-	 * @since Sprint 5
+	 * @throws Exception - Caso o {@link Usuario} não seja salvo no banco de dados.
+	 * @since Sprint 4&5.
 	 */
 	public void criar(Usuario usuario) {
 		try {
@@ -68,12 +85,15 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	/**
+	 * Altera um {@link Usuario} existente.
+	 * 
 	 * Método responsável por alterar um objeto do tipo {@link Usuario} salvo em um
 	 * banco de dados.
 	 * 
 	 * @param Usuario - usuario
 	 * @return boolean
-	 * @since Sprint 5
+	 * @throws Exception - Caso o {@link Usuario} não seja alterado no banco de dados.
+	 * @since Sprint 4&5.
 	 */
 	public boolean alterar(Usuario usuario) {
 		try {
@@ -89,13 +109,15 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	/**
+	 * Deleção de um {@link Usuario} em um banco de dados.
+	 * 
 	 * Método responsável por deletar um objeto do tipo {@link Usuario} existente em
 	 * um banco de dados.
 	 * 
-	 * @param usuario
-	 * @throws Exception - Se o retorno do usuario for false
+	 * @param Usuario - usuario
 	 * @return boolean
-	 * @since Sprint 5
+	 * @throws Exception - Caso o {@link Usuario} não seja deletado no banco de dados.
+	 * @since Sprint 4&5.
 	 */
 	public boolean deletar(Usuario usuario) {
 		try {
@@ -111,12 +133,15 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	/**
+	 * Consulta {@link Usuario} por Id.
+	 * 
 	 * Método responsável por consultar um objeto do tipo {@link Usuario} através de
 	 * seu Id existente em um banco de dados.
 	 * 
-	 * @param id
+	 * @param int - id
 	 * @return Usuario
-	 * @since Sprint 5
+	 * @throws Exception - Caso o {@link Usuario} não seja encontrado no banco de dados pelo seu Id.
+	 * @since Sprint 4&5.
 	 */
 	public Usuario consultarPorId(int id) {
 		try {
@@ -132,11 +157,13 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	/**
+	 * Lista de todos os {@link Usuario}.
+	 * 
 	 * Método responsável por trazer uma lista de objetos do tipo {@link Usuario}
 	 * existente do banco de dados.
 	 * 
 	 * @return List<Usuario>
-	 * @since Sprint 5
+	 * @since Sprint 4&5
 	 */
 	public List<Usuario> listar() {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -149,12 +176,14 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	}
 
 	/**
+	 * Consulta de um {@link Usuario} pelo seu login.
+	 * 
 	 * Método responsável por consultar um objeto do tipo {@link Usuario} através de
 	 * seu login existente do banco de dados.
 	 * 
-	 * @param login
+	 * @param String - login
 	 * @return Usuario
-	 * @since Sprint 5
+	 * @since Sprint 4&5.
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Usuario consultarPorLogin(String login) {
@@ -170,6 +199,14 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return (Usuario) query.getSingleResult();
 	}
 
+	/**
+	 * Lista de todos os {@link Perfil} de um {@link Usuario}.
+	 * 
+	 * Método responsável por trazer uma lista de objetos do tipo {@link Perfil}.
+	 * 
+	 * @param int - idUsuario
+	 * @return List<Perfil> - listaPerfil
+	 */
 	public List<Perfil> listarPerfis(int idUsuario) {
 		Usuario usuario = consultarPorId(idUsuario);
 		List<Perfil> listaPerfil = new ArrayList<>();
@@ -180,6 +217,15 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return listaPerfil;
 	}
 
+	/**
+	 * Lista de todas as {@link Permissao} de um {@link Usuario}.
+	 * 
+	 * Método responsável por trazer uma lista de objetos do tipo {@link Permissao}.
+	 * 
+	 * @param idUsuario
+	 * @return List<Permissao> todasAsPermissoesDoUsuario.
+	 * @since Sprint 4&5.
+	 */
 	public List<Permissao> listarPermissoes(int idUsuario) {
 		List<Perfil> listaDePerfisDoUsuario = listarPerfis(idUsuario);
 
@@ -194,7 +240,16 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		}
 		return todasAsPermissoesDoUsuario;
 	}
-
+ 
+	/**
+	 * Atribui um {@link Perfil} a um {@link Usuario}.
+	 * 
+	 * Método responsável por atribuir um {@link Perfil} a um {@link Usuario}.
+	 * 
+	 * @param UsuarioPerfil - usuarioPerfil
+	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario} não seja possivel.
+	 * @since Sprint 4&5
+	 */
 	public void atribuirPerfilAUmUsuario(UsuarioPerfil usuarioPerfil) {
 		try {
 			session.beginTransaction();
