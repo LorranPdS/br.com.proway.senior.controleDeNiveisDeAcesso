@@ -46,7 +46,7 @@ public class Perfil {
 	private String nomePerfil;
 
 	@OneToMany(targetEntity = UsuarioPerfil.class, cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "perfil")
-	private List<Usuario> usuarios = new ArrayList<>();
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "perfil_permissao", joinColumns = { @JoinColumn(name = "id_perfil") }, inverseJoinColumns = {

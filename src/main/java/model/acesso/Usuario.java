@@ -22,17 +22,12 @@ import utils.ValidarDados;
  * 
  * Recebe os atributos necessarios para instanciar um usuario
  * 
- * @author Sprint 3
- * @author David Willian, david.oliveira@senior.com.br
- * @author Leonardo Pereira, leonardo.pereira@senior.com.br
- * @author Vitor Peres, vitor.peres@senior.com.br
- * 
- * @author Sprint 4
- * @author Elton Oliveira, elton.oliveira@senior.com.br
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Thiago Barbieri, thiago.barbieri@senior.com.br
- * @author Vitor Goncalves, vitor.goncalves@senior.com.br
- * @author Vitor Gehrke, vitor.gehrke@senior.com.br
+ * @author Simon gabrielsimon775@gmail.com
+ * @author Jonata Caetano jonatacaetano88@gmail.com
+ * @author Lucas Grijó rksgrijo@gmail.com
+ * @author Lorran lorransantospereira@yahoo.com.br
+ * @author Thiago thiagoluizbarbieri@gmail.com
+ * @since Sprint 4&5
  */
 
 @Entity
