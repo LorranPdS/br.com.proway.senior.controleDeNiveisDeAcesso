@@ -22,9 +22,11 @@ public class Email {
 	private String textoEmail = "";
 
 	/**
-	 * Construtor contendo a lista de emails, o nome do email que vai mandar 
-	 * os emails, o assunto abordado no email e o corpo do email.
-	 *  
+	 * Construtor contendo a lista de emails, o nome do email que vai mandar os
+	 * emails, o assunto abordado no email e o corpo do email.
+	 * 
+	 * @author Sprint 5
+	 * 
 	 * @param listaDestinatarios
 	 * @param nomeRemetente
 	 * @param assuntoEmail
@@ -39,6 +41,7 @@ public class Email {
 
 	/**
 	 * Propriedades necessarias para o envio do email.
+	 * 
 	 * @return
 	 */
 	public boolean enviarEmail() {
@@ -52,13 +55,14 @@ public class Email {
 			properties.put("mail.smtp.host", "smtp.gmail.com"); // Servidor Gmail
 			properties.put("mail.smtp.port", "465"); // Porta do servidor
 			properties.put("mail.smtp.socketFactory.port", "465"); // Especifica a porta a ser conectada pelo socket
-			properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); // Classe socket de conex�o
+			properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); // Classe socket de
+																								// conex�o
 																								// ao SMTP
 
 			/**
-			 * |Autentica o login e senha do remetente.
+			 * Autentica o login e senha do remetente.
 			 * 
-			 * return PasswordAuthetication	
+			 * return PasswordAuthetication
 			 */
 			Session session = Session.getInstance(properties, new Authenticator() {
 				@Override
@@ -87,7 +91,6 @@ public class Email {
 			System.out.println("Falha no envio!");
 			return false;
 		}
-		
 
 	}
 }

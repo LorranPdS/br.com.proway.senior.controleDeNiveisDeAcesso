@@ -38,8 +38,8 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	/**
-	 * Verifica se a instancia e nula, se for ela e instanciada. Se caso ja
-	 * existir so e retornada.
+	 * Verifica se a instancia e nula, se for ela e instanciada. Se caso ja existir
+	 * so e retornada.
 	 * 
 	 * @return instance
 	 */
@@ -49,14 +49,14 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		}
 		return instance;
 	}
-	
+
 	/**
 	 * Transforma a instancia em nula.
 	 */
 	public static void shutdown() {
 		instance = null;
 	}
-	
+
 	/**
 	 * Persiste uma Permissao no banco.
 	 * 

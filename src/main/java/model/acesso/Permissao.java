@@ -23,8 +23,8 @@ import javax.persistence.Table;
  * @author Lucas Grijó, rksgrijo@gmail.com
  * @author Lorran, lorransantospereira@yahoo.com.br
  * @author Thiago, thiagoluizbarbieri@gmail.com
-
-**/
+ * 
+ **/
 
 @Entity
 @Table(name = "permissao")
@@ -37,22 +37,23 @@ public class Permissao {
 
 	@Column(name = "nome_permissao")
 	private String nomePermissao;
-	
-	/** 
+
+	/**
 	 * Entidade relacionameno entre as tabelas.
 	 * 
 	 * Perfil e uma lista de perfis.
 	 *
-	 * @since sprint5 
+	 * @since sprint5
 	 * @author TODO
-	 *   
-	**/
+	 * 
+	 **/
 
 	@ManyToMany(mappedBy = "permissoes")
 	private Set<Perfil> perfis = new HashSet<>();
-	
-	public Permissao() {}
-	
+
+	public Permissao() {
+	}
+
 	/**
 	 * Construtor de permissao.
 	 * 
@@ -91,7 +92,7 @@ public class Permissao {
 
 	/**
 	 * Define o nome da permissao.
-	 *  
+	 * 
 	 * @param nomePermissao
 	 */
 	public void setNomePermissao(String nomePermissao) {
