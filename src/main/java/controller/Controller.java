@@ -223,12 +223,34 @@ public class Controller {
 		return resultado;
 	}
 
+	/**
+	 * Lista todas as {@link Permissao} do {@link Usuario}.
+	 * 
+	 * Será feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
+	 * {@link Permissao} registradas no banco de dados, elas serão retornadas, caso contrário, será retornado null.
+	 * 
+	 * @param idUsuario - int
+	 * @return List<Permissao>
+	 */
 	public List<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
-		return UsuarioDAO.getInstance().listarPermissoes(idUsuario);
+		List<Permissao> listaPermissao = UsuarioDAO.getInstance().listarPermissoes(idUsuario);
+		List<Permissao> resultado = !listaPermissao.isEmpty() ? listaPermissao : null;
+		return resultado;
 	}
 
+	/**
+	 * Lista todos os {@link Perfil} do {@link Usuario}.
+	 * 
+	 * Será feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
+	 * {@link Perfil} registrados no banco de dados, eles serão retornados, caso contrário, será retornado null.
+	 * 
+	 * @param idUsuario - int
+	 * @return List<Perfil>
+	 */
 	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		return UsuarioDAO.getInstance().listarPerfis(idUsuario);
+		List<Perfil> listaPerfis =  UsuarioDAO.getInstance().listarPerfis(idUsuario);
+		List<Perfil> resultado = !listaPerfis.isEmpty() ? listaPerfis : null;
+		return resultado;
 	}
 
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExp) {
@@ -351,6 +373,16 @@ public class Controller {
 		PermissaoDAO.getInstance().criar(permissao);
 	}
 
+	/**
+	 * Alteracao de uma {@link Permissao}.
+	 * 
+	 * Será feita uma consulta da {@link Permissao} no banco de dados através do id e nome da permissao,
+	 * o qual retornará o objeto completo. Feito isso, o novo nome da {@link Permissao} será setado ao objeto
+	 * e enviado ao {@link PermissaoDAO} para ser atualizado no banco de dados.
+	 * 
+	 * @param idPermissao - Interger
+	 * @param nomePermissao - String
+	 */
 	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
 		Permissao p = consultarPermissao(idPermissao);
 		p.setNomePermissao(nomePermissao);
