@@ -17,16 +17,16 @@ import utils.Email;
 import utils.HashSenha;
 
 /**
- * Classe Controller
+ * Classe responsável por intermediar os dados da View e Model.
  * 
- * Classe responsável por intermediar os dados da View e Model. Os métodos dessa
- * classe definem a API de nosso sistema.
+ * Os métodos dessa classe definem a API de nosso sistema.
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
  * @author Lorran, lorransantospereira@yahoo.com.br
  * @author Lucas Grijó, rksgrijo@gmail.com
  * @author Thiago, thiagoluizbarbieri@gmail.com
+ * @since Sprint 4&5.
  */
 public class Controller {
 
@@ -76,7 +76,7 @@ public class Controller {
 		Integer codigoDeConfirmacao = gerarCodigoDeConfirmacao();
 		u.setUltimoCodigo2FA(codigoDeConfirmacao);
 		UsuarioDAO.getInstance().alterar(u);
-		
+
 		String nomeDoRemetente = "Grupo 3";
 		String assuntoDoEmail = "2FA Niveis de Acesso";
 		String corpoDoEmail = "O seu código é: " + codigoDeConfirmacao.toString();
@@ -180,12 +180,14 @@ public class Controller {
 	}
 
 	/**
-	 * Criação de um {@link Perfil} no objeto.
+	 * Criacao de um {@link Perfil} no objeto.
 	 * 
-	 * Responsável por criar um objeto do tipo {@link Perfil} com os atributos nomePerfil.
-	 * O objeto {@link Perfil} é enviado ao {@link PerfilDAO} para ser persistido no banco de dados.
+	 * Responsavel por criar um objeto do tipo {@link Perfil} com o atributo
+	 * nomePerfil. O objeto {@link Perfil} e enviado ao {@link PerfilDAO} para ser
+	 * persistido no banco de dados.
 	 * 
-	 * @param nomePerfil - String
+	 * @param String - nomePerfil
+	 * 
 	 */
 	public void criarPerfil(String nomePerfil) {
 		Perfil perfil = new Perfil(nomePerfil);
@@ -193,11 +195,15 @@ public class Controller {
 	}
 
 	/**
-	 * Responsável por alterar um objeto do tipo {@link Perfil} com os atributos idPerfil e nomePerfil.
-	 * O objeto {@link Perfil} é enviado ao {@link Perfil} para ser atualizado no banco de dados.
+	 * Alteracao de um {@link Perfil}.
 	 * 
-	 * @param idPerfil - Integer
-	 * @param nomePerfil - String
+	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
+	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * PerfilDAO,o nome do perfil e adicionado ao objeto e alterado no banco de
+	 * dados.
+	 * 
+	 * @param Integer idPerfil
+	 * @param String  nomePerfil
 	 */
 	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
 		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
@@ -206,22 +212,30 @@ public class Controller {
 	}
 
 	/**
+	 * Remoção de um {@link Perfil} pelo id.
+   *
 	 * Responsável por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
 	 * O objeto {@link Perfil} é enviado ao {@link Perfil} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
 	 */
 	public void deletarPerfil(Integer idPerfil) {
-		Perfil p = PerfilDAO.getInstance().consultarPorId(idPerfil);
-		PerfilDAO.getInstance().deletar(p);
+		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
+		PerfilDAO.getInstance().deletar(perfil);
 	}
 
 	/**
-	 * Tem a funcao de consultar por id um objeto do tipo {@link Perfil} com o atributo idPerfil.
-	 * O objeto {@link Perfil}  vai ser consultado no banco de dados pelo ID.
+	 * Consulta de {@link Perfil} pelo id.
 	 * 
-	 * @param idPerfil - Integer
-	 * @return {@link Perfil} 
+	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
+	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * {@link PerfilDAO},o nome do perfil e adicionado ao objeto e alterado no banco de
+	 * dados.
+	 * 
+	 * 
+	 * @param Integer 
+	 * @throws NullPointerException Caso não exista o {@link Perfil} no banco de dados.
+	 * @return Perfil
 	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
 		try {
@@ -323,5 +337,3 @@ public class Controller {
 	}
 
 }
-
-
