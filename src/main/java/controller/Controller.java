@@ -17,14 +17,14 @@ import utils.Email;
 import utils.HashSenha;
 
 /**
- * Classe responsável por intermediar os dados da View e Model.
+ * Classe responsÃ¡vel por intermediar os dados da View e Model.
  * 
- * Os métodos dessa classe definem a API de nosso sistema.
+ * Os mÃ©todos dessa classe definem a API de nosso sistema.
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
  * @author Lorran, lorransantospereira@yahoo.com.br
- * @author Lucas Grijó, rksgrijo@gmail.com
+ * @author Lucas GrijÃ³, rksgrijo@gmail.com
  * @author Thiago, thiagoluizbarbieri@gmail.com
  * @since Sprint 4&5.
  */
@@ -88,7 +88,7 @@ public class Controller {
 
 		String nomeDoRemetente = "Grupo 3";
 		String assuntoDoEmail = "2FA Niveis de Acesso";
-		String corpoDoEmail = "O seu código é: " + codigoDeConfirmacao.toString();
+		String corpoDoEmail = "O seu cÃ³digo Ã©: " + codigoDeConfirmacao.toString();
 
 		Email email = new Email(emailDoDestinario, nomeDoRemetente, assuntoDoEmail, corpoDoEmail);
 
@@ -145,10 +145,10 @@ public class Controller {
 	}
 
 	/**
-	 * Cria��o de um {@link Usuario} no objeto.
+	 * Criacao de um {@link Usuario} no objeto.
 	 * 
-	 * Respons�vel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
-	 * O objeto {@link Usuario} � enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
+	 * Responsavel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
+	 * O objeto {@link Usuario} e enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
 	 * 
 	 * @param login
 	 * @param senha
@@ -159,9 +159,9 @@ public class Controller {
 	}
 
 	/**
-	 * Remo��o de um {@link Usuario} pelo id.
+	 * Remocao de um {@link Usuario} pelo id.
 	 * 
-	 * Respons�vel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
+	 * Responsavel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
 	 * com os dados do {@link Usuario} preenchidos e, posteriormente, enviando ao {@link UsuarioDAO} para
 	 * ser removido do banco de dados.
 	 * 
@@ -175,8 +175,8 @@ public class Controller {
 	 /**
 	 * Alteracao de um {@link Usuario}.
 	 * 
-	 * Ser� feita uma consulta do {@link Usuario} no banco de dados atrav�s do id, o qual retornar� o objeto
-	 * completo. Feito isso, o login e a senha ser�o setados ao objeto e enviado ao {@link UsuarioDAO} para ser
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves do id, o qual retornara o objeto
+	 * completo. Feito isso, o login e a senha sera setados ao objeto e enviado ao {@link UsuarioDAO} para ser
 	 * atualizado no banco de dados.
 	 * 
 	 * @param Integer - idUsuario
@@ -193,11 +193,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo id
 	 * 
-	 * Ser� feita uma consulta do {@link Usuario} no banco de dados atrav�s de seu id, o qual retornar� o objeto
+	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu id, o qual retornarï¿½ o objeto
 	 * completo.
 	 * 
 	 * @param Integer - idUsuario
-	 * @throws NullPointerException - Caso n�o exista o usu�rio no banco de dados.
+	 * @throws NullPointerException - Caso nï¿½o exista o usuï¿½rio no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(Integer idUsuario) {
@@ -211,11 +211,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo login.
 	 * 
-	 * Ser� feita uma consulta do {@link Usuario} no banco de dados atrav�s de seu nome, o qual retornar� o objeto
+	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu nome, o qual retornarï¿½ o objeto
 	 * completo.
 	 * 
 	 * @param String
-	 * @throws NullPointerException caso n�o exista o {@link Usuario} no banco de dados.
+	 * @throws NullPointerException caso nï¿½o exista o {@link Usuario} no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(String login) {
@@ -229,8 +229,8 @@ public class Controller {
 	/**
 	 * Lista todos os {@link Usuario}.
 	 * 
-	 * Ser� feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
-	 * {@link Usuario} registrados no banco de dados, eles ser�o retornados, caso contr�rio, ser� retornado null.
+	 * Serï¿½ feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
+	 * {@link Usuario} registrados no banco de dados, eles serï¿½o retornados, caso contrï¿½rio, serï¿½ retornado null.
 	 * 
 	 * @return ArrayList<Usuario>
 	 */
@@ -243,8 +243,8 @@ public class Controller {
 	/**
 	 * Lista todas as {@link Permissao} do {@link Usuario}.
 	 * 
-	 * Ser� feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
-	 * {@link Permissao} registradas no banco de dados, elas ser�o retornadas, caso contr�rio, ser� retornado null.
+	 * Será feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
+	 * {@link Permissao} registradas no banco de dados, elas serão retornadas, caso contrário, será retornado null.
 	 * 
 	 * @param idUsuario - int
 	 * @return List<Permissao>
@@ -258,8 +258,8 @@ public class Controller {
 	/**
 	 * Lista todos os {@link Perfil} do {@link Usuario}.
 	 * 
-	 * Ser� feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
-	 * {@link Perfil} registrados no banco de dados, eles ser�o retornados, caso contr�rio, ser� retornado null.
+	 * Será feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
+	 * {@link Perfil} registrados no banco de dados, eles serão retornados, caso contrário, será retornado null.
 	 * 
 	 * @param idUsuario - int
 	 * @return List<Perfil>
@@ -314,10 +314,10 @@ public class Controller {
 	}
 
 	/**
-	 * Remoção de um {@link Perfil} pelo id.
+	 * RemoÃ§Ã£o de um {@link Perfil} pelo id.
    *
-	 * Responsável por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
-	 * O objeto {@link Perfil} é enviado ao {@link Perfil} para ser removido no banco de dados.
+	 * ResponsÃ¡vel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+	 * O objeto {@link Perfil} Ã© enviado ao {@link Perfil} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
 	 */
@@ -336,7 +336,7 @@ public class Controller {
 	 * 
 	 * 
 	 * @param Integer 
-	 * @throws NullPointerException Caso não exista o {@link Perfil} no banco de dados.
+	 * @throws NullPointerException Caso nÃ£o exista o {@link Perfil} no banco de dados.
 	 * @return Perfil
 	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
@@ -385,6 +385,14 @@ public class Controller {
 
 	// DAO - Permissaos
 
+	/**
+	 * Criacao de um {@link Permissao} no objeto.
+	 * 
+	 * Responsavel por criar um objeto do tipo {@link Permissao}.
+	 * O objeto {@link Permissao} e enviado ao {@link PermissaoDAO} para ser persistido no banco de dados.
+	 * 
+	 * @param String
+	 */
 	public void criarPermissao(String nomePermissao) {
 		Permissao permissao = new Permissao(nomePermissao);
 		PermissaoDAO.getInstance().criar(permissao);
@@ -393,8 +401,8 @@ public class Controller {
 	/**
 	 * Alteracao de uma {@link Permissao}.
 	 * 
-	 * Ser� feita uma consulta da {@link Permissao} no banco de dados atrav�s do id e nome da permissao,
-	 * o qual retornar� o objeto completo. Feito isso, o novo nome da {@link Permissao} ser� setado ao objeto
+	 * Será feita uma consulta da {@link Permissao} no banco de dados através do id e nome da permissao,
+	 * o qual retornará o objeto completo. Feito isso, o novo nome da {@link Permissao} será setado ao objeto
 	 * e enviado ao {@link PermissaoDAO} para ser atualizado no banco de dados.
 	 * 
 	 * @param idPermissao - Interger
@@ -411,10 +419,28 @@ public class Controller {
 		PermissaoDAO.getInstance().deletar(p);
 	}
 
+	/**
+	 * Consulta de {@link Permissao} pelo idPermissao
+	 * 
+	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu idPermissao, o qual retornara o objeto
+	 * completo.
+	 * 
+	 * @param idPermissao Integer 
+	 * @return Permissao
+	 */
 	public Permissao consultarPermissao(Integer idPermissao) {
 		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
 	}
 
+	/**
+	 * Consulta de {@link Permissao} pelo nomePermissao.
+	 * 
+	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu nomePermissao, o qual retornara o objeto
+	 * completo.
+	 * 
+	 * @param nomePermissao String 
+	 * @return Permissao
+	 */
 	public Permissao consultarPermissao(String nomePermissao) {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
