@@ -96,11 +96,6 @@ public class PerfilDAOTest {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao2);
 
 		List<Permissao> listaPermissao = PerfilDAO.getInstance().listarPermissoes(perfil.getIdPerfil());
-//		System.out.println("---- TAMANHO LISTA PERMISSOES DO PERFIL ---- " + listaPermissao.size());
-//		for (Permissao permissao : listaPermissao) {
-//			System.out.println("----Perfis: " + permissao.getNomePermissao());
-//		}
-
 		assertEquals(2, listaPermissao.size());
 	}
 

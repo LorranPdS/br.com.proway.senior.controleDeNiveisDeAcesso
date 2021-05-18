@@ -18,8 +18,8 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsuarioDAOTest {
 
-	@BeforeClass
 	@AfterClass
+	@BeforeClass
 	public static void testAlimparUsuariosDeTeste() {
 		String sql1 = "DELETE FROM usuario WHERE login = 'Thiago@gmail.com';";
 		String sql2 = "DELETE FROM usuario WHERE login = 'Luiz@gmail.com';";
