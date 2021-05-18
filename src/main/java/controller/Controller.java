@@ -108,7 +108,14 @@ public class Controller {
 		else
 			return false;
 	}
-
+	
+	/**
+	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se o {@link Usuario} tem permissoes.
+	 * 
+	 * @param usuario - Usuario
+	 * @param permissao - Permissao
+	 * @return ArrayList<Permissao>
+	 */
 	public boolean verificarPermissao(Usuario usuario, Permissao permissao) {
 		List<Permissao> listaDePermissoesDesseUsuario = listarPermissoesDeUmUsuario(usuario.getIdUsuario());
 		if (listaDePermissoesDesseUsuario.contains(permissao)) {
@@ -118,6 +125,14 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Vai ser feita uma consulta no banco de dados pelo ID do perfil para saber se o {@link Perfil} 
+	 * tem permissoes.
+	 * 
+	 * @param perfil - Perfil
+	 * @param permissao - Permissao
+	 * @return ArrayList<Permissao>
+	 */
 	public boolean verificarPermissao(Perfil perfil, Permissao permissao) {
 		List<Permissao> listaDePermissoesDessePerfil = listarPermissoesDeUmPerfil(perfil.getIdPerfil());
 		if (listaDePermissoesDessePerfil.contains(permissao)) {
@@ -128,10 +143,10 @@ public class Controller {
 	}
 
 	/**
-	 * Criação de um {@link Usuario} no objeto.
+	 * Criaï¿½ï¿½o de um {@link Usuario} no objeto.
 	 * 
-	 * Responsável por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
-	 * O objeto {@link Usuario} é enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
+	 * Responsï¿½vel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
+	 * O objeto {@link Usuario} ï¿½ enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
 	 * 
 	 * @param login
 	 * @param senha
@@ -142,9 +157,9 @@ public class Controller {
 	}
 
 	/**
-	 * Remoção de um {@link Usuario} pelo id.
+	 * Remoï¿½ï¿½o de um {@link Usuario} pelo id.
 	 * 
-	 * Responsável por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
+	 * Responsï¿½vel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
 	 * com os dados do {@link Usuario} preenchidos e, posteriormente, enviando ao {@link UsuarioDAO} para
 	 * ser removido do banco de dados.
 	 * 
@@ -158,8 +173,8 @@ public class Controller {
 	 /**
 	 * Alteracao de um {@link Usuario}.
 	 * 
-	 * Será feita uma consulta do {@link Usuario} no banco de dados através do id, o qual retornará o objeto
-	 * completo. Feito isso, o login e a senha serão setados ao objeto e enviado ao {@link UsuarioDAO} para ser
+	 * Ser feita uma consulta do {@link Usuario} no banco de dados atravï¿½s do id, o qual retornarï¿½ o objeto
+	 * completo. Feito isso, o login e a senha serï¿½o setados ao objeto e enviado ao {@link UsuarioDAO} para ser
 	 * atualizado no banco de dados.
 	 * 
 	 * @param Integer - idUsuario
@@ -176,11 +191,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo id
 	 * 
-	 * Será feita uma consulta do {@link Usuario} no banco de dados através de seu id, o qual retornará o objeto
+	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu id, o qual retornarï¿½ o objeto
 	 * completo.
 	 * 
 	 * @param Integer - idUsuario
-	 * @throws NullPointerException - Caso não exista o usuário no banco de dados.
+	 * @throws NullPointerException - Caso nï¿½o exista o usuï¿½rio no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(Integer idUsuario) {
@@ -194,11 +209,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo login.
 	 * 
-	 * Será feita uma consulta do {@link Usuario} no banco de dados através de seu nome, o qual retornará o objeto
+	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu nome, o qual retornarï¿½ o objeto
 	 * completo.
 	 * 
 	 * @param String
-	 * @throws NullPointerException caso não exista o {@link Usuario} no banco de dados.
+	 * @throws NullPointerException caso nï¿½o exista o {@link Usuario} no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(String login) {
@@ -212,8 +227,8 @@ public class Controller {
 	/**
 	 * Lista todos os {@link Usuario}.
 	 * 
-	 * Será feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
-	 * {@link Usuario} registrados no banco de dados, eles serão retornados, caso contrário, será retornado null.
+	 * Serï¿½ feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
+	 * {@link Usuario} registrados no banco de dados, eles serï¿½o retornados, caso contrï¿½rio, serï¿½ retornado null.
 	 * 
 	 * @return ArrayList<Usuario>
 	 */
@@ -231,6 +246,15 @@ public class Controller {
 		return UsuarioDAO.getInstance().listarPerfis(idUsuario);
 	}
 
+	/**
+	 * Ã‰ atribuido um {@link Perfil} a um {@link Usuario} quando Ã© passado um {@link Usuario} para aquele {@link Perfil}.
+	 * ApÃ³s criado, vai verificar se a data de expiracao nao e nula e vai criar um {@link Perfil} com a data expiracao, se 
+	 * caso a data de expiracao for nula e criado um {@link Perfil} sem data de expiracao.
+	 * 
+	 * @param usuario Usuario
+	 * @param perfil Perfil
+	 * @param dataExp LocalDate
+	 */
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExp) {
 		UsuarioPerfilId userPerfilId = new UsuarioPerfilId(usuario.getIdUsuario(), perfil.getIdPerfil());
 		UsuarioPerfil usuarioPerfil;
@@ -340,6 +364,13 @@ public class Controller {
 		return PerfilDAO.getInstance().listarPermissoes(idPerfil);
 	}
 
+	/**
+	 *  Ã‰ atribuido uma {@link Permissao} a um {@link Perfil} quando Ã© passado uma {@link Permissao} 
+	 *  para aquele {@link Perfil}.
+	 * 
+	 * @param permissao Permissao
+	 * @param perfil Perfil
+	 */
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}
