@@ -5,6 +5,18 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * Classe UsuarioPerfilId
+ * 
+ * Classe contendo a chave composta da tabela UsuarioPerfil. Utiliza \@Embeddable para o mapeamento correto do hibernate.
+ * 
+ * @author Simon gabrielsimon775@gmail.com
+ * @author Jonata Caetano jonatacaetano88@gmail.com
+ * @author Lucas Grijó rksgrijo@gmail.com
+ * @author Lorran lorransantospereira@yahoo.com.br
+ * @author Thiago thiagoluizbarbieri@gmail.com
+ * @since Sprint 5
+ */
 @Embeddable
 public class UsuarioPerfilId implements Serializable {
 

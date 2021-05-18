@@ -30,7 +30,7 @@ import utils.HashSenha;
  */
 public class Controller {
 
-	static Controller instance;
+	private static Controller instance;
 
 	private Controller() {
 	}
@@ -213,13 +213,11 @@ public class Controller {
 
 	/**
 	 * Remoção de um {@link Perfil} pelo id.
+   *
+	 * Responsável por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+	 * O objeto {@link Perfil} é enviado ao {@link Perfil} para ser removido no banco de dados.
 	 * 
-	 * Responsável por consultar um {@link Perfil} pelo seu id no banco de dados,
-	 * retornando o objeto com os dados do {@link Perfil} preenchidos e,
-	 * posteriormente, enviando ao {@link PerfilDAO} para ser removido do banco de
-	 * dados.
-	 * 
-	 * @param Integer - idPerfil
+	 * @param idPerfil - Integer
 	 */
 	public void deletarPerfil(Integer idPerfil) {
 		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
@@ -248,9 +246,11 @@ public class Controller {
 	}
 
 	/**
+	 * Tem a funcao de consultar por nome um objeto do tipo {@link Perfil} com o atributo nomePerfil.
+	 * O objeto {@link Perfil} vai ser consultado no banco de dados pelo nome.
 	 * 
-	 * @param nome
-	 * @return
+	 * @param nome - String
+	 * @return {@link Perfil} 
 	 */
 	public Perfil consultarPerfil(String nome) {
 		try {
@@ -261,6 +261,11 @@ public class Controller {
 
 	}
 
+	/**
+	 * Consulta todos os perfis no banco de dados.
+	 * 
+	 * @return resultado - ArrayList<Perfil>
+	 */
 	public ArrayList<Perfil> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
 		ArrayList<Perfil> resultado = !perfisEncontrados.isEmpty() ? perfisEncontrados : null;
@@ -307,11 +312,15 @@ public class Controller {
 	}
 
 	// ROTINAS AUTOMATICAS
-
+	/**
+	 * Remove todas as permissoes expiradas. 
+	 * 
+	 * Lista todos os {@link Usuario}s e remove a atribuicao de {@link Perfil}, 
+	 * caso a data tenha vencido.
+	 */
 	public void expirarTodasAsPermissoesDoSistema() {
 		List<Usuario> listaUsuario = UsuarioDAO.getInstance().listar();
-		for (Usuario usuario : listaUsuario) {
-			UsuarioDAO.getInstance().consultarPorId(usuario.getIdUsuario());
+		for ( Usuario usuario : listaUsuario) {
 			for (UsuarioPerfil usuarioPerfil : usuario.getPerfis()) {
 				if (usuarioPerfil.getDataExpiracao() != null) {
 					if (usuarioPerfil.getDataExpiracao().isBefore(LocalDate.now())) {

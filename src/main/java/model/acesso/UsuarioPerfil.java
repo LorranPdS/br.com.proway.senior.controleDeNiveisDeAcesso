@@ -11,6 +11,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Classe UsuarioPerfil
+ * 
+ * Classe representando a tabela de ligacao entre N usuario e N perfis.
+ * Perfis atrelados a um usuario podem expirar com o tempo através do campo data_expiracao.
+ * 
+ * @author Simon gabrielsimon775@gmail.com
+ * @author Jonata Caetano jonatacaetano88@gmail.com
+ * @author Lucas Grijó rksgrijo@gmail.com
+ * @author Lorran lorransantospereira@yahoo.com.br
+ * @author Thiago thiagoluizbarbieri@gmail.com
+ * @since Sprint 5
+ */
 @Entity
 @Table(name = "usuario_perfil")
 public class UsuarioPerfil {
