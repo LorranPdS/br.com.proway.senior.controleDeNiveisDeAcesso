@@ -2,12 +2,12 @@ package controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,9 +22,41 @@ import utils.HashSenha;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ControllerTest {
 
-	@Test
+	@Ignore
 	public void testAcleanDB() {
 		DBConnection.truncateTablesAndRestartSequences();
+	}
+
+	@BeforeClass
+	@AfterClass
+	public static void testAlimparTestesDoController() {
+		String sqlPermissao1 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeCriação';";
+		String sqlPermissao2 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeAlteraçãoDepoisDaAlteração';";
+		String sqlPerfil1 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeCriação';";
+		String sqlPerfil2 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeAlteraçãoDepoisDaAlteração';";
+		String sqlUsuario1 = "DELETE FROM usuario WHERE login = 'jonata@gmail.com';";
+		String sqlUsuario2 = "DELETE FROM usuario WHERE login = 'UsuarioDeTesteDepoisDaAlteracao@gmail.com';";
+		String sqlLogin1 = "DELETE FROM usuario WHERE login = 'Grijo@gmail.com';";
+		String sqlAtribuicoes1 = "TRUNCATE TABLE perfil_permissao CASCADE;";
+		String sqlAtribuicoes2 = "TRUNCATE TABLE usuario_perfil CASCADE;";
+		String sqlAtribuicoes3 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao1';";
+		String sqlAtribuicoes4 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao2';";
+		String sqlAtribuicoes5 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao3';";
+		String sqlAtribuicoes6 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeVerificaçãoDePermissão';";
+		String sqlAtribuicoes7 = "DELETE FROM usuario WHERE login = 'UsuarioDeTesteDeVerificacaoDePermissao@gmail.com';";
+
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery(sqlPermissao1 + sqlPermissao2 + sqlPerfil1 + sqlPerfil2 + sqlUsuario1 + sqlUsuario2
+							+ sqlLogin1 + sqlAtribuicoes1 + sqlAtribuicoes2 + sqlAtribuicoes3 + sqlAtribuicoes4
+							+ sqlAtribuicoes5 + sqlAtribuicoes6 + sqlAtribuicoes7)
+					.executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -149,15 +181,15 @@ public class ControllerTest {
 	}
 
 	@Ignore
-	public void testNEmail() throws Exception {
-		boolean resultadoEnvioEmail = Controller.getInstance()
-				.enviarEmailDeConfirmacaoDeLogin("NOMEFICTICIO@gmail.com");
+	public void testNEnviarEmail() throws Exception {
+		String destinatario = "NOMEFICTICIO@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
+		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin(destinatario);
 		assertTrue(resultadoEnvioEmail);
 	}
 
 	@Ignore
 	public void testOLogar() {
-		String login = "Grijo";
+		String login = "Grijo@gmail.com";
 		String senha = "234";
 		Controller.getInstance().criarUsuario(login, senha);
 		boolean logar = Controller.getInstance().logar(login, senha);
