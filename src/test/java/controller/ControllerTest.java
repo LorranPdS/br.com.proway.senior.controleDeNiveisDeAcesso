@@ -2,8 +2,10 @@ package controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.AfterClass;
@@ -27,13 +29,13 @@ public class ControllerTest {
 		DBConnection.truncateTablesAndRestartSequences();
 	}
 
-	@BeforeClass
 	@AfterClass
+	@BeforeClass
 	public static void testAlimparTestesDoController() {
-		String sqlPermissao1 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeCriação';";
-		String sqlPermissao2 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeAlteraçãoDepoisDaAlteração';";
-		String sqlPerfil1 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeCriação';";
-		String sqlPerfil2 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeAlteraçãoDepoisDaAlteração';";
+		String sqlPermissao1 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeCriacao';";
+		String sqlPermissao2 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeAlteracaoDepoisDaAlteracao';";
+		String sqlPerfil1 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeCriacao';";
+		String sqlPerfil2 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeAlteracaoDepoisDaAlteracao';";
 		String sqlUsuario1 = "DELETE FROM usuario WHERE login = 'jonata@gmail.com';";
 		String sqlUsuario2 = "DELETE FROM usuario WHERE login = 'UsuarioDeTesteDepoisDaAlteracao@gmail.com';";
 		String sqlLogin1 = "DELETE FROM usuario WHERE login = 'Grijo@gmail.com';";
@@ -42,15 +44,18 @@ public class ControllerTest {
 		String sqlAtribuicoes3 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao1';";
 		String sqlAtribuicoes4 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao2';";
 		String sqlAtribuicoes5 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao3';";
-		String sqlAtribuicoes6 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeVerificaçãoDePermissão';";
+		String sqlAtribuicoes6 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeVerificacaoDePermissao';";
 		String sqlAtribuicoes7 = "DELETE FROM usuario WHERE login = 'UsuarioDeTesteDeVerificacaoDePermissao@gmail.com';";
+		String sqlAtribuicoes8 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuicaoTestePrimeiro';";
+		String sqlAtribuicoes9 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuicaoTesteSegundo';";
+		String sqlAtribuicoes10 = "DELETE FROM usuario WHERE login = 'TesteAtribuicao@gmail.com';";
 
 		try {
 			DBConnection.getSession().beginTransaction();
 			DBConnection.getSession()
 					.createSQLQuery(sqlPermissao1 + sqlPermissao2 + sqlPerfil1 + sqlPerfil2 + sqlUsuario1 + sqlUsuario2
 							+ sqlLogin1 + sqlAtribuicoes1 + sqlAtribuicoes2 + sqlAtribuicoes3 + sqlAtribuicoes4
-							+ sqlAtribuicoes5 + sqlAtribuicoes6 + sqlAtribuicoes7)
+							+ sqlAtribuicoes5 + sqlAtribuicoes6 + sqlAtribuicoes7 + sqlAtribuicoes8 + sqlAtribuicoes9 + sqlAtribuicoes10)
 					.executeUpdate();
 			DBConnection.getSession().getTransaction().commit();
 		} catch (Exception e) {
@@ -61,7 +66,7 @@ public class ControllerTest {
 
 	@Test
 	public void testBCriarEConsultarPermissao() {
-		String nomeDaPermissao = "PermissaoDeTesteDeCriação";
+		String nomeDaPermissao = "PermissaoDeTesteDeCriacao";
 		Controller.getInstance().criarPermissao(nomeDaPermissao);
 		Permissao permissaoEncontradaPorNome = Controller.getInstance().consultarPermissao(nomeDaPermissao);
 		Permissao permissaoEncontradaPorId = Controller.getInstance()
@@ -72,10 +77,10 @@ public class ControllerTest {
 
 	@Test
 	public void testCAlterarPermissao() {
-		String nomeDaPermissao = "PermissaoDeTesteDeAlteraçãoAntesDaAlteração";
+		String nomeDaPermissao = "PermissaoDeTesteDeAlteracaoAntesDaAlteracao";
 		Controller.getInstance().criarPermissao(nomeDaPermissao);
 		Permissao permissaoConsultada = Controller.getInstance().consultarPermissao(nomeDaPermissao);
-		String novoNomeDaPermissao = "PermissaoDeTesteDeAlteraçãoDepoisDaAlteração";
+		String novoNomeDaPermissao = "PermissaoDeTesteDeAlteracaoDepoisDaAlteracao";
 		Controller.getInstance().alterarPermissao(permissaoConsultada.getIdPermissao(), novoNomeDaPermissao);
 		permissaoConsultada = Controller.getInstance().consultarPermissao(permissaoConsultada.getIdPermissao());
 		assertEquals(novoNomeDaPermissao, permissaoConsultada.getNomePermissao());
@@ -84,7 +89,7 @@ public class ControllerTest {
 	@Test
 	public void testDDeletarPermissao() {
 		int numeroDePermissoesAntesDoTeste = Controller.getInstance().listarTodasAsPermissoes().size();
-		String nomeDaPermissao = "PermissaoDeTesteDeDeleção";
+		String nomeDaPermissao = "PermissaoDeTesteDeDelecao";
 		Controller.getInstance().criarPermissao(nomeDaPermissao);
 		Permissao permissaoASerDeletada = Controller.getInstance().consultarPermissao(nomeDaPermissao);
 		Controller.getInstance().deletarPermissao(permissaoASerDeletada.getIdPermissao());
@@ -100,7 +105,7 @@ public class ControllerTest {
 
 	@Test
 	public void testFCriarEConsultarPerfil() {
-		String nomeDoPerfil = "PerfilDeTesteDeCriação";
+		String nomeDoPerfil = "PerfilDeTesteDeCriacao";
 		Controller.getInstance().criarPerfil(nomeDoPerfil);
 		Perfil perfilEncontradoPorNome = Controller.getInstance().consultarPerfil(nomeDoPerfil);
 		Perfil perfilEncontradoPorId = Controller.getInstance().consultarPerfil(perfilEncontradoPorNome.getIdPerfil());
@@ -109,10 +114,10 @@ public class ControllerTest {
 
 	@Test
 	public void testGAlterarPerfil() {
-		String nomePerfil = "PerfilDeTesteDeAlteraçãoAntesDaAlteração";
+		String nomePerfil = "PerfilDeTesteDeAlteracaoAntesDaAlteracao";
 		Controller.getInstance().criarPerfil(nomePerfil);
 		Perfil perfilConsultado = Controller.getInstance().consultarPerfil(nomePerfil);
-		String novoNomeDoPerfil = "PerfilDeTesteDeAlteraçãoDepoisDaAlteração";
+		String novoNomeDoPerfil = "PerfilDeTesteDeAlteracaoDepoisDaAlteracao";
 		Controller.getInstance().alterarPerfil(perfilConsultado.getIdPerfil(), novoNomeDoPerfil);
 		perfilConsultado = Controller.getInstance().consultarPerfil(perfilConsultado.getIdPerfil());
 		assertEquals(novoNomeDoPerfil, perfilConsultado.getNomePerfil());
@@ -121,7 +126,7 @@ public class ControllerTest {
 	@Test
 	public void testHDeletarPerfil() {
 		int numeroDePerfisAntesDoTeste = Controller.getInstance().listarTodosOsPerfis().size();
-		String nomeDoPerfil = "PerfilDeTesteDeDeleção";
+		String nomeDoPerfil = "PerfilDeTesteDeDelecao";
 		Controller.getInstance().criarPerfil(nomeDoPerfil);
 		Perfil perfilASerDeletado = Controller.getInstance().consultarPerfil(nomeDoPerfil);
 		Controller.getInstance().deletarPerfil(perfilASerDeletado.getIdPerfil());
@@ -187,7 +192,7 @@ public class ControllerTest {
 	@Test
 	public void testNEnviarEConfirmarEmailDeConfirmacaoDeLogin() throws Exception {
 		
-		String destinatario = "EmailFicticio@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
+		String destinatario = "Email@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
 		String senha = "123";
 		Controller.getInstance().criarUsuario(destinatario, senha);
 		
@@ -229,7 +234,7 @@ public class ControllerTest {
 
 	@Test
 	public void testQverificarEListarPermissaoDeUmPerfil() {
-		String nomePerfil = "PerfilDeTesteDeVerificaçãoDePermissão";
+		String nomePerfil = "PerfilDeTesteDeVerificacaoDePermissao";
 		Controller.getInstance().criarPerfil(nomePerfil);
 
 		String nomePermissao1 = "PermissaoTesteDeAtribuicao1";
@@ -266,7 +271,7 @@ public class ControllerTest {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
 		Controller.getInstance().criarUsuario(loginUsuario, senhaUsuario);
-		String nomePerfil = "PerfilDeTesteDeVerificaçãoDePermissão";
+		String nomePerfil = "PerfilDeTesteDeVerificacaoDePermissao";
 
 		Usuario usuario = Controller.getInstance().consultarUsuario(loginUsuario);
 		Perfil perfil = Controller.getInstance().consultarPerfil(nomePerfil);
@@ -279,11 +284,37 @@ public class ControllerTest {
 		Permissao permissao2 = Controller.getInstance().consultarPermissao(nomePermissao2);
 		Permissao permissao3 = Controller.getInstance().consultarPermissao(nomePermissao3);
 
-		assertTrue(Controller.getInstance().verificarPermissao(perfil, permissao2));
-		assertFalse(Controller.getInstance().verificarPermissao(perfil, permissao3));
+		usuario = Controller.getInstance().consultarUsuario(loginUsuario);
+		
+		assertTrue(Controller.getInstance().verificarPermissao(usuario, permissao2));
+		assertFalse(Controller.getInstance().verificarPermissao(usuario, permissao3));
 	}
 
-	public void testNRemoverPerfisExpirados() {
+	@Test
+	public void testSRemovendoUmPerfilDeUmUsuario() {
+		String loginDoUsuario = "TesteAtribuicao@gmail.com";
+		String senhaDoUsuario = "senha10";
+		Controller.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		Usuario usuario = Controller.getInstance().consultarUsuario(loginDoUsuario);
+		
+		String nomePerfil1 = "PerfilAtribuicaoTestePrimeiro";
+		Controller.getInstance().criarPerfil(nomePerfil1);
+		Perfil perfil1 = Controller.getInstance().consultarPerfil(nomePerfil1);
+		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil1, LocalDate.of(2021, 05, 17));
+		DBConnection.shutdown();
+		
+		String nomePerfil2 = "PerfilAtribuicaoTesteSegundo";
+		Controller.getInstance().criarPerfil(nomePerfil2);
+		Perfil perfil2 = Controller.getInstance().consultarPerfil(nomePerfil2);
+		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.of(2021, 05, 19));
+		DBConnection.shutdown();
+		
+		int tamanho = Controller.getInstance().consultarUsuario(loginDoUsuario).getPerfis().size();
+		
+		DBConnection.shutdown();
 		Controller.getInstance().expirarTodasAsPermissoesDoSistema();
+		DBConnection.shutdown();
+
+		assertNotEquals(tamanho, Controller.getInstance().consultarUsuario(loginDoUsuario).getPerfis().size());
 	}
 }
