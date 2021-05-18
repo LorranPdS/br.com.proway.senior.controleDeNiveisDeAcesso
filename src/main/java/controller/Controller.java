@@ -17,14 +17,14 @@ import utils.Email;
 import utils.HashSenha;
 
 /**
- * Classe responsável por intermediar os dados da View e Model.
+ * Classe responsÃƒÂ¡vel por intermediar os dados da View e Model.
  * 
- * Os métodos dessa classe definem a API de nosso sistema.
+ * Os mÃƒÂ©todos dessa classe definem a API de nosso sistema.
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
  * @author Lorran, lorransantospereira@yahoo.com.br
- * @author Lucas Grijó, rksgrijo@gmail.com
+ * @author Lucas GrijÃƒÂ³, rksgrijo@gmail.com
  * @author Thiago, thiagoluizbarbieri@gmail.com
  * @since Sprint 4&5.
  */
@@ -44,6 +44,14 @@ public class Controller {
 
 	// Funcionalidades Principais
 
+	/**
+	 * Autentica uma tentativa de login de um usuario do sistema.
+	 * 
+	 * Um usuario entra com um login e senha. A senha deve ser criptografada antes de comparada com a salva no banco.
+	 * Esse metodo NAO envia confirmacao de login 2FA.
+	 * @param login
+	 * @param senha
+	 */
 	public boolean logar(String login, String senha) {
 
 		String senhaCriptografada = HashSenha.criptografarSenha(login, senha);
@@ -65,7 +73,8 @@ public class Controller {
 	/**
 	 * Envia um e-mail
 	 * 
-	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a confirmacao.
+	 * Envia um e-mail para o usuario com um codigo aleatorio gerado para a confirmacao de um login.
+	 * O ultimo codigo enviado e salvo no banco de dados para futura confirmacao.
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
@@ -79,7 +88,7 @@ public class Controller {
 
 		String nomeDoRemetente = "Grupo 3";
 		String assuntoDoEmail = "2FA Niveis de Acesso";
-		String corpoDoEmail = "O seu código é: " + codigoDeConfirmacao.toString();
+		String corpoDoEmail = "O seu cÃƒÂ³digo ÃƒÂ©: " + codigoDeConfirmacao.toString();
 
 		Email email = new Email(emailDoDestinario, nomeDoRemetente, assuntoDoEmail, corpoDoEmail);
 
@@ -89,7 +98,7 @@ public class Controller {
 	/**
 	 * Gera um codigo aleatorio
 	 * 
-	 * Gera o codigo random para a verificacao de usuario
+	 * Gera o codigo random para a autenticacao 2FA de um login de usuario
 	 * 
 	 * @return codigo de 5 digitos
 	 */
@@ -102,6 +111,14 @@ public class Controller {
 		return codigo;
 	}
 
+	/**
+	 * Confirma codigo 2FA.
+	 * 
+	 * Um usuario entra com um login e codigo de confirmacao (previamente recebido em seu email).
+	 * O sistema verifica se o codigo bate com o salvo no banco de dados. 
+	 * @param login
+	 * @param codigoDeConfirmacao
+	 */
 	public boolean confirmarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
 		if (UsuarioDAO.getInstance().verificarCodigoDeConfirmacao(login, codigoDeConfirmacao) != null)
 			return true;
@@ -143,10 +160,10 @@ public class Controller {
 	}
 
 	/**
-	 * Cria��o de um {@link Usuario} no objeto.
+	 * Criacao de um {@link Usuario} no objeto.
 	 * 
-	 * Respons�vel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
-	 * O objeto {@link Usuario} � enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
+	 * Responsavel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
+	 * O objeto {@link Usuario} e enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
 	 * 
 	 * @param login
 	 * @param senha
@@ -157,9 +174,9 @@ public class Controller {
 	}
 
 	/**
-	 * Remo��o de um {@link Usuario} pelo id.
+	 * Remocao de um {@link Usuario} pelo id.
 	 * 
-	 * Respons�vel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
+	 * Responsavel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
 	 * com os dados do {@link Usuario} preenchidos e, posteriormente, enviando ao {@link UsuarioDAO} para
 	 * ser removido do banco de dados.
 	 * 
@@ -173,8 +190,8 @@ public class Controller {
 	 /**
 	 * Alteracao de um {@link Usuario}.
 	 * 
-	 * Ser feita uma consulta do {@link Usuario} no banco de dados atrav�s do id, o qual retornar� o objeto
-	 * completo. Feito isso, o login e a senha ser�o setados ao objeto e enviado ao {@link UsuarioDAO} para ser
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves do id, o qual retornara o objeto
+	 * completo. Feito isso, o login e a senha sera setados ao objeto e enviado ao {@link UsuarioDAO} para ser
 	 * atualizado no banco de dados.
 	 * 
 	 * @param Integer - idUsuario
@@ -191,11 +208,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo id
 	 * 
-	 * Ser� feita uma consulta do {@link Usuario} no banco de dados atrav�s de seu id, o qual retornar� o objeto
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu id, o qual retornara o objeto
 	 * completo.
 	 * 
 	 * @param Integer - idUsuario
-	 * @throws NullPointerException - Caso n�o exista o usu�rio no banco de dados.
+	 * @throws NullPointerException - Caso nao exista o usuario no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(Integer idUsuario) {
@@ -209,11 +226,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo login.
 	 * 
-	 * Ser� feita uma consulta do {@link Usuario} no banco de dados atrav�s de seu nome, o qual retornar� o objeto
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu nome, o qual retornara o objeto
 	 * completo.
 	 * 
 	 * @param String
-	 * @throws NullPointerException caso n�o exista o {@link Usuario} no banco de dados.
+	 * @throws NullPointerException caso nao exista o {@link Usuario} no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(String login) {
@@ -227,8 +244,8 @@ public class Controller {
 	/**
 	 * Lista todos os {@link Usuario}.
 	 * 
-	 * Ser� feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
-	 * {@link Usuario} registrados no banco de dados, eles ser�o retornados, caso contr�rio, ser� retornado null.
+	 * Sera feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
+	 * {@link Usuario} registrados no banco de dados, eles serao retornados, caso contrario, sera retornado null.
 	 * 
 	 * @return ArrayList<Usuario>
 	 */
@@ -238,17 +255,39 @@ public class Controller {
 		return resultado;
 	}
 
+	/**
+	 * Lista todas as {@link Permissao} do {@link Usuario}.
+	 * 
+	 * SerÃ¡ feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
+	 * {@link Permissao} registradas no banco de dados, elas serÃ£o retornadas, caso contrÃ¡rio, serÃ¡ retornado null.
+	 * 
+	 * @param idUsuario - int
+	 * @return List<Permissao>
+	 */
 	public List<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
-		return UsuarioDAO.getInstance().listarPermissoes(idUsuario);
-	}
-
-	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		return UsuarioDAO.getInstance().listarPerfis(idUsuario);
+		List<Permissao> listaPermissao = UsuarioDAO.getInstance().listarPermissoes(idUsuario);
+		List<Permissao> resultado = !listaPermissao.isEmpty() ? listaPermissao : null;
+		return resultado;
 	}
 
 	/**
-	 * É atribuido um {@link Perfil} a um {@link Usuario} quando é passado um {@link Usuario} para aquele {@link Perfil}.
-	 * Após criado, vai verificar se a data de expiracao nao e nula e vai criar um {@link Perfil} com a data expiracao, se 
+	 * Lista todos os {@link Perfil} do {@link Usuario}.
+	 * 
+	 * SerÃ¡ feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
+	 * {@link Perfil} registrados no banco de dados, eles serÃ£o retornados, caso contrÃ¡rio, serÃ¡ retornado null.
+	 * 
+	 * @param idUsuario - int
+	 * @return List<Perfil>
+	 */
+	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
+		List<Perfil> listaPerfis =  UsuarioDAO.getInstance().listarPerfis(idUsuario);
+		List<Perfil> resultado = !listaPerfis.isEmpty() ? listaPerfis : null;
+		return resultado;
+	}
+
+	/**
+	 * Ã‰ atribuido um {@link Perfil} a um {@link Usuario} quando Ã© passado um {@link Usuario} para aquele {@link Perfil}.
+	 * ApÃ³s criado, vai verificar se a data de expiracao nao e nula e vai criar um {@link Perfil} com a data expiracao, se 
 	 * caso a data de expiracao for nula e criado um {@link Perfil} sem data de expiracao.
 	 * 
 	 * @param usuario Usuario
@@ -299,10 +338,10 @@ public class Controller {
 	}
 
 	/**
-	 * Remoção de um {@link Perfil} pelo id.
+	 * RemoÃƒÂ§ÃƒÂ£o de um {@link Perfil} pelo id.
    *
-	 * Responsável por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
-	 * O objeto {@link Perfil} é enviado ao {@link Perfil} para ser removido no banco de dados.
+	 * ResponsÃƒÂ¡vel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+	 * O objeto {@link Perfil} ÃƒÂ© enviado ao {@link Perfil} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
 	 */
@@ -321,7 +360,7 @@ public class Controller {
 	 * 
 	 * 
 	 * @param Integer 
-	 * @throws NullPointerException Caso não exista o {@link Perfil} no banco de dados.
+	 * @throws NullPointerException Caso nÃƒÂ£o exista o {@link Perfil} no banco de dados.
 	 * @return Perfil
 	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
@@ -360,12 +399,22 @@ public class Controller {
 
 	}
 
+	/**
+	 * Lista todas as {@link Permissao} de um {@link Perfil}.
+	 * 
+	 * O método irá pesquisar todas as {@link Permissao} que o {@link Perfil} possui fazendo uma busca
+	 * pelo idPerfil, o qual será enviado ao {@link PerfilDAO}. O retorno será todas as {@link Permissao}
+	 * que um {@link Perfil} possui.
+	 * 
+	 * @param idPerfil
+	 * @return List<Permissao>
+	 */
 	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
 		return PerfilDAO.getInstance().listarPermissoes(idPerfil);
 	}
 
 	/**
-	 *  É atribuido uma {@link Permissao} a um {@link Perfil} quando é passado uma {@link Permissao} 
+	 *  Ã‰ atribuido uma {@link Permissao} a um {@link Perfil} quando Ã© passado uma {@link Permissao} 
 	 *  para aquele {@link Perfil}.
 	 * 
 	 * @param permissao Permissao
@@ -375,32 +424,85 @@ public class Controller {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}
 
-	// DAO - Permissaos
+	// DAO - Permissões
 
+	/**
+	 * Criacao de um {@link Permissao} no objeto.
+	 * 
+	 * Responsavel por criar um objeto do tipo {@link Permissao}.
+	 * O objeto {@link Permissao} e enviado ao {@link PermissaoDAO} para ser persistido no banco de dados.
+	 * 
+	 * @param String
+	 */
 	public void criarPermissao(String nomePermissao) {
 		Permissao permissao = new Permissao(nomePermissao);
 		PermissaoDAO.getInstance().criar(permissao);
 	}
 
+	/**
+	 * Alteracao de uma {@link Permissao}.
+	 * 
+	 * SerÃ¡ feita uma consulta da {@link Permissao} no banco de dados atravÃ©s do id e nome da permissao,
+	 * o qual retornarÃ¡ o objeto completo. Feito isso, o novo nome da {@link Permissao} serÃ¡ setado ao objeto
+	 * e enviado ao {@link PermissaoDAO} para ser atualizado no banco de dados.
+	 * 
+	 * @param idPermissao - Interger
+	 * @param nomePermissao - String
+	 */
 	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
 		Permissao p = consultarPermissao(idPermissao);
 		p.setNomePermissao(nomePermissao);
 		PermissaoDAO.getInstance().alterar(p);
 	}
 
+	/**
+	 * Remoção de uma {@link Permissao} pelo id.
+	 * 
+	 * Responsável por consultar uma {@link Permissao} pelo seu id no banco de dados, retornando o objeto
+	 * com os dados de uma {@link Permissao} preenchidos e, posteriormente, enviando ao {@link PermissaoDAO}
+	 * para ser removido do banco de dados.
+	 * 
+	 * @param idPermissao Integer
+	 */
 	public void deletarPermissao(Integer idPermissao) {
 		Permissao p = consultarPermissao(idPermissao);
 		PermissaoDAO.getInstance().deletar(p);
 	}
 
+	/**
+	 * Consulta de {@link Permissao} pelo idPermissao
+	 * 
+	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu idPermissao, o qual retornara o objeto
+	 * completo.
+	 * 
+	 * @param idPermissao Integer 
+	 * @return Permissao
+	 */
 	public Permissao consultarPermissao(Integer idPermissao) {
 		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
 	}
 
+	/**
+	 * Consulta de {@link Permissao} pelo nomePermissao.
+	 * 
+	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu nomePermissao, o qual retornara o objeto
+	 * completo.
+	 * 
+	 * @param nomePermissao String 
+	 * @return Permissao
+	 */
 	public Permissao consultarPermissao(String nomePermissao) {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
 
+	/**
+	 * Lista todas as {@link Permissao}.
+	 * 
+	 * Será feita uma consulta de todas os {@link Permissao} registrados no banco de dados. Caso haja 
+	 * {@link Permissao} registradas no banco de dados, eles serão retornados.
+	 * 
+	 * @return List<Permissao>
+	 */
 	public List<Permissao> listarTodasAsPermissoes() {
 		return PermissaoDAO.getInstance().listar();
 	}
@@ -426,6 +528,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Expira senhas que passaram da validade.
+	 * 
+	 * Esse metodo deve verificar o campo ultima_alteracao_senha do banco de todos os usuarios do sistema e verificar se elas
+	 * passaram da data de validade (regra de negocio a ser definida). Apos isso ele deve bloquear o acesso dos usuarios expirados
+	 * ate que eles troquem a senha atraves de uma mensagem enviada automaticamente em seu email/login.
+	 */
 	public void expirarTodasAsSenhaDoSistema() {
 
 	}
