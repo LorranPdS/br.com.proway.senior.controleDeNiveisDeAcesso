@@ -41,7 +41,7 @@ public class Permissao {
 	/** 
 	 * Entidade relacionameno entre as tabelas.
 	 * 
-	 * Perfil é uma lista de perfis.
+	 * Perfil e uma lista de perfis.
 	 *
 	 * @since sprint5 
 	 * @author TODO
@@ -54,7 +54,7 @@ public class Permissao {
 	public Permissao() {}
 	
 	/**
-	 * Construtor de permissão.
+	 * Construtor de permissao.
 	 * 
 	 * @param nomePermissao
 	 */
@@ -63,7 +63,7 @@ public class Permissao {
 	}
 
 	/**
-	 * Retorna o ID da permissão.
+	 * Retorna o ID da permissao.
 	 * 
 	 * @return IdPermissao
 	 */
@@ -72,7 +72,7 @@ public class Permissao {
 	}
 
 	/**
-	 * Define um ID de permissão.
+	 * Define um ID de permissao.
 	 * 
 	 * @param idPermissao
 	 */
@@ -81,7 +81,7 @@ public class Permissao {
 	}
 
 	/**
-	 * Retorna o nome da permissão.
+	 * Retorna o nome da permissao.
 	 * 
 	 * @return nomePermissao
 	 */
@@ -90,7 +90,7 @@ public class Permissao {
 	}
 
 	/**
-	 * Define o nome da permissão.
+	 * Define o nome da permissao.
 	 *  
 	 * @param nomePermissao
 	 */
@@ -108,7 +108,7 @@ public class Permissao {
 	}
 
 	/**
-	 * Define uma lista de perfis
+	 * Define uma lista de perfis.
 	 * 
 	 * @param perfis
 	 */
@@ -116,6 +116,11 @@ public class Permissao {
 		this.perfis = perfis;
 	}
 
+	/**
+	 * Retorna o id e o nome da permissao.
+	 * 
+	 * @return idPermissao e nomePermissao
+	 */
 	@Override
 	public String toString() {
 		return "Permissao [idPermissao=" + idPermissao + ", nomePermissao=" + nomePermissao + "]";

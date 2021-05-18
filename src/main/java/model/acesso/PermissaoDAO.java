@@ -18,18 +18,14 @@ import model.interfaces.ICrud;
  * Classe PermissaoDAO
  * 
  * Classe que implementa a interface que se relaciona com o banco de dados de
- * permissoes
+ * permissoes.
  * 
- * @author Sprint 3
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Sarah Brito, sarah.brito@senior.com.br
- * 
- * @author Sprint 4
- * @author Elton Oliveira, elton.oliveira@senior.com.br
- * @author Lucas Ivan, lucas.ivan@senior.com.br
- * @author Thiago Barbieri, thiago.barbieri@senior.com.br
- * @author Vitor Goncalves, vitor.goncalves@senior.com.br
- * @author Vitor Gehrke, vitor.gehrke@senior.com.br
+ * @author Sprint 5
+ * @author Gabriel Simon, gabrielsimon775@gmail.com
+ * @author Jonata Caetano, jonatacaetano88@gmail.com
+ * @author Lucas Grijó, rksgrijo@gmail.com
+ * @author Lorran, lorransantospereira@yahoo.com.br
+ * @author Thiago, thiagoluizbarbieri@gmail.com
  */
 
 public class PermissaoDAO implements ICrud<Permissao> {
@@ -41,6 +37,12 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		this.session = session;
 	}
 
+	/**
+	 * Verifica se a instancia e nula, se for ela e instanciada. Se caso ja
+	 * existir so e retornada.
+	 * 
+	 * @return instance
+	 */
 	public static PermissaoDAO getInstance() {
 		if (instance == null) {
 			instance = new PermissaoDAO(DBConnection.getSession());
@@ -48,10 +50,18 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		return instance;
 	}
 	
+	/**
+	 * Transforma a instancia em nula.
+	 */
 	public static void shutdown() {
 		instance = null;
 	}
-
+	
+	/**
+	 * Persiste uma Permissao no banco.
+	 * 
+	 * @param object
+	 */
 	public void criar(Permissao object) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -63,6 +73,11 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		}
 	}
 
+	/**
+	 * Altera uma Permissao no banco.
+	 * 
+	 * @param object
+	 */
 	public boolean alterar(Permissao object) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -76,6 +91,11 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		}
 	}
 
+	/**
+	 * Deleta uma permissao no banco.
+	 * 
+	 * @param object
+	 */
 	public boolean deletar(Permissao object) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -90,6 +110,11 @@ public class PermissaoDAO implements ICrud<Permissao> {
 
 	}
 
+	/**
+	 * Consulta uma Permissao por ID no banco.
+	 * 
+	 * @param id
+	 */
 	public Permissao consultarPorId(int id) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -103,6 +128,11 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		}
 	}
 
+	/**
+	 * Retorna uma lista de permissoes.
+	 * 
+	 * @return listaPermissoes
+	 */
 	public List<Permissao> listar() {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
@@ -113,6 +143,12 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		return listaPermissoes;
 	}
 
+	/**
+	 * Consulta o nome da permissao pelo nome.
+	 * 
+	 * @param nome
+	 * @return Permissao
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Permissao consultarPorNome(String nome) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
