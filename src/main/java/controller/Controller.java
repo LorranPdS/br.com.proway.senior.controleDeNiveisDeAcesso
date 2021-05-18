@@ -19,7 +19,8 @@ import utils.HashSenha;
 /**
  * Classe Controller
  * 
- * Classe responsável por intermediar os dados da View e Model
+ * Classe responsável por intermediar os dados da View e Model. Os métodos dessa
+ * classe definem a API de nosso sistema.
  * 
  * @author Gabriel Simon, gabrielsimon775@gmail.com
  * @author Jonata Caetano, jonatacaetano88@gmail.com
@@ -41,22 +42,76 @@ public class Controller {
 		return instance;
 	}
 
+	// Funcionalidades Principais
+
 	public boolean logar(String login, String senha) {
 
 		String senhaCriptografada = HashSenha.criptografarSenha(login, senha);
 
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin(login);
-		String senhaBanco = usuario.getHashSenha();
+		if (usuario == null) {
+			return false;
+		} else {
+			String senhaBanco = usuario.getHashSenha();
 
-		if (senhaCriptografada.equals(senhaBanco)) {
-			return true;
+			if (senhaCriptografada.equals(senhaBanco)) {
+				return true;
+			}
+			return false;
 		}
-		return false;
+
+	}
+
+	/**
+	 * Envia um e-mail
+	 * 
+	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a confirmacao.
+	 * 
+	 * @param loginDoUsuario equivalente ao email do usuario.
+	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
+	 * @throws Exception
+	 */
+	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
+		Usuario u = UsuarioDAO.getInstance().consultarPorLogin(emailDoDestinario);
+		Integer codigoDeConfirmacao = gerarCodigoDeConfirmacao();
+		u.setUltimoCodigo2FA(codigoDeConfirmacao);
+		UsuarioDAO.getInstance().alterar(u);
+		
+		String nomeDoRemetente = "Grupo 3";
+		String assuntoDoEmail = "2FA Niveis de Acesso";
+		String corpoDoEmail = "O seu código é: " + codigoDeConfirmacao.toString();
+
+		Email email = new Email(emailDoDestinario, nomeDoRemetente, assuntoDoEmail, corpoDoEmail);
+
+		return (email.enviarEmail()) ? true : false;
+	}
+
+	/**
+	 * Gera um codigo aleatorio
+	 * 
+	 * Gera o codigo random para a verificacao de usuario
+	 * 
+	 * @return codigo de 5 digitos
+	 */
+	private Integer gerarCodigoDeConfirmacao() {
+		Random random = new Random();
+		int codigo = random.nextInt(99999);
+		if (codigo <= 10000) {
+			codigo += 10000;
+		}
+		return codigo;
+	}
+
+	public boolean confirmarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
+		if (UsuarioDAO.getInstance().verificarCodigoDeConfirmacao(login, codigoDeConfirmacao) != null)
+			return true;
+		else
+			return false;
 	}
 
 	public boolean verificarPermissao(Usuario usuario, Permissao permissao) {
 		List<Permissao> listaDePermissoesDesseUsuario = listarPermissoesDeUmUsuario(usuario.getIdUsuario());
-		if(listaDePermissoesDesseUsuario.contains(permissao)) {
+		if (listaDePermissoesDesseUsuario.contains(permissao)) {
 			return true;
 		} else {
 			return false;
@@ -184,7 +239,7 @@ public class Controller {
 		p.setNomePermissao(nomePermissao);
 		PermissaoDAO.getInstance().alterar(p);
 	}
-			
+
 	public void deletarPermissao(Integer idPermissao) {
 		Permissao p = consultarPermissao(idPermissao);
 		PermissaoDAO.getInstance().deletar(p);
@@ -200,49 +255,6 @@ public class Controller {
 
 	public List<Permissao> listarTodasAsPermissoes() {
 		return PermissaoDAO.getInstance().listar();
-	}
-
-	// ...
-
-	// MISC
-
-	/**
-	 * Envia um e-mail
-	 * 
-	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a confirmacao.
-	 * 
-	 * @param loginDoUsuario equivalente ao email do usuario.
-	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
-	 * @throws Exception
-	 */
-	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
-		Email email = new Email(emailDoDestinario, "Grupo 3", "2FA Niveis de Acesso",
-				"O seu código é: " + gerarCodigo().toString());
-
-		// ABSTRAIR MAIS ESSA LÓGICA (usar condicional ternaria)
-		boolean resultadoEnvio = email.enviarEmail();
-		if (resultadoEnvio == true) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Gera um codigo aleatorio
-	 * 
-	 * Gera o codigo random para a verificacao de usuario
-	 * 
-	 * @return codigo de 5 digitos
-	 */
-	private Integer gerarCodigo() {
-
-		Random random = new Random();
-		int codigo = random.nextInt(99999);
-		if (codigo <= 10000) {
-			codigo += 10000;
-		}
-		return codigo;
 	}
 
 	// ROTINAS AUTOMATICAS

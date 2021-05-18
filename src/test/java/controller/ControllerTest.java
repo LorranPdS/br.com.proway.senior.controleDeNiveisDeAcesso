@@ -180,24 +180,55 @@ public class ControllerTest {
 		assertEquals(numeroDeUsuariosNoBanco, Controller.getInstance().listarTodosOsUsuarios().size());
 	}
 
-	@Ignore
-	public void testNEnviarEmail() throws Exception {
-		String destinatario = "NOMEFICTICIO@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
+	/**
+	 * Ao executar esse teste, sinta-se livre para utilizar um email real mudando a string destinatario.
+	 * @throws Exception
+	 */
+	@Test
+	public void testNEnviarEConfirmarEmailDeConfirmacaoDeLogin() throws Exception {
+		
+		String destinatario = "EmailFicticio@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
+		String senha = "123";
+		Controller.getInstance().criarUsuario(destinatario, senha);
+		
 		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin(destinatario);
 		assertTrue(resultadoEnvioEmail);
+		
+		Usuario u = Controller.getInstance().consultarUsuario(destinatario);
+		Integer codigoDeConfirmacao = u.getUltimoCodigo2FA();
+		assertTrue(Controller.getInstance().confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
+		
+		// Limpar usuario do banco pós-teste
+		String sqlLimparUsuarioDoBanco = "DELETE FROM usuario WHERE login = '" + destinatario + "';";
+		try {
+			DBConnection.getSession().beginTransaction();
+			DBConnection.getSession()
+					.createSQLQuery(sqlLimparUsuarioDoBanco)
+					.executeUpdate();
+			DBConnection.getSession().getTransaction().commit();
+		} catch (Exception e) {
+			DBConnection.getSession().getTransaction().rollback();
+			e.printStackTrace();
+		}
 	}
-
-	@Ignore
-	public void testOLogar() {
-		String login = "Grijo@gmail.com";
-		String senha = "234";
-		Controller.getInstance().criarUsuario(login, senha);
-		boolean logar = Controller.getInstance().logar(login, senha);
-		System.out.println(logar);
+	
+	@Test
+	public void testPLogin() {
+		String loginExistente = "Grijo@gmail.com";
+		String loginInexistente = "Grijo23@gmail.com";
+		String senhaCorreta = "234";
+		String senhaIncorreta = "123";
+		Controller.getInstance().criarUsuario(loginExistente, senhaCorreta);
+		boolean loginPermitido = Controller.getInstance().logar(loginExistente, senhaCorreta);
+		boolean loginProibidoPorSenhaIncorreta = Controller.getInstance().logar(loginExistente, senhaIncorreta);
+		boolean loginProibidoPorLoginInexistente = Controller.getInstance().logar(loginInexistente, senhaCorreta);
+		assertTrue(loginPermitido);
+		assertFalse(loginProibidoPorSenhaIncorreta);
+		assertFalse(loginProibidoPorLoginInexistente);
 	}
 
 	@Test
-	public void testPverificarEListarPermissaoDeUmPerfil() {
+	public void testQverificarEListarPermissaoDeUmPerfil() {
 		String nomePerfil = "PerfilDeTesteDeVerificaçãoDePermissão";
 		Controller.getInstance().criarPerfil(nomePerfil);
 
@@ -231,7 +262,7 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void testQLverificarEListarPermissaoDeUmUsuario() {
+	public void testRLverificarEListarPermissaoDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
 		Controller.getInstance().criarUsuario(loginUsuario, senhaUsuario);
