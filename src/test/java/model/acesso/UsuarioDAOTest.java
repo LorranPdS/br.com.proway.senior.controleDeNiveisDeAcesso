@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,8 +18,9 @@ import db.DBConnection;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsuarioDAOTest {
 
-	@Test
-	public void testXlimparUsuariosDeTeste() {
+	@BeforeClass
+	@AfterClass
+	public static void testAlimparUsuariosDeTeste() {
 		String sql1 = "DELETE FROM usuario WHERE login = 'Thiago@gmail.com';";
 		String sql2 = "DELETE FROM usuario WHERE login = 'Luiz@gmail.com';";
 		String sql3 = "DELETE FROM usuario WHERE login = 'Joao@gmail.com';";

@@ -2,6 +2,8 @@ package model.acesso;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -12,8 +14,9 @@ import db.DBConnection;
 public class PermissaoDAOTest {
 
 	
-	@Test
-	public void testXlimparPermissoesDeTeste() {
+	@BeforeClass
+	@AfterClass
+	public static void testAlimparPermissoesDeTeste() {
 		String sql1 = "DELETE FROM permissao WHERE nome_permissao = 'Visualizar';";
 		String sql2 = "DELETE FROM permissao WHERE nome_permissao = 'Alterar';";
 		String sql3 = "DELETE FROM permissao WHERE nome_permissao = 'Remover';";
