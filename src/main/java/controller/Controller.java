@@ -44,6 +44,14 @@ public class Controller {
 
 	// Funcionalidades Principais
 
+	/**
+	 * Autentica uma tentativa de login de um usuario do sistema.
+	 * 
+	 * Um usuario entra com um login e senha. A senha deve ser criptografada antes de comparada com a salva no banco.
+	 * Esse metodo NAO envia confirmacao de login 2FA.
+	 * @param login
+	 * @param senha
+	 */
 	public boolean logar(String login, String senha) {
 
 		String senhaCriptografada = HashSenha.criptografarSenha(login, senha);
@@ -65,7 +73,8 @@ public class Controller {
 	/**
 	 * Envia um e-mail
 	 * 
-	 * Envia o e-mail para o usuario com codigo aleatorio gerado para a confirmacao.
+	 * Envia um e-mail para o usuario com um codigo aleatorio gerado para a confirmacao de um login.
+	 * O ultimo codigo enviado e salvo no banco de dados para futura confirmacao.
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
@@ -89,7 +98,7 @@ public class Controller {
 	/**
 	 * Gera um codigo aleatorio
 	 * 
-	 * Gera o codigo random para a verificacao de usuario
+	 * Gera o codigo random para a autenticacao 2FA de um login de usuario
 	 * 
 	 * @return codigo de 5 digitos
 	 */
@@ -102,6 +111,14 @@ public class Controller {
 		return codigo;
 	}
 
+	/**
+	 * Confirma codigo 2FA.
+	 * 
+	 * Um usuario entra com um login e codigo de confirmacao (previamente recebido em seu email).
+	 * O sistema verifica se o codigo bate com o salvo no banco de dados. 
+	 * @param login
+	 * @param codigoDeConfirmacao
+	 */
 	public boolean confirmarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
 		if (UsuarioDAO.getInstance().verificarCodigoDeConfirmacao(login, codigoDeConfirmacao) != null)
 			return true;
@@ -128,10 +145,10 @@ public class Controller {
 	}
 
 	/**
-	 * Criação de um {@link Usuario} no objeto.
+	 * Criaï¿½ï¿½o de um {@link Usuario} no objeto.
 	 * 
-	 * Responsável por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
-	 * O objeto {@link Usuario} é enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
+	 * Responsï¿½vel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
+	 * O objeto {@link Usuario} ï¿½ enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
 	 * 
 	 * @param login
 	 * @param senha
@@ -142,9 +159,9 @@ public class Controller {
 	}
 
 	/**
-	 * Remoção de um {@link Usuario} pelo id.
+	 * Remoï¿½ï¿½o de um {@link Usuario} pelo id.
 	 * 
-	 * Responsável por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
+	 * Responsï¿½vel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
 	 * com os dados do {@link Usuario} preenchidos e, posteriormente, enviando ao {@link UsuarioDAO} para
 	 * ser removido do banco de dados.
 	 * 
@@ -158,8 +175,8 @@ public class Controller {
 	 /**
 	 * Alteracao de um {@link Usuario}.
 	 * 
-	 * Será feita uma consulta do {@link Usuario} no banco de dados através do id, o qual retornará o objeto
-	 * completo. Feito isso, o login e a senha serão setados ao objeto e enviado ao {@link UsuarioDAO} para ser
+	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s do id, o qual retornarï¿½ o objeto
+	 * completo. Feito isso, o login e a senha serï¿½o setados ao objeto e enviado ao {@link UsuarioDAO} para ser
 	 * atualizado no banco de dados.
 	 * 
 	 * @param Integer - idUsuario
@@ -176,11 +193,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo id
 	 * 
-	 * Será feita uma consulta do {@link Usuario} no banco de dados através de seu id, o qual retornará o objeto
+	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu id, o qual retornarï¿½ o objeto
 	 * completo.
 	 * 
 	 * @param Integer - idUsuario
-	 * @throws NullPointerException - Caso não exista o usuário no banco de dados.
+	 * @throws NullPointerException - Caso nï¿½o exista o usuï¿½rio no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(Integer idUsuario) {
@@ -194,11 +211,11 @@ public class Controller {
 	/**
 	 * Consulta de {@link Usuario} pelo login.
 	 * 
-	 * Será feita uma consulta do {@link Usuario} no banco de dados através de seu nome, o qual retornará o objeto
+	 * Serï¿½ feita uma consulta do {@link Usuario} no banco de dados atravï¿½s de seu nome, o qual retornarï¿½ o objeto
 	 * completo.
 	 * 
 	 * @param String
-	 * @throws NullPointerException caso não exista o {@link Usuario} no banco de dados.
+	 * @throws NullPointerException caso nï¿½o exista o {@link Usuario} no banco de dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(String login) {
@@ -212,8 +229,8 @@ public class Controller {
 	/**
 	 * Lista todos os {@link Usuario}.
 	 * 
-	 * Será feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
-	 * {@link Usuario} registrados no banco de dados, eles serão retornados, caso contrário, será retornado null.
+	 * Serï¿½ feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
+	 * {@link Usuario} registrados no banco de dados, eles serï¿½o retornados, caso contrï¿½rio, serï¿½ retornado null.
 	 * 
 	 * @return ArrayList<Usuario>
 	 */
@@ -395,6 +412,13 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Expira senhas que passaram da validade.
+	 * 
+	 * Esse metodo deve verificar o campo ultima_alteracao_senha do banco de todos os usuarios do sistema e verificar se elas
+	 * passaram da data de validade (regra de negocio a ser definida). Apos isso ele deve bloquear o acesso dos usuarios expirados
+	 * ate que eles troquem a senha atraves de uma mensagem enviada automaticamente em seu email/login.
+	 */
 	public void expirarTodasAsSenhaDoSistema() {
 
 	}
