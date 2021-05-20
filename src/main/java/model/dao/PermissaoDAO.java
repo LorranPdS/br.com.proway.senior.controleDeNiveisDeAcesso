@@ -1,4 +1,4 @@
-package model.acesso;
+package model.dao;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import db.DBConnection;
+import model.entidades.Permissao;
 import model.interfaces.ICrud;
 
 /**

@@ -2,8 +2,8 @@ package controller;
 
 import java.util.List;
 
-import model.acesso.Permissao;
-import model.acesso.PermissaoDAO;
+import model.dao.PermissaoDAO;
+import model.entidades.Permissao;
 
 public class PermissaoController {
 	

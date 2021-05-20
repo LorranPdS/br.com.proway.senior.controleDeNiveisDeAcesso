@@ -3,9 +3,9 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.acesso.Perfil;
-import model.acesso.PerfilDAO;
-import model.acesso.Permissao;
+import model.dao.PerfilDAO;
+import model.entidades.Perfil;
+import model.entidades.Permissao;
 
 public class PerfilController {
 	

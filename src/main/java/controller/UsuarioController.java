@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.acesso.Perfil;
-import model.acesso.Permissao;
-import model.acesso.Usuario;
-import model.acesso.UsuarioDAO;
 import model.acesso.UsuarioPerfil;
 import model.acesso.UsuarioPerfilId;
+import model.dao.UsuarioDAO;
+import model.entidades.Perfil;
+import model.entidades.Permissao;
+import model.entidades.Usuario;
 import utils.Email;
 import utils.HashSenha;
 

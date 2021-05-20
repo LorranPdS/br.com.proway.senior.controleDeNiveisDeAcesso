@@ -1,4 +1,4 @@
-package model.acesso;
+package model.entidades;
 
 import java.util.HashSet;
 import java.util.Set;

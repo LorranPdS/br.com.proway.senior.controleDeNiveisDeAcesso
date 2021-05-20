@@ -1,4 +1,4 @@
-package model.acesso;
+package model.entidades;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import model.acesso.UsuarioPerfil;
 
 /**
  * Classe Perfil

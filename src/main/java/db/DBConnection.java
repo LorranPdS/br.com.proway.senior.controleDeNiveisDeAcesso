@@ -4,9 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import model.acesso.PerfilDAO;
-import model.acesso.PermissaoDAO;
-import model.acesso.UsuarioDAO;
+import model.dao.PerfilDAO;
+import model.dao.PermissaoDAO;
+import model.dao.UsuarioDAO;
 
 /**
  * Classe DBConnection
