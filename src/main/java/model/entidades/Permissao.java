@@ -17,12 +17,8 @@ import javax.persistence.Table;
  * Recebe os atributos necessarios para instanciar uma permissao, que sera
  * vinculada a um perfil.
  * 
- * @author Sprint 5
- * @author Gabriel Simon, gabrielsimon775@gmail.com
- * @author Jonata Caetano, jonatacaetano88@gmail.com
- * @author Lucas Grijó, rksgrijo@gmail.com
- * @author Lorran, lorransantospereira@yahoo.com.br
- * @author Thiago, thiagoluizbarbieri@gmail.com
+ * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  * 
  **/
 

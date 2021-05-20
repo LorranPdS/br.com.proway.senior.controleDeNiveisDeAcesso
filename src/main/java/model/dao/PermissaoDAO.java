@@ -21,12 +21,8 @@ import model.interfaces.ICrud;
  * Classe que implementa a interface que se relaciona com o banco de dados de
  * permissoes.
  * 
- * @author Sprint 5
- * @author Gabriel Simon, gabrielsimon775@gmail.com
- * @author Jonata Caetano, jonatacaetano88@gmail.com
- * @author Lucas Grijó, rksgrijo@gmail.com
- * @author Lorran, lorransantospereira@yahoo.com.br
- * @author Thiago, thiagoluizbarbieri@gmail.com
+ * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  */
 
 public class PermissaoDAO implements ICrud<Permissao> {

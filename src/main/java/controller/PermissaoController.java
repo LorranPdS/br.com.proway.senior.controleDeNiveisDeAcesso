@@ -5,6 +5,13 @@ import java.util.List;
 import model.dao.PermissaoDAO;
 import model.entidades.Permissao;
 
+/**
+ * Classe que faz contato com {@link PermissaoDAO}.
+ * 
+ 
+ * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ */
 public class PermissaoController {
 
 	private static PermissaoController instance;
