@@ -25,9 +25,9 @@
 			todas as tabelas e recria -->
 
 		<!-- Lista das entidades que serão persistidas no Banco de Dados -->
-		<mapping class="model.acesso.Usuario" />
-		<mapping class="model.acesso.Perfil" />
-		<mapping class="model.acesso.Permissao" />
+		<mapping class="model.entidades.Usuario" />
+		<mapping class="model.entidades.Perfil" />
+		<mapping class="model.entidades.Permissao" />
 		<mapping class="model.acesso.UsuarioPerfil" />
 	</session-factory>
 </hibernate-configuration>
