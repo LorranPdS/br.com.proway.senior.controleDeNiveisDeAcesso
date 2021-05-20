@@ -44,7 +44,7 @@ public class Controller {
 
 	// Funcionalidades Principais
 
-	/**
+	/** UsuarioController
 	 * Autentica uma tentativa de login de um usuario do sistema.
 	 * 
 	 * Um usuario entra com um login e senha. A senha deve ser criptografada antes de comparada com a salva no banco.
@@ -70,7 +70,7 @@ public class Controller {
 
 	}
 
-	/**
+	/** UsuarioController
 	 * Envia um e-mail
 	 * 
 	 * Envia um e-mail para o usuario com um codigo aleatorio gerado para a confirmacao de um login.
@@ -95,7 +95,7 @@ public class Controller {
 		return (email.enviarEmail()) ? true : false;
 	}
 
-	/**
+	/** UsuarioController
 	 * Gera um codigo aleatorio
 	 * 
 	 * Gera o codigo random para a autenticacao 2FA de um login de usuario
@@ -111,7 +111,7 @@ public class Controller {
 		return codigo;
 	}
 
-	/**
+	/** UsuarioController
 	 * Confirma codigo 2FA.
 	 * 
 	 * Um usuario entra com um login e codigo de confirmacao (previamente recebido em seu email).
@@ -126,7 +126,7 @@ public class Controller {
 			return false;
 	}
 	
-	/**
+	/** UsuarioController
 	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se o {@link Usuario} tem permissoes.
 	 * 
 	 * @param usuario - Usuario
@@ -142,7 +142,7 @@ public class Controller {
 		}
 	}
 
-	/**
+	/** PerfilController
 	 * Vai ser feita uma consulta no banco de dados pelo ID do perfil para saber se o {@link Perfil} 
 	 * tem permissoes.
 	 * 
@@ -159,7 +159,7 @@ public class Controller {
 		}
 	}
 
-	/**
+	/** UsuarioController
 	 * Criacao de um {@link Usuario} no objeto.
 	 * 
 	 * Responsavel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
@@ -173,7 +173,7 @@ public class Controller {
 		UsuarioDAO.getInstance().criar(usuario1);
 	}
 
-	/**
+	/** UsuarioController
 	 * Remocao de um {@link Usuario} pelo id.
 	 * 
 	 * Responsavel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
@@ -187,7 +187,7 @@ public class Controller {
 		UsuarioDAO.getInstance().deletar(usuario);
 	}
 
-	 /**
+	 /** UsuarioController
 	 * Alteracao de um {@link Usuario}.
 	 * 
 	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves do id, o qual retornara o objeto
@@ -205,7 +205,7 @@ public class Controller {
 		UsuarioDAO.getInstance().alterar(usuario);
 	}
 
-	/**
+	/** UsuarioController
 	 * Consulta de {@link Usuario} pelo id
 	 * 
 	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu id, o qual retornara o objeto
@@ -223,7 +223,7 @@ public class Controller {
 		}
 	}
 
-	/**
+	/** UsuarioController
 	 * Consulta de {@link Usuario} pelo login.
 	 * 
 	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu nome, o qual retornara o objeto
@@ -241,7 +241,7 @@ public class Controller {
 		}
 	}
 
-	/**
+	/** UsuarioController
 	 * Lista todos os {@link Usuario}.
 	 * 
 	 * Sera feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
@@ -255,7 +255,7 @@ public class Controller {
 		return resultado;
 	}
 
-	/**
+	/** UsuarioController
 	 * Lista todas as {@link Permissao} do {@link Usuario}.
 	 * 
 	 * SerÃ¡ feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
@@ -270,7 +270,7 @@ public class Controller {
 		return resultado;
 	}
 
-	/**
+	/** UsuarioController
 	 * Lista todos os {@link Perfil} do {@link Usuario}.
 	 * 
 	 * SerÃ¡ feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
@@ -285,7 +285,7 @@ public class Controller {
 		return resultado;
 	}
 
-	/**
+	/** UsuarioController
 	 * Ã‰ atribuido um {@link Perfil} a um {@link Usuario} quando Ã© passado um {@link Usuario} para aquele {@link Perfil}.
 	 * ApÃ³s criado, vai verificar se a data de expiracao nao e nula e vai criar um {@link Perfil} com a data expiracao, se 
 	 * caso a data de expiracao for nula e criado um {@link Perfil} sem data de expiracao.
@@ -305,7 +305,7 @@ public class Controller {
 		UsuarioDAO.getInstance().atribuirPerfilAUmUsuario(usuarioPerfil);
 	}
 
-	/**
+	/** PerfilController
 	 * Criacao de um {@link Perfil} no objeto.
 	 * 
 	 * Responsavel por criar um objeto do tipo {@link Perfil} com o atributo
@@ -320,7 +320,7 @@ public class Controller {
 		PerfilDAO.getInstance().criar(perfil);
 	}
 
-	/**
+	/** PerfilController
 	 * Alteracao de um {@link Perfil}.
 	 * 
 	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
@@ -337,7 +337,7 @@ public class Controller {
 		PerfilDAO.getInstance().alterar(perfil);
 	}
 
-	/**
+	/** PerfilController
 	 * RemoÃƒÂ§ÃƒÂ£o de um {@link Perfil} pelo id.
    *
 	 * ResponsÃƒÂ¡vel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
@@ -350,7 +350,7 @@ public class Controller {
 		PerfilDAO.getInstance().deletar(perfil);
 	}
 
-	/**
+	/** PerfilController
 	 * Consulta de {@link Perfil} pelo id.
 	 * 
 	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
@@ -371,7 +371,7 @@ public class Controller {
 		}
 	}
 
-	/**
+	/** PerfilController
 	 * Tem a funcao de consultar por nome um objeto do tipo {@link Perfil} com o atributo nomePerfil.
 	 * O objeto {@link Perfil} vai ser consultado no banco de dados pelo nome.
 	 * 
@@ -387,7 +387,7 @@ public class Controller {
 
 	}
 
-	/**
+	/** PerfilController
 	 * Consulta todos os perfis no banco de dados.
 	 * 
 	 * @return resultado - ArrayList<Perfil>
@@ -399,7 +399,7 @@ public class Controller {
 
 	}
 
-	/**
+	/** PerfilController
 	 * Lista todas as {@link Permissao} de um {@link Perfil}.
 	 * 
 	 * O método irá pesquisar todas as {@link Permissao} que o {@link Perfil} possui fazendo uma busca
@@ -413,7 +413,7 @@ public class Controller {
 		return PerfilDAO.getInstance().listarPermissoes(idPerfil);
 	}
 
-	/**
+	/** PerfilController
 	 *  Ã‰ atribuido uma {@link Permissao} a um {@link Perfil} quando Ã© passado uma {@link Permissao} 
 	 *  para aquele {@link Perfil}.
 	 * 
@@ -426,7 +426,7 @@ public class Controller {
 
 	// DAO - Permissões
 
-	/**
+	/** PermissaoController
 	 * Criacao de um {@link Permissao} no objeto.
 	 * 
 	 * Responsavel por criar um objeto do tipo {@link Permissao}.
@@ -439,7 +439,7 @@ public class Controller {
 		PermissaoDAO.getInstance().criar(permissao);
 	}
 
-	/**
+	/** PermissaoController
 	 * Alteracao de uma {@link Permissao}.
 	 * 
 	 * SerÃ¡ feita uma consulta da {@link Permissao} no banco de dados atravÃ©s do id e nome da permissao,
@@ -455,7 +455,7 @@ public class Controller {
 		PermissaoDAO.getInstance().alterar(p);
 	}
 
-	/**
+	/** PermissaoController
 	 * Remoção de uma {@link Permissao} pelo id.
 	 * 
 	 * Responsável por consultar uma {@link Permissao} pelo seu id no banco de dados, retornando o objeto
@@ -469,7 +469,7 @@ public class Controller {
 		PermissaoDAO.getInstance().deletar(p);
 	}
 
-	/**
+	/** PermissaoController
 	 * Consulta de {@link Permissao} pelo idPermissao
 	 * 
 	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu idPermissao, o qual retornara o objeto
@@ -482,7 +482,7 @@ public class Controller {
 		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
 	}
 
-	/**
+	/** PermissaoController
 	 * Consulta de {@link Permissao} pelo nomePermissao.
 	 * 
 	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu nomePermissao, o qual retornara o objeto
@@ -495,7 +495,7 @@ public class Controller {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
 
-	/**
+	/** PermissaoController
 	 * Lista todas as {@link Permissao}.
 	 * 
 	 * Será feita uma consulta de todas os {@link Permissao} registrados no banco de dados. Caso haja 
@@ -508,7 +508,8 @@ public class Controller {
 	}
 
 	// ROTINAS AUTOMATICAS
-	/**
+	
+	/** RotinaController
 	 * Remove todas as permissoes expiradas. 
 	 * 
 	 * Lista todos os {@link Usuario}s e remove a atribuicao de {@link Perfil}, 
@@ -528,7 +529,7 @@ public class Controller {
 		}
 	}
 
-	/**
+	/** RotinaController
 	 * Expira senhas que passaram da validade.
 	 * 
 	 * Esse metodo deve verificar o campo ultima_alteracao_senha do banco de todos os usuarios do sistema e verificar se elas
