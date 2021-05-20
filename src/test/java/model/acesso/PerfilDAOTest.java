@@ -12,6 +12,10 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import db.DBConnection;
+import model.dao.PerfilDAO;
+import model.dao.PermissaoDAO;
+import model.entidades.Perfil;
+import model.entidades.Permissao;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PerfilDAOTest {

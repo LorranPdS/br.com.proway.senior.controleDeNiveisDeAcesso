@@ -14,6 +14,12 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import db.DBConnection;
+import model.dao.PerfilDAO;
+import model.dao.PermissaoDAO;
+import model.dao.UsuarioDAO;
+import model.entidades.Perfil;
+import model.entidades.Permissao;
+import model.entidades.Usuario;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsuarioDAOTest {

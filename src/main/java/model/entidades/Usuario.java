@@ -1,4 +1,4 @@
-	package model.acesso;
+	package model.entidades;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import model.acesso.UsuarioPerfil;
 import utils.HashSenha;
 import utils.ValidarDados;
 
@@ -62,7 +63,7 @@ public class Usuario {
 	 * Cria um novo Usuario.
 	 * 
 	 * O Usuario e criado a partir de um Login e Senha, e 
-	 * a senha é criptografada.
+	 * a senha ï¿½ criptografada.
 	 * 
 	 * @param login
 	 * @param senha

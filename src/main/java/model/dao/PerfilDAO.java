@@ -1,4 +1,4 @@
-package model.acesso;
+package model.dao;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import db.DBConnection;
+import model.entidades.Perfil;
+import model.entidades.Permissao;
 import model.interfaces.ICrud;
 
 /**
@@ -38,9 +40,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 	}
 
 	/**
-	 * Conexão com banco de dados.
+	 * Conexï¿½o com banco de dados.
 	 * 
-	 * Conexão de um banco de dados realizada através de um Singleton.
+	 * Conexï¿½o de um banco de dados realizada atravï¿½s de um Singleton.
 	 * 
 	 * @return instance.
 	 * @since Sprint 4&5.
@@ -53,9 +55,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 	}
 	
 	/**
-	 * Finalização da instância do Singleton.
+	 * Finalizaï¿½ï¿½o da instï¿½ncia do Singleton.
 	 * 
-	 * Método responsável por finalizar a conexão de um banco de dados.
+	 * Mï¿½todo responsï¿½vel por finalizar a conexï¿½o de um banco de dados.
 	 * @since Sprint 4&5.
 	 */
 	public static void shutdown() {
@@ -63,13 +65,13 @@ public class PerfilDAO implements ICrud<Perfil> {
 	}
 
 	/**
-	 * Criação de um {@link Perfil}.
+	 * Criaï¿½ï¿½o de um {@link Perfil}.
 	 * 
-	 * Método responsável por criar um objeto do tipo {@link Perfil} em um banco de
+	 * Mï¿½todo responsï¿½vel por criar um objeto do tipo {@link Perfil} em um banco de
 	 * dados.
 	 * 
 	 * @param Perfil - perfil
-	 * @throws Exception - Caso o {@link Perfil} não seja salvo no banco de dados.
+	 * @throws Exception - Caso o {@link Perfil} nï¿½o seja salvo no banco de dados.
 	 * @since Sprint 4&5.
 	 */
 	public void criar(Perfil perfil) {
@@ -87,12 +89,12 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Altera um {@link Perfil} existente.
 	 * 
-	 * Método responsável por alterar um objeto do tipo {@link Perfil} salvo em um
+	 * Mï¿½todo responsï¿½vel por alterar um objeto do tipo {@link Perfil} salvo em um
 	 * banco de dados.
 	 * 
 	 * @param Perfil - perfil
 	 * @return boolean
-	 * @throws Exception - Caso o {@link Perfil} não seja alterado no banco de dados.
+	 * @throws Exception - Caso o {@link Perfil} nï¿½o seja alterado no banco de dados.
 	 * @since Sprint 4&5.
 	 */
 	public boolean alterar(Perfil perfil) {
@@ -109,14 +111,14 @@ public class PerfilDAO implements ICrud<Perfil> {
 	}
 
 	/**
-	 * Deleção de um {@link Perfil} em um banco de dados.
+	 * Deleï¿½ï¿½o de um {@link Perfil} em um banco de dados.
 	 * 
-	 * Método responsável por deletar um objeto do tipo {@link Perfil} existente em
+	 * Mï¿½todo responsï¿½vel por deletar um objeto do tipo {@link Perfil} existente em
 	 * um banco de dados.
 	 * 
 	 * @param Perfil - perfil
 	 * @return boolean
-	 * @throws Exception - Caso o {@link Perfil} não seja deletado no banco de dados.
+	 * @throws Exception - Caso o {@link Perfil} nï¿½o seja deletado no banco de dados.
 	 * @since Sprint 4&5.
 	 */
 	public boolean deletar(Perfil perfil) {
@@ -136,12 +138,12 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Consulta {@link Perfil} por Id.
 	 * 
-	 * Método responsável por consultar um objeto do tipo {@link Perfil} através de
+	 * Mï¿½todo responsï¿½vel por consultar um objeto do tipo {@link Perfil} atravï¿½s de
 	 * seu Id existente em um banco de dados.
 	 * 
 	 * @param int - id
 	 * @return Perfil
-	 * @throws Exception - Caso o {@link Perfil} não seja encontrado no banco de dados pelo seu Id.
+	 * @throws Exception - Caso o {@link Perfil} nï¿½o seja encontrado no banco de dados pelo seu Id.
 	 * @since Sprint 4&5.
 	 */
 	public Perfil consultarPorId(int id) {
@@ -160,7 +162,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Lista de todos os {@link Perfil}.
 	 * 
-	 * Método responsável por trazer uma lista de objetos do tipo {@link Perfil}
+	 * Mï¿½todo responsï¿½vel por trazer uma lista de objetos do tipo {@link Perfil}
 	 * existente do banco de dados.
 	 * 
 	 * @return List<Perfil>
@@ -183,7 +185,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Consulta de um {@link Perfil} pelo nome.
 	 * 
-	 * Método responsável por consultar um objeto do tipo {@link Perfil} através de
+	 * Mï¿½todo responsï¿½vel por consultar um objeto do tipo {@link Perfil} atravï¿½s de
 	 * seu nome existente do banco de dados.
 	 * 
 	 * @param String - nome_perfil
@@ -207,7 +209,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Lista todas as {@link Permissao} de um {@link Perfil}.
 	 * 
-	 * Responsável por recuperar do banco de dados todas as {@link Permissao} que 
+	 * Responsï¿½vel por recuperar do banco de dados todas as {@link Permissao} que 
 	 * um {@link Perfil} possui.
 	 * 
 	 * @param idPerfil int
@@ -221,7 +223,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Atribui {@link Permissao} a um {@link Perfil}
 	 * 
-	 * Responsável por atribuir uma {@link Permissao} a um {@link Perfil} e registrar 
+	 * Responsï¿½vel por atribuir uma {@link Permissao} a um {@link Perfil} e registrar 
 	 * no banco de dados.
 	 * 
 	 * @param perfil

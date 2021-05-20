@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import model.entidades.Perfil;
+import model.entidades.Usuario;
+
 /**
  * Classe UsuarioPerfil
  * 
