@@ -163,4 +163,13 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		Query query = session.createQuery(criteria);
 		return (Permissao) query.getSingleResult();
 	}
+	/**
+	 * Deleta todos os registros da tabela {@link Permissao}.
+	 */
+	public void deletarTodos() {
+		Transaction transacao = session.beginTransaction();
+		session.createSQLQuery("DELETE FROM permissao").executeUpdate();
+		transacao.commit();
+	}
+
 }

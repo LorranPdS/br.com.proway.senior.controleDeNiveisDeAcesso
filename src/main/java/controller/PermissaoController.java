@@ -99,6 +99,13 @@ public class PermissaoController {
 	public List<Permissao> listarTodasAsPermissoes() {
 		return PermissaoDAO.getInstance().listar();
 	}
+	
+	/**
+	 * Deleta todos os registros da tabela {@link Permissao}.
+	 */
+	public void deletarTodos() {
+		PermissaoDAO.getInstance().deletarTodos();
+	}
 
 
 }
