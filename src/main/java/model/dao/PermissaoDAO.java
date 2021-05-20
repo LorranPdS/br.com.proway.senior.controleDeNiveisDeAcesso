@@ -52,26 +52,14 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	/**
-	 * Transforma a instancia em nula.
-	 */
-	public static void shutdown() {
-		instance = null;
-	}
-
-	/**
 	 * Persiste uma Permissao no banco.
 	 * 
 	 * @param object
 	 */
 	public void criar(Permissao object) {
-		try {
-			Transaction tx = session.beginTransaction();
-			session.save(object);
-			tx.commit();
-		} catch (Exception e) {
-			e.getStackTrace();
-			session.getTransaction().rollback();
-		}
+		Transaction tx = session.beginTransaction();
+		session.save(object);
+		tx.commit();
 	}
 
 	/**
@@ -80,16 +68,10 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	 * @param object
 	 */
 	public boolean alterar(Permissao object) {
-		try {
 			Transaction tx = session.beginTransaction();
 			session.update(object);
 			tx.commit();
 			return true;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return false;
-		}
 	}
 
 	/**
@@ -98,17 +80,10 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	 * @param object
 	 */
 	public boolean deletar(Permissao object) {
-		try {
 			Transaction tx = session.beginTransaction();
 			session.delete(object);
 			tx.commit();
 			return true;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return false;
-		}
-
 	}
 
 	/**
@@ -117,16 +92,10 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	 * @param id
 	 */
 	public Permissao consultarPorId(int id) {
-		try {
 			Transaction tx = session.beginTransaction();
 			Permissao u = session.find(Permissao.class, id);
 			tx.commit();
 			return u;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	/**
@@ -163,6 +132,7 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		Query query = session.createQuery(criteria);
 		return (Permissao) query.getSingleResult();
 	}
+
 	/**
 	 * Deleta todos os registros da tabela {@link Permissao}.
 	 */

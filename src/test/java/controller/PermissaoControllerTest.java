@@ -15,11 +15,6 @@ import model.entidades.Permissao;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PermissaoControllerTest {
 
-	@Ignore
-	public void testAcleanDB() {
-		DBConnection.truncateTablesAndRestartSequences();
-	}
-
 	@After
 	@Before
 	public void deletarTudo() {
