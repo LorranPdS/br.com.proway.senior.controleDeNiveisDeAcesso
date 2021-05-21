@@ -8,10 +8,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import controller.PermissaoController;
-import model.dao.PerfilDAO;
-import model.dao.PerfilDeUsuarioDAO;
-import model.dao.PermissaoDAO;
-import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
@@ -25,6 +21,7 @@ public class UsuarioDAOTest {
 
 	@BeforeClass
 	public static void limparEPopularTabelas() {
+		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();
 		PerfilDAO.getInstance().deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
@@ -37,13 +34,13 @@ public class UsuarioDAOTest {
 		UsuarioDAO.getInstance().deletarTodos();
 		PerfilDAO.getInstance().deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
-	
+
 	}
 
 	public static void popularTabelas() {
 		Perfil perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
-		
+
 		PermissaoController.getInstance().criarPermissao("Relatório de compras.");
 		Permissao permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras.");
 
@@ -57,7 +54,7 @@ public class UsuarioDAOTest {
 		UsuarioDAO.getInstance().criar(usuario);
 		assertEquals(1, UsuarioDAO.getInstance().listar().size());
 	}
-	
+
 	@Test
 	public void testConsultarUsuarioPorId() {
 		Usuario usuario = new Usuario("thiago@gmail.com", "admin");
@@ -93,7 +90,15 @@ public class UsuarioDAOTest {
 		UsuarioDAO.getInstance().deletar(usuario);
 		assertEquals(0, UsuarioDAO.getInstance().listar().size());
 	}
-	
-	
-	
+
+	@Test
+	public void testVerificarCodigoDeConfirmacao() {
+		assertEquals(0, UsuarioDAO.getInstance().listar().size());
+		Usuario usuario = new Usuario("thiago@gmail.com", "admin");
+		usuario.setUltimoCodigo2FA(1234);
+		UsuarioDAO.getInstance().criar(usuario);
+		assertEquals(usuario, UsuarioDAO.getInstance().verificarCodigoDeConfirmacao(
+				UsuarioDAO.getInstance().consultarPorLogin("thiago@gmail.com").getLogin(), 1234));
+	}
+
 }

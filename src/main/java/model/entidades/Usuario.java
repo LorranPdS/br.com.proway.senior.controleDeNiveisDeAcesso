@@ -52,9 +52,6 @@ public class Usuario {
 	@Column(name = "ultimo_codigo_2fa")
 	private Integer ultimoCodigo2FA;
 
-//	@OneToMany(cascade = CascadeType.REFRESH)
-//	private List<PerfilDeUsuario> perfis = new ArrayList<>();
-
 	public Usuario() {}
 
 	/**
@@ -128,11 +125,4 @@ public class Usuario {
 		this.ultimoCodigo2FA = ultimoCodigo2FA;
 	}
 
-//	public List<PerfilDeUsuario> getPerfis() {
-//		return perfis;
-//	}
-//
-//	public void setPerfis(PerfilDeUsuario usuarioPerfil) {
-//		this.perfis.add(usuarioPerfil);
-//	}
 }

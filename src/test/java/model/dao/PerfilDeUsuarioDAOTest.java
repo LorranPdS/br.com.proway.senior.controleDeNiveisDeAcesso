@@ -1,6 +1,6 @@
 package model.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,9 +12,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controller.PerfilDeUsuarioController;
-import controller.PermissaoController;
-import controller.UsuarioController;
 import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
