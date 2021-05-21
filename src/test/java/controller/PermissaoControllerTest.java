@@ -10,52 +10,54 @@ import model.entidades.Permissao;
 
 public class PermissaoControllerTest {
 
+	PermissaoController controller = new PermissaoController();
+
 	@After
 	@Before
 	public void deletarTudo() {
-		PermissaoController.getInstance().deletarTodos();
+		controller.deletarTodos();
 	}
 
 	@Test
 	public void testCriarPermissao() {
-		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
-		PermissaoController.getInstance().criarPermissao("Gerencia");
-		assertEquals(1, PermissaoController.getInstance().listarTodasAsPermissoes().size());
+		assertEquals(0, controller.listarTodasAsPermissoes().size());
+		controller.criarPermissao("Gerencia");
+		assertEquals(1, controller.listarTodasAsPermissoes().size());
 	}
 
 	@Test
 	public void testAlterarPermissao() {
-		PermissaoController.getInstance().criarPermissao("Gerencia");
-		assertEquals(1, PermissaoController.getInstance().listarTodasAsPermissoes().size());
-		Permissao permissaoConsultada = PermissaoController.getInstance().consultarPermissaoPorNome("Gerencia");
+		controller.criarPermissao("Gerencia");
+		assertEquals(1, controller.listarTodasAsPermissoes().size());
+		Permissao permissaoConsultada = controller.consultarPermissaoPorNome("Gerencia");
 		String novoNomeDaPermissao = "Gerencia Novo";
-		PermissaoController.getInstance().alterarPermissao(permissaoConsultada.getIdPermissao(), novoNomeDaPermissao);
-		Permissao permissaoAlterada = PermissaoController.getInstance().consultarPermissaoPorId(permissaoConsultada.getIdPermissao());
+		controller.alterarPermissao(permissaoConsultada.getIdPermissao(), novoNomeDaPermissao);
+		Permissao permissaoAlterada = controller.consultarPermissaoPorId(permissaoConsultada.getIdPermissao());
 		assertEquals("Gerencia Novo", permissaoAlterada.getNomePermissao());
 	}
 
 	@Test
 	public void testDeletarPermissao() {
-		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
-		PermissaoController.getInstance().criarPermissao("Gerencia");
-		assertEquals(1, PermissaoController.getInstance().listarTodasAsPermissoes().size());
-		Permissao permissaoConsultada = PermissaoController.getInstance().consultarPermissaoPorNome("Gerencia");
-		PermissaoController.getInstance().deletarPermissao(permissaoConsultada.getIdPermissao());
-		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
+		assertEquals(0, controller.listarTodasAsPermissoes().size());
+		controller.criarPermissao("Gerencia");
+		assertEquals(1, controller.listarTodasAsPermissoes().size());
+		Permissao permissaoConsultada = controller.consultarPermissaoPorNome("Gerencia");
+		controller.deletarPermissao(permissaoConsultada.getIdPermissao());
+		assertEquals(0, controller.listarTodasAsPermissoes().size());
 	}
 
 	@Test
 	public void testListarTodasAsPermissoes() {
-		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
-		PermissaoController.getInstance().criarPermissao("Gerencia");
-		PermissaoController.getInstance().criarPermissao("Subordinado");
-		assertEquals(2, PermissaoController.getInstance().listarTodasAsPermissoes().size());
+		assertEquals(0, controller.listarTodasAsPermissoes().size());
+		controller.criarPermissao("Gerencia");
+		controller.criarPermissao("Subordinado");
+		assertEquals(2, controller.listarTodasAsPermissoes().size());
 	}
 
 	@Test
 	public void testDeletarTodos() {
-		PermissaoController.getInstance().criarPermissao("Gerencia");
-		PermissaoController.getInstance().deletarTodos();
-		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
+		controller.criarPermissao("Gerencia");
+		controller.deletarTodos();
+		assertEquals(0, controller.listarTodasAsPermissoes().size());
 	}
 }

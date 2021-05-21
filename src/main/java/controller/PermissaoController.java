@@ -13,18 +13,8 @@ import model.entidades.Permissao;
  */
 public class PermissaoController {
 
-	private static PermissaoController instance;
+	PermissaoDAO permissaoDAO = PermissaoDAO.getInstance();
 
-	private PermissaoController() {
-	}
-
-	public static PermissaoController getInstance() {
-		if (instance == null) {
-			instance = new PermissaoController();
-		}
-		return instance;
-	}
-	
 	/**
 	 * Criacao de um {@link Permissao} no objeto.
 	 * 
@@ -36,7 +26,7 @@ public class PermissaoController {
 	 */
 	public void criarPermissao(String nomePermissao) {
 		Permissao permissao = new Permissao(nomePermissao);
-		PermissaoDAO.getInstance().criar(permissao);
+		permissaoDAO.criar(permissao);
 	}
 
 	/**
@@ -53,7 +43,7 @@ public class PermissaoController {
 	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
 		Permissao p = consultarPermissaoPorId(idPermissao);
 		p.setNomePermissao(nomePermissao);
-		PermissaoDAO.getInstance().alterar(p);
+		permissaoDAO.alterar(p);
 	}
 
 	/**
@@ -68,7 +58,7 @@ public class PermissaoController {
 	 */
 	public void deletarPermissao(Integer idPermissao) {
 		Permissao p = consultarPermissaoPorId(idPermissao);
-		PermissaoDAO.getInstance().deletar(p);
+		permissaoDAO.deletar(p);
 	}
 
 	/**
@@ -81,7 +71,7 @@ public class PermissaoController {
 	 * @return Permissao
 	 */
 	public Permissao consultarPermissaoPorId(Integer idPermissao) {
-		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
+		return permissaoDAO.consultarPorId(idPermissao);
 	}
 
 	/**
@@ -94,7 +84,7 @@ public class PermissaoController {
 	 * @return Permissao
 	 */
 	public Permissao consultarPermissaoPorNome(String nomePermissao) {
-		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
+		return permissaoDAO.consultarPorNome(nomePermissao);
 	}
 
 	/**
@@ -107,14 +97,14 @@ public class PermissaoController {
 	 * @return List<Permissao>
 	 */
 	public List<Permissao> listarTodasAsPermissoes() {
-		return PermissaoDAO.getInstance().listar();
+		return permissaoDAO.listar();
 	}
 
 	/**
 	 * Deleta todos os registros da tabela {@link Permissao}.
 	 */
 	public void deletarTodos() {
-		PermissaoDAO.getInstance().deletarTodos();
+		permissaoDAO.deletarTodos();
 	}
 
 }
