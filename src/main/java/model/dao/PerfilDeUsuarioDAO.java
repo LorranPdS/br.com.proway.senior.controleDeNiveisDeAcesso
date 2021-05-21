@@ -186,21 +186,47 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 		transacao.commit();
 	}
 
-	@Override
-	public boolean alterar(PerfilDeUsuario object) {
-		// TODO Auto-generated method stub
-		return false;
+	/**
+	 * 
+	 * Altera um PerfilDeUsuario no banco de dados.
+	 * 
+	 * Recebe um objeto do tipo {@link PerfilDeUsuario} no parametro e atualiza o
+	 * registro correspondente que está no banco de dados.
+	 * 
+	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
+	 * @boolean Retorna true.
+	 */
+	public boolean alterar(PerfilDeUsuario objeto) {
+		session.beginTransaction();
+		session.update(objeto);
+		session.getTransaction().commit();
+		return true;
 	}
 
-	@Override
+	/**
+	 * Consulta um objeto do tipo {@link PerfilDeUsuario} no banco de dados pelo id.
+	 * 
+	 * @param id int Id do objeto a ser consultado.
+	 */
 	public PerfilDeUsuario consultarPorId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		session.beginTransaction();
+		PerfilDeUsuario objeto = session.find(PerfilDeUsuario.class, id);
+		session.getTransaction().commit();
+		return objeto;
 	}
 
-	@Override
+	/**
+	 * Retorna uma lista contendo todos os registros da tabela
+	 * {@link PerfilDeUsuario}.
+	 * 
+	 * @return List Lista contendo objetos do tipo {@link PerfilDeUsuario}.
+	 */
 	public List<PerfilDeUsuario> listar() {
-		// TODO Auto-generated method stub
-		return null;
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<PerfilDeUsuario> criteria = builder.createQuery(PerfilDeUsuario.class);
+		criteria.from(PerfilDeUsuario.class);
+		Query query = session.createQuery(criteria);
+		List<PerfilDeUsuario> permissoes = query.getResultList();
+		return permissoes;
 	}
 }
