@@ -57,10 +57,10 @@ public class PerfilController {
 	}
 
 	/** PerfilController
-	 * RemoÃƒÂ§ÃƒÂ£o de um {@link Perfil} pelo id.
+	 * Remocao de um {@link Perfil} pelo id.
    *
-	 * ResponsÃƒÂ¡vel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
-	 * O objeto {@link Perfil} ÃƒÂ© enviado ao {@link Perfil} para ser removido no banco de dados.
+	 * Responsavel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+	 * O objeto {@link Perfil} eh enviado ao {@link Perfil} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
 	 */
@@ -79,7 +79,7 @@ public class PerfilController {
 	 * 
 	 * 
 	 * @param Integer 
-	 * @throws NullPointerException Caso nÃƒÂ£o exista o {@link Perfil} no banco de dados.
+	 * @throws NullPointerException Caso nao exista o {@link Perfil} no banco de dados.
 	 * @return Perfil
 	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
@@ -150,7 +150,7 @@ public class PerfilController {
 	}
 
 	/** PerfilController
-	 *  Ã‰ atribuido uma {@link Permissao} a um {@link Perfil} quando Ã© passado uma {@link Permissao} 
+	 *  Eh atribuido uma {@link Permissao} a um {@link Perfil} quando eh passado uma {@link Permissao} 
 	 *  para aquele {@link Perfil}.
 	 * 
 	 * @param permissao Permissao

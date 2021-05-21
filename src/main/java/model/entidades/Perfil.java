@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * Classe Perfil
  * 
  * Define os atributos necessarios para instanciar um perfil, o que e
- * constitui�do por permissoes.
+ * constituido por permissoes.
  * 
  * @author Simon gabrielsimon775@gmail.com
  * @author Jonata Caetano jonatacaetano88@gmail.com
