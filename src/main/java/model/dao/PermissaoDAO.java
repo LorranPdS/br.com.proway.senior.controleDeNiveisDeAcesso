@@ -16,10 +16,9 @@ import model.entidades.Permissao;
 import model.interfaces.ICrud;
 
 /**
- * Classe PermissaoDAO
+ * Classe PermissaoDAO.
  * 
- * Classe que implementa a interface que se relaciona com o banco de dados de
- * permissoes.
+ * Classe que faz contato direto com o banco de dados.
  * 
  * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
  * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
@@ -35,8 +34,8 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	/**
-	 * Verifica se a instancia e nula, se for ela e instanciada. Se caso ja existir
-	 * so e retornada.
+	 * Verifica se a instancia eh nula, se for ela eh instanciada. Se caso ja existir
+	 * so eh retornada.
 	 * 
 	 * @return instance
 	 */
@@ -48,71 +47,75 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	/**
-	 * Persiste uma Permissao no banco.
+	 * Insere um objeto do tipo {@link Permissao} no banco de dados.
 	 * 
-	 * @param object
+	 * @param object Permissao Objeto a ser inserido no banco de dados.
 	 */
 	public void criar(Permissao object) {
-		Transaction tx = session.beginTransaction();
+		session.beginTransaction();
 		session.save(object);
-		tx.commit();
+		session.getTransaction().commit();
 	}
 
 	/**
 	 * Altera uma Permissao no banco.
 	 * 
-	 * @param object
+	 * Recebe um objeto do tipo {@link Permissao} no parametro e atualiza o registro
+	 * correspondente que está no banco de dados.
+	 * 
+	 * @param permissao Permissao Objeto a ser atualizado no banco de dados.
+	 * @boolean Retorna true.
 	 */
-	public boolean alterar(Permissao object) {
-			Transaction tx = session.beginTransaction();
-			session.update(object);
-			tx.commit();
-			return true;
+	public boolean alterar(Permissao permissao) {
+		session.beginTransaction();
+		session.update(permissao);
+		session.getTransaction().commit();
+		return true;
 	}
 
 	/**
-	 * Deleta uma permissao no banco.
+	 * Deleta um objeto do tipo {@link Permissao}.
 	 * 
-	 * @param object
+	 * @param permissao Objeto a ser deletado do banco de dados.
 	 */
-	public boolean deletar(Permissao object) {
-			Transaction tx = session.beginTransaction();
-			session.delete(object);
-			tx.commit();
-			return true;
+	public boolean deletar(Permissao permissao) {
+		session.beginTransaction();
+		session.delete(permissao);
+		session.getTransaction().commit();
+		return true;
 	}
 
 	/**
-	 * Consulta uma Permissao por ID no banco.
+	 * Consulta um objeto do tipo {@link Permissao} no banco de dados pelo id.
 	 * 
-	 * @param id
+	 * @param id int Id do objeto a ser consultado.
 	 */
 	public Permissao consultarPorId(int id) {
-			Transaction tx = session.beginTransaction();
-			Permissao u = session.find(Permissao.class, id);
-			tx.commit();
-			return u;
+		session.beginTransaction();
+		Permissao permissao = session.find(Permissao.class, id);
+		session.getTransaction().commit();
+		return permissao;
 	}
 
 	/**
-	 * Retorna uma lista de permissoes.
+	 * Retorna uma lista contendo todos os registros da tabela {@link Permissao}.
 	 * 
-	 * @return listaPermissoes
+	 * @return List Lista contendo objetos do tipo {@link Permissao}.
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Permissao> listar() {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
 		criteria.from(Permissao.class);
 		Query query = session.createQuery(criteria);
-		@SuppressWarnings("unchecked")
-		List<Permissao> listaPermissoes = query.getResultList();
-		return listaPermissoes;
+		List<Permissao> permissoes = query.getResultList();
+		return permissoes;
 	}
 
 	/**
-	 * Consulta o nome da permissao pelo nome.
+	 * Consultar uma {@link Permissao} por nome.
 	 * 
-	 * @param nome
+	 * @param nome String Nome da permissao a ser consultada.
 	 * @return Permissao
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -133,12 +136,8 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	 * Deleta todos os registros da tabela {@link Permissao}.
 	 */
 	public void deletarTodos() {
-	
 		Transaction transacao = session.beginTransaction();
 		session.createSQLQuery("DELETE FROM permissao").executeUpdate();
 		transacao.commit();
-		
-		
 	}
-
 }
