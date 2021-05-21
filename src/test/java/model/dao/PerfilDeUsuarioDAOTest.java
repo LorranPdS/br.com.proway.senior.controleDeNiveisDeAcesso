@@ -58,7 +58,7 @@ public class PerfilDeUsuarioDAOTest {
 
 		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
 	}
-
+	
 	@Test
 	public void testListarPerfisDeUmUsuario() {
 		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
