@@ -4,15 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
-import db.DBConnection;
 import model.entidades.Permissao;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PermissaoControllerTest {
 
 	@After
@@ -32,10 +27,10 @@ public class PermissaoControllerTest {
 	public void testAlterarPermissao() {
 		PermissaoController.getInstance().criarPermissao("Gerencia");
 		assertEquals(1, PermissaoController.getInstance().listarTodasAsPermissoes().size());
-		Permissao permissaoConsultada = PermissaoController.getInstance().consultarPermissao("Gerencia");
+		Permissao permissaoConsultada = PermissaoController.getInstance().consultarPermissaoPorNome("Gerencia");
 		String novoNomeDaPermissao = "Gerencia Novo";
 		PermissaoController.getInstance().alterarPermissao(permissaoConsultada.getIdPermissao(), novoNomeDaPermissao);
-		Permissao permissaoAlterada = PermissaoController.getInstance().consultarPermissao(permissaoConsultada.getIdPermissao());
+		Permissao permissaoAlterada = PermissaoController.getInstance().consultarPermissaoPorId(permissaoConsultada.getIdPermissao());
 		assertEquals("Gerencia Novo", permissaoAlterada.getNomePermissao());
 	}
 
@@ -44,7 +39,7 @@ public class PermissaoControllerTest {
 		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
 		PermissaoController.getInstance().criarPermissao("Gerencia");
 		assertEquals(1, PermissaoController.getInstance().listarTodasAsPermissoes().size());
-		Permissao permissaoConsultada = PermissaoController.getInstance().consultarPermissao("Gerencia");
+		Permissao permissaoConsultada = PermissaoController.getInstance().consultarPermissaoPorNome("Gerencia");
 		PermissaoController.getInstance().deletarPermissao(permissaoConsultada.getIdPermissao());
 		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
 	}
