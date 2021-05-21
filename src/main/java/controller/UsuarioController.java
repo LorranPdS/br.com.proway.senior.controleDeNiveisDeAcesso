@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import model.dao.PerfilDeUsuarioDAO;
-import model.dao.PermissaoDAO;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
@@ -14,24 +13,26 @@ import utils.Email;
 import utils.HashSenha;
 
 public class UsuarioController {
-	
+
 	private static UsuarioController instance;
 
 	private UsuarioController() {
 	}
-
+  
 	public static UsuarioController getInstance() {
 		if (instance == null) {
 			instance = new UsuarioController();
 		}
 		return instance;
 	}
-	
-	/** UsuarioController
+
+	/**
 	 * Autentica uma tentativa de login de um usuario do sistema.
 	 * 
-	 * Um usuario entra com um login e senha. A senha deve ser criptografada antes de comparada com a salva no banco.
-	 * Esse metodo NAO envia confirmacao de login 2FA.
+	 * Um usuario entra com um login e senha. A senha deve ser criptografada antes
+	 * de comparada com a salva no banco. Esse metodo NAO envia confirmacao de login
+	 * 2FA.
+	 * 
 	 * @param login
 	 * @param senha
 	 */
@@ -43,21 +44,24 @@ public class UsuarioController {
 		if (usuario == null) {
 			return false;
 		} else {
+			
 			String senhaBanco = usuario.getHashSenha();
-
-			if (senhaCriptografada.equals(senhaBanco)) {
+			
+			if (senhaCriptografada.equals(senhaBanco) && usuario.getLogin().equals(login)){
 				return true;
+			} else {
+				return false;
 			}
-			return false;
 		}
 
 	}
 
-	/** UsuarioController
+	/**
 	 * Envia um e-mail
 	 * 
-	 * Envia um e-mail para o usuario com um codigo aleatorio gerado para a confirmacao de um login.
-	 * O ultimo codigo enviado e salvo no banco de dados para futura confirmacao.
+	 * Envia um e-mail para o usuario com um codigo aleatorio gerado para a
+	 * confirmacao de um login. O ultimo codigo enviado e salvo no banco de dados
+	 * para futura confirmacao.
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
@@ -78,7 +82,7 @@ public class UsuarioController {
 		return (email.enviarEmail()) ? true : false;
 	}
 
-	/** UsuarioController
+	/**
 	 * Gera um codigo aleatorio
 	 * 
 	 * Gera o codigo random para a autenticacao 2FA de um login de usuario
@@ -94,12 +98,14 @@ public class UsuarioController {
 		return codigo;
 	}
 
-	/** UsuarioController
+	/**
 	 * Confirma codigo 2FA.
 	 * 
-	 * Um usuario entra com um login e codigo de confirmacao (previamente recebido em seu email).
-	 * O sistema verifica se o codigo bate com o salvo no banco de dados. 
-	 * @param login
+	 * Um usuario entra com um login e codigo de confirmacao (previamente recebido
+	 * em seu email). O sistema verifica se o codigo bate com o salvo no banco de
+	 * dados.
+	 * 
+	 * @param login.
 	 * @param codigoDeConfirmacao
 	 */
 	public boolean confirmarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
@@ -108,12 +114,13 @@ public class UsuarioController {
 		else
 			return false;
 	}
-	
-		/** UsuarioController
+
+	/**
 	 * Criacao de um {@link Usuario} no objeto.
 	 * 
-	 * Responsavel por criar um objeto do tipo {@link Usuario} com os atributos login e senha.
-	 * O objeto {@link Usuario} e enviado ao {@link UsuarioDAO} para ser persistido no banco de dados.
+	 * Responsavel por criar um objeto do tipo {@link Usuario} com os atributos
+	 * login e senha. O objeto {@link Usuario} e enviado ao {@link UsuarioDAO} para
+	 * ser persistido no banco de dados.
 	 * 
 	 * @param login
 	 * @param senha
@@ -123,12 +130,13 @@ public class UsuarioController {
 		UsuarioDAO.getInstance().criar(usuario1);
 	}
 
-	/** UsuarioController
+	/**
 	 * Remocao de um {@link Usuario} pelo id.
 	 * 
-	 * Responsavel por consultar um {@link Usuario} pelo seu id no banco de dados, retornando o objeto
-	 * com os dados do {@link Usuario} preenchidos e, posteriormente, enviando ao {@link UsuarioDAO} para
-	 * ser removido do banco de dados.
+	 * Responsavel por consultar um {@link Usuario} pelo seu id no banco de dados,
+	 * retornando o objeto com os dados do {@link Usuario} preenchidos e,
+	 * posteriormente, enviando ao {@link UsuarioDAO} para ser removido do banco de
+	 * dados.
 	 * 
 	 * @param Integer - id
 	 */
@@ -137,16 +145,17 @@ public class UsuarioController {
 		UsuarioDAO.getInstance().deletar(usuario);
 	}
 
-	 /** UsuarioController
+	/**
 	 * Alteracao de um {@link Usuario}.
 	 * 
-	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves do id, o qual retornara o objeto
-	 * completo. Feito isso, o login e a senha sera setados ao objeto e enviado ao {@link UsuarioDAO} para ser
-	 * atualizado no banco de dados.
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves do id, o
+	 * qual retornara o objeto completo. Feito isso, o login e a senha sera setados
+	 * ao objeto e enviado ao {@link UsuarioDAO} para ser atualizado no banco de
+	 * dados.
 	 * 
 	 * @param Integer - idUsuario
-	 * @param String - login
-	 * @param String - senha
+	 * @param String  - login
+	 * @param String  - senha
 	 */
 	public void alterarUsuario(Integer idUsuario, String login, String senha) {
 		Usuario usuario = consultarUsuario(idUsuario);
@@ -155,11 +164,11 @@ public class UsuarioController {
 		UsuarioDAO.getInstance().alterar(usuario);
 	}
 
-	/** UsuarioController
+	/**
 	 * Consulta de {@link Usuario} pelo id
 	 * 
-	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu id, o qual retornara o objeto
-	 * completo.
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu
+	 * id, o qual retornara o objeto completo.
 	 * 
 	 * @param Integer - idUsuario
 	 * @throws NullPointerException - Caso nao exista o usuario no banco de dados.
@@ -173,29 +182,31 @@ public class UsuarioController {
 		}
 	}
 
-	/** UsuarioController
+	/**
 	 * Consulta de {@link Usuario} pelo login.
 	 * 
-	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu nome, o qual retornara o objeto
-	 * completo.
+	 * Sera feita uma consulta do {@link Usuario} no banco de dados atraves de seu
+	 * nome, o qual retornara o objeto completo.
 	 * 
 	 * @param String
-	 * @throws NullPointerException caso nao exista o {@link Usuario} no banco de dados.
+	 * @throws NullPointerException caso nao exista o {@link Usuario} no banco de
+	 *                              dados.
 	 * @return Usuario
 	 */
 	public Usuario consultarUsuario(String login) {
 		try {
-			return UsuarioDAO.getInstance().consultarPorLogin(login);			
+			return UsuarioDAO.getInstance().consultarPorLogin(login);
 		} catch (NullPointerException e) {
 			return null;
 		}
 	}
 
-	/** UsuarioController
+	/**
 	 * Lista todos os {@link Usuario}.
 	 * 
-	 * Sera feita uma consulta de todos os {@link Usuario} registrados no banco de dados. Caso haja 
-	 * {@link Usuario} registrados no banco de dados, eles serao retornados, caso contrario, sera retornado null.
+	 * Sera feita uma consulta de todos os {@link Usuario} registrados no banco de
+	 * dados. Caso haja {@link Usuario} registrados no banco de dados, eles serao
+	 * retornados, caso contrario, sera retornado null.
 	 * 
 	 * @return ArrayList<Usuario>
 	 */
@@ -205,57 +216,74 @@ public class UsuarioController {
 		return resultado;
 	}
 
-	/** UsuarioController
+	// provavel alteracao
+	/**
 	 * Lista todos os {@link Perfil} do {@link Usuario}.
 	 * 
-	 * SerÃ¡ feita uma consulta de todos os {@link Perfil} registrados no banco de dados. Caso haja 
-	 * {@link Perfil} registrados no banco de dados, eles serÃ£o retornados, caso contrÃ¡rio, serÃ¡ retornado null.
+	 * Sera feita uma consulta de todos os {@link Perfil} registrados no banco de
+	 * dados. Caso haja {@link Perfil} registrados no banco de dados, eles serÃ£o
+	 * retornados, caso contrario, sera retornado null.
 	 * 
 	 * @param idUsuario - int
 	 * @return List<Perfil>
 	 */
 	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		List<Perfil> listaPerfis =  PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(idUsuario);
+		List<Perfil> listaPerfis = PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(idUsuario);
 		List<Perfil> resultado = !listaPerfis.isEmpty() ? listaPerfis : null;
 		return resultado;
 	}
-	
+
+	// provavel alteracao
 	/**
-	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se o {@link Usuario} tem permissoes.
+	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se
+	 * o {@link Usuario} tem permissoes.
 	 * 
-	 * @param usuario - Usuario
+	 * @param usuario   - Usuario
 	 * @param permissao - Permissao
 	 * @return ArrayList<Permissao>
 	 */
 	public boolean possuiPermissoes(Usuario usuario, Permissao permissao) {
-		List<Permissao> listaDePermissoesDesseUsuario = listarPermissoesDeUmUsuario(usuario.getIdUsuario());
+		ArrayList<Permissao> listaDePermissoesDesseUsuario = new ArrayList<>();
+		for (Permissao permissoes : listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
+			listaDePermissoesDesseUsuario.add(permissoes);
+		}
 		if (listaDePermissoesDesseUsuario.contains(permissao)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	/** UsuarioController
+
+	/**
 	 * Lista todas as {@link Permissao} do {@link Usuario}.
 	 * 
-	 * SerÃ¡ feita uma consulta de todas as {@link Permissao} registradas no banco de dados. Caso haja 
-	 * {@link Permissao} registradas no banco de dados, elas serÃ£o retornadas, caso contrÃ¡rio, serÃ¡ retornado null.
+	 * Sera feita uma consulta de todas as {@link Permissao} registradas no banco de
+	 * dados. Caso haja {@link Permissao} registradas no banco de dados, elas serao
+	 * retornadas, caso contrario, sera retornado null.
 	 * 
 	 * @param idUsuario - int
 	 * @return List<Permissao>
 	 */
 	public List<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
-		List<Permissao> listaPermissao = PerfilDeUsuarioDAO.getInstance().listarPermissoesDeUmUsuario(idUsuario);
-		List<Permissao> resultado = !listaPermissao.isEmpty() ? listaPermissao : null;
+		List<Permissao> resultado = new ArrayList<Permissao>();
+		List<Permissao> listaPermissao = new ArrayList<Permissao>();
+		for (Permissao permissoes : PerfilDeUsuarioDAO.getInstance().listarPermissoesDeUmUsuario(idUsuario)) {
+			listaPermissao.add(permissoes);
+		}
+
+		if (!listaPermissao.isEmpty()) {
+			resultado = listaPermissao;
+		} else {
+			resultado = null;
+		}
 		return resultado;
 	}
-	
+
 	/**
 	 * Deleta todos os registros da tabela {@link Usuario}.
 	 */
 	public void deletarTodos() {
 		UsuarioDAO.getInstance().deletarTodos();
 	}
-	
+
 }
