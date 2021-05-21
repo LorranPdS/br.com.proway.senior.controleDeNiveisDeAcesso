@@ -3,14 +3,11 @@ package controller;
 import java.util.List;
 
 import model.dao.PermissaoDAO;
-import model.dao.UsuarioDAO;
 import model.entidades.Permissao;
-import model.entidades.Usuario;
 
 /**
  * Classe que faz contato com {@link PermissaoDAO}.
  * 
- 
  * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
  * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  */
@@ -27,7 +24,7 @@ public class PermissaoController {
 		}
 		return instance;
 	}
-
+	
 	/**
 	 * Criacao de um {@link Permissao} no objeto.
 	 * 
@@ -54,7 +51,7 @@ public class PermissaoController {
 	 * @param nomePermissao - String
 	 */
 	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
-		Permissao p = consultarPermissao(idPermissao);
+		Permissao p = consultarPermissaoPorId(idPermissao);
 		p.setNomePermissao(nomePermissao);
 		PermissaoDAO.getInstance().alterar(p);
 	}
@@ -70,7 +67,7 @@ public class PermissaoController {
 	 * @param idPermissao Integer
 	 */
 	public void deletarPermissao(Integer idPermissao) {
-		Permissao p = consultarPermissao(idPermissao);
+		Permissao p = consultarPermissaoPorId(idPermissao);
 		PermissaoDAO.getInstance().deletar(p);
 	}
 
@@ -83,7 +80,7 @@ public class PermissaoController {
 	 * @param idPermissao Integer
 	 * @return Permissao
 	 */
-	public Permissao consultarPermissao(Integer idPermissao) {
+	public Permissao consultarPermissaoPorId(Integer idPermissao) {
 		return PermissaoDAO.getInstance().consultarPorId(idPermissao);
 	}
 
@@ -96,7 +93,7 @@ public class PermissaoController {
 	 * @param nomePermissao String
 	 * @return Permissao
 	 */
-	public Permissao consultarPermissao(String nomePermissao) {
+	public Permissao consultarPermissaoPorNome(String nomePermissao) {
 		return PermissaoDAO.getInstance().consultarPorNome(nomePermissao);
 	}
 
@@ -119,8 +116,5 @@ public class PermissaoController {
 	public void deletarTodos() {
 		PermissaoDAO.getInstance().deletarTodos();
 	}
-	
-	
 
-	
 }

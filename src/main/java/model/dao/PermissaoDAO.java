@@ -34,8 +34,8 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	/**
-	 * Verifica se a instancia eh nula, se for ela eh instanciada. Se caso ja existir
-	 * so eh retornada.
+	 * Verifica se a instancia eh nula, se for ela eh instanciada. Se caso ja
+	 * existir so eh retornada.
 	 * 
 	 * @return instance
 	 */
@@ -98,21 +98,6 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	/**
-	 * Retorna uma lista contendo todos os registros da tabela {@link Permissao}.
-	 * 
-	 * @return List Lista contendo objetos do tipo {@link Permissao}.
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Permissao> listar() {
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
-		criteria.from(Permissao.class);
-		Query query = session.createQuery(criteria);
-		List<Permissao> permissoes = query.getResultList();
-		return permissoes;
-	}
-
-	/**
 	 * Consultar uma {@link Permissao} por nome.
 	 * 
 	 * @param nome String Nome da permissao a ser consultada.
@@ -130,6 +115,21 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		criteria.select(root).where(builder.like(nomeEX, nome + "%"));
 		Query query = session.createQuery(criteria);
 		return (Permissao) query.getSingleResult();
+	}
+
+	/**
+	 * Retorna uma lista contendo todos os registros da tabela {@link Permissao}.
+	 * 
+	 * @return List Lista contendo objetos do tipo {@link Permissao}.
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Permissao> listar() {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
+		criteria.from(Permissao.class);
+		Query query = session.createQuery(criteria);
+		List<Permissao> permissoes = query.getResultList();
+		return permissoes;
 	}
 
 	/**

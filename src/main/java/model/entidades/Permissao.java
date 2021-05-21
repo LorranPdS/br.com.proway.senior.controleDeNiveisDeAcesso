@@ -13,6 +13,8 @@ import javax.persistence.Table;
  * Recebe os atributos necessarios para instanciar uma permissao que sera
  * vinculada a um perfil.
  * 
+ * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  **/
 @Entity
 @Table(name = "permissao")
