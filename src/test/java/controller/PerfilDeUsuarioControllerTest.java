@@ -58,8 +58,12 @@ public class PerfilDeUsuarioControllerTest {
 
 		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
 		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
+		
+		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
+		perfil = perfilDAO.consultarPorNome("Vendedor");
 
 		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
+		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
 	}
 
 	@Test
@@ -90,6 +94,7 @@ public class PerfilDeUsuarioControllerTest {
 	public void testConsultarPorIdDoPerfil() {
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		assertEquals(1, controller.listar().size());
+		
 
 		assertEquals(1, controller.consultarPorIdDoPerfil(perfil.getIdPerfil()).size());
 	}
@@ -98,8 +103,11 @@ public class PerfilDeUsuarioControllerTest {
 	public void testDeletar() {
 		assertEquals(0, controller.listar().size());
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		
 		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
 		assertEquals(1, controller.listar().size());
+		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao = ligacoes.get(0);
 
 		controller.deletar(ligacao);
 		assertEquals(0, controller.listar().size());
@@ -110,6 +118,8 @@ public class PerfilDeUsuarioControllerTest {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
 		assertEquals(1, controller.listar().size());
+		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao = ligacoes.get(0);
 
 		ligacao.setDataExpiracao(LocalDate.now().plusMonths(3));
 		controller.alterar(ligacao);
@@ -120,6 +130,9 @@ public class PerfilDeUsuarioControllerTest {
 	public void testConsultarPorId() {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
+		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao = ligacoes.get(0);
+		
 		assertEquals(1, controller.listar().size());
 		assertEquals("Vendedor", controller.consultarPorId(ligacao.getId()).getPerfil().getNomePerfil());
 	}
