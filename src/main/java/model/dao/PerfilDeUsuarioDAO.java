@@ -110,7 +110,7 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 		CriteriaQuery<PerfilDeUsuario> criteria = builder.createQuery(PerfilDeUsuario.class);
 		Root<PerfilDeUsuario> root = criteria.from(PerfilDeUsuario.class);
 
-		Expression idPerfil = (Expression) root.get("perfil_id");
+		Expression idPerfil = (Expression) root.get("perfil");
 		criteria.select(root).where(builder.equal(idPerfil, id));
 		Query<PerfilDeUsuario> query = session.createQuery(criteria);
 		List<PerfilDeUsuario> lista = query.getResultList();
@@ -165,16 +165,10 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
 	 */
 	public boolean deletar(PerfilDeUsuario objeto) {
-		try {
-			Transaction tx = session.beginTransaction();
-			session.delete(objeto);
-			tx.commit();
-			return true;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return false;
-		}
+		session.beginTransaction();
+		session.delete(objeto);
+		session.getTransaction().commit();
+		return true;
 	}
 
 	/**
@@ -221,6 +215,7 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 	 * 
 	 * @return List Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<PerfilDeUsuario> listar() {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<PerfilDeUsuario> criteria = builder.createQuery(PerfilDeUsuario.class);
