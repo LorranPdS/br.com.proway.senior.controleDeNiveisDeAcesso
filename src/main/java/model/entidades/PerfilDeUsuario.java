@@ -12,7 +12,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * Classe UsuarioPerfil
+ * Classe PerfilDeUsuario
  * 
  * Classe representando a tabela de ligacao entre {@link Usuario} e
  * {@link Perfil). Perfis atrelados a um usuario podem expirar com o tempo

@@ -19,8 +19,26 @@ import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
+import model.interfaces.ICrud;
 
-public class PerfilDeUsuarioDAO {
+/**
+ * Classe PerfilDeUsuario.
+ * 
+ * <p>
+ * Faz contato com o banco de dados para consulta e insercao de dados.
+ * 
+ * <p>
+ * Classe representando a tabela de ligacao entre {@link Usuario} e
+ * {@link Perfil). Perfis atrelados a um usuario podem expirar com o tempo
+ * através do campo data_expiracao.
+ * 
+ * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ */
+public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
+
+	// alterar
+	// consultar por id
 
 	private static PerfilDeUsuarioDAO instance;
 	private Session session;
@@ -30,8 +48,8 @@ public class PerfilDeUsuarioDAO {
 	}
 
 	/**
-	 * Verifica se a instancia e nula, se for ela e instanciada. Se caso ja existir
-	 * so e retornada.
+	 * Verifica se a instancia eh nula, se for ela eh instanciada. Se caso ja
+	 * existir so eh retornada.
 	 * 
 	 * @return instance
 	 */
@@ -43,26 +61,27 @@ public class PerfilDeUsuarioDAO {
 	}
 
 	/**
-	 * Atribui um {@link Perfil} a um {@link Usuario}.
+	 * Cadastra um objeto do tipo {@link PerfilDeUsuario} no banco de dados.
 	 * 
-	 * Método responsável por atribuir um {@link Perfil} a um {@link Usuario}.
-	 * 
-	 * @param PerfilDeUsuario - usuarioPerfil
-	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
-	 *                   não seja possivel.
-	 * @since Sprint 4&5
+	 * @param perfilDeUsuario PerfilDeUsuario Objeto a ser cadastrado.
 	 */
-	public void atribuirPerfilAUmUsuario(PerfilDeUsuario perfilDeUsuario) {
-		try {
-			session.beginTransaction();
-			session.save(perfilDeUsuario);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-		}
+	public void criar(PerfilDeUsuario perfilDeUsuario) {
+		session.beginTransaction();
+		session.save(perfilDeUsuario);
+		session.getTransaction().commit();
 	}
 
+	/**
+	 * Consulta um {@link PerfilDeUsuario} pelo valor da coluna 'usuario_id'.
+	 * 
+	 * <p>
+	 * Retorna uma lista do tipo {@link PerfilDeUsuario} que possui o 'usuario_id'
+	 * igual 'id' recebi do parametro.
+	 * 
+	 * @param id Integer Id do objeto a ser consultado.
+	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
+	 */
+	@SuppressWarnings("rawtypes")
 	public ArrayList<PerfilDeUsuario> consultarPorIdDoUsuario(Integer id) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<PerfilDeUsuario> criteria = builder.createQuery(PerfilDeUsuario.class);
@@ -75,6 +94,17 @@ public class PerfilDeUsuarioDAO {
 		return (ArrayList<PerfilDeUsuario>) lista;
 	}
 
+	/**
+	 * Consulta um {@link PerfilDeUsuario} pelo valor da coluna 'perfil_id'.
+	 * 
+	 * <p>
+	 * Retorna uma lista do tipo {@link PerfilDeUsuario} que possui o 'perfil_id'
+	 * igual 'id' recebi do parametro.
+	 * 
+	 * @param id Integer Id do objeto a ser consultado.
+	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
+	 */
+	@SuppressWarnings("rawtypes")
 	public ArrayList<PerfilDeUsuario> consultarPorIdDoPerfil(Integer id) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<PerfilDeUsuario> criteria = builder.createQuery(PerfilDeUsuario.class);
@@ -88,13 +118,17 @@ public class PerfilDeUsuarioDAO {
 	}
 
 	/**
-	 * Lista de todas as {@link Permissao} de um {@link Usuario}.
+	 * Retorna todas as {@link Permissao} de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado. Percorre todos os
+	 * {@link Perfil} do {@link Usuario}, pega todas as {@link Permissao} de cada
+	 * {@link Perfil} e adiciona em uma lista.
 	 * 
-	 * Método responsável por trazer uma lista de objetos do tipo {@link Permissao}.
+	 * <p>
+	 * Observacao: as {@link Permissao} nao se repetem na lista.
 	 * 
-	 * @param idUsuario
-	 * @return List<Permissao> todasAsPermissoesDoUsuario.
-	 * @since Sprint 4&5.
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
 	public Set<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
 		List<Perfil> listaDePerfisDoUsuario = PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(idUsuario);
@@ -107,12 +141,13 @@ public class PerfilDeUsuarioDAO {
 	}
 
 	/**
-	 * Lista de todos os {@link Perfil} de um {@link Usuario}.
+	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario}.
 	 * 
-	 * Método responsável por trazer uma lista de objetos do tipo {@link Perfil}.
-	 * 
-	 * @param int - idUsuario
-	 * @return List<Perfil> - listaPerfil
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
 	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
 		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
@@ -122,7 +157,13 @@ public class PerfilDeUsuarioDAO {
 		}
 		return perfis;
 	}
-	
+
+	/**
+	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
+	 * 'objeto' recebido no parametro.
+	 * 
+	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
+	 */
 	public boolean deletar(PerfilDeUsuario objeto) {
 		try {
 			Transaction tx = session.beginTransaction();
@@ -143,5 +184,23 @@ public class PerfilDeUsuarioDAO {
 		Transaction transacao = session.beginTransaction();
 		session.createSQLQuery("DELETE FROM perfildeusuario").executeUpdate();
 		transacao.commit();
+	}
+
+	@Override
+	public boolean alterar(PerfilDeUsuario object) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public PerfilDeUsuario consultarPorId(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<PerfilDeUsuario> listar() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
