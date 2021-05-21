@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.dao.PerfilDAO;
-import model.dao.PermissaoDAO;
-import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
-import model.entidades.Usuario;
 
 public class PerfilController {
 	

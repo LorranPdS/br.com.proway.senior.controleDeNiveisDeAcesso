@@ -65,7 +65,6 @@ public class Perfil {
 	}
 
 	public List<Permissao> getPermissoes() {
-		System.out.println("PERMISSSOES     " + permissoes.toString());
 		return permissoes;
 	}
 
@@ -81,6 +80,11 @@ public class Perfil {
 		result = prime * result + ((nomePerfil == null) ? 0 : nomePerfil.hashCode());
 		result = prime * result + ((permissoes == null) ? 0 : permissoes.hashCode());
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Perfil [idPerfil=" + idPerfil + ", nomePerfil=" + nomePerfil + ", permissoes=" + permissoes + "]";
 	}
 
 }

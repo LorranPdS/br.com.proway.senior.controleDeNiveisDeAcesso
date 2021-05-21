@@ -85,4 +85,9 @@ public class Permissao {
 		this.nomePermissao = nomePermissao;
 	}
 
+	@Override
+	public String toString() {
+		return "Permissao [idPermissao=" + idPermissao + ", nomePermissao=" + nomePermissao + "]";
+	}
+
 }

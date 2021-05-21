@@ -61,30 +61,24 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * dados.
 	 * 
 	 * @param Perfil - perfil
-	 * @throws Exception - Caso o {@link Perfil} n�o seja salvo no banco de dados.
+	 * @throws Exception - Caso o {@link Perfil} nao seja salvo no banco de dados.
 	 * @since Sprint 4&5.
 	 */
 	public void criar(Perfil perfil) {
-		try {
 			Transaction tx = session.beginTransaction();
 			session.save(perfil);
 			tx.commit();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-		}
-
 	}
 
 	/**
 	 * Altera um {@link Perfil} existente.
 	 * 
-	 * Metodo respons�vel por alterar um objeto do tipo {@link Perfil} salvo em um
+	 * Metodo responsavel por alterar um objeto do tipo {@link Perfil} salvo em um
 	 * banco de dados.
 	 * 
 	 * @param Perfil - perfil
 	 * @return boolean
-	 * @throws Exception - Caso o {@link Perfil} n�o seja alterado no banco de dados.
+	 * @throws Exception - Caso o {@link Perfil} nao seja alterado no banco de dados.
 	 * @since Sprint 4&5.
 	 */
 	public boolean alterar(Perfil perfil) {
@@ -128,32 +122,24 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Consulta {@link Perfil} por Id.
 	 * 
-	 * Metodo respons�vel por consultar um objeto do tipo {@link Perfil} atrav�s de
+	 * Metodo responsavel por consultar um objeto do tipo {@link Perfil} atraves de
 	 * seu Id existente em um banco de dados.
 	 * 
 	 * @param int - id
 	 * @return Perfil
-	 * @throws Exception - Caso o {@link Perfil} nao seja encontrado no banco de dados pelo seu Id.
 	 * @since Sprint 4&5.
 	 */
 	public Perfil consultarPorId(int id) {
-		try {
 			Transaction tx = session.beginTransaction();
 			Perfil perfilEncontrado = session.find(Perfil.class, id);
 			tx.commit();
 			return perfilEncontrado;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	/**
 	 * Lista de todos os {@link Perfil}.
 	 * 
-	 * Metodo responsavel por trazer uma lista de objetos do tipo {@link Perfil}
-	 * existente do banco de dados.
+	 * Metodo responsavel por trazer uma lista de {@link Perfil} existente do banco de dados.
 	 * 
 	 * @return List<Perfil>
 	 * @since Sprint 4&5
@@ -175,7 +161,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Consulta de um {@link Perfil} pelo nome.
 	 * 
-	 * Metodo responsavel por consultar um objeto do tipo {@link Perfil} atrav�s de
+	 * Metodo responsavel por consultar um objeto do tipo {@link Perfil} atraves de
 	 * seu nome existente do banco de dados.
 	 * 
 	 * @param String - nome_perfil
@@ -205,13 +191,13 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * @param idPerfil int
 	 * @return List<Permissao>
 	 */
-	public List<Permissao> listarPermissoes(int idPerfil) {
+	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
 		Perfil p = consultarPorId(idPerfil);
 		return p.getPermissoes();
 	}
 
 	/**
-	 * Atribui {@link Permissao} a um {@link Perfil}
+	 * Atribui {@link Permissao} a um {@link Perfil}.
 	 * 
 	 * Responsavel por atribuir uma {@link Permissao} a um {@link Perfil} e registrar 
 	 * no banco de dados.
@@ -226,6 +212,8 @@ public class PerfilDAO implements ICrud<Perfil> {
 	
 	/**
 	 * Deleta todos os registros da tabela {@link Perfil}.
+	 * 
+	 * Responsavel por remover todos os dados das tabelas perfil_permissao e perfil, nesta ordem.
 	 */
 	public void deletarTodos() {
 
