@@ -15,8 +15,8 @@ import org.junit.Test;
 import controller.PerfilDeUsuarioController;
 import controller.PermissaoController;
 import controller.UsuarioController;
-import model.acesso.PerfilDeUsuario;
 import model.entidades.Perfil;
+import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 

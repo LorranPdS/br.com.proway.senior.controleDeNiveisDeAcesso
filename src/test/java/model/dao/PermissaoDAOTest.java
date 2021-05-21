@@ -1,4 +1,4 @@
-package model.acesso;
+package model.dao;
 
 import static org.junit.Assert.assertEquals;
 

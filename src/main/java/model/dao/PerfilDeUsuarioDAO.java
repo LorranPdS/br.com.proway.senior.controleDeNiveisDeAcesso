@@ -15,8 +15,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import db.DBConnection;
-import model.acesso.PerfilDeUsuario;
 import model.entidades.Perfil;
+import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 

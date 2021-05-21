@@ -7,11 +7,11 @@ import java.time.LocalDate;
 import org.junit.Test;
 
 import db.DBConnection;
-import model.acesso.PerfilDeUsuario;
 import model.acesso.UsuarioPerfilId;
 import model.dao.PerfilDAO;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
+import model.entidades.PerfilDeUsuario;
 import model.entidades.Usuario;
 
 public class PerfilDeUsuarioControllerTest {

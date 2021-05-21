@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import model.acesso.PerfilDeUsuario;
 import utils.HashSenha;
 import utils.ValidarDados;
 

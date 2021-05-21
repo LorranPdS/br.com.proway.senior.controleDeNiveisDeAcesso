@@ -2,10 +2,10 @@ package controller;
 
 import java.time.LocalDate;
 
-import model.acesso.PerfilDeUsuario;
 import model.dao.PerfilDeUsuarioDAO;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
+import model.entidades.PerfilDeUsuario;
 import model.entidades.Usuario;
 
 public class PerfilDeUsuarioController {

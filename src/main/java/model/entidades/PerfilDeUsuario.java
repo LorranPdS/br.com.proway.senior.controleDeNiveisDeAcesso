@@ -1,4 +1,4 @@
-package model.acesso;
+package model.entidades;
 
 import java.time.LocalDate;
 
@@ -10,9 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import model.entidades.Perfil;
-import model.entidades.Usuario;
 
 /**
  * Classe UsuarioPerfil

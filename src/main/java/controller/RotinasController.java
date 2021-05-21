@@ -3,9 +3,9 @@ package controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import model.acesso.PerfilDeUsuario;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
+import model.entidades.PerfilDeUsuario;
 import model.entidades.Usuario;
 
 public class RotinasController {
