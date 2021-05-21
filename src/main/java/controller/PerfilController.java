@@ -55,7 +55,7 @@ public class PerfilController {
 
 	/** PerfilController
 	 * Remocao de um {@link Perfil} pelo id.
-   *
+   *  
 	 * Responsavel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
 	 * O objeto {@link Perfil} eh enviado ao {@link Perfil} para ser removido no banco de dados.
 	 * 
@@ -143,9 +143,9 @@ public class PerfilController {
 	 * @return List<Permissao>
 	 */
 	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
-		return PerfilDAO.getInstance().listarPermissoes(idPerfil);
+		return PerfilDAO.getInstance().listarPermissoesDeUmPerfil(idPerfil);
 	}
-
+ 
 	/** PerfilController
 	 *  Eh atribuido uma {@link Permissao} a um {@link Perfil} quando eh passado uma {@link Permissao} 
 	 *  para aquele {@link Perfil}.

@@ -21,7 +21,7 @@ public class PermissaoControllerTest {
 		PermissaoController.getInstance().deletarTodos();
 	}
 
-	@Test
+	@Test 
 	public void testCriarPermissao() {
 		assertEquals(0, PermissaoController.getInstance().listarTodasAsPermissoes().size());
 		PermissaoController.getInstance().criarPermissao("Gerencia");
