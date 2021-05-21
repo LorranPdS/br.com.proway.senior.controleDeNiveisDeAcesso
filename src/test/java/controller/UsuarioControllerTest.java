@@ -2,18 +2,15 @@ package controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import db.DBConnection;
@@ -55,6 +52,7 @@ public class UsuarioControllerTest {
 
 	static Perfil perfil;
 	static Permissao permissao;
+	static PermissaoController permissaoController = new PermissaoController();
 
 	// o teste de tentar com um login inexistente nao foi feito, pois como o metodo
 	// busca polo loging, a query volta nulla e lenaca a excecao
@@ -163,7 +161,7 @@ public class UsuarioControllerTest {
 
 		perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
-		PermissaoController.getInstance().criarPermissao("Relatório de compras.");
+		permissaoController.criarPermissao("Relatório de compras.");
 		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras.");
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 
@@ -190,8 +188,8 @@ public class UsuarioControllerTest {
 		PerfilDAO.getInstance().criar(perfil);
 		Perfil perfil2 = new Perfil("Comprador");
 		PerfilDAO.getInstance().criar(perfil2);
-		PermissaoController.getInstance().criarPermissao("Relatório de compras.");
-		permissao = PermissaoController.getInstance().consultarPermissao("Relatório de compras.");
+		permissaoController.criarPermissao("Relatório de compras.");
+		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras.");
 
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, permissao);
