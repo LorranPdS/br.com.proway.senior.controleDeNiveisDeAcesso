@@ -20,11 +20,13 @@ import model.entidades.Permissao;
 
 public class PerfilControllerTest {
 
+	PermissaoController controllerPermissao = new PermissaoController();
+	
 	@After
 	@Before
 	public void deletarTudo() {
 		PerfilController.getInstance().deletarTodos();
-		PermissaoController.getInstance().deletarTodos();
+		controllerPermissao.deletarTodos();
 	}
 
 	@Test
@@ -33,17 +35,17 @@ public class PerfilControllerTest {
 		PerfilController.getInstance().criarPerfil(nomePerfil);
    
 		String nomePermissao1 = "PermissaoTesteDeAtribuicao1";
-		PermissaoController.getInstance().criarPermissao(nomePermissao1);
+		controllerPermissao.criarPermissao(nomePermissao1);
 		String nomePermissao2 = "PermissaoTesteDeAtribuicao2";
-		PermissaoController.getInstance().criarPermissao(nomePermissao2);
+		controllerPermissao.criarPermissao(nomePermissao2);
 		String nomePermissao3 = "PermissaoTesteDeAtribuicao3";
-		PermissaoController.getInstance().criarPermissao(nomePermissao3);
+		controllerPermissao.criarPermissao(nomePermissao3);
 
 		Perfil perfil = PerfilController.getInstance().consultarPerfil(nomePerfil);
 		
-		Permissao permissao1 = PermissaoController.getInstance().consultarPermissao(nomePermissao1);
-		Permissao permissao2 = PermissaoController.getInstance().consultarPermissao(nomePermissao2);
-		Permissao permissao3 = PermissaoController.getInstance().consultarPermissao(nomePermissao3);
+		Permissao permissao1 = controllerPermissao.consultarPermissaoPorNome(nomePermissao1);
+		Permissao permissao2 =controllerPermissao.consultarPermissaoPorNome(nomePermissao2);
+		Permissao permissao3 = controllerPermissao.consultarPermissaoPorNome(nomePermissao3);
 
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao1, perfil);
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao2, perfil);

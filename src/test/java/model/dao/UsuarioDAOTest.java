@@ -38,10 +38,11 @@ public class UsuarioDAOTest {
 	}
 
 	public static void popularTabelas() {
+		PermissaoController controllerPermissao = new PermissaoController();
 		Perfil perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
 
-		PermissaoController.getInstance().criarPermissao("Relatório de compras.");
+		controllerPermissao.criarPermissao("Relatório de compras.");
 		Permissao permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras.");
 
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
