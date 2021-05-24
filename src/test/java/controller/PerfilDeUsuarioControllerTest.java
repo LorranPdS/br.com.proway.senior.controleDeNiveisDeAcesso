@@ -89,10 +89,18 @@ public class PerfilDeUsuarioControllerTest {
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		assertEquals(1, controller.listar().size());
 		
-
 		assertEquals(1, controller.consultarPorIdDoPerfil(perfil.getIdPerfil()).size());
 	}
 
+	@Test
+	public void testConsultarPorIdDoUsuario() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		assertEquals(1, controller.listar().size());
+		
+		assertEquals(1, controller.consultarPorIdDoUsuario(usuario.getIdUsuario()).size());
+	}
+	
+	
 	@Test
 	public void testDeletar() {
 		assertEquals(0, controller.listar().size());

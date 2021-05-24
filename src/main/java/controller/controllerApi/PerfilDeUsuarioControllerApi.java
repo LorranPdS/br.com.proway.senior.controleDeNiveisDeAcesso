@@ -42,7 +42,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
 	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoUsuario(Integer id) {
-		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoPerfil(id);
+		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoUsuario(id);
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
 			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));

@@ -109,6 +109,15 @@ public class PerfilDeUsuarioControllerApiTest {
 	}
 
 	@Test
+	public void testConsultarPorIdDoUsuario() {
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		assertEquals(1, controllerApi.listar().size());
+		
+		usuario = usuarioController.consultarUsuario("thiago@gmail.com");
+		assertEquals(1, controllerApi.consultarPorIdDoUsuario(usuario.getIdUsuario()).size());
+	}
+	
+	@Test
 	public void testDeletar() {
 		assertEquals(0, controllerApi.listar().size());
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
