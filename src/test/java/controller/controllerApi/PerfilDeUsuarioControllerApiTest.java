@@ -1,6 +1,6 @@
 package controller.controllerApi;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,8 +12,9 @@ import org.junit.Test;
 
 import controller.PerfilController;
 import controller.PerfilDeUsuarioController;
-import model.dao.PermissaoDAO;
-import model.dao.UsuarioDAO;
+import controller.PermissaoController;
+import controller.UsuarioController;
+import model.dto.PerfilDTO;
 import model.dto.PermissaoDTO;
 import model.dto.UsuarioDTO;
 import model.entidades.Perfil;
@@ -25,13 +26,13 @@ public class PerfilDeUsuarioControllerApiTest {
 
 	@Before
 	public void deletarTudoDoPerfilDeUsuario() {
-		controller.deletarTodos();
+		controllerApi.deletarTodos();
 	}
 
 	@BeforeClass
 	public static void limparEPopularTabelas() {
-		controller.deletarTodos();
-		usuarioDAO.deletarTodos();
+		controllerApi.deletarTodos();
+		usuarioApi.deletarTodos();
 		perfilApi.deletarTodos();
 		permissaoApi.deletarTodos();
 
@@ -40,49 +41,60 @@ public class PerfilDeUsuarioControllerApiTest {
 
 	@AfterClass
 	public static void limparTabelas() {
-		controller.deletarTodos();
-		usuarioDAO.deletarTodos();
+		controllerApi.deletarTodos();
+		usuarioApi.deletarTodos();
 		perfilApi.deletarTodos();
 		permissaoApi.deletarTodos();
 	}
 
-	static PerfilDeUsuarioControllerApi controller = new PerfilDeUsuarioControllerApi();
+	static PerfilDeUsuarioControllerApi controllerApi = new PerfilDeUsuarioControllerApi();
+	static PerfilDeUsuarioController controllerSemApi = new PerfilDeUsuarioController();
+	
+	static PerfilController perfilController = new PerfilController();
+	static UsuarioController usuarioController = new UsuarioController();
+	static PermissaoController permissaoController = new PermissaoController();
+	
 	static PerfilControllerApi perfilApi = new PerfilControllerApi();
-	static UsuarioControllerApi usuarioDAO = new UsuarioControllerApi();
+	static UsuarioControllerApi usuarioApi = new UsuarioControllerApi();
 	static PermissaoControllerApi permissaoApi = new PermissaoControllerApi();
-	static UsuarioDTO usuario;
-	static PermissaoDTO permissao;
-	static PerfilDTO perfil;
+	
+	static Usuario usuario;
+	static Permissao permissao;
+	static Perfil perfil;
+	
+	static UsuarioDTO usuarioDTO;
+	static PermissaoDTO permissaoDTO;
+	static PerfilDTO perfilDTO;
 
 	public static void popularTabelas() {
 		perfilApi.criarPerfil("Vendedor");
-		perfil = perfilApi.consultarPerfil("Vendedor");
+		perfil = perfilController.consultarPerfil("Vendedor");
 
 		permissaoApi.criarPermissao("Relatório de compras");
-		permissao = permissaoApi.consultarPermissaoPorNome("Relatório de compras");
+		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras");
 		
 		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
-		perfil = perfilApi.consultarPerfil("Vendedor");
+		perfil = perfilController.consultarPerfil("Vendedor");
 
-		usuarioDAO.criarUsuario("thiago@gmail.com", "admin");
-		usuario = usuarioDAO.consultarUsuario("thiago@gmail.com");
+		usuarioApi.criarUsuario("thiago@gmail.com", "admin");
+		usuario = usuarioController.consultarUsuario("thiago@gmail.com");
 	}
 
 	@Test
 	public void testListarPerfisDeUmUsuario() {
-		usuario = usuarioDAO.consultarUsuario("thiago@gmail.com");
+		usuario = usuarioController.consultarUsuario("thiago@gmail.com");
 
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 
-		assertEquals(1, controller.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
+		assertEquals(1, controllerApi.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
 	}
 
 	@Test
 	public void testListarPermissoesDeUmUsuario() {
-		perfilApi.atribuirPermissaoAUmPerfil(perfil, permissao);
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 
-		ArrayList<PermissaoDTO> permissoes = controller.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
+		ArrayList<PermissaoDTO> permissoes = controllerApi.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
 
 		assertEquals(1, permissoes.size());
 		assertEquals("Relatório de compras", permissoes.get(0).getNomePermissao());
@@ -90,62 +102,61 @@ public class PerfilDeUsuarioControllerApiTest {
 
 	@Test
 	public void testConsultarPorIdDoPerfil() {
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		assertEquals(1, controller.listar().size());
-		
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		assertEquals(1, controllerApi.listar().size());
 
-		assertEquals(1, controller.consultarPorIdDoPerfil(perfil.getIdPerfil()).size());
+		assertEquals(1, controllerApi.consultarPorIdDoPerfil(perfil.getIdPerfil()).size());
 	}
 
 	@Test
 	public void testDeletar() {
-		assertEquals(0, controller.listar().size());
+		assertEquals(0, controllerApi.listar().size());
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		
-		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
-		assertEquals(1, controller.listar().size());
-		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
+		assertEquals(1, controllerApi.listar().size());
+		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
-		controller.deletar(ligacao);
-		assertEquals(0, controller.listar().size());
+		controllerApi.deletar(ligacao);
+		assertEquals(0, controllerApi.listar().size());
 	}
 
 	@Test
 	public void testAlterar() {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
-		assertEquals(1, controller.listar().size());
-		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
+		assertEquals(1, controllerApi.listar().size());
+		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
 		ligacao.setDataExpiracao(LocalDate.now().plusMonths(3));
-		controller.alterar(ligacao);
-		assertEquals(LocalDate.now().plusMonths(3), controller.consultarPorId(ligacao.getId()).getDataExpiracao());
+		controllerApi.alterar(ligacao);
+		assertEquals(LocalDate.now().plusMonths(3), controllerApi.consultarPorId(ligacao.getId()).getDataExpiracao());
 	}
 
 	@Test
 	public void testConsultarPorId() {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
-		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
+		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 		
-		assertEquals(1, controller.listar().size());
-		assertEquals("Vendedor", controller.consultarPorId(ligacao.getId()).getPerfil().getNomePerfil());
+		assertEquals(1, controllerApi.listar().size());
+		assertEquals("Vendedor", controllerApi.consultarPorId(ligacao.getId()).getPerfil().getNomePerfil());
 	}
 
 	@Test
 	public void testListar() {
 		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao1.getUsuario(), ligacao1.getPerfil(), ligacao1.getDataExpiracao());
+		controllerApi.atribuirPerfilAUmUsuario(ligacao1.getUsuario(), ligacao1.getPerfil(), ligacao1.getDataExpiracao());
 
 		PerfilDeUsuario ligacao2 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao2.getUsuario(), ligacao2.getPerfil(), ligacao2.getDataExpiracao());
+		controllerApi.atribuirPerfilAUmUsuario(ligacao2.getUsuario(), ligacao2.getPerfil(), ligacao2.getDataExpiracao());
 
 		PerfilDeUsuario ligacao3 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao3.getUsuario(), ligacao3.getPerfil(), ligacao3.getDataExpiracao());
+		controllerApi.atribuirPerfilAUmUsuario(ligacao3.getUsuario(), ligacao3.getPerfil(), ligacao3.getDataExpiracao());
 
-		assertEquals(3, controller.listar().size());
+		assertEquals(3, controllerApi.listar().size());
 	}
 }
