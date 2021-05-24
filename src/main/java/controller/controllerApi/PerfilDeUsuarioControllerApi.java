@@ -3,9 +3,9 @@ package controller.controllerApi;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import controller.PerfilDeUsuarioController;
+import model.dto.PerfilDTO;
 import model.dto.PerfilDeUsuarioDTO;
 import model.dto.PermissaoDTO;
 import model.entidades.Perfil;
