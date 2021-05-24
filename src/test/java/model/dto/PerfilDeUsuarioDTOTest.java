@@ -6,6 +6,10 @@ import org.junit.Test;
 
 import model.entidades.PerfilDeUsuario;
 
+/**
+ * 
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6 *
+ */
 public class PerfilDeUsuarioDTOTest {
 
 	@Test

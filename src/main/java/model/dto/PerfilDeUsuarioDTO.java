@@ -6,6 +6,12 @@ import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
 import model.entidades.Usuario;
 
+/**
+ * Classe que informa o que a Api pode consumir.
+ * 
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ *
+ */
 public class PerfilDeUsuarioDTO {
 
 	private Integer id;
