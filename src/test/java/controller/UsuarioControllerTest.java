@@ -19,7 +19,6 @@ import model.dao.PerfilDeUsuarioDAO;
 import model.dao.PermissaoDAO;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
-import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 import utils.HashSenha;
@@ -221,13 +220,15 @@ public class UsuarioControllerTest {
 		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
 		perfil = perfilDAO.consultarPorNome("Vendedor");
 
-		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
+		Usuario usuario = new Usuario("thiago@gmail.com", "admin");
+		usuarioDAO.criar(usuario);
 		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
 		
 		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		List<Perfil> lista = UController.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
+
 		assertEquals(2, lista.size());
 		assertTrue(controller.desativar(controller.listar().get(0)));
 		assertEquals(1, UController.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
