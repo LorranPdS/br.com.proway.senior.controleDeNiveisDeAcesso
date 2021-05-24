@@ -1,26 +1,18 @@
-package controller;
+package controller.controllerApi;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.PerfilController;
 import model.dao.PerfilDAO;
+import model.dto.PerfilDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 
-public class PerfilController {
+public class PerfilControllerApi {
 	
-	private static PerfilController instance;
-
-	public PerfilController() {
-	}
-
-	public static PerfilController getInstance() {
-		if (instance == null) {
-			instance = new PerfilController();
-		}
-		return instance;
-	}
-
+	PerfilController controllerPerfil = new PerfilController();
+	
 	/** PerfilController
 	 * Criacao de um {@link Perfil} no objeto.
 	 * 
@@ -78,9 +70,9 @@ public class PerfilController {
 	 * @throws NullPointerException Caso nao exista o {@link Perfil} no banco de dados.
 	 * @return Perfil
 	 */
-	public Perfil consultarPerfil(Integer idPerfil) {
+	public PerfilDTO consultarPerfilPorId(Integer idPerfil) {
 		try {
-			return PerfilDAO.getInstance().consultarPorId(idPerfil);
+			return new PerfilDTO(controllerPerfil.consultarPerfil(idPerfil));
 		} catch (NullPointerException e) {
 			return null;
 		}
@@ -93,9 +85,9 @@ public class PerfilController {
 	 * @param nome - String
 	 * @return {@link Perfil} 
 	 */
-	public Perfil consultarPerfil(String nome) {
+	public PerfilDTO consultarPerfil(String nome) {
 		try {
-			return PerfilDAO.getInstance().consultarPorNome(nome);
+			return new PerfilDTO(controllerPerfil.consultarPerfil(nome));
 		} catch (NullPointerException e) {
 			return null;
 		}
@@ -107,10 +99,16 @@ public class PerfilController {
 	 * 
 	 * @return resultado - ArrayList<Perfil>
 	 */
-	public ArrayList<Perfil> listarTodosOsPerfis() {
+	public ArrayList<PerfilDTO> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
-		ArrayList<Perfil> resultado = !perfisEncontrados.isEmpty() ? perfisEncontrados : null;
-		return resultado;
+		
+		ArrayList<PerfilDTO> listaDto = new ArrayList<PerfilDTO>();
+		
+		for(Perfil perfis : perfisEncontrados) 
+			listaDto.add(new PerfilDTO(perfis));
+		
+		//listaDto = !perfisEncontrados.isEmpty() ? perfisEncontrados : null;
+		return listaDto;
 
 	}
 
@@ -163,5 +161,5 @@ public class PerfilController {
 		PerfilDAO.getInstance().deletarTodos();
 	}
 	
-	
+
 }
