@@ -1,6 +1,8 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -152,5 +154,56 @@ public class PerfilDeUsuarioControllerTest {
 
 		assertEquals(3, controller.listar().size());
 	}
+	
+	@Test
+	public void testUsuarioNaoPossuiPermissaoPara() {
+		boolean possui = controller.usuarioPossuiPermissaoPara(usuario, permissao);
+		assertFalse(possui);
+	}
+	
+	@Test
+	public void testUsuarioPossuiPermissaoPara() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
+		boolean possui = controller.usuarioPossuiPermissaoPara(usuario, permissao);
+		assertTrue(possui);
+	}
+	
+	@Test
+	public void testUsuarioPossuiOPerfil() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
+		boolean possui = controller.usuarioPossuiOPerfil(usuario, perfil);
+		assertTrue(possui);
+	}
+	
+	@Test
+	public void testUsuarioNaoPossuiOPerfil() {
+		boolean possui = controller.usuarioPossuiOPerfil(usuario, perfil);
+		assertFalse(possui);
+	}
+	
+	@Test
+	public void testPermissaoAtivaTrue() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(true);
+		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		assertTrue(controller.permissaoAtiva(ligacao));
+	}
+	
+	@Test
+	public void testPermissaoAtivaFalse() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(false);
+		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		assertFalse(controller.permissaoAtiva(ligacao));
+	}
+	
+	@Test
+	public void testPermissaoAtivaFalseData() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(true);
+		ligacao.setDataExpiracao(LocalDate.of(2019, 01, 01));
+		assertFalse(controller.permissaoAtiva(ligacao));
+	}
+	
 
 }

@@ -176,7 +176,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
-	public Boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+	public boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
 		return controller.usuarioPossuiPermissaoPara(usuario, _permissao);
 	}
 
@@ -192,7 +192,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
-	public Boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+	public boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
 		return controller.usuarioPossuiOPerfil(usuario, _perfil);
 	}
 
@@ -203,7 +203,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 */
-	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
 		return controller.permissaoAtiva(ligacao);
 	}
 

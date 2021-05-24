@@ -99,14 +99,16 @@ public class PerfilDeUsuarioController {
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
-	public Boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+	public boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
 		List<PerfilDeUsuario> ligacoes = consultarPorIdDoUsuario(usuario.getIdUsuario());
-		for (PerfilDeUsuario ligacao : ligacoes) {
-			if (!ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
-				List<Permissao> permissoes = ligacao.getPerfil().getPermissoes();
-				for (Permissao permissao : permissoes) {
-					if (permissao.getNomePermissao() == _permissao.getNomePermissao())
-						return true;
+		if (ligacoes.size() > 0) {
+			for (PerfilDeUsuario ligacao : ligacoes) {
+				if (!ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
+					List<Permissao> permissoes = ligacao.getPerfil().getPermissoes();
+					for (Permissao permissao : permissoes) {
+						if (permissao.getNomePermissao() == _permissao.getNomePermissao())
+							return true;
+					}
 				}
 			}
 		}
@@ -125,7 +127,7 @@ public class PerfilDeUsuarioController {
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
-	public Boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+	public boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
 		List<Perfil> perfis = listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
 		for (Perfil perfil : perfis) {
 			if (perfil.getNomePerfil() == _perfil.getNomePerfil())
@@ -141,7 +143,7 @@ public class PerfilDeUsuarioController {
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 */
-	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
 		if (ligacao.getAtivo() && ligacao.getDataExpiracao().isAfter(LocalDate.now()))
 			return true;
 		return false;
