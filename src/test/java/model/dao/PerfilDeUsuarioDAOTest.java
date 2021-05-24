@@ -3,9 +3,6 @@ package model.dao;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -57,32 +54,7 @@ public class PerfilDeUsuarioDAOTest {
 		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
 
 		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
-	}
-	
-	@Test
-	public void testListarPerfisDeUmUsuario() {
 		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
-
-		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		ligacaoDAO.criar(ligacao);
-
-		assertEquals(1, ligacaoDAO.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
-	}
-
-	@Test
-	public void testListarPermissoesDeUmUsuario() {
-		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
-		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		ligacaoDAO.criar(ligacao);
-
-		Set<Permissao> permissoes = ligacaoDAO.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
-
-		List<Permissao> listaPermissoes = new ArrayList<Permissao>();
-		for (Permissao permissao : permissoes)
-			listaPermissoes.add(permissao);
-
-		assertEquals(1, listaPermissoes.size());
-		assertEquals("Relatório de compras", listaPermissoes.get(0).getNomePermissao());
 	}
 
 	@Test
@@ -124,6 +96,14 @@ public class PerfilDeUsuarioDAOTest {
 		assertEquals("Vendedor", ligacaoDAO.consultarPorId(ligacao.getId()).getPerfil().getNomePerfil());
 	}
 
+	@Test
+	public void testConsultarPorIdUsuario() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		ligacaoDAO.criar(ligacao);
+		
+		assertEquals(1, ligacaoDAO.consultarPorIdDoUsuario(usuario.getIdUsuario()).size());
+	}
+	
 	@Test
 	public void testListar() {
 		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));

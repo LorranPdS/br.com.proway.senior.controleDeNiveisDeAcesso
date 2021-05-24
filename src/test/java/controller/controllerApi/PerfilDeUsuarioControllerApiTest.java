@@ -1,6 +1,8 @@
 package controller.controllerApi;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -167,5 +169,90 @@ public class PerfilDeUsuarioControllerApiTest {
 		controllerApi.atribuirPerfilAUmUsuario(ligacao3.getUsuario(), ligacao3.getPerfil(), ligacao3.getDataExpiracao());
 
 		assertEquals(3, controllerApi.listar().size());
+	}
+	
+	@Test
+	public void testUsuarioNaoPossuiPermissaoPara() {
+		boolean possui = controllerApi.usuarioPossuiPermissaoPara(usuario, permissao);
+		assertFalse(possui);
+	}
+	
+	@Test
+	public void testUsuarioPossuiPermissaoPara() {
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
+		boolean possui = controllerApi.usuarioPossuiPermissaoPara(usuario, permissao);
+		assertTrue(possui);
+	}
+	
+	@Test
+	public void testUsuarioPossuiOPerfil() {
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
+		boolean possui = controllerApi.usuarioPossuiOPerfil(usuario, perfil);
+		assertTrue(possui);
+	}
+	
+	@Test
+	public void testUsuarioNaoPossuiOPerfil() {
+		boolean possui = controllerApi.usuarioPossuiOPerfil(usuario, perfil);
+		assertFalse(possui);
+	}
+	
+	@Test
+	public void testPermissaoAtivaTrue() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(true);
+		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		assertTrue(controllerApi.permissaoAtiva(ligacao));
+	}
+	
+	@Test
+	public void testPermissaoAtivaFalse() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(false);
+		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		assertFalse(controllerApi.permissaoAtiva(ligacao));
+	}
+	
+	@Test
+	public void testPermissaoAtivaFalseData() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(true);
+		ligacao.setDataExpiracao(LocalDate.of(2019, 01, 01));
+		assertFalse(controllerApi.permissaoAtiva(ligacao));
+	}
+	
+	@Test
+	public void testListarTodasLigacoesAtivas() {
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(2));
+		
+		assertEquals(2, controllerApi.listarTodasLigacoesAtivas().size());
+	}
+	
+	@Test 
+	public void testDesativarLigacaoNulla() {
+		PerfilDeUsuario ligacao = null;
+		assertFalse(controllerApi.desativar(ligacao));
+	}
+	
+	@Test 
+	public void testDesativarLigacaoIdNull() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setUsuario(usuario);
+		ligacao.setPerfil(perfil);
+		ligacao.setDataExpiracao(LocalDate.now());
+		ligacao.setAtivo(true);
+		assertFalse(controllerApi.desativar(ligacao));
+	}
+	
+	@Test 
+	public void testDesativarLigacaoIdInexistente() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setUsuario(usuario);
+		ligacao.setPerfil(perfil);
+		ligacao.setDataExpiracao(LocalDate.now());
+		ligacao.setAtivo(true);
+		ligacao.setId(6548);
+		assertFalse(controllerApi.desativar(ligacao));
 	}
 }

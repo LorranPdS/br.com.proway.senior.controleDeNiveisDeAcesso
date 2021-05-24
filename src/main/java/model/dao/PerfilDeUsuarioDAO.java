@@ -66,6 +66,7 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 	 * @param perfilDeUsuario PerfilDeUsuario Objeto a ser cadastrado.
 	 */
 	public void criar(PerfilDeUsuario perfilDeUsuario) {
+		perfilDeUsuario.setAtivo(true);
 		session.beginTransaction();
 		session.save(perfilDeUsuario);
 		session.getTransaction().commit();
@@ -117,65 +118,7 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 		return (ArrayList<PerfilDeUsuario>) lista;
 	}
 
-	/**
-	 * Retorna todas as {@link Permissao} de um {@link Usuario}.
-	 * <p>
-	 * Recebe o id do {@link Usuario} a ser consultado. Percorre todos os
-	 * {@link Perfil} do {@link Usuario}, pega todas as {@link Permissao} de cada
-	 * {@link Perfil} e adiciona em uma lista.
-	 * 
-	 * <p>
-	 * Observacao: as {@link Permissao} nao se repetem na lista.
-	 * 
-	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
-	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
-	 */
-	public Set<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
-		List<Perfil> listaDePerfisDoUsuario = PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(idUsuario);
-
-		Set<Permissao> todasAsPermissoesDoUsuario = new HashSet<>();
-		for (Perfil perfil : listaDePerfisDoUsuario) {
-			todasAsPermissoesDoUsuario.addAll(perfil.getPermissoes());
-		}
-		return todasAsPermissoesDoUsuario;
-	}
-
-	/**
-	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
-	 * <p>
-	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
-	 * {@link Perfil} deste {@link Usuario}.
-	 * 
-	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
-	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
-	 */
-	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
-		List<Perfil> perfis = new ArrayList<>();
-		for (PerfilDeUsuario ligacao : lista) {
-			perfis.add(ligacao.getPerfil());
-		}
-		return perfis;
-	}
-
-	/**
-	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
-	 * <p>
-	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
-	 * {@link Perfil} deste {@link Usuario} que possua ativo igual a true.
-	 * 
-	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
-	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
-	 */
-	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
-		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
-		List<Perfil> perfis = new ArrayList<>();
-		for (PerfilDeUsuario ligacao : lista) {
-			if (ligacao.getAtivo())
-				perfis.add(ligacao.getPerfil());
-		}
-		return perfis;
-	}
+	
 
 	/**
 	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
@@ -243,4 +186,5 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 		List<PerfilDeUsuario> permissoes = query.getResultList();
 		return permissoes;
 	}
+	
 }

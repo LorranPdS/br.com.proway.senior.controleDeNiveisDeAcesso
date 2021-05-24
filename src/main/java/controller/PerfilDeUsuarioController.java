@@ -2,6 +2,7 @@ package controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -78,13 +79,38 @@ public class PerfilDeUsuarioController {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
-	public ArrayList<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
+	public List<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
+		List<Perfil> listaDePerfisDoUsuario = this.listarPerfisDeUmUsuario(idUsuario);
 
-		Set<Permissao> listaSet = ligacaoDAO.listarPermissoesDeUmUsuario(idUsuario);
-		ArrayList<Permissao> permissoes = new ArrayList<Permissao>();
-		for (Permissao permissao : listaSet)
+		Set<Permissao> todasAsPermissoesDoUsuario = new HashSet<>();
+		for (Perfil perfil : listaDePerfisDoUsuario) {
+			todasAsPermissoesDoUsuario.addAll(perfil.getPermissoes());
+		}
+
+		List<Permissao> permissoes = new ArrayList<Permissao>();
+		for (Permissao permissao : todasAsPermissoesDoUsuario) {
 			permissoes.add(permissao);
+		}
 		return permissoes;
+
+	}
+
+	/**
+	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario}.
+	 * 
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 */
+	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
+		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
+		List<Perfil> perfis = new ArrayList<>();
+		for (PerfilDeUsuario ligacao : lista) {
+			perfis.add(ligacao.getPerfil());
+		}
+		return perfis;
 	}
 
 	/**
@@ -99,14 +125,16 @@ public class PerfilDeUsuarioController {
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
-	public Boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+	public boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
 		List<PerfilDeUsuario> ligacoes = consultarPorIdDoUsuario(usuario.getIdUsuario());
-		for (PerfilDeUsuario ligacao : ligacoes) {
-			if (!ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
-				List<Permissao> permissoes = ligacao.getPerfil().getPermissoes();
-				for (Permissao permissao : permissoes) {
-					if (permissao.getNomePermissao() == _permissao.getNomePermissao())
-						return true;
+		if (ligacoes.size() > 0) {
+			for (PerfilDeUsuario ligacao : ligacoes) {
+				if (!ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
+					List<Permissao> permissoes = ligacao.getPerfil().getPermissoes();
+					for (Permissao permissao : permissoes) {
+						if (permissao.getNomePermissao() == _permissao.getNomePermissao())
+							return true;
+					}
 				}
 			}
 		}
@@ -125,7 +153,7 @@ public class PerfilDeUsuarioController {
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
-	public Boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+	public boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
 		List<Perfil> perfis = listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
 		for (Perfil perfil : perfis) {
 			if (perfil.getNomePerfil() == _perfil.getNomePerfil())
@@ -141,23 +169,10 @@ public class PerfilDeUsuarioController {
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 */
-	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
 		if (ligacao.getAtivo() && ligacao.getDataExpiracao().isAfter(LocalDate.now()))
 			return true;
 		return false;
-	}
-
-	/**
-	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
-	 * <p>
-	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
-	 * {@link Perfil} deste {@link Usuario}.
-	 * 
-	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
-	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
-	 */
-	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		return ligacaoDAO.listarPerfisDeUmUsuario(idUsuario);
 	}
 
 	/**
@@ -170,7 +185,28 @@ public class PerfilDeUsuarioController {
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
 	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
-		return ligacaoDAO.listarPerfisAtivosDeUmUsuario(idUsuario);
+		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
+		List<Perfil> perfis = new ArrayList<>();
+		for (PerfilDeUsuario ligacao : lista) {
+			if (ligacao.getAtivo())
+				perfis.add(ligacao.getPerfil());
+		}
+		return perfis;
+	}
+
+	/**
+	 * Retorna todos os registros que possuem 'ativo' igual a true.
+	 * 
+	 * @return List<PerfilDeUsuario>
+	 */
+	public List<PerfilDeUsuario> listarTodasLigacoesAtivas() {
+		List<PerfilDeUsuario> listaCompleta = this.listar();
+		List<PerfilDeUsuario> listaRegistrosAtivos = new ArrayList<PerfilDeUsuario>();
+		for (PerfilDeUsuario ligacao : listaCompleta) {
+			if (ligacao.getAtivo())
+				listaRegistrosAtivos.add(ligacao);
+		}
+		return listaRegistrosAtivos;
 	}
 
 	/**
@@ -222,4 +258,24 @@ public class PerfilDeUsuarioController {
 	public List<PerfilDeUsuario> listar() {
 		return ligacaoDAO.listar();
 	}
+
+	/**
+	 * Desativa a ligacao entre um {@link Usuario} e um {@link Perfil}.
+	 * 
+	 * <p>
+	 * Seta o 'ativo' do 'objeto' como false e atualiza no banco de dados.
+	 * @param objeto PerfilDeUsuario Registro a ser desativado.
+	 * @return True caso encontre o registro no banco, false caso não encontre.
+	 */
+	public boolean desativar(PerfilDeUsuario objeto) {
+		if(objeto == null || objeto.getId() == null)
+			return false;
+		if(this.consultarPorId(objeto.getId()) != null) {
+			objeto.setAtivo(false);
+			this.alterar(objeto);
+			return true;
+		}
+		return false;
+	}
+
 }
