@@ -220,13 +220,17 @@ public class UsuarioControllerTest {
 		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
 		perfil = perfilDAO.consultarPorNome("Vendedor");
 
-		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
+		Usuario usuario = new Usuario("thiago@gmail.com", "admin");
+		usuarioDAO.criar(usuario);
 		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
 		
 		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		assertEquals(2, UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
+		
+		List<Perfil> lista = UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
+		
+		assertEquals(2, lista.size());
 		assertTrue(controller.desativar(controller.listar().get(0)));
 		assertEquals(1, UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
 	}
