@@ -20,7 +20,7 @@ public class UsuarioControllerApi {
 
 	private static UsuarioControllerApi instance;
 
-	UsuarioControllerApi() {
+	public UsuarioControllerApi() {
 	}
 
 	public static UsuarioControllerApi getInstance() {

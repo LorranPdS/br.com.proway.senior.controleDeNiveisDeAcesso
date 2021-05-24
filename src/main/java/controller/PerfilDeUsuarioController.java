@@ -2,6 +2,7 @@ package controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -78,13 +79,38 @@ public class PerfilDeUsuarioController {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
-	public ArrayList<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
+	public List<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
+		List<Perfil> listaDePerfisDoUsuario = this.listarPerfisDeUmUsuario(idUsuario);
 
-		Set<Permissao> listaSet = ligacaoDAO.listarPermissoesDeUmUsuario(idUsuario);
-		ArrayList<Permissao> permissoes = new ArrayList<Permissao>();
-		for (Permissao permissao : listaSet)
+		Set<Permissao> todasAsPermissoesDoUsuario = new HashSet<>();
+		for (Perfil perfil : listaDePerfisDoUsuario) {
+			todasAsPermissoesDoUsuario.addAll(perfil.getPermissoes());
+		}
+
+		List<Permissao> permissoes = new ArrayList<Permissao>();
+		for (Permissao permissao : todasAsPermissoesDoUsuario) {
 			permissoes.add(permissao);
+		}
 		return permissoes;
+
+	}
+
+	/**
+	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario}.
+	 * 
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 */
+	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
+		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
+		List<Perfil> perfis = new ArrayList<>();
+		for (PerfilDeUsuario ligacao : lista) {
+			perfis.add(ligacao.getPerfil());
+		}
+		return perfis;
 	}
 
 	/**
@@ -150,19 +176,6 @@ public class PerfilDeUsuarioController {
 	}
 
 	/**
-	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
-	 * <p>
-	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
-	 * {@link Perfil} deste {@link Usuario}.
-	 * 
-	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
-	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
-	 */
-	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		return ligacaoDAO.listarPerfisDeUmUsuario(idUsuario);
-	}
-
-	/**
 	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
 	 * <p>
 	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
@@ -172,7 +185,28 @@ public class PerfilDeUsuarioController {
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
 	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
-		return ligacaoDAO.listarPerfisAtivosDeUmUsuario(idUsuario);
+		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
+		List<Perfil> perfis = new ArrayList<>();
+		for (PerfilDeUsuario ligacao : lista) {
+			if (ligacao.getAtivo())
+				perfis.add(ligacao.getPerfil());
+		}
+		return perfis;
+	}
+
+	/**
+	 * Retorna todos os registros que possuem 'ativo' igual a true.
+	 * 
+	 * @return List<PerfilDeUsuario>
+	 */
+	public List<PerfilDeUsuario> listarTodasLigacoesAtivas() {
+		List<PerfilDeUsuario> listaCompleta = this.listar();
+		List<PerfilDeUsuario> listaRegistrosAtivos = new ArrayList<PerfilDeUsuario>();
+		for (PerfilDeUsuario ligacao : listaCompleta) {
+			if (ligacao.getAtivo())
+				listaRegistrosAtivos.add(ligacao);
+		}
+		return listaRegistrosAtivos;
 	}
 
 	/**
@@ -224,4 +258,24 @@ public class PerfilDeUsuarioController {
 	public List<PerfilDeUsuario> listar() {
 		return ligacaoDAO.listar();
 	}
+
+	/**
+	 * Desativa a ligacao entre um {@link Usuario} e um {@link Perfil}.
+	 * 
+	 * <p>
+	 * Seta o 'ativo' do 'objeto' como false e atualiza no banco de dados.
+	 * @param objeto PerfilDeUsuario Registro a ser desativado.
+	 * @return True caso encontre o registro no banco, false caso não encontre.
+	 */
+	public boolean desativar(PerfilDeUsuario objeto) {
+		if(objeto == null || objeto.getId() == null)
+			return false;
+		if(this.consultarPorId(objeto.getId()) != null) {
+			objeto.setAtivo(false);
+			this.alterar(objeto);
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -1,13 +1,8 @@
 package model.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -61,79 +56,79 @@ public class PerfilDeUsuarioDAOTest {
 		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
 	}
 	
-	@Test
-	public void testListarPerfisDeUmUsuario() {
-		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
-
-		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		ligacaoDAO.criar(ligacao);
-
-		assertEquals(1, ligacaoDAO.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
-	}
+//	@Test
+//	public void testListarPerfisDeUmUsuario() {
+//		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
+//
+//		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+//		ligacaoDAO.criar(ligacao);
+//
+//		assertEquals(1, ligacaoDAO.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
+//	}
 	
-	@Test
-	public void testListarPerfisAtivosDeUmUsuario() {
-		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
-		usuarioDAO.criar(new Usuario("usuario@gmail.com", "admin123"));
-
-		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		PerfilDeUsuario ligacao2 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(2));
-		ligacaoDAO.criar(ligacao);
-		ligacaoDAO.criar(ligacao2);
-		
-		assertEquals(2, ligacaoDAO.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
-		
-		assertTrue(ligacaoDAO.desativar(ligacao2));
-		assertEquals(1, ligacaoDAO.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
-	}
+//	@Test
+//	public void testListarPerfisAtivosDeUmUsuario() {
+//		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
+//		usuarioDAO.criar(new Usuario("usuario@gmail.com", "admin123"));
+//
+//		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+//		PerfilDeUsuario ligacao2 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(2));
+//		ligacaoDAO.criar(ligacao);
+//		ligacaoDAO.criar(ligacao2);
+//		
+//		assertEquals(2, ligacaoDAO.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
+//		
+//		assertTrue(ligacaoDAO.desativar(ligacao2));
+//		assertEquals(1, ligacaoDAO.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
+//	}
 	
-	@Test
-	public void testListarPerfisAtivosDeUmUsuarioInvalido() {
-		assertEquals(0, ligacaoDAO.listarPerfisAtivosDeUmUsuario(6548).size());
-	}
+//	@Test
+//	public void testListarPerfisAtivosDeUmUsuarioInvalido() {
+//		assertEquals(0, ligacaoDAO.listarPerfisAtivosDeUmUsuario(6548).size());
+//	}
+//	
+//	@Test 
+//	public void testDesativarLigacaoNulla() {
+//		PerfilDeUsuario ligacao = null;
+//		assertFalse(ligacaoDAO.desativar(ligacao));
+//	}
 	
-	@Test 
-	public void testDesativarLigacaoNulla() {
-		PerfilDeUsuario ligacao = null;
-		assertFalse(ligacaoDAO.desativar(ligacao));
-	}
-	
-	@Test 
-	public void testDesativarLigacaoIdNull() {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setUsuario(usuario);
-		ligacao.setPerfil(perfil);
-		ligacao.setDataExpiracao(LocalDate.now());
-		ligacao.setAtivo(true);
-		assertFalse(ligacaoDAO.desativar(ligacao));
-	}
-	
-	@Test 
-	public void testDesativarLigacaoIdInexistente() {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setUsuario(usuario);
-		ligacao.setPerfil(perfil);
-		ligacao.setDataExpiracao(LocalDate.now());
-		ligacao.setAtivo(true);
-		ligacao.setId(6548);
-		assertFalse(ligacaoDAO.desativar(ligacao));
-	}
+//	@Test 
+//	public void testDesativarLigacaoIdNull() {
+//		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+//		ligacao.setUsuario(usuario);
+//		ligacao.setPerfil(perfil);
+//		ligacao.setDataExpiracao(LocalDate.now());
+//		ligacao.setAtivo(true);
+//		assertFalse(ligacaoDAO.desativar(ligacao));
+//	}
+//	
+//	@Test 
+//	public void testDesativarLigacaoIdInexistente() {
+//		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+//		ligacao.setUsuario(usuario);
+//		ligacao.setPerfil(perfil);
+//		ligacao.setDataExpiracao(LocalDate.now());
+//		ligacao.setAtivo(true);
+//		ligacao.setId(6548);
+//		assertFalse(ligacaoDAO.desativar(ligacao));
+//	}
 
-	@Test
-	public void testListarPermissoesDeUmUsuario() {
-		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
-		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		ligacaoDAO.criar(ligacao);
-
-		Set<Permissao> permissoes = ligacaoDAO.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
-
-		List<Permissao> listaPermissoes = new ArrayList<Permissao>();
-		for (Permissao permissao : permissoes)
-			listaPermissoes.add(permissao);
-
-		assertEquals(1, listaPermissoes.size());
-		assertEquals("Relatório de compras", listaPermissoes.get(0).getNomePermissao());
-	}
+//	@Test
+//	public void testListarPermissoesDeUmUsuario() {
+//		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
+//		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+//		ligacaoDAO.criar(ligacao);
+//
+//		Set<Permissao> permissoes = ligacaoDAO.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
+//
+//		List<Permissao> listaPermissoes = new ArrayList<Permissao>();
+//		for (Permissao permissao : permissoes)
+//			listaPermissoes.add(permissao);
+//
+//		assertEquals(1, listaPermissoes.size());
+//		assertEquals("Relatório de compras", listaPermissoes.get(0).getNomePermissao());
+//	}
 
 	@Test
 	public void testConsultarPorIdDoPerfil() {

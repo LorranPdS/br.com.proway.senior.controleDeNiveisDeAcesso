@@ -83,7 +83,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
 	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(int idUsuario) {
-		ArrayList<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(idUsuario);
+		List<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(idUsuario);
 		ArrayList<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
 		for (Permissao permissao : listaModel) {
 			listaDTO.add(new PermissaoDTO(permissao));
@@ -207,4 +207,26 @@ public class PerfilDeUsuarioControllerApi {
 		return controller.permissaoAtiva(ligacao);
 	}
 
+	/**
+	 * Retorna todos os registros que possuem 'ativo' igual a true.
+	 * 
+	 * @return List<PerfilDeUsuario>
+	 */
+	public List<PerfilDeUsuarioDTO> listarTodasLigacoesAtivas() {
+		List<PerfilDeUsuario> listaModel = controller.listarTodasLigacoesAtivas();
+		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
+		for (PerfilDeUsuario ligacao : listaModel) {
+			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
+		}
+		return listaDTO;
+	}
+	
+	/**
+	 * Seta o 'ativo' do registro 'ligacao' como false.
+	 * @param ligacao
+	 * @return
+	 */
+	public boolean desativar(PerfilDeUsuario ligacao) {
+		return controller.desativar(ligacao);
+	}
 }
