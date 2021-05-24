@@ -22,20 +22,22 @@ public class RotinasController {
 	PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 
 	/**
-	 * Remove todas as permissoes expiradas.
+	 * Desativa todas as permissoes expiradas.
 	 * 
-	 * Lista todos os registros da tabela {@link PerfilDeUsuario} e exclui aqueles
-	 * que possuem a data de expiracao anterior a data atual.
+	 * Lista todos os registros da tabela {@link PerfilDeUsuario} e seta 'ativo'
+	 * como 'false' aqueles que possuem a data de expiracao anterior a data atual.
 	 * 
 	 * @return Integer Quantidade de permissoes expiradas deletadas.
 	 */
-	public Integer removerTodasPermissoesExpiradas() {
+	public Integer desativarTodasPermissoesExpiradas() {
 		ArrayList<PerfilDeUsuario> ligacoesAntes = (ArrayList<PerfilDeUsuario>) perfilDeUsuarioController.listar();
 
 		for (PerfilDeUsuario ligacao : ligacoesAntes) {
 			if (ligacao.getDataExpiracao() != null) {
 				if (ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
-					perfilDeUsuarioController.deletar(ligacao);
+					PerfilDeUsuario ligacaoExpirada = ligacao;
+					ligacaoExpirada.setAtivo(false);
+					perfilDeUsuarioController.alterar(ligacaoExpirada);
 				}
 			}
 		}

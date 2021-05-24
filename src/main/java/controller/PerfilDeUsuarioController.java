@@ -18,9 +18,9 @@ import model.entidades.Usuario;
  * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6 *
  */
 public class PerfilDeUsuarioController {
-	
+
 	PerfilDeUsuarioDAO ligacaoDAO = PerfilDeUsuarioDAO.getInstance();
-	
+
 	/**
 	 * Atribui um {@link Perfil} a um {@link Usuario}.
 	 * 
@@ -28,15 +28,15 @@ public class PerfilDeUsuarioController {
 	 * Metodo responsavel por atribuir um {@link Perfil} a um {@link Usuario}.
 	 * 
 	 * @param usuario Usuario {@link Usuario} que recebera um perfil de acesso.
-	 * @param perfil Perfil {@link Perfil} que sera atribuido a um usuario.
+	 * @param perfil  Perfil {@link Perfil} que sera atribuido a um usuario.
 	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
 	 *                   não seja possivel.
 	 */
-	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao){
-		PerfilDeUsuario perfilDeUsuario = new PerfilDeUsuario(usuario, perfil, dataExpiracao);
+	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao) {
+		PerfilDeUsuario perfilDeUsuario = new PerfilDeUsuario(usuario, perfil, dataExpiracao, true);
 		ligacaoDAO.criar(perfilDeUsuario);
 	}
-	
+
 	/**
 	 * Consulta um {@link PerfilDeUsuario} pelo valor da coluna 'usuario_id'.
 	 * 
@@ -50,7 +50,7 @@ public class PerfilDeUsuarioController {
 	public ArrayList<PerfilDeUsuario> consultarPorIdDoUsuario(Integer id) {
 		return ligacaoDAO.consultarPorIdDoUsuario(id);
 	}
-	
+
 	/**
 	 * Consulta um {@link PerfilDeUsuario} pelo valor da coluna 'perfil_id'.
 	 * 
@@ -64,7 +64,7 @@ public class PerfilDeUsuarioController {
 	public ArrayList<PerfilDeUsuario> consultarPorIdDoPerfil(Integer id) {
 		return ligacaoDAO.consultarPorIdDoPerfil(id);
 	}
-	
+
 	/**
 	 * Retorna todas as {@link Permissao} de um {@link Usuario}.
 	 * <p>
@@ -78,10 +78,75 @@ public class PerfilDeUsuarioController {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
-	public Set<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
-	return ligacaoDAO.listarPermissoesDeUmUsuario(idUsuario);
+	public ArrayList<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
+
+		Set<Permissao> listaSet = ligacaoDAO.listarPermissoesDeUmUsuario(idUsuario);
+		ArrayList<Permissao> permissoes = new ArrayList<Permissao>();
+		for (Permissao permissao : listaSet)
+			permissoes.add(permissao);
+		return permissoes;
 	}
-	
+
+	/**
+	 * Verifica se o {@link Usuario} 'usuario' possui a {@link Permissao} recebida
+	 * no parametro.
+	 * 
+	 * <p>
+	 * Busca todos os registros da tabela {@link PerfilDeUsuario} os quais possuam a
+	 * data de expiracao valida. Pega as permissoes desses perfis validos e verifica
+	 * se alguma destas eh igual a permissao recebida no parametro.
+	 * 
+	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
+	 *         recebida no parametro.
+	 */
+	public Boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+		List<PerfilDeUsuario> ligacoes = consultarPorIdDoUsuario(usuario.getIdUsuario());
+		for (PerfilDeUsuario ligacao : ligacoes) {
+			if (!ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
+				List<Permissao> permissoes = ligacao.getPerfil().getPermissoes();
+				for (Permissao permissao : permissoes) {
+					if (permissao.getNomePermissao() == _permissao.getNomePermissao())
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Verifica se o {@link Usuario} 'usuario' possui o {@link Perfil} recebido no
+	 * parametro.
+	 * 
+	 * <p>
+	 * Chama o metodo listarPerfisAtivosDeUmUsuario para percorrer todos os perfis
+	 * ativos do usuario recebido no parametro. Verifica se algum destes perfis eh
+	 * igual ao perfil recebido no parametro.
+	 * 
+	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
+	 *         no parametro.
+	 */
+	public Boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+		List<Perfil> perfis = listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
+		for (Perfil perfil : perfis) {
+			if (perfil.getNomePerfil() == _perfil.getNomePerfil())
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Valida a ligacao verificando se a mesma esta ativa e possui data de expiracao
+	 * posterior a data atual.
+	 * 
+	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
+	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
+	 */
+	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+		if (ligacao.getAtivo() && ligacao.getDataExpiracao().isAfter(LocalDate.now()))
+			return true;
+		return false;
+	}
+
 	/**
 	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
 	 * <p>
@@ -94,7 +159,20 @@ public class PerfilDeUsuarioController {
 	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
 		return ligacaoDAO.listarPerfisDeUmUsuario(idUsuario);
 	}
-	
+
+	/**
+	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario} que possua ativo igual a true.
+	 * 
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 */
+	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
+		return ligacaoDAO.listarPerfisAtivosDeUmUsuario(idUsuario);
+	}
+
 	/**
 	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
 	 * 'objeto' recebido no parametro.
@@ -104,14 +182,14 @@ public class PerfilDeUsuarioController {
 	public boolean deletar(PerfilDeUsuario objeto) {
 		return ligacaoDAO.deletar(objeto);
 	}
-	
+
 	/**
 	 * Deleta todos os registros da tabela {@link PerfilDeUsuario}.
 	 */
 	public void deletarTodos() {
 		ligacaoDAO.deletarTodos();
 	}
-	
+
 	/**
 	 * 
 	 * Altera um PerfilDeUsuario no banco de dados.
@@ -125,14 +203,14 @@ public class PerfilDeUsuarioController {
 	public boolean alterar(PerfilDeUsuario objeto) {
 		return ligacaoDAO.alterar(objeto);
 	}
-	
+
 	/**
 	 * Consulta um objeto do tipo {@link PerfilDeUsuario} no banco de dados pelo id.
 	 * 
 	 * @param id int Id do objeto a ser consultado.
 	 */
 	public PerfilDeUsuario consultarPorId(int id) {
-	return ligacaoDAO.consultarPorId(id);
+		return ligacaoDAO.consultarPorId(id);
 	}
 
 	/**

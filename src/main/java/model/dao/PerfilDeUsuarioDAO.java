@@ -159,6 +159,25 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 	}
 
 	/**
+	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario} que possua ativo igual a true.
+	 * 
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 */
+	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
+		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
+		List<Perfil> perfis = new ArrayList<>();
+		for (PerfilDeUsuario ligacao : lista) {
+			if (ligacao.getAtivo())
+				perfis.add(ligacao.getPerfil());
+		}
+		return perfis;
+	}
+
+	/**
 	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
 	 * 'objeto' recebido no parametro.
 	 * 

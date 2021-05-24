@@ -16,7 +16,7 @@ public class UsuarioController {
 
 	private static UsuarioController instance;
 
-	private UsuarioController() {
+	public UsuarioController() {
 	}
   
 	public static UsuarioController getInstance() {
