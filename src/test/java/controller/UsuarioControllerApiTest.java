@@ -19,12 +19,12 @@ import model.dao.PerfilDAO;
 import model.dao.PerfilDeUsuarioDAO;
 import model.dao.PermissaoDAO;
 import model.dao.UsuarioDAO;
+import model.dto.PerfilDTO;
 import model.dto.PermissaoDTO;
 import model.dto.UsuarioDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
-import utils.HashSenha;
 
 public class UsuarioControllerApiTest {
 
@@ -86,7 +86,7 @@ public class UsuarioControllerApiTest {
 	public void testVerificarEListarPermissaoDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
-		UsuarioController.getInstance().criarUsuario(loginUsuario, senhaUsuario);
+		UsuarioControllerApi.getInstance().criarUsuario(loginUsuario, senhaUsuario);
 
 		perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
@@ -97,8 +97,9 @@ public class UsuarioControllerApiTest {
 		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		
 		List<PermissaoDTO> lista = new ArrayList<>();
-		for (Permissao permissao : UsuarioControllerApi.getInstance()
+		for (PermissaoDTO permissao : UsuarioControllerApi.getInstance()
 				.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
 			lista.add(permissao);
 		}
