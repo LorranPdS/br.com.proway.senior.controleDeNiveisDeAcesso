@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.dao.PerfilDAO;
-import model.dao.PermissaoDAO;
-import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
-import model.entidades.Usuario;
 
 public class PerfilController {
 	
@@ -43,7 +40,7 @@ public class PerfilController {
 	 * Alteracao de um {@link Perfil}.
 	 * 
 	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
-	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * idPerfil e nomePerfil. A busca eh realizada pelo idPerfil por intermedio do
 	 * PerfilDAO,o nome do perfil e adicionado ao objeto e alterado no banco de
 	 * dados.
 	 * 
@@ -57,10 +54,10 @@ public class PerfilController {
 	}
 
 	/** PerfilController
-	 * RemoÃƒÂ§ÃƒÂ£o de um {@link Perfil} pelo id.
-   *
-	 * ResponsÃƒÂ¡vel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
-	 * O objeto {@link Perfil} ÃƒÂ© enviado ao {@link Perfil} para ser removido no banco de dados.
+	 * Remocao de um {@link Perfil} pelo id.
+   *  
+	 * Responsavel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+	 * O objeto {@link Perfil} eh enviado ao {@link PerfilDAO} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
 	 */
@@ -72,14 +69,13 @@ public class PerfilController {
 	/** PerfilController
 	 * Consulta de {@link Perfil} pelo id.
 	 * 
-	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
-	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
-	 * {@link PerfilDAO},o nome do perfil e adicionado ao objeto e alterado no banco de
-	 * dados.
+	 * Responsavel por consultar um {@link Perfil} existente com o 
+	 * idPerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * {@link PerfilDAO}.
 	 * 
 	 * 
 	 * @param Integer 
-	 * @throws NullPointerException Caso nÃƒÂ£o exista o {@link Perfil} no banco de dados.
+	 * @throws NullPointerException Caso nao exista o {@link Perfil} no banco de dados.
 	 * @return Perfil
 	 */
 	public Perfil consultarPerfil(Integer idPerfil) {
@@ -146,11 +142,11 @@ public class PerfilController {
 	 * @return List<Permissao>
 	 */
 	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
-		return PerfilDAO.getInstance().listarPermissoes(idPerfil);
+		return PerfilDAO.getInstance().listarPermissoesDeUmPerfil(idPerfil);
 	}
-
+ 
 	/** PerfilController
-	 *  Ã‰ atribuido uma {@link Permissao} a um {@link Perfil} quando Ã© passado uma {@link Permissao} 
+	 *  Eh atribuido uma {@link Permissao} a um {@link Perfil} quando eh passado uma {@link Permissao} 
 	 *  para aquele {@link Perfil}.
 	 * 
 	 * @param permissao Permissao

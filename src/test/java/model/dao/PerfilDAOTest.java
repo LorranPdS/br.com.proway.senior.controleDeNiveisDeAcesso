@@ -1,40 +1,30 @@
 package model.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
-import controller.PermissaoController;
-import model.dao.PerfilDAO;
-import model.dao.PerfilDeUsuarioDAO;
-import model.dao.PermissaoDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 
 public class PerfilDAOTest {
 
-	
+
 	@Before
 	public void deletarTudo() {
 		PerfilDAO.getInstance().deletarTodos();
-		PermissaoDAO.getInstance().deletarTodos();
-
 	}
 
 	@BeforeClass
 	public static void limparEPopularTabelas() {
 		PerfilDAO.getInstance().deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
-		
+
 		popularTabelas();
 	}
 
@@ -43,28 +33,26 @@ public class PerfilDAOTest {
 		PerfilDAO.getInstance().deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
 	}
-	
+
 	static Permissao permissao;
 	static Perfil perfil;
-	
+
 	public static void popularTabelas() {
-		PerfilDAO.getInstance().criar(new Perfil("Vendedor"));
-		perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor"); 
-		
-		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
-		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
+
+		PermissaoDAO.getInstance().criar(new Permissao("Relatorio de compras"));
+		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatorio de compras");
 	}
-	
+
 	@Test
 	public void testAtribuirPermissaoAUmPerfil() {
-		assertEquals(0, perfil.getPermissoes().size());
+		PerfilDAO.getInstance().criar(new Perfil("Vendedor"));
+		perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor");
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		assertEquals(1, perfil.getPermissoes().size());
 	}
-	
+
 	@Test
 	public void testSalvarPerfil() {
-		assertEquals(0, PerfilDAO.getInstance().listar().size());
 		PerfilDAO.getInstance().criar(new Perfil("Administrador"));
 		assertEquals(1, PerfilDAO.getInstance().listar().size());
 	}
@@ -82,11 +70,14 @@ public class PerfilDAOTest {
 
 	@Test
 	public void testDeletarUmPerfil() {
-		assertEquals(0, PerfilDAO.getInstance().listar().size());
 		Perfil perfil = new Perfil("Administrador");
+
 		PerfilDAO.getInstance().criar(perfil);
+
 		assertEquals(1, PerfilDAO.getInstance().listar().size());
+
 		PerfilDAO.getInstance().deletar(perfil);
+
 		assertEquals(0, PerfilDAO.getInstance().listar().size());
 	}
 
@@ -107,5 +98,12 @@ public class PerfilDAOTest {
 		assertEquals(3, PerfilDAO.getInstance().listar().size());
 	}
 
-
+	@Test
+	public void testListarPermissoesDeUmPerfil() {
+		PerfilDAO.getInstance().criar(new Perfil("Vendedor"));
+		perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor"); 
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+		List<Permissao> permissoes = PerfilDAO.getInstance().listarPermissoesDeUmPerfil(perfil.getIdPerfil());
+		assertEquals("Relatorio de compras", permissoes.get(0).getNomePermissao());
+	}
 }

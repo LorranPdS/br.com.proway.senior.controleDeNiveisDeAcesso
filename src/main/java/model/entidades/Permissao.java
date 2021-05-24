@@ -50,4 +50,10 @@ public class Permissao {
 	public void setNomePermissao(String nomePermissao) {
 		this.nomePermissao = nomePermissao;
 	}
+
+	@Override
+	public String toString() {
+		return "Permissao [idPermissao=" + idPermissao + ", nomePermissao=" + nomePermissao + "]";
+	}
+
 }

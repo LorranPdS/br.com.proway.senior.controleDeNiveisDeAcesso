@@ -18,7 +18,7 @@ public class PermissaoControllerTest {
 		controller.deletarTodos();
 	}
 
-	@Test
+	@Test 
 	public void testCriarPermissao() {
 		assertEquals(0, controller.listarTodasAsPermissoes().size());
 		controller.criarPermissao("Gerencia");
