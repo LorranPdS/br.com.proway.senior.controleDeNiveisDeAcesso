@@ -3,18 +3,20 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.PerfilDeUsuarioController;
 import controller.UsuarioController;
-import model.dao.PerfilDeUsuarioDAO;
 import model.dao.UsuarioDAO;
 import model.dto.PerfilDTO;
 import model.dto.PermissaoDTO;
 import model.dto.UsuarioDTO;
 import model.entidades.Perfil;
+import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 
 public class UsuarioControllerApi {
 
+	PerfilDeUsuarioController controller;
 	private static UsuarioControllerApi instance;
 
 	public UsuarioControllerApi() {
@@ -188,7 +190,7 @@ public class UsuarioControllerApi {
 	 * @return List<PerfilDTO>
 	 */
 	public List<PerfilDTO> listarPerfisDeUmUsuario(int idUsuario) {
-		List<Perfil> listaPerfis = PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(idUsuario);
+		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(idUsuario);
 		ArrayList<PerfilDTO> resultado = new ArrayList<>();
 
 		for (Perfil usuario : listaPerfis) {
@@ -230,7 +232,7 @@ public class UsuarioControllerApi {
 	public List<PermissaoDTO> listarPermissoesDeUmUsuario(Integer idUsuario) {
 		List<PermissaoDTO> resultado = new ArrayList<>();
 		List<PermissaoDTO> listaPermissao = new ArrayList<>();
-		for (Permissao permissoes : PerfilDeUsuarioDAO.getInstance().listarPermissoesDeUmUsuario(idUsuario)) {
+		for (Permissao permissoes : controller.listarPermissoesDeUmUsuario(idUsuario)) {
 			listaPermissao.add(new PermissaoDTO(permissoes));
 		}
 
@@ -247,6 +249,35 @@ public class UsuarioControllerApi {
 	 */
 	public void deletarTodos() {
 		UsuarioDAO.getInstance().deletarTodos();
+	}
+	
+	/**
+	 * Valida a ligacao verificando se a mesma esta ativa e possui data de expiracao
+	 * posterior a data atual.
+	 * 
+	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
+	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
+	 */
+	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+		return controller.permissaoAtiva(ligacao);
+	}
+	
+	/**
+	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario} que possua ativo igual a true.
+	 * 
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 */
+	public List<PerfilDTO> listarPerfisAtivosDeUmUsuario(int idUsuario) {
+		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(idUsuario);
+		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
+		for (Perfil perfil : listaModel) {
+			listaDTO.add(new PerfilDTO(perfil));
+		}
+		return listaDTO;
 	}
 
 }

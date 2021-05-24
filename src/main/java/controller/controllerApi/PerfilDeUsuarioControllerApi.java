@@ -206,6 +206,8 @@ public class PerfilDeUsuarioControllerApi {
 	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
 		return controller.permissaoAtiva(ligacao);
 	}
+	
+	
 
 	/**
 	 * Retorna todos os registros que possuem 'ativo' igual a true.

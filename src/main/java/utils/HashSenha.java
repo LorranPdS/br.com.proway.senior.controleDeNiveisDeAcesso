@@ -38,7 +38,7 @@ public class HashSenha {
 
 			byte[] salt = criptografarSalt(login);
 
-			KeySpec spec = new PBEKeySpec(senhaNaoCriptografada.toCharArray(), salt, 1000000, 256);
+			KeySpec spec = new PBEKeySpec(senhaNaoCriptografada.toCharArray(), salt, 100, 256);
 
 			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 

@@ -7,16 +7,7 @@ import model.entidades.PerfilDeUsuario;
 
 public class RotinasController {
 
-	private static RotinasController instance;
-
-	private RotinasController() {
-	}
-
-	public static RotinasController getInstance() {
-		if (instance == null) {
-			instance = new RotinasController();
-		}
-		return instance;
+	RotinasController() {
 	}
 
 	PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
@@ -29,7 +20,7 @@ public class RotinasController {
 	 * 
 	 * @return Integer Quantidade de permissoes expiradas deletadas.
 	 */
-	public Integer desativarTodasPermissoesExpiradas() {
+	public int desativarTodasPermissoesExpiradas() {
 		ArrayList<PerfilDeUsuario> ligacoesAntes = (ArrayList<PerfilDeUsuario>) perfilDeUsuarioController.listar();
 
 		for (PerfilDeUsuario ligacao : ligacoesAntes) {
@@ -41,7 +32,7 @@ public class RotinasController {
 				}
 			}
 		}
-		ArrayList<PerfilDeUsuario> ligacoesDepois = (ArrayList<PerfilDeUsuario>) perfilDeUsuarioController.listar();
+		ArrayList<PerfilDeUsuario> ligacoesDepois = (ArrayList<PerfilDeUsuario>) perfilDeUsuarioController.listarTodasLigacoesAtivas();
 		return (ligacoesAntes.size() - ligacoesDepois.size());
 	}
 
