@@ -2,7 +2,6 @@ package controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import org.junit.runners.MethodSorters;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class PerfilControllerTest {
 
 	@After
@@ -29,7 +28,7 @@ public class PerfilControllerTest {
 	}
 
 	@Test
-	public void testAVerificarEListarPermissaoDeUmPerfil() {
+	public void testVerificarEListarPermissaoDeUmPerfil() {
 		String nomePerfil = "PerfilDeTesteDeVerificacaoDePermissao";
 		PerfilController.getInstance().criarPerfil(nomePerfil);
    
@@ -48,7 +47,6 @@ public class PerfilControllerTest {
 
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao1, perfil);
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao2, perfil);
-	//	DBConnection.shutdown(); 
 
 		List<Permissao> listaPermissao = PerfilController.getInstance().listarPermissoesDeUmPerfil(perfil.getIdPerfil());
 
@@ -64,7 +62,7 @@ public class PerfilControllerTest {
 	}
     
 	@Test
-	public void testBCriarEConsultarPerfil() {
+	public void testCriarEConsultarPerfil() {
 		String nomeDoPerfil = "PerfilDeTesteDeCriacao";
 		PerfilController.getInstance().criarPerfil(nomeDoPerfil);
 
@@ -75,17 +73,18 @@ public class PerfilControllerTest {
 	}
 	
 	@Test(expected = NoResultException.class)
-		public void testConsultarPerfilCatch() {	
+	public void testConsultarPerfilCatch() {
+		 
 		String nomeDoPerfil = "PerfilDeTesteDeCriacao";
 		PerfilController.getInstance().criarPerfil(nomeDoPerfil);
 
 		String nomeInvalido = "PerfilNaoValido";
 		
-		 PerfilController.getInstance().consultarPerfil(nomeInvalido);
+		PerfilController.getInstance().consultarPerfil(nomeInvalido);
 	}
 
 	@Test
-	public void testCAlterarPerfil() {
+	public void testAlterarPerfil() {
 		String nomePerfil = "PerfilDeTesteDeAlteracaoAntesDaAlteracao";
 		PerfilController.getInstance().criarPerfil(nomePerfil);
 		Perfil perfilConsultado = PerfilController.getInstance().consultarPerfil(nomePerfil);
@@ -96,7 +95,7 @@ public class PerfilControllerTest {
 	}
 
 	@Test
-	public void testHDeletarPerfil() {
+	public void testDeletarPerfil() {
 		String nomePerfil = "PerfilDeTesteDeDeletar";
 		PerfilController.getInstance().criarPerfil(nomePerfil);
 		
@@ -116,7 +115,7 @@ public class PerfilControllerTest {
 	} 
 
 	@Test
-	public void testIListarTodosPerfis() {
+	public void testListarTodosPerfis() {
 		
 		String nomePerfil = "PerfilDeTesteDeListar";
 		PerfilController.getInstance().criarPerfil(nomePerfil);

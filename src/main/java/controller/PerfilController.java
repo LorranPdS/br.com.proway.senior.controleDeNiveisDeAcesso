@@ -40,7 +40,7 @@ public class PerfilController {
 	 * Alteracao de um {@link Perfil}.
 	 * 
 	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
-	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * idPerfil e nomePerfil. A busca eh realizada pelo idPerfil por intermedio do
 	 * PerfilDAO,o nome do perfil e adicionado ao objeto e alterado no banco de
 	 * dados.
 	 * 
@@ -57,7 +57,7 @@ public class PerfilController {
 	 * Remocao de um {@link Perfil} pelo id.
    *  
 	 * Responsavel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
-	 * O objeto {@link Perfil} eh enviado ao {@link Perfil} para ser removido no banco de dados.
+	 * O objeto {@link Perfil} eh enviado ao {@link PerfilDAO} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
 	 */
@@ -69,10 +69,9 @@ public class PerfilController {
 	/** PerfilController
 	 * Consulta de {@link Perfil} pelo id.
 	 * 
-	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
-	 * idPerfil e nomePerfil. A busca e realizada pelo idPerfil por intermedio do
-	 * {@link PerfilDAO},o nome do perfil e adicionado ao objeto e alterado no banco de
-	 * dados.
+	 * Responsavel por consultar um {@link Perfil} existente com o 
+	 * idPerfil. A busca e realizada pelo idPerfil por intermedio do
+	 * {@link PerfilDAO}.
 	 * 
 	 * 
 	 * @param Integer 
