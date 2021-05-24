@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -80,14 +78,10 @@ public class PerfilDeUsuarioControllerTest {
 		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 
-		Set<Permissao> permissoes = controller.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
+		ArrayList<Permissao> permissoes = controller.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
 
-		List<Permissao> listaPermissoes = new ArrayList<Permissao>();
-		for (Permissao permissao : permissoes)
-			listaPermissoes.add(permissao);
-
-		assertEquals(1, listaPermissoes.size());
-		assertEquals("Relatório de compras", listaPermissoes.get(0).getNomePermissao());
+		assertEquals(1, permissoes.size());
+		assertEquals("Relatório de compras", permissoes.get(0).getNomePermissao());
 	}
 
 	@Test

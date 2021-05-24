@@ -1,25 +1,20 @@
-package controller;
+package controller.controllerApi;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import model.dao.PerfilDeUsuarioDAO;
+import controller.PerfilDeUsuarioController;
+import model.dto.PerfilDeUsuarioDTO;
+import model.dto.PermissaoDTO;
 import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 
-/**
- * Classe que faz contato com o {@link PerfilDeUsuarioDAO}.
- * 
- * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
- * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6 *
- */
-public class PerfilDeUsuarioController {
-
-	PerfilDeUsuarioDAO ligacaoDAO = PerfilDeUsuarioDAO.getInstance();
+public class PerfilDeUsuarioControllerApi {
+	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 
 	/**
 	 * Atribui um {@link Perfil} a um {@link Usuario}.
@@ -33,8 +28,7 @@ public class PerfilDeUsuarioController {
 	 *                   não seja possivel.
 	 */
 	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao) {
-		PerfilDeUsuario perfilDeUsuario = new PerfilDeUsuario(usuario, perfil, dataExpiracao, true);
-		ligacaoDAO.criar(perfilDeUsuario);
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, dataExpiracao);
 	}
 
 	/**
@@ -47,8 +41,13 @@ public class PerfilDeUsuarioController {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	public ArrayList<PerfilDeUsuario> consultarPorIdDoUsuario(Integer id) {
-		return ligacaoDAO.consultarPorIdDoUsuario(id);
+	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoUsuario(Integer id) {
+		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoPerfil(id);
+		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
+		for (PerfilDeUsuario ligacao : listaModel) {
+			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
+		}
+		return listaDTO;
 	}
 
 	/**
@@ -61,8 +60,13 @@ public class PerfilDeUsuarioController {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	public ArrayList<PerfilDeUsuario> consultarPorIdDoPerfil(Integer id) {
-		return ligacaoDAO.consultarPorIdDoPerfil(id);
+	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoPerfil(Integer id) {
+		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoPerfil(id);
+		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
+		for (PerfilDeUsuario ligacao : listaModel) {
+			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
+		}
+		return listaDTO;
 	}
 
 	/**
@@ -78,17 +82,17 @@ public class PerfilDeUsuarioController {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
-	public ArrayList<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
-
-		Set<Permissao> listaSet = ligacaoDAO.listarPermissoesDeUmUsuario(idUsuario);
-		ArrayList<Permissao> permissoes = new ArrayList<Permissao>();
-		for (Permissao permissao : listaSet)
-			permissoes.add(permissao);
-		return permissoes;
+	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(int idUsuario) {
+		ArrayList<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(idUsuario);
+		ArrayList<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
+		for (Permissao permissao : listaModel) {
+			listaDTO.add(new PermissaoDTO(permissao));
+		}
+		return listaDTO;
 	}
 
 	/**
-	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
+	 * Retorna todas os {@link Perfil}s de um {@link Usuario}.
 	 * <p>
 	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
 	 * {@link Perfil} deste {@link Usuario}.
@@ -96,8 +100,13 @@ public class PerfilDeUsuarioController {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
-	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		return ligacaoDAO.listarPerfisDeUmUsuario(idUsuario);
+	public List<PerfilDTO> listarPerfisDeUmUsuario(int idUsuario) {
+		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(idUsuario);
+		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
+		for (Perfil perfil : listaModel) {
+			listaDTO.add(new PerfilDTO(perfil));
+		}
+		return listaDTO;
 	}
 
 	/**
@@ -107,14 +116,14 @@ public class PerfilDeUsuarioController {
 	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
 	 */
 	public boolean deletar(PerfilDeUsuario objeto) {
-		return ligacaoDAO.deletar(objeto);
+		return controller.deletar(objeto);
 	}
 
 	/**
 	 * Deleta todos os registros da tabela {@link PerfilDeUsuario}.
 	 */
 	public void deletarTodos() {
-		ligacaoDAO.deletarTodos();
+		controller.deletarTodos();
 	}
 
 	/**
@@ -128,16 +137,16 @@ public class PerfilDeUsuarioController {
 	 * @boolean Retorna true.
 	 */
 	public boolean alterar(PerfilDeUsuario objeto) {
-		return ligacaoDAO.alterar(objeto);
-	}
+		return controller.alterar(objeto);
+	} 
 
 	/**
 	 * Consulta um objeto do tipo {@link PerfilDeUsuario} no banco de dados pelo id.
 	 * 
 	 * @param id int Id do objeto a ser consultado.
 	 */
-	public PerfilDeUsuario consultarPorId(int id) {
-		return ligacaoDAO.consultarPorId(id);
+	public PerfilDeUsuarioDTO consultarPorId(int id) {
+		return new PerfilDeUsuarioDTO(controller.consultarPorId(id));
 	}
 
 	/**
@@ -146,7 +155,13 @@ public class PerfilDeUsuarioController {
 	 * 
 	 * @return List Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	public List<PerfilDeUsuario> listar() {
-		return ligacaoDAO.listar();
+	public List<PerfilDeUsuarioDTO> listar() {
+		List<PerfilDeUsuario> listaModel = controller.listar();
+		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
+		for (PerfilDeUsuario ligacao : listaModel) {
+			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
+		}
+		return listaDTO;
 	}
+
 }

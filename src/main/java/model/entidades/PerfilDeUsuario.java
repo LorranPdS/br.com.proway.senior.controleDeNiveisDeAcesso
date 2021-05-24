@@ -56,6 +56,12 @@ public class PerfilDeUsuario {
 		setAtivo(ativo);
 	}
 
+	public PerfilDeUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao) {
+		setUsuario(usuario);
+		setPerfil(perfil);
+		setDataExpiracao(dataExpiracao);
+	}
+
 	public Perfil getPerfil() {
 		return perfil;
 	}
