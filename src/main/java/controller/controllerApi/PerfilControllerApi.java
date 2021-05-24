@@ -1,5 +1,6 @@
 package controller.controllerApi;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,5 +162,6 @@ public class PerfilControllerApi {
 		PerfilDAO.getInstance().deletarTodos();
 	}
 	
+
 
 }

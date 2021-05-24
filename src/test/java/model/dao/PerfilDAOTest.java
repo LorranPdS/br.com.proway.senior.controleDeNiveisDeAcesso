@@ -1,6 +1,7 @@
 package model.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
@@ -105,5 +106,10 @@ public class PerfilDAOTest {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		List<Permissao> permissoes = PerfilDAO.getInstance().listarPermissoesDeUmPerfil(perfil.getIdPerfil());
 		assertEquals("Relatorio de compras", permissoes.get(0).getNomePermissao());
+	}
+	
+	@Test
+	public void testDeletarPerfilInexistente() {
+		assertFalse(PerfilDAO.getInstance().deletar(new Perfil("Perfil nao existe")));
 	}
 }

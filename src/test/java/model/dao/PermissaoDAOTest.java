@@ -4,11 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
-import model.dao.PermissaoDAO;
 import model.entidades.Permissao;
 
 public class PermissaoDAOTest {
@@ -37,7 +34,7 @@ public class PermissaoDAOTest {
 	}
 
 	@Test
-	public void testDlterarPermissao() {
+	public void testDalterarPermissao() {
 		Permissao permissao = new Permissao("PermissaoErrada");
 		PermissaoDAO.getInstance().criar(permissao);
 		permissao.setNomePermissao("Remover");
