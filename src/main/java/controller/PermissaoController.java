@@ -16,13 +16,14 @@ public class PermissaoController {
 	PermissaoDAO permissaoDAO = PermissaoDAO.getInstance();
 
 	/**
-	 * Criacao de um {@link Permissao} no objeto.
+	 * Cadastro de uma {@link Permissao} no banco de dados.
 	 * 
+	 * <p>
 	 * Responsavel por criar um objeto do tipo {@link Permissao}. O objeto
 	 * {@link Permissao} e enviado ao {@link PermissaoDAO} para ser persistido no
 	 * banco de dados.
 	 * 
-	 * @param String
+	 * @param nomePermissao String Nome da permissao.
 	 */
 	public void criarPermissao(String nomePermissao) {
 		Permissao permissao = new Permissao(nomePermissao);
@@ -32,6 +33,7 @@ public class PermissaoController {
 	/**
 	 * Alteracao de uma {@link Permissao}.
 	 * 
+	 * <p>
 	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves do id
 	 * e nome da permissao, o qual retornara o objeto completo. Feito isso, o novo
 	 * nome da {@link Permissao} sera setado ao objeto e enviado ao
@@ -49,6 +51,7 @@ public class PermissaoController {
 	/**
 	 * Remocao de uma {@link Permissao} pelo id.
 	 * 
+	 * <p>
 	 * Responsavel por consultar uma {@link Permissao} pelo seu id no banco de
 	 * dados, retornando o objeto com os dados de uma {@link Permissao} preenchidos
 	 * e, posteriormente, enviando ao {@link PermissaoDAO} para ser removido do
@@ -62,12 +65,13 @@ public class PermissaoController {
 	}
 
 	/**
-	 * Consulta de {@link Permissao} pelo idPermissao
+	 * Consulta um {@link Permissao} pelo id.
 	 * 
-	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu
-	 * idPermissao, o qual retornara o objeto completo.
+	 * <p>
+	 * Consulta uma {@link Permissao} no banco de dados atraves de seu id e retorna
+	 * o objeto completo.
 	 * 
-	 * @param idPermissao Integer
+	 * @param idPermissao Integer Id do objeto a ser consultado.
 	 * @return Permissao
 	 */
 	public Permissao consultarPermissaoPorId(Integer idPermissao) {
@@ -75,12 +79,13 @@ public class PermissaoController {
 	}
 
 	/**
-	 * Consulta de {@link Permissao} pelo nomePermissao.
+	 * Consulta de {@link Permissao} pelo nome.
 	 * 
-	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves de seu
-	 * nomePermissao, o qual retornara o objeto completo.
+	 * <p>
+	 * Consulta uma {@link Permissao} no banco de dados atraves de seu nome e
+	 * retorna o objeto completo.
 	 * 
-	 * @param nomePermissao String
+	 * @param nomePermissao String Nome do objeto a ser consultado.
 	 * @return Permissao
 	 */
 	public Permissao consultarPermissaoPorNome(String nomePermissao) {
@@ -88,13 +93,12 @@ public class PermissaoController {
 	}
 
 	/**
-	 * Lista todas as {@link Permissao}.
+	 * Retorna todas os registros de {@link Permissao}.
 	 * 
-	 * Sera feita uma consulta de todas os {@link Permissao} registrados no banco de
-	 * dados. Caso haja {@link Permissao} registradas no banco de dados, eles serao
-	 * retornados.
+	 * <p>
+	 * Consulta todos os registros e retorna uma lista.
 	 * 
-	 * @return List<Permissao>
+	 * @return List<Permissao> 
 	 */
 	public List<Permissao> listarTodasAsPermissoes() {
 		return permissaoDAO.listar();
