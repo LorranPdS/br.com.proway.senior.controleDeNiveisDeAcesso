@@ -1,6 +1,6 @@
 package model.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,9 +12,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controller.PerfilDeUsuarioController;
-import controller.PermissaoController;
-import controller.UsuarioController;
 import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
@@ -24,14 +21,14 @@ public class PerfilDeUsuarioDAOTest {
 
 	@Before
 	public void deletarTudoDoPerfilDeUsuario() {
-		PerfilDeUsuarioDAO.getInstance().deletarTodos();
+		ligacaoDAO.deletarTodos();
 	}
 
 	@BeforeClass
 	public static void limparEPopularTabelas() {
-		PerfilDeUsuarioDAO.getInstance().deletarTodos();
-		UsuarioDAO.getInstance().deletarTodos();
-		PerfilDAO.getInstance().deletarTodos();
+		ligacaoDAO.deletarTodos();
+		usuarioDAO.deletarTodos();
+		perfilDAO.deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
 
 		popularTabelas();
@@ -39,51 +36,105 @@ public class PerfilDeUsuarioDAOTest {
 
 	@AfterClass
 	public static void limparTabelas() {
-		PerfilDeUsuarioDAO.getInstance().deletarTodos();
-		UsuarioDAO.getInstance().deletarTodos();
-		PerfilDAO.getInstance().deletarTodos();
+		ligacaoDAO.deletarTodos();
+		usuarioDAO.deletarTodos();
+		perfilDAO.deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
 	}
-	
+
+	static PerfilDeUsuarioDAO ligacaoDAO = PerfilDeUsuarioDAO.getInstance();
+	static PerfilDAO perfilDAO = PerfilDAO.getInstance();
+	static UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
 	static Usuario usuario;
 	static Permissao permissao;
 	static Perfil perfil;
-	
+
 	public static void popularTabelas() {
-		PerfilDAO.getInstance().criar(new Perfil("Vendedor"));
-		perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor"); 
-		
+		perfilDAO.criar(new Perfil("Vendedor"));
+		perfil = perfilDAO.consultarPorNome("Vendedor");
+
 		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
 		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
-		
-		UsuarioDAO.getInstance().criar( new Usuario("thiago@gmail.com", "admin"));
-	}
 
+		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
+	}
+	
 	@Test
 	public void testListarPerfisDeUmUsuario() {
-		usuario = UsuarioDAO.getInstance().consultarPorLogin("thiago@gmail.com");
-		
+		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
+
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		PerfilDeUsuarioDAO.getInstance().atribuirPerfilAUmUsuario(ligacao);
-		
-		assertEquals(1, PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
+		ligacaoDAO.criar(ligacao);
+
+		assertEquals(1, ligacaoDAO.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
 	}
 
 	@Test
 	public void testListarPermissoesDeUmUsuario() {
-		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		PerfilDeUsuarioDAO.getInstance().atribuirPerfilAUmUsuario(ligacao);
-		
-		Set<Permissao> permissoes = PerfilDeUsuarioDAO.getInstance().listarPermissoesDeUmUsuario(usuario.getIdUsuario());
-		
+		ligacaoDAO.criar(ligacao);
+
+		Set<Permissao> permissoes = ligacaoDAO.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
+
 		List<Permissao> listaPermissoes = new ArrayList<Permissao>();
-		for(Permissao permissao : permissoes)
+		for (Permissao permissao : permissoes)
 			listaPermissoes.add(permissao);
-		
+
 		assertEquals(1, listaPermissoes.size());
 		assertEquals("Relatório de compras", listaPermissoes.get(0).getNomePermissao());
 	}
 
+	@Test
+	public void testConsultarPorIdDoPerfil() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		ligacaoDAO.criar(ligacao);
+		assertEquals(1, ligacaoDAO.listar().size());
 
+		assertEquals(1, ligacaoDAO.consultarPorIdDoPerfil(perfil.getIdPerfil()).size());
+	}
+
+	@Test
+	public void testDeletar() {
+		assertEquals(0, ligacaoDAO.listar().size());
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		ligacaoDAO.criar(ligacao);
+		assertEquals(1, ligacaoDAO.listar().size());
+
+		ligacaoDAO.deletar(ligacao);
+		assertEquals(0, ligacaoDAO.listar().size());
+	}
+
+	@Test
+	public void testAlterar() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		ligacaoDAO.criar(ligacao);
+		assertEquals(1, ligacaoDAO.listar().size());
+
+		ligacao.setDataExpiracao(LocalDate.now().plusMonths(3));
+		ligacaoDAO.alterar(ligacao);
+		assertEquals(LocalDate.now().plusMonths(3), ligacaoDAO.consultarPorId(ligacao.getId()).getDataExpiracao());
+	}
+
+	@Test
+	public void testConsultarPorId() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		ligacaoDAO.criar(ligacao);
+		assertEquals(1, ligacaoDAO.listar().size());
+		assertEquals("Vendedor", ligacaoDAO.consultarPorId(ligacao.getId()).getPerfil().getNomePerfil());
+	}
+
+	@Test
+	public void testListar() {
+		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		ligacaoDAO.criar(ligacao1);
+
+		PerfilDeUsuario ligacao2 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(2));
+		ligacaoDAO.criar(ligacao2);
+
+		PerfilDeUsuario ligacao3 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(3));
+		ligacaoDAO.criar(ligacao3);
+
+		assertEquals(3, ligacaoDAO.listar().size());
+	}
 }

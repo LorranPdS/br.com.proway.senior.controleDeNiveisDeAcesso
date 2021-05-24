@@ -12,11 +12,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- * Classe UsuarioPerfil
+ * Classe PerfilDeUsuario
  * 
- * Classe representando a tabela de ligacao entre N usuario e N perfis. Perfis
- * atrelados a um usuario podem expirar com o tempo através do campo
- * data_expiracao.
+ * Classe representando a tabela de ligacao entre {@link Usuario} e
+ * {@link Perfil). Perfis atrelados a um usuario podem expirar com o tempo
+ * através do campo data_expiracao.
+ * 
+ * @author Daniella Lira <b>daniella.lira@senior.com</b> - Sprint 6
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  */
 @Entity
 @Table(name = "perfildeusuario")

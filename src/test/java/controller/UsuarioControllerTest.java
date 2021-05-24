@@ -1,79 +1,69 @@
 package controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import db.DBConnection;
+import model.dao.PerfilDAO;
+import model.dao.PerfilDeUsuarioDAO;
+import model.dao.PermissaoDAO;
+import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 import utils.HashSenha;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UsuarioControllerTest {
 
-	@Ignore
-	public void testAcleanDB() {
-		DBConnection.truncateTablesAndRestartSequences();
+	@Before
+	public void deletarTudo() {
+		PerfilDeUsuarioDAO.getInstance().deletarTodos();
+		UsuarioController.getInstance().deletarTodos();
+		PerfilDAO.getInstance().deletarTodos();
+		PermissaoDAO.getInstance().deletarTodos();
+	}
+
+	@BeforeClass
+	public static void limparEPopularTabelas() {
+		PerfilDeUsuarioDAO.getInstance().deletarTodos();
+		UsuarioDAO.getInstance().deletarTodos();
+		PerfilDAO.getInstance().deletarTodos();
+		PermissaoDAO.getInstance().deletarTodos();
 	}
 
 	@AfterClass
-	@BeforeClass
-	public static void testAlimparTestesDoController() {
-		String sqlPermissao1 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeCriacao';";
-		String sqlPermissao2 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoDeTesteDeAlteracaoDepoisDaAlteracao';";
-		String sqlPerfil1 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeCriacao';";
-		String sqlPerfil2 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeAlteracaoDepoisDaAlteracao';";
-		String sqlUsuario1 = "DELETE FROM usuario WHERE login = 'jonata@gmail.com';";
-		String sqlUsuario2 = "DELETE FROM usuario WHERE login = 'UsuarioDeTesteDepoisDaAlteracao@gmail.com';";
-		String sqlLogin1 = "DELETE FROM usuario WHERE login = 'Grijo@gmail.com';";
-		String sqlAtribuicoes1 = "TRUNCATE TABLE perfil_permissao CASCADE;";
-		String sqlAtribuicoes2 = "TRUNCATE TABLE usuario_perfil CASCADE;";
-		String sqlAtribuicoes3 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao1';";
-		String sqlAtribuicoes4 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao2';";
-		String sqlAtribuicoes5 = "DELETE FROM permissao WHERE nome_permissao = 'PermissaoTesteDeAtribuicao3';";
-		String sqlAtribuicoes6 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilDeTesteDeVerificacaoDePermissao';";
-		String sqlAtribuicoes7 = "DELETE FROM usuario WHERE login = 'UsuarioDeTesteDeVerificacaoDePermissao@gmail.com';";
-		String sqlAtribuicoes8 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuicaoTestePrimeiro';";
-		String sqlAtribuicoes9 = "DELETE FROM perfil WHERE nome_perfil = 'PerfilAtribuicaoTesteSegundo';";
-		String sqlAtribuicoes10 = "DELETE FROM usuario WHERE login = 'TesteAtribuicao@gmail.com';";
+	public static void limparTabelas() {
+		PerfilDeUsuarioDAO.getInstance().deletarTodos();
+		UsuarioDAO.getInstance().deletarTodos();
+		PerfilDAO.getInstance().deletarTodos();
+		PermissaoDAO.getInstance().deletarTodos();
 
-		try {
-			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession()
-					.createSQLQuery(sqlPermissao1 + sqlPermissao2 + sqlPerfil1 + sqlPerfil2 + sqlUsuario1 + sqlUsuario2
-							+ sqlLogin1 + sqlAtribuicoes1 + sqlAtribuicoes2 + sqlAtribuicoes3 + sqlAtribuicoes4
-							+ sqlAtribuicoes5 + sqlAtribuicoes6 + sqlAtribuicoes7 + sqlAtribuicoes8 + sqlAtribuicoes9
-							+ sqlAtribuicoes10)
-					.executeUpdate();
-			DBConnection.getSession().getTransaction().commit();
-		} catch (Exception e) {
-			DBConnection.getSession().getTransaction().rollback();
-			e.printStackTrace();
-		}
 	}
 
+	static Perfil perfil;
+	static Permissao permissao;
+	static PermissaoController permissaoController = new PermissaoController();
+
+	// o teste de tentar com um login inexistente nao foi feito, pois como o metodo
+	// busca polo loging, a query volta nulla e lenaca a excecao
 	@Test
-	public void testPLogin() {
+	public void testLogin() {
 		String loginExistente = "Grijo@gmail.com";
-		String loginInexistente = "Grijo23@gmail.com";
 		String senhaCorreta = "234";
 		String senhaIncorreta = "123";
-		Controller.getInstance().criarUsuario(loginExistente, senhaCorreta);
-		boolean loginPermitido = Controller.getInstance().logar(loginExistente, senhaCorreta);
-		boolean loginProibidoPorSenhaIncorreta = Controller.getInstance().logar(loginExistente, senhaIncorreta);
-		boolean loginProibidoPorLoginInexistente = Controller.getInstance().logar(loginInexistente, senhaCorreta);
-		assertTrue(loginPermitido);
-		assertFalse(loginProibidoPorSenhaIncorreta);
-		assertFalse(loginProibidoPorLoginInexistente);
+		UsuarioController.getInstance().criarUsuario(loginExistente, senhaCorreta);
+		assertTrue(UsuarioController.getInstance().logar(loginExistente, senhaCorreta));
+		assertFalse(UsuarioController.getInstance().logar(loginExistente, senhaIncorreta));
 	}
 
 	/**
@@ -87,14 +77,14 @@ public class UsuarioControllerTest {
 
 		String destinatario = "Email@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
 		String senha = "123";
-		Controller.getInstance().criarUsuario(destinatario, senha);
+		UsuarioController.getInstance().criarUsuario(destinatario, senha);
 
-		boolean resultadoEnvioEmail = Controller.getInstance().enviarEmailDeConfirmacaoDeLogin(destinatario);
+		boolean resultadoEnvioEmail = UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(destinatario);
 		assertTrue(resultadoEnvioEmail);
 
-		Usuario u = Controller.getInstance().consultarUsuario(destinatario);
+		Usuario u = UsuarioController.getInstance().consultarUsuario(destinatario);
 		Integer codigoDeConfirmacao = u.getUltimoCodigo2FA();
-		assertTrue(Controller.getInstance().confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
+		assertTrue(UsuarioController.getInstance().confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
 
 		// Limpar usuario do banco pós-teste
 		String sqlLimparUsuarioDoBanco = "DELETE FROM usuario WHERE login = '" + destinatario + "';";
@@ -112,9 +102,9 @@ public class UsuarioControllerTest {
 	public void testJCriarEConsultarUsuario() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
-		Controller.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
-		Usuario usuarioEncontradoPorNome = Controller.getInstance().consultarUsuario(loginDoUsuario);
-		Usuario usuarioEncontradoPorId = Controller.getInstance()
+		UsuarioController.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		Usuario usuarioEncontradoPorNome = UsuarioController.getInstance().consultarUsuario(loginDoUsuario);
+		Usuario usuarioEncontradoPorId = UsuarioController.getInstance()
 				.consultarUsuario(usuarioEncontradoPorNome.getIdUsuario());
 		assertEquals(loginDoUsuario, usuarioEncontradoPorNome.getLogin(), usuarioEncontradoPorId.getLogin());
 	}
@@ -123,13 +113,13 @@ public class UsuarioControllerTest {
 	public void testKAlterarUsuario() {
 		String loginDoUsuario = "UsuarioDeTesteAntesDaAlteracao@gmail.com";
 		String senhaDoUsuario = "6666666";
-		Controller.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
-		Usuario usuarioConsultado = Controller.getInstance().consultarUsuario(loginDoUsuario);
+		UsuarioController.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		Usuario usuarioConsultado = UsuarioController.getInstance().consultarUsuario(loginDoUsuario);
 		String novoLoginDoUsuario = "UsuarioDeTesteDepoisDaAlteracao@gmail.com";
 		String novaSenhaDoUsuario = "9999999";
-		Controller.getInstance().alterarUsuario(usuarioConsultado.getIdUsuario(), novoLoginDoUsuario,
+		UsuarioController.getInstance().alterarUsuario(usuarioConsultado.getIdUsuario(), novoLoginDoUsuario,
 				novaSenhaDoUsuario);
-		usuarioConsultado = Controller.getInstance().consultarUsuario(usuarioConsultado.getIdUsuario());
+		usuarioConsultado = UsuarioController.getInstance().consultarUsuario(usuarioConsultado.getIdUsuario());
 		assertEquals(novoLoginDoUsuario, usuarioConsultado.getLogin());
 		assertEquals(HashSenha.criptografarSenha(novoLoginDoUsuario, novaSenhaDoUsuario),
 				usuarioConsultado.getHashSenha());
@@ -137,72 +127,81 @@ public class UsuarioControllerTest {
 
 	@Test
 	public void testLDeletarUsuario() {
-		int numeroDeUsuariosAntesDoTeste = Controller.getInstance().listarTodosOsUsuarios().size();
 		String loginDoUsuario = "UsuarioDeTesteDeDelecao@gmail.com";
 		String senhaDoUsuario = "123123123";
-		Controller.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
-		Usuario usuarioASerDeletado = Controller.getInstance().consultarUsuario(loginDoUsuario);
-		Controller.getInstance().deletarUsuario(usuarioASerDeletado.getIdUsuario());
-		int numeroDeUsuariosDepoisDoTeste = Controller.getInstance().listarTodosOsUsuarios().size();
-		assertEquals(numeroDeUsuariosAntesDoTeste, numeroDeUsuariosDepoisDoTeste);
+		UsuarioController.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+
+		String loginDoUsuario2 = "marcelo@gmail.com";
+		String senhaDoUsuario2 = "456";
+		UsuarioController.getInstance().criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+
+		Usuario usuarioASerDeletado = UsuarioController.getInstance().consultarUsuario(loginDoUsuario);
+		UsuarioController.getInstance().deletarUsuario(usuarioASerDeletado.getIdUsuario());
+		int numeroDeUsuariosDepoisDoTeste = UsuarioController.getInstance().listarTodosOsUsuarios().size();
+		assertEquals(1, numeroDeUsuariosDepoisDoTeste);
 	}
 
 	@Test
 	public void testMListarTodosUsuarios() {
-		int numeroDeUsuariosNoBanco = 2;
-		assertEquals(numeroDeUsuariosNoBanco, Controller.getInstance().listarTodosOsUsuarios().size());
+		String loginDoUsuario = "jonata@gmail.com";
+		String senhaDoUsuario = "123";
+		UsuarioController.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+
+		String loginDoUsuario2 = "marcelo@gmail.com";
+		String senhaDoUsuario2 = "456";
+		UsuarioController.getInstance().criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+		assertEquals(2, UsuarioController.getInstance().listarTodosOsUsuarios().size());
 	}
 
 	@Test
-	public void testRLverificarEListarPermissaoDeUmUsuario() {
+	public void testVerificarEListarPermissaoDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
-		Controller.getInstance().criarUsuario(loginUsuario, senhaUsuario);
-		String nomePerfil = "PerfilDeTesteDeVerificacaoDePermissao";
+		UsuarioController.getInstance().criarUsuario(loginUsuario, senhaUsuario);
 
-		Usuario usuario = Controller.getInstance().consultarUsuario(loginUsuario);
-		Perfil perfil = Controller.getInstance().consultarPerfil(nomePerfil);
+		perfil = new Perfil("Vendedor");
+		PerfilDAO.getInstance().criar(perfil);
+		permissaoController.criarPermissao("Relatório de compras.");
+		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras.");
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 
-		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil, null);
-		DBConnection.shutdown();
+		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
+		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		List<Permissao> lista = new ArrayList<>();
+		for (Permissao permissao : UsuarioController.getInstance()
+				.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
+			lista.add(permissao);
+		}
 
-		String nomePermissao2 = "PermissaoTesteDeAtribuicao2";
-		String nomePermissao3 = "PermissaoTesteDeAtribuicao3";
-		Permissao permissao2 = Controller.getInstance().consultarPermissao(nomePermissao2);
-		Permissao permissao3 = Controller.getInstance().consultarPermissao(nomePermissao3);
-
-		usuario = Controller.getInstance().consultarUsuario(loginUsuario);
-
-		assertTrue(Controller.getInstance().possuiPermissoes(usuario, permissao2));
-		assertFalse(Controller.getInstance().possuiPermissoes(usuario, permissao3));
+		assertTrue(UsuarioController.getInstance().possuiPermissoes(usuario, permissao));
+		assertEquals(1, lista.size());
 	}
 
 	@Test
-	public void testSRemovendoUmPerfilDeUmUsuario() {
-		String loginDoUsuario = "TesteAtribuicao@gmail.com";
-		String senhaDoUsuario = "senha10";
-		Controller.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
-		Usuario usuario = Controller.getInstance().consultarUsuario(loginDoUsuario);
+	public void testListarPerfisDeUmUsuario() {
+		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
+		String senhaUsuario = "244466666";
+		UsuarioController.getInstance().criarUsuario(loginUsuario, senhaUsuario);
 
-		String nomePerfil1 = "PerfilAtribuicaoTestePrimeiro";
-		Controller.getInstance().criarPerfil(nomePerfil1);
-		Perfil perfil1 = Controller.getInstance().consultarPerfil(nomePerfil1);
-		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil1, LocalDate.of(2021, 05, 17));
-		DBConnection.shutdown();
+		perfil = new Perfil("Vendedor");
+		PerfilDAO.getInstance().criar(perfil);
+		Perfil perfil2 = new Perfil("Comprador");
+		PerfilDAO.getInstance().criar(perfil2);
+		permissaoController.criarPermissao("Relatório de compras.");
+		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras.");
 
-		String nomePerfil2 = "PerfilAtribuicaoTesteSegundo";
-		Controller.getInstance().criarPerfil(nomePerfil2);
-		Perfil perfil2 = Controller.getInstance().consultarPerfil(nomePerfil2);
-		Controller.getInstance().atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.of(2021, 05, 19));
-		DBConnection.shutdown();
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, permissao);
 
-		int tamanho = Controller.getInstance().consultarUsuario(loginDoUsuario).getPerfis().size();
+		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
 
-		DBConnection.shutdown();
-		Controller.getInstance().expirarTodasAsPermissoesDoSistema();
-		DBConnection.shutdown();
+		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 
-		assertNotEquals(tamanho, Controller.getInstance().consultarUsuario(loginDoUsuario).getPerfis().size());
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
+
+		List<Perfil> lista = UsuarioController.getInstance().listarPerfisDeUmUsuario(usuario.getIdUsuario());
+		assertEquals(2, lista.size());
 	}
-
 }

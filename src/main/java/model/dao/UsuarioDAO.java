@@ -156,6 +156,7 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
 		criteria.from(Usuario.class);
+		@SuppressWarnings("rawtypes")
 		Query query = session.createQuery(criteria);
 		@SuppressWarnings("unchecked")
 		List<Usuario> selectedUsuarios = query.getResultList();
@@ -172,7 +173,7 @@ public class UsuarioDAO implements ICrud<Usuario> {
 	 * @return Usuario
 	 * @since Sprint 4&5.
 	 */
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Usuario consultarPorLogin(String loginASerConsultado) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
@@ -186,17 +187,33 @@ public class UsuarioDAO implements ICrud<Usuario> {
 		return usuario;
 	}
 
+	/**
+	 * Verifica codico de conftimacao
+	 * 
+	 * O metodo busca no banco de dados o {@link Usuario} que possui o mesmo login e
+	 * codigo de confirmacao passado no parametro do metodo
+	 * 
+	 * @param String  - login
+	 * @param Integer - codigoDeConfirmacao
+	 * @return Usuario
+	 * 
+	 * @author sprint5
+	 */
+	@SuppressWarnings("unchecked")
 	public Usuario verificarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
 		Root<Usuario> root = criteria.from(Usuario.class);
 
 		criteria.select(root);
+		@SuppressWarnings("rawtypes")
 		Expression loginEx = (Expression) root.get("login");
+		@SuppressWarnings("rawtypes")
 		Expression codigoEx = (Expression) root.get("ultimoCodigo2FA");
 
 		criteria.select(root).where(builder.like(loginEx, login + "%"));
 		criteria.select(root).where(builder.equal(codigoEx, codigoDeConfirmacao));
+		@SuppressWarnings("rawtypes")
 		Query query = session.createQuery(criteria);
 		try {
 			return (Usuario) query.getSingleResult();

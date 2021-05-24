@@ -1,16 +1,12 @@
 	package model.entidades;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import utils.HashSenha;
@@ -51,9 +47,6 @@ public class Usuario {
 	 */
 	@Column(name = "ultimo_codigo_2fa")
 	private Integer ultimoCodigo2FA;
-
-//	@OneToMany(cascade = CascadeType.REFRESH)
-//	private List<PerfilDeUsuario> perfis = new ArrayList<>();
 
 	public Usuario() {}
 
@@ -128,11 +121,4 @@ public class Usuario {
 		this.ultimoCodigo2FA = ultimoCodigo2FA;
 	}
 
-//	public List<PerfilDeUsuario> getPerfis() {
-//		return perfis;
-//	}
-//
-//	public void setPerfis(PerfilDeUsuario usuarioPerfil) {
-//		this.perfis.add(usuarioPerfil);
-//	}
 }
