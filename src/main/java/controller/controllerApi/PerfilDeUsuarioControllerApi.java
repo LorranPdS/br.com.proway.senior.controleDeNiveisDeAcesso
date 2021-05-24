@@ -138,7 +138,7 @@ public class PerfilDeUsuarioControllerApi {
 	 */
 	public boolean alterar(PerfilDeUsuario objeto) {
 		return controller.alterar(objeto);
-	} 
+	}
 
 	/**
 	 * Consulta um objeto do tipo {@link PerfilDeUsuario} no banco de dados pelo id.
@@ -162,6 +162,49 @@ public class PerfilDeUsuarioControllerApi {
 			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
 		}
 		return listaDTO;
+	}
+
+	/**
+	 * Verifica se o {@link Usuario} 'usuario' possui a {@link Permissao} recebida
+	 * no parametro.
+	 * 
+	 * <p>
+	 * Busca todos os registros da tabela {@link PerfilDeUsuario} os quais possuam a
+	 * data de expiracao valida. Pega as permissoes desses perfis validos e verifica
+	 * se alguma destas eh igual a permissao recebida no parametro.
+	 * 
+	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
+	 *         recebida no parametro.
+	 */
+	public Boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+		return controller.usuarioPossuiPermissaoPara(usuario, _permissao);
+	}
+
+	/**
+	 * Verifica se o {@link Usuario} 'usuario' possui o {@link Perfil} recebido no
+	 * parametro.
+	 * 
+	 * <p>
+	 * Chama o metodo listarPerfisAtivosDeUmUsuario para percorrer todos os perfis
+	 * ativos do usuario recebido no parametro. Verifica se algum destes perfis eh
+	 * igual ao perfil recebido no parametro.
+	 * 
+	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
+	 *         no parametro.
+	 */
+	public Boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+		return controller.usuarioPossuiOPerfil(usuario, _perfil);
+	}
+
+	/**
+	 * Valida a ligacao verificando se a mesma esta ativa e possui data de expiracao
+	 * posterior a data atual.
+	 * 
+	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
+	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
+	 */
+	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+		return controller.permissaoAtiva(ligacao);
 	}
 
 }
