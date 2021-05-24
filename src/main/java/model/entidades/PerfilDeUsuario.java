@@ -38,6 +38,9 @@ public class PerfilDeUsuario {
 	@Column(name = "data_expiracao")
 	private LocalDate dataExpiracao;
 
+	@Column(name = "ativo")
+	private Boolean ativo;
+
 	public PerfilDeUsuario() {
 	}
 
@@ -46,10 +49,11 @@ public class PerfilDeUsuario {
 		setPerfil(perfil);
 	}
 
-	public PerfilDeUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao) {
+	public PerfilDeUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao, Boolean ativo) {
 		setUsuario(usuario);
 		setPerfil(perfil);
-		this.dataExpiracao = dataExpiracao;
+		setDataExpiracao(dataExpiracao);
+		setAtivo(ativo);
 	}
 
 	public Perfil getPerfil() {
@@ -82,5 +86,13 @@ public class PerfilDeUsuario {
 
 	public void setDataExpiracao(LocalDate dataExpiracao) {
 		this.dataExpiracao = dataExpiracao;
+	}
+
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 }
