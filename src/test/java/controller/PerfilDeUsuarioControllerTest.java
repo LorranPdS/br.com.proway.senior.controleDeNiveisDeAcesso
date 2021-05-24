@@ -248,4 +248,12 @@ public class PerfilDeUsuarioControllerTest {
 		assertEquals(0, controller.listarPerfisAtivosDeUmUsuario(6548).size());
 	}
 	
+	@Test
+	public void testListarTodasLigacoesAtivas() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(2));
+		
+		assertEquals(2, controller.listarTodasLigacoesAtivas().size());
+	}
+	
 }

@@ -220,4 +220,39 @@ public class PerfilDeUsuarioControllerApiTest {
 		ligacao.setDataExpiracao(LocalDate.of(2019, 01, 01));
 		assertFalse(controllerApi.permissaoAtiva(ligacao));
 	}
+	
+	@Test
+	public void testListarTodasLigacoesAtivas() {
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(2));
+		
+		assertEquals(2, controllerApi.listarTodasLigacoesAtivas().size());
+	}
+	
+	@Test 
+	public void testDesativarLigacaoNulla() {
+		PerfilDeUsuario ligacao = null;
+		assertFalse(controllerApi.desativar(ligacao));
+	}
+	
+	@Test 
+	public void testDesativarLigacaoIdNull() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setUsuario(usuario);
+		ligacao.setPerfil(perfil);
+		ligacao.setDataExpiracao(LocalDate.now());
+		ligacao.setAtivo(true);
+		assertFalse(controllerApi.desativar(ligacao));
+	}
+	
+	@Test 
+	public void testDesativarLigacaoIdInexistente() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setUsuario(usuario);
+		ligacao.setPerfil(perfil);
+		ligacao.setDataExpiracao(LocalDate.now());
+		ligacao.setAtivo(true);
+		ligacao.setId(6548);
+		assertFalse(controllerApi.desativar(ligacao));
+	}
 }
