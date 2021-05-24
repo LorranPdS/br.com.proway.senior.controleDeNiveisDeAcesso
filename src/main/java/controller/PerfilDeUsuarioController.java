@@ -88,6 +88,66 @@ public class PerfilDeUsuarioController {
 	}
 
 	/**
+	 * Verifica se o {@link Usuario} 'usuario' possui a {@link Permissao} recebida
+	 * no parametro.
+	 * 
+	 * <p>
+	 * Busca todos os registros da tabela {@link PerfilDeUsuario} os quais possuam a
+	 * data de expiracao valida. Pega as permissoes desses perfis validos e verifica
+	 * se alguma destas eh igual a permissao recebida no parametro.
+	 * 
+	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
+	 *         recebida no parametro.
+	 */
+	public Boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+		List<PerfilDeUsuario> ligacoes = consultarPorIdDoUsuario(usuario.getIdUsuario());
+		for (PerfilDeUsuario ligacao : ligacoes) {
+			if (!ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
+				List<Permissao> permissoes = ligacao.getPerfil().getPermissoes();
+				for (Permissao permissao : permissoes) {
+					if (permissao.getNomePermissao() == _permissao.getNomePermissao())
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Verifica se o {@link Usuario} 'usuario' possui o {@link Perfil} recebido no
+	 * parametro.
+	 * 
+	 * <p>
+	 * Chama o metodo listarPerfisAtivosDeUmUsuario para percorrer todos os perfis
+	 * ativos do usuario recebido no parametro. Verifica se algum destes perfis eh
+	 * igual ao perfil recebido no parametro.
+	 * 
+	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
+	 *         no parametro.
+	 */
+	public Boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+		List<Perfil> perfis = listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
+		for (Perfil perfil : perfis) {
+			if (perfil.getNomePerfil() == _perfil.getNomePerfil())
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Valida a ligacao verificando se a mesma esta ativa e possui data de expiracao
+	 * posterior a data atual.
+	 * 
+	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
+	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
+	 */
+	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+		if (ligacao.getAtivo() && ligacao.getDataExpiracao().isAfter(LocalDate.now()))
+			return true;
+		return false;
+	}
+
+	/**
 	 * Retorna todas as {@link Perfil} de um {@link Usuario}.
 	 * <p>
 	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
@@ -98,6 +158,19 @@ public class PerfilDeUsuarioController {
 	 */
 	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
 		return ligacaoDAO.listarPerfisDeUmUsuario(idUsuario);
+	}
+
+	/**
+	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario} que possua ativo igual a true.
+	 * 
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 */
+	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
+		return ligacaoDAO.listarPerfisAtivosDeUmUsuario(idUsuario);
 	}
 
 	/**
