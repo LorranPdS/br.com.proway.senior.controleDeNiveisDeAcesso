@@ -11,7 +11,7 @@ public class PerfilController {
 	
 	private static PerfilController instance;
 
-	private PerfilController() {
+	public PerfilController() {
 	}
 
 	public static PerfilController getInstance() {

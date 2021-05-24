@@ -20,4 +20,9 @@ public class PerfilDTO {
 		return nomePerfil;
 	}
 
+	@Override
+	public String toString() {
+		return "PerfilDTO [idPerfil=" + idPerfil + ", nomePerfil=" + nomePerfil + "]";
+	}
+
 }
