@@ -51,8 +51,8 @@ public class UsuarioControllerTest {
 
 	}
 	
-	PerfilDAO perfilDAO;
-	UsuarioDAO usuarioDAO;
+	PerfilDAO perfilDAO = PerfilDAO.getInstance();
+	UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
 	static Usuario usuario;
 	static Perfil perfil;
 	static Permissao permissao;
@@ -211,7 +211,6 @@ public class UsuarioControllerTest {
 
 	@Test
 	public void testListarPerfisAtivosDeUmUsuario() {
-		
 		perfilDAO.criar(new Perfil("Vendedor"));
 		perfil = perfilDAO.consultarPorNome("Vendedor");
 
@@ -227,8 +226,9 @@ public class UsuarioControllerTest {
 		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		
 		assertEquals(2, UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
+		assertTrue(controller.desativar(controller.listar().get(0)));
+		assertEquals(1, UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
 	}
 	
 	@Test

@@ -5,7 +5,6 @@ import java.util.List;
 
 import controller.PerfilDeUsuarioController;
 import controller.UsuarioController;
-import model.dao.PerfilDeUsuarioDAO;
 import model.dao.UsuarioDAO;
 import model.dto.PerfilDTO;
 import model.dto.PermissaoDTO;
@@ -191,7 +190,7 @@ public class UsuarioControllerApi {
 	 * @return List<PerfilDTO>
 	 */
 	public List<PerfilDTO> listarPerfisDeUmUsuario(int idUsuario) {
-		List<Perfil> listaPerfis = PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(idUsuario);
+		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(idUsuario);
 		ArrayList<PerfilDTO> resultado = new ArrayList<>();
 
 		for (Perfil usuario : listaPerfis) {
@@ -233,7 +232,7 @@ public class UsuarioControllerApi {
 	public List<PermissaoDTO> listarPermissoesDeUmUsuario(Integer idUsuario) {
 		List<PermissaoDTO> resultado = new ArrayList<>();
 		List<PermissaoDTO> listaPermissao = new ArrayList<>();
-		for (Permissao permissoes : PerfilDeUsuarioDAO.getInstance().listarPermissoesDeUmUsuario(idUsuario)) {
+		for (Permissao permissoes : controller.listarPermissoesDeUmUsuario(idUsuario)) {
 			listaPermissao.add(new PermissaoDTO(permissoes));
 		}
 

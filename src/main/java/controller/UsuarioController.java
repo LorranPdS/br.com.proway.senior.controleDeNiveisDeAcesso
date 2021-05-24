@@ -229,7 +229,7 @@ public class UsuarioController {
 	 * @return List<Perfil>
 	 */
 	public List<Perfil> listarPerfisDeUmUsuario(int idUsuario) {
-		List<Perfil> listaPerfis = PerfilDeUsuarioDAO.getInstance().listarPerfisDeUmUsuario(idUsuario);
+		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(idUsuario);
 		List<Perfil> resultado = !listaPerfis.isEmpty() ? listaPerfis : null;
 		return resultado;
 	}
@@ -260,7 +260,7 @@ public class UsuarioController {
 	public List<Permissao> listarPermissoesDeUmUsuario(int idUsuario) {
 		List<Permissao> resultado = new ArrayList<Permissao>();
 		List<Permissao> listaPermissao = new ArrayList<Permissao>();
-		for (Permissao permissoes : PerfilDeUsuarioDAO.getInstance().listarPermissoesDeUmUsuario(idUsuario)) {
+		for (Permissao permissoes : controller.listarPermissoesDeUmUsuario(idUsuario)) {
 			listaPermissao.add(permissoes);
 		}
 
