@@ -2,7 +2,6 @@ package controller.controllerApi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import controller.UsuarioController;
 import model.dao.PerfilDeUsuarioDAO;
@@ -13,8 +12,6 @@ import model.dto.UsuarioDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
-import utils.Email;
-import utils.HashSenha;
 
 public class UsuarioControllerApi {
 

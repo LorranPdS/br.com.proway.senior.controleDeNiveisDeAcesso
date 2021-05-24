@@ -10,26 +10,35 @@ import model.dto.PerfilDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 
+/**
+ * Classe responsavel por filtrar o acesso do usuario em relacao as informacoes que o mesmo
+ * poderá ter acesso. Faz a filtragem atraves do {@link PerfilDTO}. 
+ * 
+ * @author Bruna Carvalho <sh4323202@gmail.com>
+ * @author Daniella Lira <dev.danilira@gmail.com>
+ * @author Janaina Mai <janainamai@hotmail.com>
+ * @author Lorran Santos <lorransantospereira@yahoo.com.br>
+ * @author Marcelo schaefer <marceloschaeferfilho@gmail.com>
+ */
 public class PerfilControllerApi {
 	
 	PerfilController controllerPerfil = new PerfilController();
 	
-	/** PerfilController
-	 * Criacao de um {@link Perfil} no objeto.
+	/**
+	 * Criacao de um {@link Perfil}.
 	 * 
 	 * Responsavel por criar um objeto do tipo {@link Perfil} com o atributo
 	 * nomePerfil. O objeto {@link Perfil} e enviado ao {@link PerfilDAO} para ser
 	 * persistido no banco de dados.
 	 * 
 	 * @param String - nomePerfil
-	 * 
 	 */
 	public void criarPerfil(String nomePerfil) {
 		Perfil perfil = new Perfil(nomePerfil);
 		PerfilDAO.getInstance().criar(perfil);
 	}
 
-	/** PerfilController
+	/** 
 	 * Alteracao de um {@link Perfil}.
 	 * 
 	 * Responsavel por alterar um {@link Perfil} pre existente com os atributos
@@ -46,10 +55,10 @@ public class PerfilControllerApi {
 		PerfilDAO.getInstance().alterar(perfil);
 	}
 
-	/** PerfilController
+	/** 
 	 * Remocao de um {@link Perfil} pelo id.
-   *  
-	 * Responsavel por deletar um objeto do tipo {@link Perfil} com os atributos idPerfil.
+     *
+	 * Responsavel por deletar um objeto do tipo {@link Perfil} com o atributo idPerfil.
 	 * O objeto {@link Perfil} eh enviado ao {@link PerfilDAO} para ser removido no banco de dados.
 	 * 
 	 * @param idPerfil - Integer
@@ -59,13 +68,12 @@ public class PerfilControllerApi {
 		PerfilDAO.getInstance().deletar(perfil);
 	}
 
-	/** PerfilController
+	/**
 	 * Consulta de {@link Perfil} pelo id.
 	 * 
 	 * Responsavel por consultar um {@link Perfil} existente com o 
 	 * idPerfil. A busca e realizada pelo idPerfil por intermedio do
 	 * {@link PerfilDAO}.
-	 * 
 	 * 
 	 * @param Integer 
 	 * @throws NullPointerException Caso nao exista o {@link Perfil} no banco de dados.
@@ -79,12 +87,15 @@ public class PerfilControllerApi {
 		}
 	}
 
-	/** PerfilController
+	/**
+	 * Consulta um {@link Perfil} pelo nome.
+	 *  
 	 * Tem a funcao de consultar por nome um objeto do tipo {@link Perfil} com o atributo nomePerfil.
 	 * O objeto {@link Perfil} vai ser consultado no banco de dados pelo nome.
 	 * 
-	 * @param nome - String
-	 * @return {@link Perfil} 
+	 * @param nome.
+	 * @exception NullPointerException (Retorna caso o resultado ser nulo).
+	 * @return {@link PerfilDTO}. 
 	 */
 	public PerfilDTO consultarPerfil(String nome) {
 		try {
@@ -95,31 +106,40 @@ public class PerfilControllerApi {
 
 	}
 
-	/** PerfilController
-	 * Consulta todos os perfis no banco de dados.
+	/**
+	 * Consulta todos {@link Perfil} no banco de dados.
+	 * 
+	 * Recebe uma lista com todos os {@link Perfil} existentes no banco, atraves do {@link PerfilDAO}.
+	 * Atribui esta lista a uma outra lista do tipo {@link PerfilDTO} e em seguida popula esta lista
+	 * com os perfis encontrados. Caso não haja nenhum perfil no banco, será retornado null.
 	 * 
 	 * @return resultado - ArrayList<Perfil>
 	 */
 	public ArrayList<PerfilDTO> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
+
+		if (perfisEncontrados == null) {
+			return null;
+		}
 		
 		ArrayList<PerfilDTO> listaDto = new ArrayList<PerfilDTO>();
 		
 		for(Perfil perfis : perfisEncontrados) 
 			listaDto.add(new PerfilDTO(perfis));
 		
-		//listaDto = !perfisEncontrados.isEmpty() ? perfisEncontrados : null;
 		return listaDto;
 
 	}
 
-	/** PerfilController
-	 * Vai ser feita uma consulta no banco de dados pelo ID do perfil para saber se o {@link Perfil} 
-	 * tem permissoes.
+	/**
+	 * Verifica se um {@link Perfil} possui uma {@link Permissao}.
 	 * 
-	 * @param perfil - Perfil
-	 * @param permissao - Permissao
-	 * @return ArrayList<Permissao>
+	 * Vai ser feita uma consulta no banco de dados pelo ID do perfil para saber se o
+	 * {@link Perfil} tem {@link Permissao}.
+	 * 
+	 * @param perfil.
+	 * @param permissao.
+	 * @return boolean.
 	 */
 	public boolean possuiPermissoes(Perfil perfil, Permissao permissao) {
 		List<Permissao> listaDePermissoesDessePerfil = listarPermissoesDeUmPerfil(perfil.getIdPerfil());
@@ -130,12 +150,12 @@ public class PerfilControllerApi {
 		}
 	}
 	
-	/** PerfilController
+	/**
 	 * Lista todas as {@link Permissao} de um {@link Perfil}.
 	 * 
-	 * O método irá pesquisar todas as {@link Permissao} que o {@link Perfil} possui fazendo uma busca
-	 * pelo idPerfil, o qual será enviado ao {@link PerfilDAO}. O retorno será todas as {@link Permissao}
-	 * que um {@link Perfil} possui.
+	 * O metodo ira pesquisar todas as {@link Permissao} que o {@link Perfil} possui,
+	 * fazendo uma busca pelo idPerfil, o qual sera enviado ao {@link PerfilDAO}.
+	 * O retorno sera todas as {@link Permissao} que um {@link Perfil} possui.
 	 * 
 	 * @param idPerfil
 	 * @return List<Permissao>
@@ -144,9 +164,11 @@ public class PerfilControllerApi {
 		return PerfilDAO.getInstance().listarPermissoesDeUmPerfil(idPerfil);
 	}
  
-	/** PerfilController
-	 *  Eh atribuido uma {@link Permissao} a um {@link Perfil} quando eh passado uma {@link Permissao} 
-	 *  para aquele {@link Perfil}.
+	/**
+	 * Atribuir {@link Permissao} a um {@link Perfil}.
+	 * 
+	 * Eh atribuida uma {@link Permissao} a um {@link Perfil} quando eh passada
+	 * uma {@link Permissao} para aquele {@link Perfil}.
 	 * 
 	 * @param permissao Permissao
 	 * @param perfil Perfil
