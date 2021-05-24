@@ -20,14 +20,20 @@ import model.interfaces.ICrud;
  * Classe PerfilDAO
  * 
  * Classe que implementa a interface que se relaciona com o banco de dados de
- * perfis
+ * {@link Perfil}.
  * 
  * @author Simon gabrielsimon775@gmail.com
  * @author Jonata Caetano jonatacaetano88@gmail.com
  * @author Lucas Grijo rksgrijo@gmail.com
  * @author Lorran lorransantospereira@yahoo.com.br
  * @author Thiago thiagoluizbarbieri@gmail.com
- * @since Sprint 4&5
+ *
+ * @author Bruna Carvalho <sh4323202@gmail.com>
+ * @author Daniella Lira <dev.danilira@gmail.com>
+ * @author Janaina Mai <janainamai@hotmail.com>
+ * @author Lorran Santos <lorransantospereira@yahoo.com.br>
+ * @author Marcelo schaefer <marceloschaeferfilho@gmail.com>
+ * @since Sprint 4.
  */
 
 public class PerfilDAO implements ICrud<Perfil> {
@@ -60,9 +66,8 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Metodo responsavel por criar um objeto do tipo {@link Perfil} em um banco de
 	 * dados.
 	 * 
-	 * @param Perfil - perfil
-	 * @throws Exception - Caso o {@link Perfil} nao seja salvo no banco de dados.
-	 * @since Sprint 4&5.
+	 * @param Perfil.
+	 * @since Sprint 4.
 	 */
 	public void criar(Perfil perfil) {
 		Transaction tx = session.beginTransaction();
@@ -76,11 +81,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Metodo responsavel por alterar um objeto do tipo {@link Perfil} salvo em um
 	 * banco de dados.
 	 * 
-	 * @param Perfil - perfil
-	 * @return boolean
-	 * @throws Exception - Caso o {@link Perfil} nao seja alterado no banco de
-	 *                   dados.
-	 * @since Sprint 4&5.
+	 * @param Perfil.
+	 * @return boolean.
+	 * @since Sprint 4.
 	 */
 	public boolean alterar(Perfil perfil) {
 		session.beginTransaction();
@@ -95,11 +98,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Metodo responsavel por deletar um objeto do tipo {@link Perfil} existente em
 	 * um banco de dados.
 	 * 
-	 * @param Perfil - perfil
-	 * @return boolean
-	 * @throws Exception - Caso o {@link Perfil} nao seja deletado no banco de
-	 *                   dados.
-	 * @since Sprint 4&5.
+	 * @param Perfil.
+	 * @return boolean.
+	 * @since Sprint 4.
 	 */
 	public boolean deletar(Perfil perfil) {
 		if (perfil.getIdPerfil() == null) {
@@ -117,9 +118,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Metodo responsavel por consultar um objeto do tipo {@link Perfil} atraves de
 	 * seu Id existente em um banco de dados.
 	 * 
-	 * @param int - id
-	 * @return Perfil
-	 * @since Sprint 4&5.
+	 * @param int.
+	 * @return Perfil.
+	 * @since Sprint 4.
 	 */
 	public Perfil consultarPorId(int id) {
 		Transaction tx = session.beginTransaction();
@@ -129,13 +130,13 @@ public class PerfilDAO implements ICrud<Perfil> {
 	}
 
 	/**
-	 * Lista de todos os {@link Perfil}.
+	 * Lista todos os {@link Perfil}.
 	 * 
 	 * Metodo responsavel por trazer uma lista de {@link Perfil} existente do banco
 	 * de dados.
 	 * 
-	 * @return List<Perfil>
-	 * @since Sprint 4&5
+	 * @return List<Perfil>.
+	 * @since Sprint 4.
 	 */
 	public List<Perfil> listar() {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -157,9 +158,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Metodo responsavel por consultar um objeto do tipo {@link Perfil} atraves de
 	 * seu nome existente do banco de dados.
 	 * 
-	 * @param String - nome_perfil
+	 * @param String
 	 * @return Perfil
-	 * @since Sprint 4&5.
+	 * @since Sprint 4.
 	 */
 	@SuppressWarnings("unchecked")
 	public Perfil consultarPorNome(String nome_perfil) {
@@ -181,8 +182,8 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Responsavel por recuperar do banco de dados todas as {@link Permissao} que um
 	 * {@link Perfil} possui.
 	 * 
-	 * @param idPerfil int
-	 * @return List<Permissao>
+	 * @param int 
+	 * @return List<Permissao>.
 	 */
 	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
 		Perfil p = consultarPorId(idPerfil);
@@ -195,8 +196,8 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Responsavel por atribuir uma {@link Permissao} a um {@link Perfil} e
 	 * registrar no banco de dados.
 	 * 
-	 * @param perfil
-	 * @param permissao
+	 * @param perfil.
+	 * @param permissao.
 	 */
 	public void atribuirPermissaoAUmPerfil(Perfil perfil, Permissao permissao) {
 		perfil.setPermissoes(permissao);
@@ -206,7 +207,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Deleta todos os registros da tabela {@link Perfil}.
 	 * 
-	 * Responsavel por remover todos os dados das tabelas perfil_permissao e perfil,
+	 * Responsavel por remover todos os dados das tabelas perfil_permissao e {@link Perfil},
 	 * nesta ordem.
 	 */
 	public void deletarTodos() {
