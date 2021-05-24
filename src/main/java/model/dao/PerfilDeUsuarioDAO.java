@@ -66,6 +66,7 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 	 * @param perfilDeUsuario PerfilDeUsuario Objeto a ser cadastrado.
 	 */
 	public void criar(PerfilDeUsuario perfilDeUsuario) {
+		perfilDeUsuario.setAtivo(true);
 		session.beginTransaction();
 		session.save(perfilDeUsuario);
 		session.getTransaction().commit();
@@ -188,6 +189,25 @@ public class PerfilDeUsuarioDAO implements ICrud<PerfilDeUsuario> {
 		session.delete(objeto);
 		session.getTransaction().commit();
 		return true;
+	}
+	
+	/**
+	 * Desativa a ligacao entre um {@link Usuario} e um {@link Perfil}.
+	 * 
+	 * <p>
+	 * Seta o 'ativo' do 'objeto' como false e atualiza no banco de dados.
+	 * @param objeto PerfilDeUsuario Registro a ser desativado.
+	 * @return True caso encontre o registro no banco, false caso não encontre.
+	 */
+	public boolean desativar(PerfilDeUsuario objeto) {
+		if(objeto == null || objeto.getId() == null)
+			return false;
+		if(this.consultarPorId(objeto.getId()) != null) {
+			objeto.setAtivo(false);
+			this.alterar(objeto);
+			return true;
+		}
+		return false;
 	}
 
 	/**
