@@ -83,7 +83,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
 	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(int idUsuario) {
-		ArrayList<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(idUsuario);
+		List<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(idUsuario);
 		ArrayList<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
 		for (Permissao permissao : listaModel) {
 			listaDTO.add(new PermissaoDTO(permissao));
@@ -176,7 +176,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
-	public Boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+	public boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
 		return controller.usuarioPossuiPermissaoPara(usuario, _permissao);
 	}
 
@@ -192,7 +192,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
-	public Boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+	public boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
 		return controller.usuarioPossuiOPerfil(usuario, _perfil);
 	}
 
@@ -203,10 +203,32 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 */
-	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
 		return controller.permissaoAtiva(ligacao);
 	}
 	
 	
 
+	/**
+	 * Retorna todos os registros que possuem 'ativo' igual a true.
+	 * 
+	 * @return List<PerfilDeUsuario>
+	 */
+	public List<PerfilDeUsuarioDTO> listarTodasLigacoesAtivas() {
+		List<PerfilDeUsuario> listaModel = controller.listarTodasLigacoesAtivas();
+		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
+		for (PerfilDeUsuario ligacao : listaModel) {
+			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
+		}
+		return listaDTO;
+	}
+	
+	/**
+	 * Seta o 'ativo' do registro 'ligacao' como false.
+	 * @param ligacao
+	 * @return
+	 */
+	public boolean desativar(PerfilDeUsuario ligacao) {
+		return controller.desativar(ligacao);
+	}
 }

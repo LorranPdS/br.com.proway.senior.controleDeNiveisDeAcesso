@@ -1,9 +1,12 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -56,7 +59,7 @@ public class PerfilDeUsuarioControllerTest {
 
 		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
 		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
-		
+
 		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
 		perfil = perfilDAO.consultarPorNome("Vendedor");
 
@@ -78,7 +81,7 @@ public class PerfilDeUsuarioControllerTest {
 		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 
-		ArrayList<Permissao> permissoes = controller.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
+		List<Permissao> permissoes = controller.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
 
 		assertEquals(1, permissoes.size());
 		assertEquals("Relatório de compras", permissoes.get(0).getNomePermissao());
@@ -88,7 +91,7 @@ public class PerfilDeUsuarioControllerTest {
 	public void testConsultarPorIdDoPerfil() {
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		assertEquals(1, controller.listar().size());
-		
+
 		assertEquals(1, controller.consultarPorIdDoPerfil(perfil.getIdPerfil()).size());
 	}
 
@@ -96,16 +99,15 @@ public class PerfilDeUsuarioControllerTest {
 	public void testConsultarPorIdDoUsuario() {
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		assertEquals(1, controller.listar().size());
-		
+
 		assertEquals(1, controller.consultarPorIdDoUsuario(usuario.getIdUsuario()).size());
 	}
-	
-	
+
 	@Test
 	public void testDeletar() {
 		assertEquals(0, controller.listar().size());
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		
+
 		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
 		assertEquals(1, controller.listar().size());
 		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
@@ -134,7 +136,7 @@ public class PerfilDeUsuarioControllerTest {
 		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario(), ligacao.getPerfil(), ligacao.getDataExpiracao());
 		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
-		
+
 		assertEquals(1, controller.listar().size());
 		assertEquals("Vendedor", controller.consultarPorId(ligacao.getId()).getPerfil().getNomePerfil());
 	}
@@ -153,4 +155,105 @@ public class PerfilDeUsuarioControllerTest {
 		assertEquals(3, controller.listar().size());
 	}
 
+	@Test
+	public void testUsuarioNaoPossuiPermissaoPara() {
+		boolean possui = controller.usuarioPossuiPermissaoPara(usuario, permissao);
+		assertFalse(possui);
+	}
+
+	@Test
+	public void testUsuarioPossuiPermissaoPara() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
+		boolean possui = controller.usuarioPossuiPermissaoPara(usuario, permissao);
+		assertTrue(possui);
+	}
+
+	@Test
+	public void testUsuarioPossuiOPerfil() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
+		boolean possui = controller.usuarioPossuiOPerfil(usuario, perfil);
+		assertTrue(possui);
+	}
+
+	@Test
+	public void testUsuarioNaoPossuiOPerfil() {
+		boolean possui = controller.usuarioPossuiOPerfil(usuario, perfil);
+		assertFalse(possui);
+	}
+
+	@Test
+	public void testPermissaoAtivaTrue() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(true);
+		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		assertTrue(controller.permissaoAtiva(ligacao));
+	}
+
+	@Test
+	public void testPermissaoAtivaFalse() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(false);
+		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		assertFalse(controller.permissaoAtiva(ligacao));
+	}
+
+	@Test
+	public void testPermissaoAtivaFalseData() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setAtivo(true);
+		ligacao.setDataExpiracao(LocalDate.of(2019, 01, 01));
+		assertFalse(controller.permissaoAtiva(ligacao));
+	}
+
+	@Test 
+	public void testDesativarLigacaoNulla() {
+		PerfilDeUsuario ligacao = null;
+		assertFalse(controller.desativar(ligacao));
+	}
+	
+	@Test 
+	public void testDesativarLigacaoIdNull() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setUsuario(usuario);
+		ligacao.setPerfil(perfil);
+		ligacao.setDataExpiracao(LocalDate.now());
+		ligacao.setAtivo(true);
+		assertFalse(controller.desativar(ligacao));
+	}
+	
+	@Test 
+	public void testDesativarLigacaoIdInexistente() {
+		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		ligacao.setUsuario(usuario);
+		ligacao.setPerfil(perfil);
+		ligacao.setDataExpiracao(LocalDate.now());
+		ligacao.setAtivo(true);
+		ligacao.setId(6548);
+		assertFalse(controller.desativar(ligacao));
+	}
+	
+	@Test
+	public void testListarPerfisAtivosDeUmUsuario() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(2));
+		
+		assertEquals(2, controller.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
+		
+		assertTrue(controller.desativar(controller.listar().get(0)));
+		assertEquals(1, controller.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
+	}
+	
+	@Test
+	public void testListarPerfisAtivosDeUmUsuarioInvalido() {
+		assertEquals(0, controller.listarPerfisAtivosDeUmUsuario(6548).size());
+	}
+	
+	@Test
+	public void testListarTodasLigacoesAtivas() {
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(2));
+		
+		assertEquals(2, controller.listarTodasLigacoesAtivas().size());
+	}
+	
 }

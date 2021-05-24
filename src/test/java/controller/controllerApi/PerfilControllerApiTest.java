@@ -3,6 +3,7 @@ package controller.controllerApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -46,6 +47,16 @@ public class PerfilControllerApiTest {
 		assertEquals(1, perfil.getPermissoes().size());
 		
 		System.out.println(controllerPerfilApi.consultarPerfil(perfil.getNomePerfil()));
+	}
+	
+	@Test
+	public void testConsultarPerfilPorNomeInexistente() {
+		assertNull(controllerPerfilApi.consultarPerfil("Nome perfil inexistente"));
+	}
+
+	@Test
+	public void testConsultarPerfilPorIdInexistente() {
+		assertNull(controllerPerfilApi.consultarPerfilPorId(9876));
 	}
 	
 	@Test
@@ -125,5 +136,10 @@ public class PerfilControllerApiTest {
 		
 		assertEquals(numeroDePerfisAntesDoTeste, numeroDePerfisDepoisDoTeste);
 	} 
+	
+	@Test
+	public void testListarPerfisComListaVazia() {
+		assertNull(controllerPerfilApi.listarTodosOsPerfis());
+	}
 
 }
