@@ -65,9 +65,9 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * @since Sprint 4&5.
 	 */
 	public void criar(Perfil perfil) {
-			Transaction tx = session.beginTransaction();
-			session.save(perfil);
-			tx.commit();
+		Transaction tx = session.beginTransaction();
+		session.save(perfil);
+		tx.commit();
 	}
 
 	/**
@@ -78,20 +78,15 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * 
 	 * @param Perfil - perfil
 	 * @return boolean
-	 * @throws Exception - Caso o {@link Perfil} nao seja alterado no banco de dados.
+	 * @throws Exception - Caso o {@link Perfil} nao seja alterado no banco de
+	 *                   dados.
 	 * @since Sprint 4&5.
 	 */
 	public boolean alterar(Perfil perfil) {
-		try {
-			Transaction tx = session.beginTransaction();
-			session.saveOrUpdate(perfil);
-			tx.commit();
-			return true;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			return false;
-		}
+		session.beginTransaction();
+		session.update(perfil);
+		session.getTransaction().commit();
+		return true;
 	}
 
 	/**
@@ -102,21 +97,18 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * 
 	 * @param Perfil - perfil
 	 * @return boolean
-	 * @throws Exception - Caso o {@link Perfil} nao seja deletado no banco de dados.
+	 * @throws Exception - Caso o {@link Perfil} nao seja deletado no banco de
+	 *                   dados.
 	 * @since Sprint 4&5.
 	 */
 	public boolean deletar(Perfil perfil) {
-		try {
-			Transaction tx = session.beginTransaction();
-			session.delete(perfil);
-			tx.commit();
-			return true;
-
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
+		if (perfil.getIdPerfil() == null) {
 			return false;
 		}
+		Transaction tx = session.beginTransaction();
+		session.delete(perfil);
+		tx.commit();
+		return true;
 	}
 
 	/**
@@ -130,16 +122,17 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * @since Sprint 4&5.
 	 */
 	public Perfil consultarPorId(int id) {
-			Transaction tx = session.beginTransaction();
-			Perfil perfilEncontrado = session.find(Perfil.class, id);
-			tx.commit();
-			return perfilEncontrado;
+		Transaction tx = session.beginTransaction();
+		Perfil perfilEncontrado = session.find(Perfil.class, id);
+		tx.commit();
+		return perfilEncontrado;
 	}
 
 	/**
 	 * Lista de todos os {@link Perfil}.
 	 * 
-	 * Metodo responsavel por trazer uma lista de {@link Perfil} existente do banco de dados.
+	 * Metodo responsavel por trazer uma lista de {@link Perfil} existente do banco
+	 * de dados.
 	 * 
 	 * @return List<Perfil>
 	 * @since Sprint 4&5
@@ -185,8 +178,8 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Lista todas as {@link Permissao} de um {@link Perfil}.
 	 * 
-	 * Responsavel por recuperar do banco de dados todas as {@link Permissao} que 
-	 * um {@link Perfil} possui.
+	 * Responsavel por recuperar do banco de dados todas as {@link Permissao} que um
+	 * {@link Perfil} possui.
 	 * 
 	 * @param idPerfil int
 	 * @return List<Permissao>
@@ -199,8 +192,8 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Atribui {@link Permissao} a um {@link Perfil}.
 	 * 
-	 * Responsavel por atribuir uma {@link Permissao} a um {@link Perfil} e registrar 
-	 * no banco de dados.
+	 * Responsavel por atribuir uma {@link Permissao} a um {@link Perfil} e
+	 * registrar no banco de dados.
 	 * 
 	 * @param perfil
 	 * @param permissao
@@ -209,19 +202,19 @@ public class PerfilDAO implements ICrud<Perfil> {
 		perfil.setPermissoes(permissao);
 		alterar(perfil);
 	}
-	
+
 	/**
 	 * Deleta todos os registros da tabela {@link Perfil}.
 	 * 
-	 * Responsavel por remover todos os dados das tabelas perfil_permissao e perfil, nesta ordem.
+	 * Responsavel por remover todos os dados das tabelas perfil_permissao e perfil,
+	 * nesta ordem.
 	 */
 	public void deletarTodos() {
 
 		Transaction transacao2 = session.beginTransaction();
 		session.createSQLQuery("DELETE FROM perfil_permissao").executeUpdate();
 		transacao2.commit();
-		
-		
+
 		Transaction transacao = session.beginTransaction();
 		session.createSQLQuery("DELETE FROM perfil").executeUpdate();
 		transacao.commit();
