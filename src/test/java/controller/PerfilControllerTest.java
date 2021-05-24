@@ -2,26 +2,22 @@ package controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.persistence.NoResultException;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 
-
 public class PerfilControllerTest {
 
 	PermissaoController controllerPermissao = new PermissaoController();
-	
+
 	@After
 	@Before
 	public void deletarTudo() {
@@ -33,7 +29,7 @@ public class PerfilControllerTest {
 	public void testVerificarEListarPermissaoDeUmPerfil() {
 		String nomePerfil = "PerfilDeTesteDeVerificacaoDePermissao";
 		PerfilController.getInstance().criarPerfil(nomePerfil);
-   
+
 		String nomePermissao1 = "PermissaoTesteDeAtribuicao1";
 		controllerPermissao.criarPermissao(nomePermissao1);
 		String nomePermissao2 = "PermissaoTesteDeAtribuicao2";
@@ -42,15 +38,16 @@ public class PerfilControllerTest {
 		controllerPermissao.criarPermissao(nomePermissao3);
 
 		Perfil perfil = PerfilController.getInstance().consultarPerfil(nomePerfil);
-		
+
 		Permissao permissao1 = controllerPermissao.consultarPermissaoPorNome(nomePermissao1);
-		Permissao permissao2 =controllerPermissao.consultarPermissaoPorNome(nomePermissao2);
+		Permissao permissao2 = controllerPermissao.consultarPermissaoPorNome(nomePermissao2);
 		Permissao permissao3 = controllerPermissao.consultarPermissaoPorNome(nomePermissao3);
 
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao1, perfil);
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao2, perfil);
 
-		List<Permissao> listaPermissao = PerfilController.getInstance().listarPermissoesDeUmPerfil(perfil.getIdPerfil());
+		List<Permissao> listaPermissao = PerfilController.getInstance()
+				.listarPermissoesDeUmPerfil(perfil.getIdPerfil());
 
 		System.out.println("0");
 		listaPermissao.toString();
@@ -62,27 +59,27 @@ public class PerfilControllerTest {
 		assertFalse(PerfilController.getInstance().possuiPermissoes(perfil, permissao3));
 
 	}
-    
+
 	@Test
 	public void testCriarEConsultarPerfil() {
 		String nomeDoPerfil = "PerfilDeTesteDeCriacao";
 		PerfilController.getInstance().criarPerfil(nomeDoPerfil);
 
 		Perfil perfilEncontradoPorNome = PerfilController.getInstance().consultarPerfil(nomeDoPerfil);
-		Perfil perfilEncontradoPorId = PerfilController.getInstance().consultarPerfil(perfilEncontradoPorNome.getIdPerfil());
-		
+		Perfil perfilEncontradoPorId = PerfilController.getInstance()
+				.consultarPerfil(perfilEncontradoPorNome.getIdPerfil());
+
 		assertEquals(nomeDoPerfil, perfilEncontradoPorNome.getNomePerfil(), perfilEncontradoPorId.getNomePerfil());
 	}
-	
-	@Test(expected = NoResultException.class)
-	public void testConsultarPerfilCatch() {
-		 
-		String nomeDoPerfil = "PerfilDeTesteDeCriacao";
-		PerfilController.getInstance().criarPerfil(nomeDoPerfil);
 
-		String nomeInvalido = "PerfilNaoValido";
-		
-		PerfilController.getInstance().consultarPerfil(nomeInvalido);
+	@Test
+	public void testConsultarPerfilPorNomeInexistente() {
+		assertNull(PerfilController.getInstance().consultarPerfil("Nome perfil inexistente"));
+	}
+
+	@Test
+	public void testConsultarPerfilPorIdInexistente() {
+		assertNull(PerfilController.getInstance().consultarPerfil(9876));
 	}
 
 	@Test
@@ -100,30 +97,33 @@ public class PerfilControllerTest {
 	public void testDeletarPerfil() {
 		String nomePerfil = "PerfilDeTesteDeDeletar";
 		PerfilController.getInstance().criarPerfil(nomePerfil);
-		
+
 		int numeroDePerfisAntesDoTeste = PerfilController.getInstance().listarTodosOsPerfis().size();
-		
+
 		String nomeDoPerfil = "PerfilDeTesteDeDelecao";
-		
+
 		PerfilController.getInstance().criarPerfil(nomeDoPerfil);
-		
+
 		Perfil perfilASerDeletado = PerfilController.getInstance().consultarPerfil(nomeDoPerfil);
-		
+
 		PerfilController.getInstance().deletarPerfil(perfilASerDeletado.getIdPerfil());
-		
+
 		int numeroDePerfisDepoisDoTeste = PerfilController.getInstance().listarTodosOsPerfis().size();
-		
+
 		assertEquals(numeroDePerfisAntesDoTeste, numeroDePerfisDepoisDoTeste);
-	} 
+	}
 
 	@Test
 	public void testListarTodosPerfis() {
-		
 		String nomePerfil = "PerfilDeTesteDeListar";
 		PerfilController.getInstance().criarPerfil(nomePerfil);
-		
-		int numeroDePerfisNoBanco = 1;
-		assertEquals(numeroDePerfisNoBanco, PerfilController.getInstance().listarTodosOsPerfis().size());
+
+		assertEquals(1, PerfilController.getInstance().listarTodosOsPerfis().size());
+	}
+	
+	@Test
+	public void testListarPerfisComListaVazia() {
+		assertNull(PerfilController.getInstance().listarTodosOsPerfis());
 	}
 
 }
