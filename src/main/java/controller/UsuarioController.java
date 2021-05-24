@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.dao.PerfilDeUsuarioDAO;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
@@ -14,6 +13,7 @@ import utils.HashSenha;
 
 public class UsuarioController {
 
+	static UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
 	static PerfilDeUsuarioController controller;
 	private static UsuarioController instance;
 
