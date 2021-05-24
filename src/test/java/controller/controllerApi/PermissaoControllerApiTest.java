@@ -8,6 +8,11 @@ import org.junit.Test;
 
 import model.dto.PermissaoDTO;
 
+/**
+ * 
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ *
+ */
 public class PermissaoControllerApiTest {
 	PermissaoControllerApi controller = new PermissaoControllerApi();
 

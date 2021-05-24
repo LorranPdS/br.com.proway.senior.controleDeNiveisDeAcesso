@@ -44,11 +44,6 @@ public class PerfilDeUsuario {
 	public PerfilDeUsuario() {
 	}
 
-	public PerfilDeUsuario(Usuario usuario, Perfil perfil) {
-		setUsuario(usuario);
-		setPerfil(perfil);
-	}
-
 	public PerfilDeUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao, Boolean ativo) {
 		setUsuario(usuario);
 		setPerfil(perfil);

@@ -73,18 +73,7 @@ public class Perfil {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((idPerfil == null) ? 0 : idPerfil.hashCode());
-		result = prime * result + ((nomePerfil == null) ? 0 : nomePerfil.hashCode());
-		result = prime * result + ((permissoes == null) ? 0 : permissoes.hashCode());
-		return result;
-	}
-
-	@Override
 	public String toString() {
 		return "Perfil [idPerfil=" + idPerfil + ", nomePerfil=" + nomePerfil + ", permissoes=" + permissoes + "]";
 	}
-
 }
