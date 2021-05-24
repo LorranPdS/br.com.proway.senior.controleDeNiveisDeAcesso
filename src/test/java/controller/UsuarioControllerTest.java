@@ -19,6 +19,7 @@ import model.dao.PerfilDeUsuarioDAO;
 import model.dao.PermissaoDAO;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
+import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 import utils.HashSenha;
@@ -49,7 +50,10 @@ public class UsuarioControllerTest {
 		PermissaoDAO.getInstance().deletarTodos();
 
 	}
-
+	
+	PerfilDAO perfilDAO;
+	UsuarioDAO usuarioDAO;
+	static Usuario usuario;
 	static Perfil perfil;
 	static Permissao permissao;
 	static PermissaoController permissaoController = new PermissaoController();
@@ -203,5 +207,53 @@ public class UsuarioControllerTest {
 
 		List<Perfil> lista = UsuarioController.getInstance().listarPerfisDeUmUsuario(usuario.getIdUsuario());
 		assertEquals(2, lista.size());
+	}
+
+	@Test
+	public void testListarPerfisAtivosDeUmUsuario() {
+		
+		perfilDAO.criar(new Perfil("Vendedor"));
+		perfil = perfilDAO.consultarPorNome("Vendedor");
+
+		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
+		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
+
+		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
+		perfil = perfilDAO.consultarPorNome("Vendedor");
+
+		usuarioDAO.criar(new Usuario("thiago@gmail.com", "admin"));
+		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
+		
+		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		
+		assertEquals(2, UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
+	}
+	
+	@Test
+	public void testPossuiPermissao() {
+		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
+		String senhaUsuario = "244466666";
+		UsuarioController.getInstance().criarUsuario(loginUsuario, senhaUsuario);
+
+		perfil = new Perfil("Vendedor");
+		PerfilDAO.getInstance().criar(perfil);
+		Perfil perfil2 = new Perfil("Comprador");
+		PerfilDAO.getInstance().criar(perfil2);
+		permissaoController.criarPermissao("Relatório de compras.");
+		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras.");
+
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, permissao);
+
+		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
+
+		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
+
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
+
+		assertTrue(UsuarioController.getInstance().possuiPermissoes(usuario, permissao));
 	}
 }

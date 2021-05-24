@@ -206,5 +206,7 @@ public class PerfilDeUsuarioControllerApi {
 	public Boolean permissaoAtiva(PerfilDeUsuario ligacao) {
 		return controller.permissaoAtiva(ligacao);
 	}
+	
+	
 
 }

@@ -14,11 +14,12 @@ import utils.HashSenha;
 
 public class UsuarioController {
 
+	static PerfilDeUsuarioController controller;
 	private static UsuarioController instance;
 
 	public UsuarioController() {
 	}
-  
+
 	public static UsuarioController getInstance() {
 		if (instance == null) {
 			instance = new UsuarioController();
@@ -44,10 +45,10 @@ public class UsuarioController {
 		if (usuario == null) {
 			return false;
 		} else {
-			
+
 			String senhaBanco = usuario.getHashSenha();
-			
-			if (senhaCriptografada.equals(senhaBanco) && usuario.getLogin().equals(login)){
+
+			if (senhaCriptografada.equals(senhaBanco) && usuario.getLogin().equals(login)) {
 				return true;
 			} else {
 				return false;
@@ -236,22 +237,14 @@ public class UsuarioController {
 	// provavel alteracao
 	/**
 	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se
-	 * o {@link Usuario} tem permissoes.
+	 * o {@link Usuario} tem permissoes. Acessando o metodo da classe {@link PerfilDeUsuarioController}.
 	 * 
 	 * @param usuario   - Usuario
 	 * @param permissao - Permissao
-	 * @return ArrayList<Permissao>
+	 * @return boolean
 	 */
 	public boolean possuiPermissoes(Usuario usuario, Permissao permissao) {
-		ArrayList<Permissao> listaDePermissoesDesseUsuario = new ArrayList<>();
-		for (Permissao permissoes : listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
-			listaDePermissoesDesseUsuario.add(permissoes);
-		}
-		if (listaDePermissoesDesseUsuario.contains(permissao)) {
-			return true;
-		} else {
-			return false;
-		}
+		return controller.usuarioPossuiPermissaoPara(usuario, permissao);
 	}
 
 	/**
@@ -286,4 +279,16 @@ public class UsuarioController {
 		UsuarioDAO.getInstance().deletarTodos();
 	}
 
+	/**
+	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
+	 * <p>
+	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
+	 * {@link Perfil} deste {@link Usuario} que possua ativo igual a true.
+	 * 
+	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
+	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 */
+	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
+		return controller.listarPerfisAtivosDeUmUsuario(idUsuario);
+	}
 }
