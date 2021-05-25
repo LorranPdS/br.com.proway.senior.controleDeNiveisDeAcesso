@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PermissaoController;
@@ -51,7 +53,7 @@ public class PermissaoControllerApi {
 	 * @param nomePermissao - String Novo nome da permissao
 	 */
 	@PutMapping("/alterar/{id}")
-	public void alterarPermissao(Integer id, String nomePermissao) {
+	public void alterarPermissao(@PathVariable Integer id, String nomePermissao) {
 		controller.alterarPermissao(id, nomePermissao);
 	}
 
@@ -64,7 +66,7 @@ public class PermissaoControllerApi {
 	 * @param id Integer Id da permissao a ser deletada.
 	 */
 	@DeleteMapping("/deletar/{id}")
-	public void deletarPermissao(Integer id) {
+	public void deletarPermissao(@PathVariable Integer id) {
 		controller.deletarPermissao(id);
 	}
 
@@ -78,8 +80,8 @@ public class PermissaoControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	@GetMapping("/consultarPermissaoPorId{id}")
-	public PermissaoDTO consultarPermissaoPorId(Integer id) {
+	@GetMapping("/consultarPermissaoPorId/{id}")
+	public PermissaoDTO consultarPermissaoPorId(@PathVariable Integer id) {
 		return new PermissaoDTO(controller.consultarPermissaoPorId(id));
 	}
 
@@ -93,8 +95,8 @@ public class PermissaoControllerApi {
 	 * @param nome String Nome do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	@GetMapping("/consultarPermissaoPorNome{nome}")
-	public PermissaoDTO consultarPermissaoPorNome(String nome) {
+	@GetMapping("/consultarPermissaoPorNome/{nome}")
+	public PermissaoDTO consultarPermissaoPorNome(@PathVariable String nome) {
 		return new PermissaoDTO(controller.consultarPermissaoPorNome(nome));
 	}
 

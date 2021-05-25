@@ -4,6 +4,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import controller.controllers.PerfilDeUsuarioController;
 import model.dto.PerfilDTO;
 import model.dto.PerfilDeUsuarioDTO;
@@ -18,6 +26,7 @@ import model.entidades.Usuario;
  * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  *
  */
+@RestController
 public class PerfilDeUsuarioControllerApi {
 	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 
@@ -32,7 +41,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
 	 *                   não seja possivel.
 	 */
-	public void atribuirPerfilAUmUsuario(Usuario usuario, Perfil perfil, LocalDate dataExpiracao) {
+	@PostMapping("/atribuirPerfilAUmUsuario")
+	public void atribuirPerfilAUmUsuario(@RequestBody Usuario usuario, @RequestBody Perfil perfil, LocalDate dataExpiracao) {
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, dataExpiracao);
 	}
 
@@ -46,7 +56,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoUsuario(Integer id) {
+	@GetMapping("/consultarPorIdDoUsuario/{id}")
+	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoUsuario(@PathVariable Integer id) {
 		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoUsuario(id);
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
@@ -65,7 +76,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoPerfil(Integer id) {
+	@GetMapping("/consultarPorIdDoPerfil/{id}")
+	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoPerfil(@PathVariable Integer id) {
 		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoPerfil(id);
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
@@ -87,7 +99,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
-	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(int idUsuario) {
+	@GetMapping("/listarPermissoesDeUmUsuario/{idUsuario}")
+	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable int idUsuario) {
 		List<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(idUsuario);
 		ArrayList<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
 		for (Permissao permissao : listaModel) {
@@ -105,7 +118,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
-	public List<PerfilDTO> listarPerfisDeUmUsuario(int idUsuario) {
+	@GetMapping("/listarPerfisDeUmUsuario/{idUsuario}")
+	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable int idUsuario) {
 		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(idUsuario);
 		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
 		for (Perfil perfil : listaModel) {
@@ -120,6 +134,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
 	 */
+	@DeleteMapping("/deletar")
 	public boolean deletar(PerfilDeUsuario objeto) {
 		return controller.deletar(objeto);
 	}
@@ -127,6 +142,7 @@ public class PerfilDeUsuarioControllerApi {
 	/**
 	 * Deleta todos os registros da tabela {@link PerfilDeUsuario}.
 	 */
+	@DeleteMapping("/deletarTodos")
 	public void deletarTodos() {
 		controller.deletarTodos();
 	}
@@ -141,7 +157,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
 	 * @boolean Retorna true.
 	 */
-	public boolean alterar(PerfilDeUsuario objeto) {
+	@PutMapping("/alterar")
+	public boolean alterar(@RequestBody PerfilDeUsuario objeto) {
 		return controller.alterar(objeto);
 	}
 
@@ -150,7 +167,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @param id int Id do objeto a ser consultado.
 	 */
-	public PerfilDeUsuarioDTO consultarPorId(int id) {
+	@GetMapping("/consultarPorId/{id}")
+	public PerfilDeUsuarioDTO consultarPorId(@PathVariable int id) {
 		return new PerfilDeUsuarioDTO(controller.consultarPorId(id));
 	}
 
@@ -160,6 +178,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @return List Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
+	@GetMapping("/listar")
 	public List<PerfilDeUsuarioDTO> listar() {
 		List<PerfilDeUsuario> listaModel = controller.listar();
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
@@ -181,7 +200,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
-	public boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
+	@GetMapping("/usuarioPossuiPermissaoPara")
+	public boolean usuarioPossuiPermissaoPara(@RequestBody Usuario usuario, @RequestBody Permissao _permissao) {
 		return controller.usuarioPossuiPermissaoPara(usuario, _permissao);
 	}
 
@@ -197,7 +217,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
-	public boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
+	@GetMapping("/usuarioPossuiOPerfil")
+	public boolean usuarioPossuiOPerfil(@RequestBody Usuario usuario, @RequestBody Perfil _perfil) {
 		return controller.usuarioPossuiOPerfil(usuario, _perfil);
 	}
 
@@ -208,17 +229,17 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 */
-	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
+	@GetMapping("/permissaoAtiva")
+	public boolean permissaoAtiva(@RequestBody PerfilDeUsuario ligacao) {
 		return controller.permissaoAtiva(ligacao);
 	}
 	
-	
-
 	/**
 	 * Retorna todos os registros que possuem 'ativo' igual a true.
 	 * 
 	 * @return List<PerfilDeUsuario>
 	 */
+	@GetMapping("/listarTodasLigacoesAtivas")
 	public List<PerfilDeUsuarioDTO> listarTodasLigacoesAtivas() {
 		List<PerfilDeUsuario> listaModel = controller.listarTodasLigacoesAtivas();
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
@@ -233,7 +254,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param ligacao
 	 * @return
 	 */
-	public boolean desativar(PerfilDeUsuario ligacao) {
+	@PutMapping("/desativar")
+	public boolean desativar(@RequestBody PerfilDeUsuario ligacao) {
 		return controller.desativar(ligacao);
 	}
 }
