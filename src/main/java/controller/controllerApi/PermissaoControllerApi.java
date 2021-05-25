@@ -53,7 +53,7 @@ public class PermissaoControllerApi {
 	 * @param nomePermissao - String Novo nome da permissao
 	 */
 	@PutMapping("/alterar/{id}")
-	public void alterarPermissao(@PathVariable Integer id, String nomePermissao) {
+	public void alterarPermissao(@PathVariable("id") Integer id, String nomePermissao) {
 		controller.alterarPermissao(id, nomePermissao);
 	}
 
@@ -66,7 +66,7 @@ public class PermissaoControllerApi {
 	 * @param id Integer Id da permissao a ser deletada.
 	 */
 	@DeleteMapping("/deletar/{id}")
-	public void deletarPermissao(@PathVariable Integer id) {
+	public void deletarPermissao(@PathVariable("id") Integer id) {
 		controller.deletarPermissao(id);
 	}
 
@@ -81,7 +81,7 @@ public class PermissaoControllerApi {
 	 * @return Permissao
 	 */
 	@GetMapping("/consultarPermissaoPorId/{id}")
-	public PermissaoDTO consultarPermissaoPorId(@PathVariable Integer id) {
+	public PermissaoDTO consultarPermissaoPorId(@PathVariable("id") Integer id) {
 		return new PermissaoDTO(controller.consultarPermissaoPorId(id));
 	}
 
@@ -96,7 +96,7 @@ public class PermissaoControllerApi {
 	 * @return Permissao
 	 */
 	@GetMapping("/consultarPermissaoPorNome/{nome}")
-	public PermissaoDTO consultarPermissaoPorNome(@PathVariable String nome) {
+	public PermissaoDTO consultarPermissaoPorNome(@PathVariable("nome") String nome) {
 		return new PermissaoDTO(controller.consultarPermissaoPorNome(nome));
 	}
 
