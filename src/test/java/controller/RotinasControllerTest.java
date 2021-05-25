@@ -3,10 +3,8 @@ package controller;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,11 +18,9 @@ import controller.controllers.PermissaoController;
 import controller.controllers.RotinasController;
 import controller.controllers.UsuarioController;
 import model.dto.PerfilDTO;
-import model.dto.PerfilDeUsuarioDTO;
 import model.dto.PermissaoDTO;
 import model.dto.UsuarioDTO;
 import model.entidades.Perfil;
-import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 
