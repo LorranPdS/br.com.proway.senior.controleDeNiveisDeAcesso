@@ -1,9 +1,7 @@
 package model.dao;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,9 +13,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import db.DBConnection;
-import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
-import model.entidades.Permissao;
 import model.entidades.Usuario;
 import model.interfaces.ICrud;
 

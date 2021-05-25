@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controller.controllerApi.UsuarioControllerApi;
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.PermissaoController;
 import controller.controllers.UsuarioController;
