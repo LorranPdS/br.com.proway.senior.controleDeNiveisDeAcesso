@@ -14,7 +14,7 @@ import utils.HashSenha;
 public class UsuarioController {
 
 	static UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
-	static PerfilDeUsuarioController controller;
+	static PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 	private static UsuarioController instance;
 
 	public UsuarioController() {

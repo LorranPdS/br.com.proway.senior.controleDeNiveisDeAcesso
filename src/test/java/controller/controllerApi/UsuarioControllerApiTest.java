@@ -1,4 +1,4 @@
-package controller;
+package controller.controllerApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,6 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controller.PerfilDeUsuarioController;
+import controller.PermissaoController;
+import controller.UsuarioController;
 import controller.controllerApi.UsuarioControllerApi;
 import db.DBConnection;
 import model.dao.PerfilDAO;
@@ -27,12 +30,13 @@ import model.entidades.Permissao;
 import model.entidades.Usuario;
 
 public class UsuarioControllerApiTest {
-
 	
+	UsuarioControllerApi usuarioApi = new UsuarioControllerApi();
+
 	@Before
 	public void deletarTudo() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
-		UsuarioController.getInstance().deletarTodos();
+		usuarioApi.deletarTodos();
 		PerfilDAO.getInstance().deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
 	}
@@ -54,6 +58,8 @@ public class UsuarioControllerApiTest {
 
 	}
 
+	UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+	PerfilDAO perfilDAO = PerfilDAO.getInstance();
 	static Perfil perfil;
 	static Permissao permissao;
 	static PermissaoController permissaoController = new PermissaoController();
@@ -69,7 +75,6 @@ public class UsuarioControllerApiTest {
 		assertEquals(loginDoUsuario, usuarioEncontradoPorNome.getLogin(), usuarioEncontradoPorId.getLogin());
 	}
 
-
 	@Test
 	public void testListarTodosUsuarios() {
 		String loginDoUsuario = "jonata@gmail.com";
@@ -78,15 +83,15 @@ public class UsuarioControllerApiTest {
 
 		String loginDoUsuario2 = "marcelo@gmail.com";
 		String senhaDoUsuario2 = "456";
-		UsuarioControllerApi.getInstance().criarUsuario(loginDoUsuario2, senhaDoUsuario2);
-		assertEquals(2, UsuarioControllerApi.getInstance().listarTodosOsUsuarios().size());
+		usuarioApi.criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+		assertEquals(2, usuarioApi.listarTodosOsUsuarios().size());
 	}
 
 	@Test
 	public void testVerificarEListarPermissaoDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
-		UsuarioControllerApi.getInstance().criarUsuario(loginUsuario, senhaUsuario);
+		usuarioApi.criarUsuario(loginUsuario, senhaUsuario);
 
 		perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
@@ -97,14 +102,13 @@ public class UsuarioControllerApiTest {
 		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		
+
 		List<PermissaoDTO> lista = new ArrayList<>();
-		for (PermissaoDTO permissao : UsuarioControllerApi.getInstance()
-				.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
+		for (PermissaoDTO permissao : usuarioApi.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
 			lista.add(permissao);
 		}
 
-		assertTrue(UsuarioControllerApi.getInstance().possuiPermissoes(usuario, permissao));
+		assertTrue(usuarioApi.possuiPermissoes(usuario, permissao));
 		assertEquals(1, lista.size());
 	}
 
@@ -131,19 +135,18 @@ public class UsuarioControllerApiTest {
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
 
-		List<PerfilDTO> lista = UsuarioControllerApi.getInstance().listarPerfisDeUmUsuario(usuario.getIdUsuario());
+		List<PerfilDTO> lista = usuarioApi.listarPerfisDeUmUsuario(usuario.getIdUsuario());
 		assertEquals(2, lista.size());
 	}
-	
-	
+
 	@Test
 	public void testLogin() {
 		String loginExistente = "Grijo@gmail.com";
 		String senhaCorreta = "234";
 		String senhaIncorreta = "123";
 		UsuarioController.getInstance().criarUsuario(loginExistente, senhaCorreta);
-		assertTrue(UsuarioControllerApi.getInstance().logar(loginExistente, senhaCorreta));
-		assertFalse(UsuarioControllerApi.getInstance().logar(loginExistente, senhaIncorreta));
+		assertTrue(usuarioApi.logar(loginExistente, senhaCorreta));
+		assertFalse(usuarioApi.logar(loginExistente, senhaIncorreta));
 	}
 
 	/**
@@ -159,12 +162,12 @@ public class UsuarioControllerApiTest {
 		String senha = "123";
 		UsuarioController.getInstance().criarUsuario(destinatario, senha);
 
-		boolean resultadoEnvioEmail = UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(destinatario);
+		boolean resultadoEnvioEmail = usuarioApi.enviarEmailDeConfirmacaoDeLogin(destinatario);
 		assertTrue(resultadoEnvioEmail);
 
 		Usuario u = UsuarioController.getInstance().consultarUsuario(destinatario);
 		Integer codigoDeConfirmacao = u.getUltimoCodigo2FA();
-		assertTrue(UsuarioControllerApi.getInstance().confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
+		assertTrue(usuarioApi.confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
 
 		// Limpar usuario do banco pós-teste
 		String sqlLimparUsuarioDoBanco = "DELETE FROM usuario WHERE login = '" + destinatario + "';";
@@ -177,18 +180,17 @@ public class UsuarioControllerApiTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testAlterarUsuario() {
 		String loginDoUsuario = "UsuarioDeTesteAntesDaAlteracao@gmail.com";
 		String senhaDoUsuario = "6666666";
-		UsuarioControllerApi.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
-		UsuarioDTO usuarioConsultado = UsuarioControllerApi.getInstance().consultarUsuario(loginDoUsuario);
+		usuarioApi.criarUsuario(loginDoUsuario, senhaDoUsuario);
+		UsuarioDTO usuarioConsultado = usuarioApi.consultarUsuario(loginDoUsuario);
 		String novoLoginDoUsuario = "UsuarioDeTesteDepoisDaAlteracao@gmail.com";
 		String novaSenhaDoUsuario = "9999999";
-		UsuarioControllerApi.getInstance().alterarUsuario(usuarioConsultado.getIdUsuario(), novoLoginDoUsuario,
-				novaSenhaDoUsuario);
-		usuarioConsultado = UsuarioControllerApi.getInstance().consultarUsuarioPorId(usuarioConsultado.getIdUsuario());
+		usuarioApi.alterarUsuario(usuarioConsultado.getIdUsuario(), novoLoginDoUsuario, novaSenhaDoUsuario);
+		usuarioConsultado = usuarioApi.consultarUsuarioPorId(usuarioConsultado.getIdUsuario());
 		assertEquals(novoLoginDoUsuario, usuarioConsultado.getLogin());
 	}
 
@@ -196,15 +198,15 @@ public class UsuarioControllerApiTest {
 	public void testDeletarUsuario() {
 		String loginDoUsuario = "UsuarioDeTesteDeDelecao@gmail.com";
 		String senhaDoUsuario = "123123123";
-		UsuarioControllerApi.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		usuarioApi.criarUsuario(loginDoUsuario, senhaDoUsuario);
 
 		String loginDoUsuario2 = "marcelo@gmail.com";
 		String senhaDoUsuario2 = "456";
-		UsuarioControllerApi.getInstance().criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+		usuarioApi.criarUsuario(loginDoUsuario2, senhaDoUsuario2);
 
-		UsuarioDTO usuarioASerDeletado = UsuarioControllerApi.getInstance().consultarUsuario(loginDoUsuario);
-		UsuarioControllerApi.getInstance().deletarUsuario(usuarioASerDeletado.getIdUsuario());
-		int numeroDeUsuariosDepoisDoTeste = UsuarioControllerApi.getInstance().listarTodosOsUsuarios().size();
+		UsuarioDTO usuarioASerDeletado = usuarioApi.consultarUsuario(loginDoUsuario);
+		usuarioApi.deletarUsuario(usuarioASerDeletado.getIdUsuario());
+		int numeroDeUsuariosDepoisDoTeste = usuarioApi.listarTodosOsUsuarios().size();
 		assertEquals(1, numeroDeUsuariosDepoisDoTeste);
 	}
 
@@ -212,12 +214,39 @@ public class UsuarioControllerApiTest {
 	public void testMListarTodosUsuarios() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
-		UsuarioControllerApi.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		usuarioApi.criarUsuario(loginDoUsuario, senhaDoUsuario);
 
 		String loginDoUsuario2 = "marcelo@gmail.com";
 		String senhaDoUsuario2 = "456";
-		UsuarioControllerApi.getInstance().criarUsuario(loginDoUsuario2, senhaDoUsuario2);
-		assertEquals(2, UsuarioControllerApi.getInstance().listarTodosOsUsuarios().size());
+		usuarioApi.criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+		assertEquals(2, usuarioApi.listarTodosOsUsuarios().size());
+	}
+
+	@Test
+	public void testListarPerfisAtivosDeUmUsuario() {
+		perfilDAO.criar(new Perfil("Vendedor"));
+		perfil = perfilDAO.consultarPorNome("Vendedor");
+
+		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
+		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
+
+		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
+		perfil = perfilDAO.consultarPorNome("Vendedor");
+
+		Usuario usuario = new Usuario("thiago@gmail.com", "admin");
+		usuarioDAO.criar(usuario);
+		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
+
+		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
+		PerfilDeUsuarioControllerApi apiController = new PerfilDeUsuarioControllerApi();
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+
+		List<PerfilDTO> lista = usuarioApi.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
+
+		assertTrue(usuarioApi.permissaoAtiva(controller.consultarPorIdDoUsuario(usuario.getIdUsuario()).get(0)));
+		assertEquals(2, lista.size());
+		assertTrue(apiController.desativar(controller.listar().get(0)));
 	}
 
 }
