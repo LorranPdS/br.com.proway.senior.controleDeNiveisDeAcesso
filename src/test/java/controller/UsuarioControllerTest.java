@@ -19,7 +19,6 @@ import model.dao.PerfilDeUsuarioDAO;
 import model.dao.PermissaoDAO;
 import model.dao.UsuarioDAO;
 import model.entidades.Perfil;
-import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 import utils.HashSenha;
@@ -29,7 +28,7 @@ public class UsuarioControllerTest {
 	@Before
 	public void deletarTudo() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
-		UsuarioController.getInstance().deletarTodos();
+		UController.deletarTodos();
 		PerfilDAO.getInstance().deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
 	}
@@ -51,6 +50,7 @@ public class UsuarioControllerTest {
 
 	}
 	
+	UsuarioController UController = new UsuarioController();
 	PerfilDAO perfilDAO = PerfilDAO.getInstance();
 	UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
 	static Usuario usuario;
@@ -173,9 +173,9 @@ public class UsuarioControllerTest {
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		List<Permissao> lista = new ArrayList<>();
-		for (Permissao permissao : UsuarioController.getInstance()
-				.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
-			lista.add(permissao);
+		
+		for (Permissao permissao1 : UController.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
+			lista.add(permissao1);
 		}
 
 		assertTrue(UsuarioController.getInstance().possuiPermissoes(usuario, permissao));
@@ -258,6 +258,6 @@ public class UsuarioControllerTest {
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
 
-		assertTrue(UsuarioController.getInstance().possuiPermissoes(usuario, permissao));
+		assertTrue(UController.possuiPermissoes(usuario, permissao));
 	}
 }

@@ -16,18 +16,11 @@ import model.entidades.Usuario;
 
 public class UsuarioControllerApi {
 
-	PerfilDeUsuarioController controller;
-	private static UsuarioControllerApi instance;
+	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 
 	public UsuarioControllerApi() {
 	}
 
-	public static UsuarioControllerApi getInstance() {
-		if (instance == null) {
-			instance = new UsuarioControllerApi();
-		}
-		return instance;
-	}
 
 	/**
 	 * Autentica uma tentativa de login de um usuario do sistema.
@@ -279,5 +272,5 @@ public class UsuarioControllerApi {
 		}
 		return listaDTO;
 	}
-
+	
 }
