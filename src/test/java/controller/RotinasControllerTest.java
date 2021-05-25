@@ -17,6 +17,7 @@ import controller.controllerApi.UsuarioControllerApi;
 import controller.controllers.PerfilController;
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.PermissaoController;
+import controller.controllers.RotinasController;
 import controller.controllers.UsuarioController;
 import model.dto.PerfilDTO;
 import model.dto.PerfilDeUsuarioDTO;
@@ -50,7 +51,7 @@ public class RotinasControllerTest {
 		usuarioApi.deletarTodos();
 		perfilApi.deletarTodos();
 		permissaoApi.deletarTodos();
-	}
+	} 
 
 	static RotinasController rotinasController = new RotinasController();
 	static PerfilController perfilController = new PerfilController();

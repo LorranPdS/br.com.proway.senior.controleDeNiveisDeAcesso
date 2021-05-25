@@ -7,7 +7,7 @@ import model.entidades.PerfilDeUsuario;
 
 public class RotinasController {
 
-	RotinasController() {
+	public RotinasController() {
 	}
 
 	PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
