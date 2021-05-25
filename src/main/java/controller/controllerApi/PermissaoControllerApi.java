@@ -3,6 +3,12 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import controller.controllers.PermissaoController;
 import model.dao.PermissaoDAO;
 import model.dto.PermissaoDTO;
@@ -13,6 +19,7 @@ import model.entidades.Permissao;
  * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  *
  */
+@RestController
 public class PermissaoControllerApi {
 	PermissaoController controller = new PermissaoController();
 
@@ -26,6 +33,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param nomePermissao String Nome da permissao.
 	 */
+	@PostMapping("/criar")
 	public void criarPermissao(String nomePermissao) {
 		controller.criarPermissao(nomePermissao);
 	}
@@ -39,11 +47,12 @@ public class PermissaoControllerApi {
 	 * nome da {@link Permissao} sera setado ao objeto e enviado ao
 	 * {@link PermissaoDAO} para ser atualizado no banco de dados.
 	 * 
-	 * @param idPermissao   - Integer Identificador da permissao a ser alterada.
+	 * @param id            - Integer Identificador da permissao a ser alterada.
 	 * @param nomePermissao - String Novo nome da permissao
 	 */
-	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
-		controller.alterarPermissao(idPermissao, nomePermissao);
+	@PutMapping("/alterar/{id}")
+	public void alterarPermissao(Integer id, String nomePermissao) {
+		controller.alterarPermissao(id, nomePermissao);
 	}
 
 	/**
@@ -52,10 +61,11 @@ public class PermissaoControllerApi {
 	 * <p>
 	 * Responsavel por deletar uma {@link Permissao} pelo seu id.
 	 * 
-	 * @param idPermissao Integer Id da permissao a ser deletada.
+	 * @param id Integer Id da permissao a ser deletada.
 	 */
-	public void deletarPermissao(Integer idPermissao) {
-		controller.deletarPermissao(idPermissao);
+	@DeleteMapping("/deletar/{id}")
+	public void deletarPermissao(Integer id) {
+		controller.deletarPermissao(id);
 	}
 
 	/**
@@ -65,11 +75,12 @@ public class PermissaoControllerApi {
 	 * Consulta uma {@link Permissao} no banco de dados atraves de seu id e retorna
 	 * o objeto completo.
 	 * 
-	 * @param idPermissao Integer Id do objeto a ser consultado.
+	 * @param id Integer Id do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	public PermissaoDTO consultarPermissaoPorId(Integer idPermissao) {
-		return new PermissaoDTO(controller.consultarPermissaoPorId(idPermissao));
+	@GetMapping("/consultarPermissaoPorId{id}")
+	public PermissaoDTO consultarPermissaoPorId(Integer id) {
+		return new PermissaoDTO(controller.consultarPermissaoPorId(id));
 	}
 
 	/**
@@ -79,11 +90,12 @@ public class PermissaoControllerApi {
 	 * Consulta uma {@link Permissao} no banco de dados atraves de seu nome e
 	 * retorna o objeto completo.
 	 * 
-	 * @param nomePermissao String Nome do objeto a ser consultado.
+	 * @param nome String Nome do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	public PermissaoDTO consultarPermissaoPorNome(String nomePermissao) {
-		return new PermissaoDTO(controller.consultarPermissaoPorNome(nomePermissao));
+	@GetMapping("/consultarPermissaoPorNome{nome}")
+	public PermissaoDTO consultarPermissaoPorNome(String nome) {
+		return new PermissaoDTO(controller.consultarPermissaoPorNome(nome));
 	}
 
 	/**
@@ -94,6 +106,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @return List<Permissao>
 	 */
+	@GetMapping("/listarTodasAsPermissoes")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
 		List<Permissao> listaModel = controller.listarTodasAsPermissoes();
 		List<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
@@ -106,6 +119,7 @@ public class PermissaoControllerApi {
 	/**
 	 * Deleta todos os registros da tabela {@link Permissao}.
 	 */
+	@DeleteMapping("/deletarTodos")
 	public void deletarTodos() {
 		controller.deletarTodos();
 	}
