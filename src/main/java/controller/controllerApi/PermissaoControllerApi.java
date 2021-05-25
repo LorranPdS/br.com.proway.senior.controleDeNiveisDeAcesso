@@ -3,6 +3,8 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RestController;
+
 import controller.controllers.PermissaoController;
 import model.dao.PermissaoDAO;
 import model.dto.PermissaoDTO;
@@ -13,6 +15,7 @@ import model.entidades.Permissao;
  * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  *
  */
+@RestController
 public class PermissaoControllerApi {
 	PermissaoController controller = new PermissaoController();
 
