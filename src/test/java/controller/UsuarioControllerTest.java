@@ -13,6 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controller.controllers.PerfilDeUsuarioController;
+import controller.controllers.PermissaoController;
+import controller.controllers.UsuarioController;
 import db.DBConnection;
 import model.dao.PerfilDAO;
 import model.dao.PerfilDeUsuarioDAO;

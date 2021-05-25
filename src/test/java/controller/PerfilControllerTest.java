@@ -11,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import controller.controllers.PerfilController;
+import controller.controllers.PermissaoController;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 

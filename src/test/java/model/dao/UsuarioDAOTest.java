@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controller.PermissaoController;
+import controller.controllers.PermissaoController;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 import model.entidades.Usuario;

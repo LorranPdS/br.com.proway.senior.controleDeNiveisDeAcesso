@@ -1,4 +1,4 @@
-package controller;
+package controller.controllers;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ public class RotinasController {
 	PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 
 	/**
+	 * 
 	 * Desativa todas as permissoes expiradas.
 	 * 
 	 * Lista todos os registros da tabela {@link PerfilDeUsuario} e seta 'ativo'

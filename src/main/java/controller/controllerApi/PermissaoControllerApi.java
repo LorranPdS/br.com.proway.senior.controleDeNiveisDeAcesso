@@ -3,7 +3,7 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.PermissaoController;
+import controller.controllers.PermissaoController;
 import model.dao.PermissaoDAO;
 import model.dto.PermissaoDTO;
 import model.entidades.Permissao;

@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import controller.controllers.PerfilDeUsuarioController;
 import model.dao.PerfilDAO;
 import model.dao.PermissaoDAO;
 import model.dao.UsuarioDAO;

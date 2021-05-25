@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.PerfilDeUsuarioController;
+import controller.controllers.PerfilDeUsuarioController;
 import model.dto.PerfilDTO;
 import model.dto.PerfilDeUsuarioDTO;
 import model.dto.PermissaoDTO;
