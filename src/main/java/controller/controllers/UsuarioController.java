@@ -239,8 +239,8 @@ public class UsuarioController {
 	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se
 	 * o {@link Usuario} tem permissoes. Acessando o metodo da classe {@link PerfilDeUsuarioController}.
 	 * 
-	 * @param usuario   - Usuario
-	 * @param permissao - Permissao
+	 * @param idUsuario int 
+	 * @param idPermissao int
 	 * @return boolean
 	 */
 	public boolean possuiPermissoes(int idUsuario, int idPermissao) {

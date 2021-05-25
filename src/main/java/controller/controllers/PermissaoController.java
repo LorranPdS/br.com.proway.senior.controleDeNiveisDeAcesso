@@ -39,7 +39,7 @@ public class PermissaoController {
 	 * nome da {@link Permissao} sera setado ao objeto e enviado ao
 	 * {@link PermissaoDAO} para ser atualizado no banco de dados.
 	 * 
-	 * @param idPermissao   - Interger
+	 * @param idPermissao   - Integer
 	 * @param nomePermissao - String
 	 */
 	public void alterarPermissao(Integer idPermissao, String nomePermissao) {

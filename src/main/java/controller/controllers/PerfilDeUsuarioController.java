@@ -124,6 +124,8 @@ public class PerfilDeUsuarioController {
 	 * data de expiracao valida. Pega as permissoes desses perfis validos e verifica
 	 * se alguma destas eh igual a permissao recebida no parametro.
 	 * 
+	 * @param idUsuario int 
+	 * @param idPermissao int
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
@@ -153,6 +155,8 @@ public class PerfilDeUsuarioController {
 	 * ativos do usuario recebido no parametro. Verifica se algum destes perfis eh
 	 * igual ao perfil recebido no parametro.
 	 * 
+	 * @param idUsuario int
+	 * @param idPerfil int
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
@@ -217,7 +221,7 @@ public class PerfilDeUsuarioController {
 	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
 	 * 'objeto' recebido no parametro.
 	 * 
-	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
+	 * @param id int Id do objeto a ser deletado.
 	 */
 	public boolean deletar(int id) {
 		PerfilDeUsuario objeto = consultarPorId(id);
@@ -238,6 +242,7 @@ public class PerfilDeUsuarioController {
 	 * Recebe um objeto do tipo {@link PerfilDeUsuario} no parametro e atualiza o
 	 * registro correspondente que está no banco de dados.
 	 * 
+	 * @param id int Id do objeto a ser alterado.
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
 	 * @boolean Retorna true.
 	 */
@@ -275,7 +280,7 @@ public class PerfilDeUsuarioController {
 	 * 
 	 * <p>
 	 * Seta o 'ativo' do 'objeto' como false e atualiza no banco de dados.
-	 * @param objeto PerfilDeUsuario Registro a ser desativado.
+	 * @param id int Id do registro a ser desativado.
 	 * @return True caso encontre o registro no banco, false caso não encontre.
 	 */
 	public boolean desativar(int id) {

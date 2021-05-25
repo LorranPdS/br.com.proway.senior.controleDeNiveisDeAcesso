@@ -132,7 +132,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
 	 * 'objeto' recebido no parametro.
 	 * 
-	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
+	 * @param id int Id do objeto a ser deletado.
 	 */
 	@DeleteMapping("/deletar")
 	public boolean deletar(int id) {
@@ -154,6 +154,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * Recebe um objeto do tipo {@link PerfilDeUsuario} no parametro e atualiza o
 	 * registro correspondente que está no banco de dados.
 	 * 
+	 * @param id int Id do objeto a ser alterado.
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
 	 * @boolean Retorna true.
 	 */
@@ -251,7 +252,7 @@ public class PerfilDeUsuarioControllerApi {
 	
 	/**
 	 * Seta o 'ativo' do registro 'ligacao' como false.
-	 * @param ligacao
+	 * @param id int Id do objeto a ser desativado.
 	 * @return
 	 */
 	@PutMapping("/desativar")
