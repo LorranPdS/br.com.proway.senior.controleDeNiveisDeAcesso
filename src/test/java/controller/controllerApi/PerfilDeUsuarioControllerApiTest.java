@@ -134,7 +134,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
-		controllerApi.deletar(ligacao);
+		controllerApi.deletar(ligacao.getId());
 		assertEquals(0, controllerApi.listar().size());
 	}
 
@@ -147,7 +147,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		ligacao = ligacoes.get(0);
 
 		ligacao.setDataExpiracao(LocalDate.now().plusMonths(3));
-		controllerApi.alterar(ligacao);
+		controllerApi.alterar(ligacao.getId(), ligacao);
 		assertEquals(LocalDate.now().plusMonths(3), controllerApi.consultarPorId(ligacao.getId()).getDataExpiracao());
 	}
 
@@ -178,27 +178,27 @@ public class PerfilDeUsuarioControllerApiTest {
 	
 	@Test
 	public void testUsuarioNaoPossuiPermissaoPara() {
-		boolean possui = controllerApi.usuarioPossuiPermissaoPara(usuario, permissao);
+		boolean possui = controllerApi.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao());
 		assertFalse(possui);
 	}
 	
 	@Test
 	public void testUsuarioPossuiPermissaoPara() {
 		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
-		boolean possui = controllerApi.usuarioPossuiPermissaoPara(usuario, permissao);
+		boolean possui = controllerApi.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao());
 		assertTrue(possui);
 	}
 	
 	@Test
 	public void testUsuarioPossuiOPerfil() {
 		controllerApi.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
-		boolean possui = controllerApi.usuarioPossuiOPerfil(usuario, perfil);
+		boolean possui = controllerApi.usuarioPossuiOPerfil(usuario.getIdUsuario(), perfil.getIdPerfil());
 		assertTrue(possui);
 	}
 	
 	@Test
 	public void testUsuarioNaoPossuiOPerfil() {
-		boolean possui = controllerApi.usuarioPossuiOPerfil(usuario, perfil);
+		boolean possui = controllerApi.usuarioPossuiOPerfil(usuario.getIdUsuario(), perfil.getIdPerfil());
 		assertFalse(possui);
 	}
 	
@@ -235,29 +235,12 @@ public class PerfilDeUsuarioControllerApiTest {
 	}
 	
 	@Test 
-	public void testDesativarLigacaoNulla() {
-		PerfilDeUsuario ligacao = null;
-		assertFalse(controllerApi.desativar(ligacao));
-	}
-	
-	@Test 
-	public void testDesativarLigacaoIdNull() {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setUsuario(usuario);
-		ligacao.setPerfil(perfil);
-		ligacao.setDataExpiracao(LocalDate.now());
-		ligacao.setAtivo(true);
-		assertFalse(controllerApi.desativar(ligacao));
+	public void testDesativarLigacaoIdZero() {
+		assertFalse(controllerApi.desativar(0));
 	}
 	
 	@Test 
 	public void testDesativarLigacaoIdInexistente() {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setUsuario(usuario);
-		ligacao.setPerfil(perfil);
-		ligacao.setDataExpiracao(LocalDate.now());
-		ligacao.setAtivo(true);
-		ligacao.setId(6548);
-		assertFalse(controllerApi.desativar(ligacao));
+		assertFalse(controllerApi.desativar(684651687));
 	}
 }

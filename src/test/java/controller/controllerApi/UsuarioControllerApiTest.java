@@ -108,7 +108,7 @@ public class UsuarioControllerApiTest {
 			lista.add(permissao);
 		}
 
-		assertTrue(usuarioApi.possuiPermissoes(usuario, permissao));
+		assertTrue(usuarioApi.possuiPermissoes(usuario.getIdUsuario(), permissao.getIdPermissao()));
 		assertEquals(1, lista.size());
 	}
 
@@ -246,7 +246,7 @@ public class UsuarioControllerApiTest {
 
 		assertTrue(usuarioApi.permissaoAtiva(controller.consultarPorIdDoUsuario(usuario.getIdUsuario()).get(0)));
 		assertEquals(2, lista.size());
-		assertTrue(apiController.desativar(controller.listar().get(0)));
+		assertTrue(apiController.desativar(controller.listar().get(0).getId()));
 	}
 
 }

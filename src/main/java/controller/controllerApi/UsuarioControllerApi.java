@@ -222,13 +222,13 @@ public class UsuarioControllerApi {
 	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se
 	 * o {@link Usuario} tem permissoes. Chamando o metodo respectivo da classe {@link UsuarioController}.
 	 * 
-	 * @param usuario   - Usuario
-	 * @param permissao - Permissao
+	 * @param idUsuario int
+	 * @param idPermissao int
 	 * @return ArrayList<Permissao>
 	 */
-	@GetMapping("/possuiPermissoes")
-	public boolean possuiPermissoes(@RequestBody Usuario usuario, @RequestBody Permissao permissao) {
-		return UsuarioController.getInstance().possuiPermissoes(usuario, permissao);
+  @GetMapping("/possuiPermissoes")
+	public boolean possuiPermissoes(int idUsuario, int idPermissao) {
+		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
 	}
 
 	/**

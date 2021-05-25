@@ -119,7 +119,7 @@ public class PerfilDeUsuarioControllerTest {
 		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
-		controller.deletar(ligacao);
+		controller.deletar(ligacao.getId());
 		assertEquals(0, controller.listar().size());
 	}
 
@@ -132,7 +132,7 @@ public class PerfilDeUsuarioControllerTest {
 		ligacao = ligacoes.get(0);
 
 		ligacao.setDataExpiracao(LocalDate.now().plusMonths(3));
-		controller.alterar(ligacao);
+		controller.alterar(ligacao.getId(), ligacao);
 		assertEquals(LocalDate.now().plusMonths(3), controller.consultarPorId(ligacao.getId()).getDataExpiracao());
 	}
 
@@ -163,27 +163,27 @@ public class PerfilDeUsuarioControllerTest {
 
 	@Test
 	public void testUsuarioNaoPossuiPermissaoPara() {
-		boolean possui = controller.usuarioPossuiPermissaoPara(usuario, permissao);
+		boolean possui = controller.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao());
 		assertFalse(possui);
 	}
 
 	@Test
 	public void testUsuarioPossuiPermissaoPara() {
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
-		boolean possui = controller.usuarioPossuiPermissaoPara(usuario, permissao);
+		boolean possui = controller.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao());
 		assertTrue(possui);
 	}
 
 	@Test
 	public void testUsuarioPossuiOPerfil() {
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now());
-		boolean possui = controller.usuarioPossuiOPerfil(usuario, perfil);
+		boolean possui = controller.usuarioPossuiOPerfil(usuario.getIdUsuario(), perfil.getIdPerfil());
 		assertTrue(possui);
 	}
 
 	@Test
 	public void testUsuarioNaoPossuiOPerfil() {
-		boolean possui = controller.usuarioPossuiOPerfil(usuario, perfil);
+		boolean possui = controller.usuarioPossuiOPerfil(usuario.getIdUsuario(), perfil.getIdPerfil());
 		assertFalse(possui);
 	}
 
@@ -210,32 +210,15 @@ public class PerfilDeUsuarioControllerTest {
 		ligacao.setDataExpiracao(LocalDate.of(2019, 01, 01));
 		assertFalse(controller.permissaoAtiva(ligacao));
 	}
-
-	@Test 
-	public void testDesativarLigacaoNulla() {
-		PerfilDeUsuario ligacao = null;
-		assertFalse(controller.desativar(ligacao));
-	}
 	
 	@Test 
-	public void testDesativarLigacaoIdNull() {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setUsuario(usuario);
-		ligacao.setPerfil(perfil);
-		ligacao.setDataExpiracao(LocalDate.now());
-		ligacao.setAtivo(true);
-		assertFalse(controller.desativar(ligacao));
+	public void testDesativarLigacaoIdZero() {
+		assertFalse(controller.desativar(0));
 	}
 	
 	@Test 
 	public void testDesativarLigacaoIdInexistente() {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setUsuario(usuario);
-		ligacao.setPerfil(perfil);
-		ligacao.setDataExpiracao(LocalDate.now());
-		ligacao.setAtivo(true);
-		ligacao.setId(6548);
-		assertFalse(controller.desativar(ligacao));
+		assertFalse(controller.desativar(1684684654));
 	}
 	
 	@Test
@@ -245,7 +228,7 @@ public class PerfilDeUsuarioControllerTest {
 		
 		assertEquals(2, controller.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
 		
-		assertTrue(controller.desativar(controller.listar().get(0)));
+		assertTrue(controller.desativar(controller.listar().get(0).getId()));
 		assertEquals(1, controller.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
 	}
 	

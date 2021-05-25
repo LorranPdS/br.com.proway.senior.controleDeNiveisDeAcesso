@@ -181,7 +181,7 @@ public class UsuarioControllerTest {
 			lista.add(permissao1);
 		}
 
-		assertTrue(UsuarioController.getInstance().possuiPermissoes(usuario, permissao));
+		assertTrue(UsuarioController.getInstance().possuiPermissoes(usuario.getIdUsuario(), permissao.getIdPermissao()));
 		assertEquals(1, lista.size());
 	}
 
@@ -234,7 +234,7 @@ public class UsuarioControllerTest {
 		List<Perfil> lista = UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
 		
 		assertEquals(2, lista.size());
-		assertTrue(controller.desativar(controller.listar().get(0)));
+		assertTrue(controller.desativar(controller.listar().get(0).getId()));
 		assertEquals(1, UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
 	}
 	
@@ -261,6 +261,6 @@ public class UsuarioControllerTest {
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
 
-		assertTrue(UController.possuiPermissoes(usuario, permissao));
+		assertTrue(UController.possuiPermissoes(usuario.getIdUsuario(), permissao.getIdPermissao()));
 	}
 }
