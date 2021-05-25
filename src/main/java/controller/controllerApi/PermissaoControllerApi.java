@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PermissaoController;
@@ -34,8 +36,8 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param nomePermissao String Nome da permissao.
 	 */
-	@PostMapping("/criar")
-	public void criarPermissao(String nomePermissao) {
+	@PostMapping("/permissao")
+	public void criarPermissao(@RequestParam String nomePermissao) {
 		controller.criarPermissao(nomePermissao);
 	}
 
@@ -51,8 +53,8 @@ public class PermissaoControllerApi {
 	 * @param id            - Integer Identificador da permissao a ser alterada.
 	 * @param nomePermissao - String Novo nome da permissao
 	 */
-	@PutMapping("/alterar/{id}")
-	public void alterarPermissao(@PathVariable("id") Integer id, String nomePermissao) {
+	@PutMapping("/permissao/{id}")
+	public void alterarPermissao(@PathVariable("id") Integer id, @RequestParam String nomePermissao) {
 		controller.alterarPermissao(id, nomePermissao);
 	}
 
@@ -64,7 +66,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param id Integer Id da permissao a ser deletada.
 	 */
-	@DeleteMapping("/deletar/{id}")
+	@DeleteMapping("/permissao/{id}")
 	public void deletarPermissao(@PathVariable("id") Integer id) {
 		controller.deletarPermissao(id);
 	}
@@ -79,7 +81,7 @@ public class PermissaoControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	@GetMapping("/consultarPermissaoPorId/{id}")
+	@GetMapping("/permissao/{id}")
 	public PermissaoDTO consultarPermissaoPorId(@PathVariable("id") Integer id) {
 		return new PermissaoDTO(controller.consultarPermissaoPorId(id));
 	}
@@ -94,7 +96,7 @@ public class PermissaoControllerApi {
 	 * @param nome String Nome do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	@GetMapping("/consultarPermissaoPorNome/{nome}")
+	@GetMapping("/permissao/{nome}")
 	public PermissaoDTO consultarPermissaoPorNome(@PathVariable("nome") String nome) {
 		return new PermissaoDTO(controller.consultarPermissaoPorNome(nome));
 	}
@@ -107,7 +109,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @return List<Permissao>
 	 */
-	@GetMapping("/listarTodasAsPermissoes")
+	@GetMapping("/permissao")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
 		List<Permissao> listaModel = controller.listarTodasAsPermissoes();
 		List<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
@@ -115,13 +117,5 @@ public class PermissaoControllerApi {
 			listaDTO.add(new PermissaoDTO(permissao));
 		}
 		return listaDTO;
-	}
-
-	/**
-	 * Deleta todos os registros da tabela {@link Permissao}.
-	 */
-	@DeleteMapping("/deletarTodos")
-	public void deletarTodos() {
-		controller.deletarTodos();
 	}
 }

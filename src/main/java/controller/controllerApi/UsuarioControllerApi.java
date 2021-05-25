@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
@@ -17,7 +19,6 @@ import model.dto.PerfilDTO;
 import model.dto.PermissaoDTO;
 import model.dto.UsuarioDTO;
 import model.entidades.Perfil;
-import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 
@@ -25,10 +26,10 @@ import model.entidades.Usuario;
 public class UsuarioControllerApi {
 
 	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
+	UsuarioController UController = new UsuarioController();
 
 	public UsuarioControllerApi() {
 	}
-
 
 	/**
 	 * Autentica uma tentativa de login de um usuario do sistema.
@@ -40,8 +41,8 @@ public class UsuarioControllerApi {
 	 * @param login
 	 * @param senha
 	 */
-	@GetMapping("/logar")
-	public boolean logar(String login, String senha) {
+	@PostMapping("/usuario/login/{login}")
+	public boolean logar(@PathVariable String login, @RequestParam String senha) {
 		return UsuarioController.getInstance().logar(login, senha);
 
 	}
@@ -51,14 +52,15 @@ public class UsuarioControllerApi {
 	 * 
 	 * Envia um e-mail para o usuario com um codigo aleatorio gerado para a
 	 * confirmacao de um login. O ultimo codigo enviado e salvo no banco de dados
-	 * para futura confirmacao. Chamando o metodo respectivo da classe {@link UsuarioController}.
+	 * para futura confirmacao. Chamando o metodo respectivo da classe
+	 * {@link UsuarioController}.
 	 * 
 	 * @param loginDoUsuario equivalente ao email do usuario.
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
 	 * @throws Exception
 	 */
-	@PostMapping("/enviarEmailDeConfirmacaoDeLogin")
-	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
+	@PostMapping("/usuario/{emailDoDestinatario} ")
+	public boolean enviarEmailDeConfirmacaoDeLogin(@PathVariable String emailDoDestinario) throws Exception {
 		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(emailDoDestinario);
 	}
 
@@ -72,8 +74,9 @@ public class UsuarioControllerApi {
 	 * @param login.
 	 * @param codigoDeConfirmacao
 	 */
-	@GetMapping("/confirmarCodigoDeConfirmacao/{login}")
-	public boolean confirmarCodigoDeConfirmacao(@PathVariable("login") String login, Integer codigoDeConfirmacao) {
+	@GetMapping("/usuario/{login}")
+	public boolean confirmarCodigoDeConfirmacao(@PathVariable("login") String login,
+			@RequestParam Integer codigoDeConfirmacao) {
 		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(login, codigoDeConfirmacao);
 	}
 
@@ -82,13 +85,14 @@ public class UsuarioControllerApi {
 	 * 
 	 * Responsavel por criar um objeto do tipo {@link Usuario} com os atributos
 	 * login e senha. O objeto {@link Usuario} e enviado ao {@link UsuarioDAO} para
-	 * ser persistido no banco de dados. Chamando o metodo respectivo da classe {@link UsuarioController}.
+	 * ser persistido no banco de dados. Chamando o metodo respectivo da classe
+	 * {@link UsuarioController}.
 	 * 
 	 * @param login
 	 * @param senha
 	 */
-	@PostMapping("/criarUsuario")
-	public void criarUsuario(String login, String senha) {
+	@PostMapping("/usuario")
+	public void criarUsuario(@RequestParam String login, @RequestParam String senha) {
 		UsuarioController.getInstance().criarUsuario(login, senha);
 	}
 
@@ -102,7 +106,7 @@ public class UsuarioControllerApi {
 	 * 
 	 * @param Integer - id
 	 */
-	@DeleteMapping("/deletarUsuario/{id}")
+	@DeleteMapping("/usuario/{id}")
 	public void deletarUsuario(@PathVariable("id") Integer id) {
 		UsuarioController.getInstance().deletarUsuario(id);
 	}
@@ -119,9 +123,9 @@ public class UsuarioControllerApi {
 	 * @param String  - login
 	 * @param String  - senha
 	 */
-	@PutMapping("alterarUsuario/{id}")
-	public void alterarUsuario(@PathVariable("id") Integer id, String login, String senha) {
-		UsuarioController.getInstance().alterarUsuario(id, login, senha);
+	@PutMapping("usuario/{id}")
+	public void alterarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario) {
+		UsuarioController.getInstance().alterarUsuario(usuario);
 	}
 
 	/**
@@ -133,7 +137,7 @@ public class UsuarioControllerApi {
 	 * @param Integer - idUsuario
 	 * @return UsuarioDTO
 	 */
-	@GetMapping("/consultarUsuarioPorId/{id}")
+	@GetMapping("/usuario/{id}")
 	public UsuarioDTO consultarUsuarioPorId(@PathVariable("id") Integer id) {
 		try {
 			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorId(id));
@@ -151,7 +155,7 @@ public class UsuarioControllerApi {
 	 * @param String
 	 * @return UsuarioDTo
 	 */
-	@GetMapping("/consultarUsuario/{login}")
+	@GetMapping("/usuario/{login}")
 	public UsuarioDTO consultarUsuario(@PathVariable("login") String login) {
 		try {
 			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login));
@@ -171,7 +175,7 @@ public class UsuarioControllerApi {
 	 * 
 	 * @return ArrayList<UsuarioDTO>
 	 */
-	@GetMapping("/listarTodosOsUsuario")
+	@GetMapping("/usuario")
 	public ArrayList<UsuarioDTO> listarTodosOsUsuarios() {
 		ArrayList<Usuario> usuariosEncontrados = (ArrayList<Usuario>) UsuarioDAO.getInstance().listar();
 		ArrayList<UsuarioDTO> resultado = new ArrayList<>();
@@ -199,7 +203,7 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PerfilDTO>
 	 */
-	@GetMapping("/listarPerfisDeUmUsuario/{id}")
+	@GetMapping("/usuario/perfil/usuario/{id}")
 	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable("id") int id) {
 		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> resultado = new ArrayList<>();
@@ -219,13 +223,14 @@ public class UsuarioControllerApi {
 	// provavel alteracao
 	/**
 	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se
-	 * o {@link Usuario} tem permissoes. Chamando o metodo respectivo da classe {@link UsuarioController}.
+	 * o {@link Usuario} tem permissoes. Chamando o metodo respectivo da classe
+	 * {@link UsuarioController}.
 	 * 
-	 * @param idUsuario int
+	 * @param idUsuario   int
 	 * @param idPermissao int
 	 * @return ArrayList<Permissao>
 	 */
-  @GetMapping("/possuiPermissoes")
+	@GetMapping("/usuario/{idUsuario}/perfil/{idPermissao}")
 	public boolean possuiPermissoes(int idUsuario, int idPermissao) {
 		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
 	}
@@ -241,7 +246,7 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PermissaoDTO>
 	 */
-	@GetMapping("/listarPermissoesDeUmUsuario/{id}")
+	@GetMapping("/usuario/permissao/usuario/{id}")
 	public List<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable("id") Integer id) {
 		List<PermissaoDTO> resultado = new ArrayList<>();
 		List<PermissaoDTO> listaPermissao = new ArrayList<>();
@@ -257,43 +262,4 @@ public class UsuarioControllerApi {
 		return resultado;
 	}
 
-	/**
-	 * Deleta todos os registros da tabela {@link Usuario}.
-	 */
-	@DeleteMapping("deletarTodos")
-	public void deletarTodos() {
-		UsuarioDAO.getInstance().deletarTodos();
-	}
-	
-	/**
-	 * Valida a ligacao verificando se a mesma esta ativa e possui data de expiracao
-	 * posterior a data atual.
-	 * 
-	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
-	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
-	 */
-	@GetMapping("/permissaoAtiva")
-	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
-		return controller.permissaoAtiva(ligacao);
-	}
-	
-	/**
-	 * Retorna todas as {@link Perfil} ativos de um {@link Usuario}.
-	 * <p>
-	 * Recebe o id do {@link Usuario} a ser consultado e retorna todos os
-	 * {@link Perfil} deste {@link Usuario} que possua ativo igual a true.
-	 * 
-	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
-	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
-	 */
-	@GetMapping("/listarPerfisAtivosDeUmUsuario/{id}")
-	public List<PerfilDTO> listarPerfisAtivosDeUmUsuario(@PathVariable("id") int id) {
-		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(id);
-		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
-		for (Perfil perfil : listaModel) {
-			listaDTO.add(new PerfilDTO(perfil));
-		}
-		return listaDTO;
-	}
-	
 }
