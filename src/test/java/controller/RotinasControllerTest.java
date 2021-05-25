@@ -47,7 +47,7 @@ public class RotinasControllerTest {
 		usuarioApi.deletarTodos();
 		perfilApi.deletarTodos();
 		permissaoApi.deletarTodos();
-	}
+	} 
 
 	static RotinasController rotinasController = new RotinasController();
 	static PerfilController perfilController = new PerfilController();
