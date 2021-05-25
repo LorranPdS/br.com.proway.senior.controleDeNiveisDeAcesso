@@ -3,8 +3,10 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
@@ -37,7 +39,7 @@ public class UsuarioControllerApi {
 	 * @param login
 	 * @param senha
 	 */
-	@PostMapping("/logar")
+	@GetMapping("/logar")
 	public boolean logar(String login, String senha) {
 		return UsuarioController.getInstance().logar(login, senha);
 
@@ -69,6 +71,7 @@ public class UsuarioControllerApi {
 	 * @param login.
 	 * @param codigoDeConfirmacao
 	 */
+	@GetMapping("/confirmarCodigoDeConfirmacao/{login}")
 	public boolean confirmarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
 		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(login, codigoDeConfirmacao);
 	}
@@ -83,6 +86,7 @@ public class UsuarioControllerApi {
 	 * @param login
 	 * @param senha
 	 */
+	@PostMapping("/criarUsuario")
 	public void criarUsuario(String login, String senha) {
 		UsuarioController.getInstance().criarUsuario(login, senha);
 	}
@@ -97,6 +101,7 @@ public class UsuarioControllerApi {
 	 * 
 	 * @param Integer - id
 	 */
+	@DeleteMapping("/deletarUsuario/{id}")
 	public void deletarUsuario(Integer id) {
 		UsuarioController.getInstance().deletarUsuario(id);
 	}
@@ -113,8 +118,9 @@ public class UsuarioControllerApi {
 	 * @param String  - login
 	 * @param String  - senha
 	 */
-	public void alterarUsuario(Integer idUsuario, String login, String senha) {
-		UsuarioController.getInstance().alterarUsuario(idUsuario, login, senha);
+	@PutMapping("alterarUsuario/{id}")
+	public void alterarUsuario(Integer id, String login, String senha) {
+		UsuarioController.getInstance().alterarUsuario(id, login, senha);
 	}
 
 	/**
@@ -126,9 +132,10 @@ public class UsuarioControllerApi {
 	 * @param Integer - idUsuario
 	 * @return UsuarioDTO
 	 */
-	public UsuarioDTO consultarUsuarioPorId(Integer idUsuario) {
+	@GetMapping("/consultarUsuarioPorId/{id}")
+	public UsuarioDTO consultarUsuarioPorId(Integer id) {
 		try {
-			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorId(idUsuario));
+			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorId(id));
 		} catch (NullPointerException e) {
 			return null;
 		}
@@ -143,6 +150,7 @@ public class UsuarioControllerApi {
 	 * @param String
 	 * @return UsuarioDTo
 	 */
+	@GetMapping("/consultarUsuario/{login}")
 	public UsuarioDTO consultarUsuario(String login) {
 		try {
 			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login));
@@ -162,6 +170,7 @@ public class UsuarioControllerApi {
 	 * 
 	 * @return ArrayList<UsuarioDTO>
 	 */
+	@GetMapping("/listarTodosOsUsuario")
 	public ArrayList<UsuarioDTO> listarTodosOsUsuarios() {
 		ArrayList<Usuario> usuariosEncontrados = (ArrayList<Usuario>) UsuarioDAO.getInstance().listar();
 		ArrayList<UsuarioDTO> resultado = new ArrayList<>();
@@ -189,8 +198,9 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PerfilDTO>
 	 */
-	public List<PerfilDTO> listarPerfisDeUmUsuario(int idUsuario) {
-		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(idUsuario);
+	@GetMapping("/listarPerfisDeUmUsuario/{id}")
+	public List<PerfilDTO> listarPerfisDeUmUsuario(int id) {
+		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> resultado = new ArrayList<>();
 
 		for (Perfil usuario : listaPerfis) {
@@ -214,6 +224,7 @@ public class UsuarioControllerApi {
 	 * @param permissao - Permissao
 	 * @return ArrayList<Permissao>
 	 */
+	@GetMapping("/possuiPermissoes")
 	public boolean possuiPermissoes(Usuario usuario, Permissao permissao) {
 		return UsuarioController.getInstance().possuiPermissoes(usuario, permissao);
 	}
@@ -229,10 +240,11 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PermissaoDTO>
 	 */
-	public List<PermissaoDTO> listarPermissoesDeUmUsuario(Integer idUsuario) {
+	@GetMapping("/listarPermissoesDeUmUsuario/{id}")
+	public List<PermissaoDTO> listarPermissoesDeUmUsuario(Integer id) {
 		List<PermissaoDTO> resultado = new ArrayList<>();
 		List<PermissaoDTO> listaPermissao = new ArrayList<>();
-		for (Permissao permissoes : controller.listarPermissoesDeUmUsuario(idUsuario)) {
+		for (Permissao permissoes : controller.listarPermissoesDeUmUsuario(id)) {
 			listaPermissao.add(new PermissaoDTO(permissoes));
 		}
 
@@ -247,6 +259,7 @@ public class UsuarioControllerApi {
 	/**
 	 * Deleta todos os registros da tabela {@link Usuario}.
 	 */
+	@DeleteMapping("deletarTodos")
 	public void deletarTodos() {
 		UsuarioDAO.getInstance().deletarTodos();
 	}
@@ -258,6 +271,7 @@ public class UsuarioControllerApi {
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 */
+	@GetMapping("/permissaoAtiva")
 	public boolean permissaoAtiva(PerfilDeUsuario ligacao) {
 		return controller.permissaoAtiva(ligacao);
 	}
@@ -271,8 +285,9 @@ public class UsuarioControllerApi {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
-	public List<PerfilDTO> listarPerfisAtivosDeUmUsuario(int idUsuario) {
-		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(idUsuario);
+	@GetMapping("/listarPerfisAtivosDeUmUsuario/{id}")
+	public List<PerfilDTO> listarPerfisAtivosDeUmUsuario(int id) {
+		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
 		for (Perfil perfil : listaModel) {
 			listaDTO.add(new PerfilDTO(perfil));
