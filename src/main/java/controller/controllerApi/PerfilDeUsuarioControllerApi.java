@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import controller.controllers.PerfilController;
 import controller.controllers.PerfilDeUsuarioController;
+import controller.controllers.UsuarioController;
 import model.dto.PerfilDTO;
 import model.dto.PerfilDeUsuarioDTO;
 import model.dto.PermissaoDTO;
@@ -40,9 +43,19 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param perfil  Perfil {@link Perfil} que sera atribuido a um usuario.
 	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
 	 *                   não seja possivel.
+	 *                   
+	 *                   localhost:8080/usuario/123/perfil/456
 	 */
-	@PostMapping("/atribuirPerfilAUmUsuario")
-	public void atribuirPerfilAUmUsuario(@RequestBody Usuario usuario, @RequestBody Perfil perfil, LocalDate dataExpiracao) {
+	@PostMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
+	public void atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
+			@RequestParam LocalDate dataExpiracao) {
+		
+		UsuarioController usuarioController = new UsuarioController();
+		Usuario usuario = usuarioController.consultarUsuario(idUsuario);
+		
+		PerfilController perfilController = new PerfilController();
+		Perfil perfil = perfilController.consultarPerfil(idPerfil);
+		
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, dataExpiracao);
 	}
 
@@ -56,8 +69,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	@GetMapping("/consultarPorIdDoUsuario/{id}")
-	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoUsuario(@PathVariable Integer id) {
+	@GetMapping("/perfildeusuario/usuario/{id}")
+	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoUsuario(@PathVariable("id") Integer id) {
 		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoUsuario(id);
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
@@ -76,8 +89,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	@GetMapping("/consultarPorIdDoPerfil/{id}")
-	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoPerfil(@PathVariable Integer id) {
+	@GetMapping("/perfildeusuario/perfil/{id}")
+	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoPerfil(@PathVariable("id") Integer id) {
 		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoPerfil(id);
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
@@ -99,9 +112,9 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
-	@GetMapping("/listarPermissoesDeUmUsuario/{idUsuario}")
-	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable int idUsuario) {
-		List<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(idUsuario);
+	@GetMapping("/perfildeusuario/permissao/usuario/{id}/")
+	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable("id") int id) {
+		List<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(id);
 		ArrayList<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
 		for (Permissao permissao : listaModel) {
 			listaDTO.add(new PermissaoDTO(permissao));
@@ -118,9 +131,9 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
-	@GetMapping("/listarPerfisDeUmUsuario/{idUsuario}")
-	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable int idUsuario) {
-		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(idUsuario);
+	@GetMapping("/perfildeusuario/perfil/usuario/{id}")
+	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable("id") int id) {
+		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
 		for (Perfil perfil : listaModel) {
 			listaDTO.add(new PerfilDTO(perfil));
@@ -134,17 +147,9 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @param id int Id do objeto a ser deletado.
 	 */
-	@DeleteMapping("/deletar")
-	public boolean deletar(int id) {
+	@DeleteMapping("/perfildeusuario/usuario/{id}")
+	public boolean deletar(@PathVariable("id") int id) {
 		return controller.deletar(id);
-	}
-
-	/**
-	 * Deleta todos os registros da tabela {@link PerfilDeUsuario}.
-	 */
-	@DeleteMapping("/deletarTodos")
-	public void deletarTodos() {
-		controller.deletarTodos();
 	}
 
 	/**
@@ -154,12 +159,12 @@ public class PerfilDeUsuarioControllerApi {
 	 * Recebe um objeto do tipo {@link PerfilDeUsuario} no parametro e atualiza o
 	 * registro correspondente que está no banco de dados.
 	 * 
-	 * @param id int Id do objeto a ser alterado.
+	 * @param id     int Id do objeto a ser alterado.
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
 	 * @boolean Retorna true.
 	 */
-	@PutMapping("/alterar")
-	public boolean alterar(int id, @RequestBody PerfilDeUsuario objeto) {
+	@PutMapping("/perfildeusuario/usuario/{id}")
+	public boolean alterar(@PathVariable("id") int id, @RequestBody PerfilDeUsuario objeto) {
 		return controller.alterar(id, objeto);
 	}
 
@@ -168,8 +173,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @param id int Id do objeto a ser consultado.
 	 */
-	@GetMapping("/consultarPorId/{id}")
-	public PerfilDeUsuarioDTO consultarPorId(@PathVariable int id) {
+	@GetMapping("/perfildeusuario/{id}")
+	public PerfilDeUsuarioDTO consultarPorId(@PathVariable("id") int id) {
 		return new PerfilDeUsuarioDTO(controller.consultarPorId(id));
 	}
 
@@ -179,7 +184,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @return List Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	@GetMapping("/listar")
+	@GetMapping("/perfildeusuario")
 	public List<PerfilDeUsuarioDTO> listar() {
 		List<PerfilDeUsuario> listaModel = controller.listar();
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
@@ -201,7 +206,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
-	@GetMapping("/usuarioPossuiPermissaoPara")
+	@GetMapping("/perfildeusuario/usuario/{idUsuario}/permissao/{idPermissao}")
 	public boolean usuarioPossuiPermissaoPara(int idUsuario, int idPermissao) {
 		return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
 	}
@@ -218,9 +223,9 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
-	@GetMapping("/usuarioPossuiOPerfil")
-	public boolean usuarioPossuiOPerfil(int idUsuario, int idPermissao) {
-		return controller.usuarioPossuiOPerfil(idUsuario, idPermissao);
+	@GetMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
+	public boolean usuarioPossuiOPerfil(int idUsuario, int idPerfil) {
+		return controller.usuarioPossuiOPerfil(idUsuario, idPerfil);
 	}
 
 	/**
@@ -230,33 +235,9 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 */
-	@GetMapping("/permissaoAtiva")
-	public boolean permissaoAtiva(@RequestBody PerfilDeUsuario ligacao) {
+	@GetMapping("/perfildeusuario/permissao/{id}")
+	public boolean permissaoAtiva(int id) {
+		PerfilDeUsuario ligacao = controller.consultarPorId(id);
 		return controller.permissaoAtiva(ligacao);
-	}
-	
-	/**
-	 * Retorna todos os registros que possuem 'ativo' igual a true.
-	 * 
-	 * @return List<PerfilDeUsuario>
-	 */
-	@GetMapping("/listarTodasLigacoesAtivas")
-	public List<PerfilDeUsuarioDTO> listarTodasLigacoesAtivas() {
-		List<PerfilDeUsuario> listaModel = controller.listarTodasLigacoesAtivas();
-		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
-		for (PerfilDeUsuario ligacao : listaModel) {
-			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
-		}
-		return listaDTO;
-	}
-	
-	/**
-	 * Seta o 'ativo' do registro 'ligacao' como false.
-	 * @param id int Id do objeto a ser desativado.
-	 * @return
-	 */
-	@PutMapping("/desativar")
-	public boolean desativar(int id) {
-		return controller.desativar(id);
 	}
 }

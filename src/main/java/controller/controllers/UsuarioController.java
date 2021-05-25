@@ -158,10 +158,9 @@ public class UsuarioController {
 	 * @param String  - login
 	 * @param String  - senha
 	 */
-	public void alterarUsuario(Integer idUsuario, String login, String senha) {
-		Usuario usuario = consultarUsuario(idUsuario);
-		usuario.setLogin(login);
-		usuario.setHashSenha(HashSenha.criptografarSenha(login, senha));
+	public void alterarUsuario(Usuario usuario) {
+		usuario.setLogin(usuario.getLogin());
+		usuario.setHashSenha(usuario.getHashSenha());
 		UsuarioDAO.getInstance().alterar(usuario);
 	}
 
