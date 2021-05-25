@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
@@ -56,7 +58,7 @@ public class UsuarioControllerApi {
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
 	 * @throws Exception
 	 */
-	@PostMapping("/enviarEmailDeConfirmacaoDeLogin/")
+	@PostMapping("/enviarEmailDeConfirmacaoDeLogin")
 	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
 		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(emailDoDestinario);
 	}
@@ -72,7 +74,7 @@ public class UsuarioControllerApi {
 	 * @param codigoDeConfirmacao
 	 */
 	@GetMapping("/confirmarCodigoDeConfirmacao/{login}")
-	public boolean confirmarCodigoDeConfirmacao(String login, Integer codigoDeConfirmacao) {
+	public boolean confirmarCodigoDeConfirmacao(@PathVariable("login") String login, Integer codigoDeConfirmacao) {
 		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(login, codigoDeConfirmacao);
 	}
 
@@ -102,7 +104,7 @@ public class UsuarioControllerApi {
 	 * @param Integer - id
 	 */
 	@DeleteMapping("/deletarUsuario/{id}")
-	public void deletarUsuario(Integer id) {
+	public void deletarUsuario(@PathVariable("id") Integer id) {
 		UsuarioController.getInstance().deletarUsuario(id);
 	}
 
@@ -119,7 +121,7 @@ public class UsuarioControllerApi {
 	 * @param String  - senha
 	 */
 	@PutMapping("alterarUsuario/{id}")
-	public void alterarUsuario(Integer id, String login, String senha) {
+	public void alterarUsuario(@PathVariable("id") Integer id, String login, String senha) {
 		UsuarioController.getInstance().alterarUsuario(id, login, senha);
 	}
 
@@ -133,7 +135,7 @@ public class UsuarioControllerApi {
 	 * @return UsuarioDTO
 	 */
 	@GetMapping("/consultarUsuarioPorId/{id}")
-	public UsuarioDTO consultarUsuarioPorId(Integer id) {
+	public UsuarioDTO consultarUsuarioPorId(@PathVariable("id") Integer id) {
 		try {
 			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorId(id));
 		} catch (NullPointerException e) {
@@ -151,7 +153,7 @@ public class UsuarioControllerApi {
 	 * @return UsuarioDTo
 	 */
 	@GetMapping("/consultarUsuario/{login}")
-	public UsuarioDTO consultarUsuario(String login) {
+	public UsuarioDTO consultarUsuario(@PathVariable("login") String login) {
 		try {
 			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login));
 		} catch (Exception e) {
@@ -199,7 +201,7 @@ public class UsuarioControllerApi {
 	 * @return List<PerfilDTO>
 	 */
 	@GetMapping("/listarPerfisDeUmUsuario/{id}")
-	public List<PerfilDTO> listarPerfisDeUmUsuario(int id) {
+	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable("id") int id) {
 		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> resultado = new ArrayList<>();
 
@@ -225,7 +227,7 @@ public class UsuarioControllerApi {
 	 * @return ArrayList<Permissao>
 	 */
 	@GetMapping("/possuiPermissoes")
-	public boolean possuiPermissoes(Usuario usuario, Permissao permissao) {
+	public boolean possuiPermissoes(@RequestBody Usuario usuario, @RequestBody Permissao permissao) {
 		return UsuarioController.getInstance().possuiPermissoes(usuario, permissao);
 	}
 
@@ -241,7 +243,7 @@ public class UsuarioControllerApi {
 	 * @return List<PermissaoDTO>
 	 */
 	@GetMapping("/listarPermissoesDeUmUsuario/{id}")
-	public List<PermissaoDTO> listarPermissoesDeUmUsuario(Integer id) {
+	public List<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable("id") Integer id) {
 		List<PermissaoDTO> resultado = new ArrayList<>();
 		List<PermissaoDTO> listaPermissao = new ArrayList<>();
 		for (Permissao permissoes : controller.listarPermissoesDeUmUsuario(id)) {
@@ -286,7 +288,7 @@ public class UsuarioControllerApi {
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
 	@GetMapping("/listarPerfisAtivosDeUmUsuario/{id}")
-	public List<PerfilDTO> listarPerfisAtivosDeUmUsuario(int id) {
+	public List<PerfilDTO> listarPerfisAtivosDeUmUsuario(@PathVariable("id") int id) {
 		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
 		for (Perfil perfil : listaModel) {
