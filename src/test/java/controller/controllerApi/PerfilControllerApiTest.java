@@ -1,6 +1,5 @@
 package controller.controllerApi;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -8,9 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import controller.controllers.PerfilController;
 import controller.controllers.PermissaoController;
@@ -19,64 +17,64 @@ import model.entidades.Perfil;
 import model.entidades.Permissao;
 
 public class PerfilControllerApiTest {
-	
+
 	PermissaoController controllerPermissao = new PermissaoController();
 	PerfilControllerApi controllerPerfilApi = new PerfilControllerApi();
 	PerfilController controllerPerfil = new PerfilController();
-	
-	@After
-	@Before
+
+	@AfterEach
+	@BeforeEach
 	public void deletarTudo() {
 		controllerPerfilApi.deletarTodos();
 		controllerPermissao.deletarTodos();
 	}
-	
-	@Test
+
+	@org.junit.jupiter.api.Test
 	public void testConsultarPerfil() {
 
 		Permissao permissao = new Permissao("acesso geral");
 		controllerPermissao.criarPermissao(permissao.getNomePermissao());
 		permissao = controllerPermissao.consultarPermissaoPorNome("acesso geral");
-		
+
 		Perfil perfil = new Perfil("tu");
 		controllerPerfil.criarPerfil(perfil.getNomePerfil());
 		perfil = controllerPerfil.consultarPerfil("tu");
-		
+
 		controllerPerfil.atribuirPermissaoAUmPerfil(permissao, perfil);
-		
+
 		assertEquals(1, perfil.getPermissoes().size());
-		
+
 		System.out.println(controllerPerfilApi.consultarPerfil(perfil.getNomePerfil()));
 	}
-	
-	@Test
+
+	@org.junit.jupiter.api.Test
 	public void testConsultarPerfilPorNomeInexistente() {
 		assertNull(controllerPerfilApi.consultarPerfil("Nome perfil inexistente"));
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testConsultarPerfilPorIdInexistente() {
 		assertNull(controllerPerfilApi.consultarPerfilPorId(9876));
 	}
-	
-	@Test
+
+	@org.junit.jupiter.api.Test
 	public void testListarTodosPerfis() {
-		
+
 		String nomePerfil = "PerfilDeTesteDeListar";
 		controllerPerfilApi.criarPerfil(nomePerfil);
 		String nomePerfil2 = "PerfilDeTesteDeListar2";
 		controllerPerfilApi.criarPerfil(nomePerfil2);
-		
+
 		assertEquals(2, controllerPerfilApi.listarTodosOsPerfis().size());
 		System.out.println(controllerPerfilApi.listarTodosOsPerfis());
-		
+
 	}
-	
-	@Test
+
+	@org.junit.jupiter.api.Test
 	public void testVerificarEListarPermissaoDeUmPerfil() {
 		String nomePerfil = "PerfilDeTesteDeVerificacaoDePermissao";
 		controllerPerfilApi.criarPerfil(nomePerfil);
-   
+
 		String nomePermissao1 = "PermissaoTesteDeAtribuicao1";
 		controllerPermissao.criarPermissao(nomePermissao1);
 		String nomePermissao2 = "PermissaoTesteDeAtribuicao2";
@@ -85,9 +83,9 @@ public class PerfilControllerApiTest {
 		controllerPermissao.criarPermissao(nomePermissao3);
 
 		Perfil perfil = controllerPerfil.consultarPerfil(nomePerfil);
-		
+
 		Permissao permissao1 = controllerPermissao.consultarPermissaoPorNome(nomePermissao1);
-		Permissao permissao2 =controllerPermissao.consultarPermissaoPorNome(nomePermissao2);
+		Permissao permissao2 = controllerPermissao.consultarPermissaoPorNome(nomePermissao2);
 		Permissao permissao3 = controllerPermissao.consultarPermissaoPorNome(nomePermissao3);
 
 		controllerPerfilApi.atribuirPermissaoAUmPerfil(permissao1, perfil);
@@ -105,8 +103,8 @@ public class PerfilControllerApiTest {
 		assertFalse(controllerPerfilApi.possuiPermissoes(perfil, permissao3));
 
 	}
-	
-	@Test
+
+	@org.junit.jupiter.api.Test
 	public void testAlterarPerfil() {
 		String nomePerfil = "PerfilDeTesteDeAlteracaoAntesDaAlteracao";
 		controllerPerfilApi.criarPerfil(nomePerfil);
@@ -116,28 +114,28 @@ public class PerfilControllerApiTest {
 		perfilConsultado = controllerPerfilApi.consultarPerfilPorId(perfilConsultado.getIdPerfil());
 		assertEquals(novoNomeDoPerfil, perfilConsultado.getNomePerfil());
 	}
-	
-	@Test
+
+	@org.junit.jupiter.api.Test
 	public void testDeletarPerfil() {
 		String nomePerfil = "PerfilDeTesteDeDeletar";
 		controllerPerfilApi.criarPerfil(nomePerfil);
-		
+
 		int numeroDePerfisAntesDoTeste = controllerPerfilApi.listarTodosOsPerfis().size();
-		
+
 		String nomeDoPerfil = "PerfilDeTesteDeDelecao";
-		
+
 		controllerPerfilApi.criarPerfil(nomeDoPerfil);
-		
+
 		PerfilDTO perfilASerDeletado = controllerPerfilApi.consultarPerfil(nomeDoPerfil);
-		
+
 		controllerPerfilApi.deletarPerfil(perfilASerDeletado.getIdPerfil());
-		
+
 		int numeroDePerfisDepoisDoTeste = controllerPerfilApi.listarTodosOsPerfis().size();
-		
+
 		assertEquals(numeroDePerfisAntesDoTeste, numeroDePerfisDepoisDoTeste);
-	} 
-	
-	@Test
+	}
+
+	@org.junit.jupiter.api.Test
 	public void testListarPerfisComListaVazia() {
 		assertEquals(0, controllerPerfilApi.listarTodosOsPerfis().size());
 	}

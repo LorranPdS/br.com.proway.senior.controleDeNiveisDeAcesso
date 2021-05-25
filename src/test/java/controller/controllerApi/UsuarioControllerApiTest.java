@@ -8,12 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
-import controller.controllerApi.UsuarioControllerApi;
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.PermissaoController;
 import controller.controllers.UsuarioController;
@@ -33,7 +31,7 @@ public class UsuarioControllerApiTest {
 	
 	UsuarioControllerApi usuarioApi = new UsuarioControllerApi();
 
-	@Before
+	@BeforeEach
 	public void deletarTudo() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		usuarioApi.deletarTodos();
@@ -41,7 +39,7 @@ public class UsuarioControllerApiTest {
 		PermissaoDAO.getInstance().deletarTodos();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();
@@ -49,7 +47,7 @@ public class UsuarioControllerApiTest {
 		PermissaoDAO.getInstance().deletarTodos();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();
@@ -64,7 +62,7 @@ public class UsuarioControllerApiTest {
 	static Permissao permissao;
 	static PermissaoController permissaoController = new PermissaoController();
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testJCriarEConsultarUsuario() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
@@ -75,7 +73,7 @@ public class UsuarioControllerApiTest {
 		assertEquals(loginDoUsuario, usuarioEncontradoPorNome.getLogin(), usuarioEncontradoPorId.getLogin());
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testListarTodosUsuarios() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
@@ -87,7 +85,7 @@ public class UsuarioControllerApiTest {
 		assertEquals(2, usuarioApi.listarTodosOsUsuarios().size());
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testVerificarEListarPermissaoDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
@@ -112,7 +110,7 @@ public class UsuarioControllerApiTest {
 		assertEquals(1, lista.size());
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testListarPerfisDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
@@ -139,7 +137,7 @@ public class UsuarioControllerApiTest {
 		assertEquals(2, lista.size());
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testLogin() {
 		String loginExistente = "Grijo@gmail.com";
 		String senhaCorreta = "234";
@@ -155,7 +153,7 @@ public class UsuarioControllerApiTest {
 	 * 
 	 * @throws Exception
 	 */
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testEnviarEConfirmarEmailDeConfirmacaoDeLogin() throws Exception {
 
 		String destinatario = "Email@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
@@ -181,7 +179,7 @@ public class UsuarioControllerApiTest {
 		}
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testAlterarUsuario() {
 		String loginDoUsuario = "UsuarioDeTesteAntesDaAlteracao@gmail.com";
 		String senhaDoUsuario = "6666666";
@@ -194,7 +192,7 @@ public class UsuarioControllerApiTest {
 		assertEquals(novoLoginDoUsuario, usuarioConsultado.getLogin());
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testDeletarUsuario() {
 		String loginDoUsuario = "UsuarioDeTesteDeDelecao@gmail.com";
 		String senhaDoUsuario = "123123123";
@@ -210,7 +208,7 @@ public class UsuarioControllerApiTest {
 		assertEquals(1, numeroDeUsuariosDepoisDoTeste);
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testMListarTodosUsuarios() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
@@ -222,7 +220,7 @@ public class UsuarioControllerApiTest {
 		assertEquals(2, usuarioApi.listarTodosOsUsuarios().size());
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void testListarPerfisAtivosDeUmUsuario() {
 		perfilDAO.criar(new Perfil("Vendedor"));
 		perfil = perfilDAO.consultarPorNome("Vendedor");

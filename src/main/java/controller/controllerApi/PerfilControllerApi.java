@@ -4,6 +4,14 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import controller.controllers.PerfilController;
 import model.dao.PerfilDAO;
 import model.dto.PerfilDTO;
@@ -20,6 +28,8 @@ import model.entidades.Permissao;
  * @author Lorran Santos <lorransantospereira@yahoo.com.br>
  * @author Marcelo schaefer <marceloschaeferfilho@gmail.com>
  */
+
+@RestController
 public class PerfilControllerApi {
 	
 	PerfilController controllerPerfil = new PerfilController();
@@ -33,6 +43,8 @@ public class PerfilControllerApi {
 	 * 
 	 * @param String - nomePerfil
 	 */
+	
+	@PostMapping ("/criarPerfil")
 	public void criarPerfil(String nomePerfil) {
 		Perfil perfil = new Perfil(nomePerfil);
 		PerfilDAO.getInstance().criar(perfil);
@@ -49,6 +61,7 @@ public class PerfilControllerApi {
 	 * @param Integer idPerfil
 	 * @param String  nomePerfil
 	 */
+	@PutMapping ("/alterarPerfil")
 	public void alterarPerfil(Integer idPerfil, String nomePerfil) {
 		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		perfil.setNomePerfil(nomePerfil);
@@ -63,7 +76,8 @@ public class PerfilControllerApi {
 	 * 
 	 * @param idPerfil - Integer
 	 */
-	public void deletarPerfil(Integer idPerfil) {
+	@DeleteMapping("/Deletar/Perfil/{idPefil}")
+	public void deletarPerfil(@PathVariable("idPerfil") Integer idPerfil) {
 		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		PerfilDAO.getInstance().deletar(perfil);
 	}
@@ -79,7 +93,8 @@ public class PerfilControllerApi {
 	 * @throws NullPointerException Caso nao exista o {@link Perfil} no banco de dados.
 	 * @return Perfil
 	 */
-	public PerfilDTO consultarPerfilPorId(Integer idPerfil) {
+	@GetMapping("/consultarPorId/Perfil/{idPerfil}")
+	public PerfilDTO consultarPerfilPorId(@PathVariable("idPerfil") Integer idPerfil) {
 		try {
 			return new PerfilDTO(controllerPerfil.consultarPerfil(idPerfil));
 		} catch (NullPointerException e) {
@@ -97,7 +112,8 @@ public class PerfilControllerApi {
 	 * @exception NullPointerException (Retorna caso o resultado ser nulo).
 	 * @return {@link PerfilDTO}. 
 	 */
-	public PerfilDTO consultarPerfil(String nome) {
+	@GetMapping("/consultarPorNome/Perfil/{nome}")
+	public PerfilDTO consultarPerfil(@PathVariable("nome") String nome) {
 		try {
 			return new PerfilDTO(controllerPerfil.consultarPerfil(nome));
 		} catch (NullPointerException e) {
@@ -115,6 +131,7 @@ public class PerfilControllerApi {
 	 * 
 	 * @return resultado - ArrayList<Perfil>
 	 */
+	@GetMapping("/listarTodosOsPerfis")
 	public ArrayList<PerfilDTO> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
 
@@ -141,7 +158,8 @@ public class PerfilControllerApi {
 	 * @param permissao.
 	 * @return boolean.
 	 */
-	public boolean possuiPermissoes(Perfil perfil, Permissao permissao) {
+	@GetMapping("/consultarPermissoes")
+	public boolean possuiPermissoes(@RequestBody Perfil perfil,	@RequestBody Permissao permissao) {
 		List<Permissao> listaDePermissoesDessePerfil = listarPermissoesDeUmPerfil(perfil.getIdPerfil());
 		if (listaDePermissoesDessePerfil.contains(permissao)) {
 			return true;
@@ -160,7 +178,8 @@ public class PerfilControllerApi {
 	 * @param idPerfil
 	 * @return List<Permissao>
 	 */
-	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
+	@GetMapping("/listaDePermissoes/Perfil/{idPerfil}")
+	public List<Permissao> listarPermissoesDeUmPerfil(@PathVariable("idPerfil") int idPerfil) {
 		return PerfilDAO.getInstance().listarPermissoesDeUmPerfil(idPerfil);
 	}
  
@@ -173,13 +192,15 @@ public class PerfilControllerApi {
 	 * @param permissao Permissao
 	 * @param perfil Perfil
 	 */
-	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
+	@PostMapping("/atribuirPermissaoAUmPerfil")
+	public void atribuirPermissaoAUmPerfil(@RequestBody Permissao permissao, @RequestBody Perfil perfil) {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}
 
 	/**
 	 * Deleta todos os registros da tabela {@link Perfil}.
 	 */
+	@GetMapping("/deletaTodosOsPerfis")
 	public void deletarTodos() {
 		PerfilDAO.getInstance().deletarTodos();
 	}
