@@ -8,6 +8,11 @@ import model.dao.PermissaoDAO;
 import model.dto.PermissaoDTO;
 import model.entidades.Permissao;
 
+/**
+ * 
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ *
+ */
 public class PermissaoControllerApi {
 	PermissaoController controller = new PermissaoController();
 

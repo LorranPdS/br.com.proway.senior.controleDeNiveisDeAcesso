@@ -27,6 +27,11 @@ import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 
+/**
+ * 
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ *
+ */
 public class RotinasControllerTest {
 
 	@BeforeClass
@@ -47,6 +52,7 @@ public class RotinasControllerTest {
 		permissaoApi.deletarTodos();
 	}
 
+	static RotinasController rotinasController = new RotinasController();
 	static PerfilController perfilController = new PerfilController();
 	static UsuarioController usuarioController = new UsuarioController();
 	static PermissaoController permissaoController = new PermissaoController();
@@ -98,17 +104,13 @@ public class RotinasControllerTest {
 		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario1, perfil, LocalDate.now().plusYears(1));
 		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario2, perfil, LocalDate.now().plusYears(1));
 		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario3, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario4, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario5, perfil, LocalDate.now().plusYears(1));
+		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario4, perfil, LocalDate.of(2002, 02, 02));
+		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario5, perfil, LocalDate.of(2002, 02, 02));
 
 		assertEquals(5, perfilDeUsuarioController.listarTodasLigacoesAtivas().size());
 		
-		List<PerfilDeUsuario> ligacoes = perfilDeUsuarioController.listar();
-		for (int i = 1; i <= 3; i++) {
-			perfilDeUsuarioController.desativar(ligacoes.get(i));
-		}
-		
-		assertEquals(2, perfilDeUsuarioController.listarTodasLigacoesAtivas().size());
+		assertEquals(2, rotinasController.desativarTodasPermissoesExpiradas());
+		assertEquals(3, perfilDeUsuarioController.listarTodasLigacoesAtivas().size());
 	}
 
 }

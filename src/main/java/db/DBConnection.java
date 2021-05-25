@@ -10,20 +10,9 @@ import model.entidades.Permissao;
 import model.entidades.Usuario;
 
 public class DBConnection {
-private static SessionFactory sessionFactory;
-	
-	private static String senha = "admin";
-	/**
-	 * Define a senha a ser utilizada na conexao com o banco de dados.
-	 * Por padrao a senha esta definida como "admin"
-	 * @param pass - Novo password
-	 */
-	public static void setSenha(String novaSenha) {senha = novaSenha;}
+	private static SessionFactory sessionFactory;
 
-	/**
-	 * Exclui a instancia da Factory de Session para que possamos instancia-la novamente.
-	 */
-	public static void limparFactory() {sessionFactory = null;}
+	private static String senha = "admin";
 
 	private static Session session;
 
@@ -32,11 +21,9 @@ private static SessionFactory sessionFactory;
 			return new Configuration().setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
 					.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/grupo3")
 					.setProperty("hibernate.connection.username", "postgres")
-					.setProperty("hibernate.connection.password", senha)
-					.setProperty("hibernate.jdbc.time_zone", "UTC")
+					.setProperty("hibernate.connection.password", senha).setProperty("hibernate.jdbc.time_zone", "UTC")
 					.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
-					.setProperty("hibernate.show_sql", "true")
-					.setProperty("hibernate.format_sql", "false")
+					.setProperty("hibernate.show_sql", "true").setProperty("hibernate.format_sql", "false")
 					.setProperty("hibernate.hbm2ddl.auto", "update")
 					.setProperty("hibernate.connection.autocommit", "true").addAnnotatedClass(Usuario.class)
 					.setProperty("hibernate.connection.autocommit", "true").addAnnotatedClass(Perfil.class)

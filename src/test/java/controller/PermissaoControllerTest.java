@@ -9,6 +9,11 @@ import org.junit.Test;
 import controller.controllers.PermissaoController;
 import model.entidades.Permissao;
 
+/**
+ * 
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ *
+ */
 public class PermissaoControllerTest {
 
 	PermissaoController controller = new PermissaoController();

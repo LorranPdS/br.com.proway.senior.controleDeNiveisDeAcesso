@@ -139,7 +139,7 @@ public class PerfilControllerApiTest {
 	
 	@Test
 	public void testListarPerfisComListaVazia() {
-		assertNull(controllerPerfilApi.listarTodosOsPerfis());
+		assertEquals(0, controllerPerfilApi.listarTodosOsPerfis().size());
 	}
 
 }

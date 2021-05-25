@@ -14,6 +14,11 @@ import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 
+/**
+ * 
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ *
+ */
 public class PerfilDeUsuarioDAOTest {
 
 	@Before
