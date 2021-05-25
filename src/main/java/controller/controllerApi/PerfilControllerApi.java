@@ -4,7 +4,7 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.PerfilController;
+import controller.controllers.PerfilController;
 import model.dao.PerfilDAO;
 import model.dto.PerfilDTO;
 import model.entidades.Perfil;

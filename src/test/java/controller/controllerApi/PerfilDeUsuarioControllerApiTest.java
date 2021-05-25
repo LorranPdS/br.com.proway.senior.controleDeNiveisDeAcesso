@@ -12,10 +12,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import controller.PerfilController;
-import controller.PerfilDeUsuarioController;
-import controller.PermissaoController;
-import controller.UsuarioController;
+import controller.controllers.PerfilController;
+import controller.controllers.PerfilDeUsuarioController;
+import controller.controllers.PermissaoController;
+import controller.controllers.UsuarioController;
 import model.dto.PerfilDTO;
 import model.dto.PermissaoDTO;
 import model.dto.UsuarioDTO;

@@ -3,8 +3,12 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.PerfilDeUsuarioController;
-import controller.UsuarioController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import controller.controllers.PerfilDeUsuarioController;
+import controller.controllers.UsuarioController;
 import model.dao.UsuarioDAO;
 import model.dto.PerfilDTO;
 import model.dto.PermissaoDTO;
@@ -14,6 +18,7 @@ import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
 
+@RestController
 public class UsuarioControllerApi {
 
 	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
@@ -32,6 +37,7 @@ public class UsuarioControllerApi {
 	 * @param login
 	 * @param senha
 	 */
+	@PostMapping("/logar")
 	public boolean logar(String login, String senha) {
 		return UsuarioController.getInstance().logar(login, senha);
 
@@ -48,6 +54,7 @@ public class UsuarioControllerApi {
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
 	 * @throws Exception
 	 */
+	@PostMapping("/enviarEmailDeConfirmacaoDeLogin/")
 	public boolean enviarEmailDeConfirmacaoDeLogin(String emailDoDestinario) throws Exception {
 		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(emailDoDestinario);
 	}
