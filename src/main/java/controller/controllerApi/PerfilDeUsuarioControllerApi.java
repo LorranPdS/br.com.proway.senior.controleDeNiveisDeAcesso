@@ -135,8 +135,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
 	 */
 	@DeleteMapping("/deletar")
-	public boolean deletar(PerfilDeUsuario objeto) {
-		return controller.deletar(objeto);
+	public boolean deletar(int id) {
+		return controller.deletar(id);
 	}
 
 	/**
@@ -158,8 +158,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @boolean Retorna true.
 	 */
 	@PutMapping("/alterar")
-	public boolean alterar(@RequestBody PerfilDeUsuario objeto) {
-		return controller.alterar(objeto);
+	public boolean alterar(int id, @RequestBody PerfilDeUsuario objeto) {
+		return controller.alterar(id, objeto);
 	}
 
 	/**
@@ -201,8 +201,8 @@ public class PerfilDeUsuarioControllerApi {
 	 *         recebida no parametro.
 	 */
 	@GetMapping("/usuarioPossuiPermissaoPara")
-	public boolean usuarioPossuiPermissaoPara(@RequestBody Usuario usuario, @RequestBody Permissao _permissao) {
-		return controller.usuarioPossuiPermissaoPara(usuario, _permissao);
+	public boolean usuarioPossuiPermissaoPara(int idUsuario, int idPermissao) {
+		return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
 	}
 
 	/**
@@ -218,8 +218,8 @@ public class PerfilDeUsuarioControllerApi {
 	 *         no parametro.
 	 */
 	@GetMapping("/usuarioPossuiOPerfil")
-	public boolean usuarioPossuiOPerfil(@RequestBody Usuario usuario, @RequestBody Perfil _perfil) {
-		return controller.usuarioPossuiOPerfil(usuario, _perfil);
+	public boolean usuarioPossuiOPerfil(int idUsuario, int idPermissao) {
+		return controller.usuarioPossuiOPerfil(idUsuario, idPermissao);
 	}
 
 	/**
@@ -255,7 +255,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return
 	 */
 	@PutMapping("/desativar")
-	public boolean desativar(@RequestBody PerfilDeUsuario ligacao) {
-		return controller.desativar(ligacao);
+	public boolean desativar(int id) {
+		return controller.desativar(id);
 	}
 }

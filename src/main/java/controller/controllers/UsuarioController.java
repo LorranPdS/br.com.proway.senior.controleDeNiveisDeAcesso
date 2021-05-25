@@ -243,8 +243,8 @@ public class UsuarioController {
 	 * @param permissao - Permissao
 	 * @return boolean
 	 */
-	public boolean possuiPermissoes(Usuario usuario, Permissao permissao) {
-		return controller.usuarioPossuiPermissaoPara(usuario, permissao);
+	public boolean possuiPermissoes(int idUsuario, int idPermissao) {
+		return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
 	}
 
 	/**

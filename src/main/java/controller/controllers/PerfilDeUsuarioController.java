@@ -6,7 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import model.dao.PerfilDAO;
 import model.dao.PerfilDeUsuarioDAO;
+import model.dao.PermissaoDAO;
 import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
 import model.entidades.Permissao;
@@ -125,8 +127,9 @@ public class PerfilDeUsuarioController {
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
 	 */
-	public boolean usuarioPossuiPermissaoPara(Usuario usuario, Permissao _permissao) {
-		List<PerfilDeUsuario> ligacoes = consultarPorIdDoUsuario(usuario.getIdUsuario());
+	public boolean usuarioPossuiPermissaoPara(Integer idUsuario, Integer idPermissao) {
+		List<PerfilDeUsuario> ligacoes = consultarPorIdDoUsuario(idUsuario);
+		Permissao _permissao = PermissaoDAO.getInstance().consultarPorId(idPermissao);
 		if (ligacoes.size() > 0) {
 			for (PerfilDeUsuario ligacao : ligacoes) {
 				if (!ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
@@ -153,8 +156,9 @@ public class PerfilDeUsuarioController {
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
 	 */
-	public boolean usuarioPossuiOPerfil(Usuario usuario, Perfil _perfil) {
-		List<Perfil> perfis = listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
+	public boolean usuarioPossuiOPerfil(int idUsuario, int idPerfil) {
+		List<Perfil> perfis = listarPerfisAtivosDeUmUsuario(idUsuario);
+		Perfil _perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
 		for (Perfil perfil : perfis) {
 			if (perfil.getNomePerfil() == _perfil.getNomePerfil())
 				return true;
@@ -215,7 +219,8 @@ public class PerfilDeUsuarioController {
 	 * 
 	 * @param objeto PerfilDeUsuario Objeto a ser deletado.
 	 */
-	public boolean deletar(PerfilDeUsuario objeto) {
+	public boolean deletar(int id) {
+		PerfilDeUsuario objeto = consultarPorId(id);
 		return ligacaoDAO.deletar(objeto);
 	}
 
@@ -236,7 +241,13 @@ public class PerfilDeUsuarioController {
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
 	 * @boolean Retorna true.
 	 */
-	public boolean alterar(PerfilDeUsuario objeto) {
+	public boolean alterar(int id, PerfilDeUsuario novo) {
+		PerfilDeUsuario objeto = consultarPorId(id);
+		objeto.setPerfil(novo.getPerfil());
+		objeto.setUsuario(novo.getUsuario());
+		objeto.setDataExpiracao(novo.getDataExpiracao());
+		objeto.setAtivo(novo.getAtivo());
+		
 		return ligacaoDAO.alterar(objeto);
 	}
 
@@ -267,12 +278,13 @@ public class PerfilDeUsuarioController {
 	 * @param objeto PerfilDeUsuario Registro a ser desativado.
 	 * @return True caso encontre o registro no banco, false caso não encontre.
 	 */
-	public boolean desativar(PerfilDeUsuario objeto) {
-		if(objeto == null || objeto.getId() == null)
+	public boolean desativar(int id) {
+		PerfilDeUsuario objeto = consultarPorId(id);
+		if(id == 0)
 			return false;
-		if(this.consultarPorId(objeto.getId()) != null) {
+		if(this.consultarPorId(id) != null) {
 			objeto.setAtivo(false);
-			this.alterar(objeto);
+			this.alterar(id, objeto);
 			return true;
 		}
 		return false;

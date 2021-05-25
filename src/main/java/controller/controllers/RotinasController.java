@@ -29,7 +29,7 @@ public class RotinasController {
 				if (ligacao.getDataExpiracao().isBefore(LocalDate.now())) {
 					PerfilDeUsuario ligacaoExpirada = ligacao;
 					ligacaoExpirada.setAtivo(false);
-					perfilDeUsuarioController.alterar(ligacaoExpirada);
+					perfilDeUsuarioController.alterar(ligacaoExpirada.getId(), ligacaoExpirada);
 				}
 			}
 		}

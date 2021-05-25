@@ -214,8 +214,8 @@ public class UsuarioControllerApi {
 	 * @param permissao - Permissao
 	 * @return ArrayList<Permissao>
 	 */
-	public boolean possuiPermissoes(Usuario usuario, Permissao permissao) {
-		return UsuarioController.getInstance().possuiPermissoes(usuario, permissao);
+	public boolean possuiPermissoes(int idUsuario, int idPermissao) {
+		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
 	}
 
 	/**
