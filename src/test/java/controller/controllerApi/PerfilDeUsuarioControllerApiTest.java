@@ -1,16 +1,16 @@
 package controller.controllerApi;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import controller.controllers.PerfilController;
 import controller.controllers.PerfilDeUsuarioController;
@@ -31,12 +31,12 @@ import model.entidades.Usuario;
  */
 public class PerfilDeUsuarioControllerApiTest {
 
-	@Before
+	@BeforeEach
 	public void deletarTudoDoPerfilDeUsuario() {
 		controllerSemApi.deletarTodos();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		controllerSemApi.deletarTodos();
 		usuarioController.deletarTodos();
@@ -46,7 +46,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		popularTabelas();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		controllerSemApi.deletarTodos();
 		usuarioController.deletarTodos();

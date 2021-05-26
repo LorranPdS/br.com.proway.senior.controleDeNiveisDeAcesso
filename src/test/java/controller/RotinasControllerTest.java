@@ -1,12 +1,12 @@
 package controller;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import controller.controllerApi.PerfilControllerApi;
 import controller.controllerApi.PerfilDeUsuarioControllerApi;
@@ -31,7 +31,7 @@ import model.entidades.Usuario;
  */
 public class RotinasControllerTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		perfilDeUsuarioController.deletarTodos();
 		usuarioController.deletarTodos();
@@ -41,7 +41,7 @@ public class RotinasControllerTest {
 		popularTabelas();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		perfilDeUsuarioController.deletarTodos();
 		usuarioController.deletarTodos();

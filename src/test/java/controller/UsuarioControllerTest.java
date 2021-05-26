@@ -1,17 +1,17 @@
 package controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.PermissaoController;
@@ -28,7 +28,7 @@ import utils.HashSenha;
 
 public class UsuarioControllerTest {
 
-	@Before
+	@BeforeEach
 	public void deletarTudo() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UController.deletarTodos();
@@ -36,7 +36,7 @@ public class UsuarioControllerTest {
 		PermissaoDAO.getInstance().deletarTodos();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();
@@ -44,7 +44,7 @@ public class UsuarioControllerTest {
 		PermissaoDAO.getInstance().deletarTodos();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();

@@ -1,10 +1,10 @@
 package controller.controllerApi;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import controller.controllers.PermissaoController;
 import model.dto.PermissaoDTO;
@@ -18,8 +18,8 @@ public class PermissaoControllerApiTest {
 	PermissaoControllerApi controllerApi = new PermissaoControllerApi();
 	PermissaoController controller = new PermissaoController();
 
-	@After
-	@Before
+	@AfterEach
+	@BeforeEach
 	public void deletarTudo() {
 		controller.deletarTodos();
 	}
