@@ -231,7 +231,7 @@ public class UsuarioControllerApi {
 	 * @return ArrayList<Permissao>
 	 */
 	@GetMapping("/usuario/{idUsuario}/perfil/{idPermissao}")
-	public boolean possuiPermissoes(int idUsuario, int idPermissao) {
+	public boolean possuiPermissoes(@PathVariable("idUsuario") int idUsuario,@PathVariable("idPermissao") int idPermissao) {
 		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
 	}
 

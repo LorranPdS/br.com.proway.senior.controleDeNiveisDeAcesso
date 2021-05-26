@@ -33,20 +33,20 @@ public class RotinasControllerTest {
 
 	@BeforeClass
 	public static void limparEPopularTabelas() {
-		perfilDeUsuarioApi.deletarTodos();
-		usuarioApi.deletarTodos();
-		perfilApi.deletarTodos();
-		permissaoApi.deletarTodos();
+		perfilDeUsuarioController.deletarTodos();
+		usuarioController.deletarTodos();
+		perfilController.deletarTodos();
+		permissaoController.deletarTodos();
 
 		popularTabelas();
 	}
 
 	@AfterClass
 	public static void limparTabelas() {
-		perfilDeUsuarioApi.deletarTodos();
-		usuarioApi.deletarTodos();
-		perfilApi.deletarTodos();
-		permissaoApi.deletarTodos();
+		perfilDeUsuarioController.deletarTodos();
+		usuarioController.deletarTodos();
+		perfilController.deletarTodos();
+		permissaoController.deletarTodos();
 	} 
 
 	static RotinasController rotinasController = new RotinasController();
@@ -98,11 +98,11 @@ public class RotinasControllerTest {
 
 	@Test
 	public void testDesativarTodasPermissoesExpiradas() {
-		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario1, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario2, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario3, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario4, perfil, LocalDate.of(2002, 02, 02));
-		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario5, perfil, LocalDate.of(2002, 02, 02));
+		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario1.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
+		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario2.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
+		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario3.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
+		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario4.getIdUsuario(), perfil.getIdPerfil(), LocalDate.of(2002, 02, 02));
+		perfilDeUsuarioApi.atribuirPerfilAUmUsuario(usuario5.getIdUsuario(), perfil.getIdPerfil(), LocalDate.of(2002, 02, 02));
 
 		assertEquals(5, perfilDeUsuarioController.listarTodasLigacoesAtivas().size());
 		
