@@ -74,7 +74,7 @@ public class UsuarioControllerApi {
 	 * @param login.
 	 * @param codigoDeConfirmacao
 	 */
-	@GetMapping("/usuario/{login}")
+	@GetMapping("/usuarioLogin/{login}")
 	public boolean confirmarCodigoDeConfirmacao(@PathVariable("login") String login,
 			@RequestParam Integer codigoDeConfirmacao) {
 		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(login, codigoDeConfirmacao);
