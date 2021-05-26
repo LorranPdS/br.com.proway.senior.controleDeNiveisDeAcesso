@@ -1,17 +1,17 @@
 package controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.PermissaoController;
@@ -28,7 +28,7 @@ import utils.HashSenha;
 
 public class UsuarioControllerTest {
 
-	@Before
+	@BeforeEach
 	public void deletarTudo() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UController.deletarTodos();
@@ -36,7 +36,7 @@ public class UsuarioControllerTest {
 		PermissaoDAO.getInstance().deletarTodos();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();
@@ -44,7 +44,7 @@ public class UsuarioControllerTest {
 		PermissaoDAO.getInstance().deletarTodos();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();
@@ -52,7 +52,7 @@ public class UsuarioControllerTest {
 		PermissaoDAO.getInstance().deletarTodos();
 
 	}
-	
+
 	UsuarioController UController = new UsuarioController();
 	PerfilDAO perfilDAO = PerfilDAO.getInstance();
 	UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
@@ -72,7 +72,7 @@ public class UsuarioControllerTest {
 		assertTrue(UsuarioController.getInstance().logar(loginExistente, senhaCorreta));
 		assertFalse(UsuarioController.getInstance().logar(loginExistente, senhaIncorreta));
 	}
-
+	
 	/**
 	 * Ao executar esse teste, sinta-se livre para utilizar um email real mudando a
 	 * string destinatario.
@@ -118,18 +118,21 @@ public class UsuarioControllerTest {
 
 	@Test
 	public void testKAlterarUsuario() {
-		String loginDoUsuario = "UsuarioDeTesteAntesDaAlteracao@gmail.com";
-		String senhaDoUsuario = "6666666";
-		UsuarioController.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
-		Usuario usuarioConsultado = UsuarioController.getInstance().consultarUsuario(loginDoUsuario);
-		String novoLoginDoUsuario = "UsuarioDeTesteDepoisDaAlteracao@gmail.com";
-		String novaSenhaDoUsuario = "9999999";
-		UsuarioController.getInstance().alterarUsuario(usuarioConsultado.getIdUsuario(), novoLoginDoUsuario,
-				novaSenhaDoUsuario);
-		usuarioConsultado = UsuarioController.getInstance().consultarUsuario(usuarioConsultado.getIdUsuario());
-		assertEquals(novoLoginDoUsuario, usuarioConsultado.getLogin());
-		assertEquals(HashSenha.criptografarSenha(novoLoginDoUsuario, novaSenhaDoUsuario),
-				usuarioConsultado.getHashSenha());
+		UsuarioController.getInstance().criarUsuario("AntesDaAlteracao@gmail.com", "6666666");
+
+		Usuario usuarioCadastrado = UsuarioController.getInstance()
+				.consultarUsuario("AntesDaAlteracao@gmail.com");
+		
+		Usuario usuarioNovo = new Usuario("DepoisDaAlteracao@gmail.com", "9999999");
+		usuarioNovo.setIdUsuario(usuarioCadastrado.getIdUsuario());
+		
+		UsuarioController.getInstance().alterarUsuario(usuarioNovo);
+		
+		Usuario usuarioAlterado = UsuarioController.getInstance().consultarUsuario("DepoisDaAlteracao@gmail.com");
+		
+		assertEquals("DepoisDaAlteracao@gmail.com", usuarioAlterado.getLogin());
+		assertEquals(HashSenha.criptografarSenha("DepoisDaAlteracao@gmail.com", "9999999"),
+				usuarioAlterado.getHashSenha());
 	}
 
 	@Test
@@ -176,12 +179,13 @@ public class UsuarioControllerTest {
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		List<Permissao> lista = new ArrayList<>();
-		
+
 		for (Permissao permissao1 : UController.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
 			lista.add(permissao1);
 		}
 
-		assertTrue(UsuarioController.getInstance().possuiPermissoes(usuario.getIdUsuario(), permissao.getIdPermissao()));
+		assertTrue(
+				UsuarioController.getInstance().possuiPermissoes(usuario.getIdUsuario(), permissao.getIdPermissao()));
 		assertEquals(1, lista.size());
 	}
 
@@ -226,18 +230,18 @@ public class UsuarioControllerTest {
 		Usuario usuario = new Usuario("thiago@gmail.com", "admin");
 		usuarioDAO.criar(usuario);
 		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
-		
+
 		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		
+
 		List<Perfil> lista = UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
-		
+
 		assertEquals(2, lista.size());
 		assertTrue(controller.desativar(controller.listar().get(0).getId()));
 		assertEquals(1, UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
 	}
-	
+
 	@Test
 	public void testPossuiPermissao() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";

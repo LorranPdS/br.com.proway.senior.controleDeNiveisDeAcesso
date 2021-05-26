@@ -1,11 +1,11 @@
 package model.dao;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import controller.controllers.PermissaoController;
 import model.entidades.Perfil;
@@ -14,12 +14,12 @@ import model.entidades.Usuario;
 
 public class UsuarioDAOTest {
 
-	@Before
+	@BeforeEach
 	public void deletarTudo() {
 		UsuarioDAO.getInstance().deletarTodos();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
 		UsuarioDAO.getInstance().deletarTodos();
@@ -29,7 +29,7 @@ public class UsuarioDAOTest {
 		popularTabelas();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		UsuarioDAO.getInstance().deletarTodos();
 		PerfilDAO.getInstance().deletarTodos();

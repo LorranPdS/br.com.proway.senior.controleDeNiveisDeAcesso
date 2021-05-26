@@ -1,13 +1,13 @@
 package model.dao;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import model.entidades.Perfil;
 import model.entidades.PerfilDeUsuario;
@@ -21,12 +21,12 @@ import model.entidades.Usuario;
  */
 public class PerfilDeUsuarioDAOTest {
 
-	@Before
+	@BeforeEach
 	public void deletarTudoDoPerfilDeUsuario() {
 		ligacaoDAO.deletarTodos();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		ligacaoDAO.deletarTodos();
 		usuarioDAO.deletarTodos();
@@ -36,7 +36,7 @@ public class PerfilDeUsuarioDAOTest {
 		popularTabelas();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		ligacaoDAO.deletarTodos();
 		usuarioDAO.deletarTodos();

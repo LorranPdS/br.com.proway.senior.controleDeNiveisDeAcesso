@@ -1,17 +1,17 @@
 package controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import controller.controllers.PerfilDeUsuarioController;
 import model.dao.PerfilDAO;
@@ -29,12 +29,12 @@ import model.entidades.Usuario;
  */
 public class PerfilDeUsuarioControllerTest {
 
-	@Before
+	@BeforeEach
 	public void deletarTudoDoPerfilDeUsuario() {
 		controller.deletarTodos();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void limparEPopularTabelas() {
 		controller.deletarTodos();
 		usuarioDAO.deletarTodos();
@@ -44,7 +44,7 @@ public class PerfilDeUsuarioControllerTest {
 		popularTabelas();
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void limparTabelas() {
 		controller.deletarTodos();
 		usuarioDAO.deletarTodos();

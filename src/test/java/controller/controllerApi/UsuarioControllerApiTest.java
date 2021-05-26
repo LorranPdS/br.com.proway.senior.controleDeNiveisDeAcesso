@@ -1,8 +1,8 @@
 package controller.controllerApi;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,15 +26,17 @@ import model.dto.UsuarioDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 import model.entidades.Usuario;
+import utils.HashSenha;
 
 public class UsuarioControllerApiTest {
 	
 	UsuarioControllerApi usuarioApi = new UsuarioControllerApi();
+	UsuarioController usuarioController = new UsuarioController();
 
 	@BeforeEach
 	public void deletarTudo() {
 		PerfilDeUsuarioDAO.getInstance().deletarTodos();
-		usuarioApi.deletarTodos();
+		usuarioController.deletarTodos();
 		PerfilDAO.getInstance().deletarTodos();
 		PermissaoDAO.getInstance().deletarTodos();
 	}
@@ -181,15 +183,21 @@ public class UsuarioControllerApiTest {
 
 	@org.junit.jupiter.api.Test
 	public void testAlterarUsuario() {
-		String loginDoUsuario = "UsuarioDeTesteAntesDaAlteracao@gmail.com";
-		String senhaDoUsuario = "6666666";
-		usuarioApi.criarUsuario(loginDoUsuario, senhaDoUsuario);
-		UsuarioDTO usuarioConsultado = usuarioApi.consultarUsuario(loginDoUsuario);
-		String novoLoginDoUsuario = "UsuarioDeTesteDepoisDaAlteracao@gmail.com";
-		String novaSenhaDoUsuario = "9999999";
-		usuarioApi.alterarUsuario(usuarioConsultado.getIdUsuario(), novoLoginDoUsuario, novaSenhaDoUsuario);
-		usuarioConsultado = usuarioApi.consultarUsuarioPorId(usuarioConsultado.getIdUsuario());
-		assertEquals(novoLoginDoUsuario, usuarioConsultado.getLogin());
+		usuarioApi.criarUsuario("AntesDaAlteracao@gmail.com", "6666666");
+
+		Usuario usuarioCadastrado = UsuarioController.getInstance()
+				.consultarUsuario("AntesDaAlteracao@gmail.com");
+		
+		Usuario usuarioNovo = new Usuario("DepoisDaAlteracao@gmail.com", "9999999");
+		usuarioNovo.setIdUsuario(usuarioCadastrado.getIdUsuario());
+		
+		usuarioApi.alterarUsuario(usuarioNovo.getIdUsuario(), usuarioNovo);
+		
+		Usuario usuarioAlterado = UsuarioController.getInstance().consultarUsuario("DepoisDaAlteracao@gmail.com");
+		
+		assertEquals("DepoisDaAlteracao@gmail.com", usuarioAlterado.getLogin());
+		assertEquals(HashSenha.criptografarSenha("DepoisDaAlteracao@gmail.com", "9999999"),
+				usuarioAlterado.getHashSenha());
 	}
 
 	@org.junit.jupiter.api.Test
@@ -219,32 +227,4 @@ public class UsuarioControllerApiTest {
 		usuarioApi.criarUsuario(loginDoUsuario2, senhaDoUsuario2);
 		assertEquals(2, usuarioApi.listarTodosOsUsuarios().size());
 	}
-
-	@org.junit.jupiter.api.Test
-	public void testListarPerfisAtivosDeUmUsuario() {
-		perfilDAO.criar(new Perfil("Vendedor"));
-		perfil = perfilDAO.consultarPorNome("Vendedor");
-
-		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
-		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
-
-		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
-		perfil = perfilDAO.consultarPorNome("Vendedor");
-
-		Usuario usuario = new Usuario("thiago@gmail.com", "admin");
-		usuarioDAO.criar(usuario);
-		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
-
-		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
-		PerfilDeUsuarioControllerApi apiController = new PerfilDeUsuarioControllerApi();
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-
-		List<PerfilDTO> lista = usuarioApi.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
-
-		assertTrue(usuarioApi.permissaoAtiva(controller.consultarPorIdDoUsuario(usuario.getIdUsuario()).get(0)));
-		assertEquals(2, lista.size());
-		assertTrue(apiController.desativar(controller.listar().get(0).getId()));
-	}
-
 }

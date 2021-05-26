@@ -154,13 +154,12 @@ public class UsuarioController {
 	 * ao objeto e enviado ao {@link UsuarioDAO} para ser atualizado no banco de
 	 * dados.
 	 * 
-	 * @param Integer - idUsuario
-	 * @param String  - login
-	 * @param String  - senha
+	 * @param Usuario usuarioNovo
 	 */
-	public void alterarUsuario(Usuario usuario) {
-		usuario.setLogin(usuario.getLogin());
-		usuario.setHashSenha(usuario.getHashSenha());
+	public void alterarUsuario(Usuario usuarioNovo) {
+		Usuario usuario = consultarUsuario(usuarioNovo.getIdUsuario());
+		usuario.setLogin(usuarioNovo.getLogin());
+		usuario.setHashSenha(usuarioNovo.getHashSenha());
 		UsuarioDAO.getInstance().alterar(usuario);
 	}
 
