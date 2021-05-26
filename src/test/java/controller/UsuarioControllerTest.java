@@ -72,7 +72,7 @@ public class UsuarioControllerTest {
 		assertTrue(UsuarioController.getInstance().logar(loginExistente, senhaCorreta));
 		assertFalse(UsuarioController.getInstance().logar(loginExistente, senhaIncorreta));
 	}
-
+	
 	/**
 	 * Ao executar esse teste, sinta-se livre para utilizar um email real mudando a
 	 * string destinatario.
