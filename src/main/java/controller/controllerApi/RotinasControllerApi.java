@@ -10,7 +10,7 @@ import model.entidades.PerfilDeUsuario;
  * Classe que possui metodos que serao executados com uma frequencia
  * pre-determinada.
  * 
- * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
+ * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 7
  *
  */
 @RestController
