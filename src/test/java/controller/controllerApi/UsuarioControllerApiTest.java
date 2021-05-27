@@ -140,48 +140,6 @@ public class UsuarioControllerApiTest {
 	}
 
 	@org.junit.jupiter.api.Test
-	public void testLogin() {
-		String loginExistente = "Grijo@gmail.com";
-		String senhaCorreta = "234";
-		String senhaIncorreta = "123";
-		UsuarioController.getInstance().criarUsuario(loginExistente, senhaCorreta);
-		assertTrue(usuarioApi.logar(loginExistente, senhaCorreta));
-		assertFalse(usuarioApi.logar(loginExistente, senhaIncorreta));
-	}
-
-	/**
-	 * Ao executar esse teste, sinta-se livre para utilizar um email real mudando a
-	 * string destinatario.
-	 * 
-	 * @throws Exception
-	 */
-	@org.junit.jupiter.api.Test
-	public void testEnviarEConfirmarEmailDeConfirmacaoDeLogin() throws Exception {
-
-		String destinatario = "Email@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
-		String senha = "123";
-		UsuarioController.getInstance().criarUsuario(destinatario, senha);
-
-		boolean resultadoEnvioEmail = usuarioApi.enviarEmailDeConfirmacaoDeLogin(destinatario);
-		assertTrue(resultadoEnvioEmail);
-
-		Usuario u = UsuarioController.getInstance().consultarUsuario(destinatario);
-		Integer codigoDeConfirmacao = u.getUltimoCodigo2FA();
-		assertTrue(usuarioApi.confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
-
-		// Limpar usuario do banco pós-teste
-		String sqlLimparUsuarioDoBanco = "DELETE FROM usuario WHERE login = '" + destinatario + "';";
-		try {
-			DBConnection.getSession().beginTransaction();
-			DBConnection.getSession().createSQLQuery(sqlLimparUsuarioDoBanco).executeUpdate();
-			DBConnection.getSession().getTransaction().commit();
-		} catch (Exception e) {
-			DBConnection.getSession().getTransaction().rollback();
-			e.printStackTrace();
-		}
-	}
-
-	@org.junit.jupiter.api.Test
 	public void testAlterarUsuario() {
 		usuarioApi.criarUsuario("AntesDaAlteracao@gmail.com", "6666666");
 
