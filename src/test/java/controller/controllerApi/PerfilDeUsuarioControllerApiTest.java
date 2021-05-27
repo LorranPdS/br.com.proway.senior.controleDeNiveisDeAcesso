@@ -76,8 +76,10 @@ public class PerfilDeUsuarioControllerApiTest {
 	public static void popularTabelas() {
 		perfilApi.criarPerfil("Vendedor");
 		perfil = perfilController.consultarPerfil("Vendedor");
-
-		permissaoApi.criarPermissao("Relatório de compras");
+		
+		Permissao permissao1 = new Permissao("Relatório de compras");
+		permissao = permissao1;
+		permissaoApi.criarPermissao(permissao);
 		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras");
 
 		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);

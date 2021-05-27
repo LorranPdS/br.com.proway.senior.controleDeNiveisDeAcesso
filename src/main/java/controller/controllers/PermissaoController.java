@@ -19,15 +19,20 @@ public class PermissaoController {
 	 * Cadastro de uma {@link Permissao} no banco de dados.
 	 * 
 	 * <p>
-	 * Responsavel por criar um objeto do tipo {@link Permissao}. O objeto
-	 * {@link Permissao} e enviado ao {@link PermissaoDAO} para ser persistido no
-	 * banco de dados.
+	 * Responsavel por criar um objeto do tipo {@link Permissao}. Verifica se já
+	 * existe uma permissao com o nome informado. Se não existir, o objeto
+	 * {@link Permissao} eh enviado ao {@link PermissaoDAO} para ser persistido no
+	 * banco de dados e retorna true. Se existir, retorna false.
 	 * 
 	 * @param nomePermissao String Nome da permissao.
 	 */
-	public void criarPermissao(String nomePermissao) {
+	public boolean criarPermissao(String nomePermissao) {
+		if(permissaoDAO.consultarPorNome(nomePermissao) != null)
+			return false;
+		
 		Permissao permissao = new Permissao(nomePermissao);
 		permissaoDAO.criar(permissao);
+		return true;
 	}
 
 	/**
@@ -98,7 +103,7 @@ public class PermissaoController {
 	 * <p>
 	 * Consulta todos os registros e retorna uma lista.
 	 * 
-	 * @return List<Permissao> 
+	 * @return List<Permissao>
 	 */
 	public List<Permissao> listarTodasAsPermissoes() {
 		return permissaoDAO.listar();

@@ -3,15 +3,18 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PermissaoController;
+import javassist.NotFoundException;
 import model.dao.PermissaoDAO;
 import model.dto.PermissaoDTO;
 import model.entidades.Permissao;
@@ -35,9 +38,9 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param nomePermissao String Nome da permissao.
 	 */
-	@PostMapping("/permissao")
-	public void criarPermissao(@RequestParam String nomePermissao) {
-		controller.criarPermissao(nomePermissao);
+	@PostMapping("/permissao/criar")
+	public boolean criarPermissao(@RequestBody Permissao permissao) {
+		return controller.criarPermissao(permissao.getNomePermissao());
 	}
 
 	/**
@@ -52,9 +55,9 @@ public class PermissaoControllerApi {
 	 * @param id            - Integer Identificador da permissao a ser alterada.
 	 * @param nomePermissao - String Novo nome da permissao
 	 */
-	@PutMapping("/permissao/{id}")
-	public void alterarPermissao(@PathVariable("id") Integer id, @RequestParam String nomePermissao) {
-		controller.alterarPermissao(id, nomePermissao);
+	@PutMapping("/permissao/alterar/id/{id}")
+	public void alterarPermissao(@PathVariable("id") Integer id, @RequestBody Permissao permissao) {
+		controller.alterarPermissao(id, permissao.getNomePermissao());
 	}
 
 	/**
@@ -65,7 +68,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param id Integer Id da permissao a ser deletada.
 	 */
-	@DeleteMapping("/permissao/{id}")
+	@DeleteMapping("/permissao/deletar/id/{id}")
 	public void deletarPermissao(@PathVariable("id") Integer id) {
 		controller.deletarPermissao(id);
 	}
@@ -79,10 +82,15 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return Permissao
+	 * @throws NotFoundException 
 	 */
-	@GetMapping("/permissao/{id}")
-	public PermissaoDTO consultarPermissaoPorId(@PathVariable("id") Integer id) {
-		return new PermissaoDTO(controller.consultarPermissaoPorId(id));
+	@GetMapping("/permissao/consultar/id/{id}")
+	public ResponseEntity<PermissaoDTO> consultarPermissaoPorId(@PathVariable("id") Integer id) throws NotFoundException {
+		Permissao permissao = controller.consultarPermissaoPorId(id);
+		if(permissao == null) {
+			return new ResponseEntity<PermissaoDTO>(HttpStatus.NOT_FOUND);
+			}
+		return ResponseEntity.ok(new PermissaoDTO(permissao));
 	}
 
 	/**
@@ -95,7 +103,7 @@ public class PermissaoControllerApi {
 	 * @param nome String Nome do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	@GetMapping("/permissao/{nome}")
+	@GetMapping("/permissao/consultar/nome/{nome}")
 	public PermissaoDTO consultarPermissaoPorNome(@PathVariable("nome") String nome) {
 		return new PermissaoDTO(controller.consultarPermissaoPorNome(nome));
 	}
@@ -108,7 +116,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @return List<Permissao>
 	 */
-	@GetMapping("/permissao")
+	@GetMapping("/permissao/listar")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
 		List<Permissao> listaModel = controller.listarTodasAsPermissoes();
 		List<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();

@@ -41,7 +41,7 @@ class RotinasControllerApiTest {
 		permissaoController.deletarTodos();
 	}
 
-	static RotinasController rotinasController = new RotinasController();
+	static RotinasControllerApi rotinasController = new RotinasControllerApi();
 	static PerfilController perfilController = new PerfilController();
 	static UsuarioController usuarioController = new UsuarioController();
 	static PermissaoController permissaoController = new PermissaoController();
@@ -58,14 +58,14 @@ class RotinasControllerApiTest {
 	static Usuario usuario4;
 	static Usuario usuario5;
 
-	static Permissao permissao;
+	static Permissao permissao = new Permissao("Relatório de compras");
 	static Perfil perfil;
 
 	public static void popularTabelas() {
 		perfilApi.criarPerfil("Vendedor");
 		perfil = perfilController.consultarPerfil("Vendedor");
 
-		permissaoApi.criarPermissao("Relatório de compras");
+		permissaoApi.criarPermissao(permissao);
 		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras");
 
 		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);

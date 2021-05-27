@@ -112,9 +112,14 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		criteria.select(root);
 		Expression nomeEX = (Expression) root.get("nomePermissao");
 
-		criteria.select(root).where(builder.like(nomeEX, nome + "%"));
+		criteria.select(root).where(builder.like(nomeEX, nome));
 		Query query = session.createQuery(criteria);
-		return (Permissao) query.getSingleResult();
+		try {
+			Permissao permissao = (Permissao) query.getSingleResult();
+			return permissao;
+		} catch(Exception e) {
+			return null;
+		}
 	}
 
 	/**
