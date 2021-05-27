@@ -20,12 +20,12 @@ public class PerfilControllerTest {
 
 	PermissaoController controllerPermissao = new PermissaoController();
 
-	@AfterEach
-	@BeforeEach
-	public void deletarTudo() {
-		PerfilController.getInstance().deletarTodos();
-		controllerPermissao.deletarTodos();
-	}
+//	@AfterEach
+//	@BeforeEach
+//	public void deletarTudo() {
+//		PerfilController.getInstance().deletarTodos();
+//		controllerPermissao.deletarTodos();
+//	}
 
 	@Test
 	public void testVerificarEListarPermissaoDeUmPerfil() {
