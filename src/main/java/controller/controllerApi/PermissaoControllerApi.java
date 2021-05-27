@@ -131,7 +131,7 @@ public class PermissaoControllerApi {
 	 * <p>
 	 * Consulta todos os registros e retorna uma lista.
 	 * 
-	 * @return List<Permissao>
+	 * @return List<Permissao> 
 	 */
 	@GetMapping("/listar")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
