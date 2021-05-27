@@ -46,9 +46,7 @@ public class UsuarioController {
 			return false;
 		} else {
 
-			String senhaBanco = usuario.getHashSenha();
-
-			if (senhaCriptografada.equals(senhaBanco) && usuario.getLogin().equals(login)) {
+			if (senhaCriptografada.equals(usuario.getHashSenha()) && usuario.getLogin().equals(login)) {
 				return true;
 			} else {
 				return false;
