@@ -35,19 +35,27 @@ public class PerfilDeUsuarioControllerApi {
 	 * Atribui um {@link Perfil} a um {@link Usuario}.
 	 * 
 	 * <p>
-	 * Metodo responsavel por atribuir um {@link Perfil} a um {@link Usuario}.
+	 * Verifica se existe um {@link Usuario} e {@link Perfil} com o id informado, se
+	 * existir, verifica se a data de expiraca eh posterior a data atual, se for,
+	 * atribui o perfil ao usuario informados. Caso usuario e perfil nao existam ou
+	 * data nao seja valida, retorna uma excessao.
 	 * 
 	 * @param usuario Usuario {@link Usuario} que recebera um perfil de acesso.
 	 * @param perfil  Perfil {@link Perfil} que sera atribuido a um usuario.
-	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
-	 *                   não seja possivel.
-	 * 
-	 *                   localhost:8080/usuario/123/perfil/456
+	 * @throws Exception - Caso usuario e perfil nao existam ou data nao seja
+	 *                   valida.
+	 * @return boolean Retorna true caso as validacoes passem, retorna false caso as
+	 *         validacoes nao passem.
 	 */
 	@PostMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
 	public boolean atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
 			@RequestParam LocalDate dataExpiracao) {
-		return controller.atribuirPerfilAUmUsuario(idUsuario, idPerfil, dataExpiracao);
+		try {
+			return controller.atribuirPerfilAUmUsuario(idUsuario, idPerfil, dataExpiracao);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -136,7 +144,12 @@ public class PerfilDeUsuarioControllerApi {
 	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
 	 * 'objeto' recebido no parametro.
 	 * 
+	 * <p>
+	 * Verifica se existe um registro com o id informado. Se existir, deleta e
+	 * retorna true. Se nao existir, retorna false.
+	 * 
 	 * @param id int Id do objeto a ser deletado.
+	 * @return boolean
 	 */
 	@DeleteMapping("/perfildeusuario/usuario/{id}")
 	public boolean deletar(@PathVariable("id") int id) {
@@ -144,15 +157,16 @@ public class PerfilDeUsuarioControllerApi {
 	}
 
 	/**
-	 * 
 	 * Altera um PerfilDeUsuario no banco de dados.
 	 * 
+	 * <p>
 	 * Recebe um objeto do tipo {@link PerfilDeUsuario} no parametro e atualiza o
-	 * registro correspondente que está no banco de dados.
+	 * registro correspondente que esta no banco de dados caso exista um objeto com
+	 * o id informado. Caso exista retorna true, caso nao exista, retorna false.
 	 * 
 	 * @param id     int Id do objeto a ser alterado.
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
-	 * @boolean Retorna true.
+	 * @return boolean
 	 */
 	@PutMapping("/perfildeusuario/usuario/{id}")
 	public boolean alterar(@PathVariable("id") int id, @RequestBody PerfilDeUsuario objeto) {
@@ -190,12 +204,19 @@ public class PerfilDeUsuarioControllerApi {
 	 * no parametro.
 	 * 
 	 * <p>
+	 * Verifica se existe um usuario e permissao com os id's informados. Se nao
+	 * existir, retorna uma excessao. Se existir prossegue.
+	 * 
+	 * <p>
 	 * Busca todos os registros da tabela {@link PerfilDeUsuario} os quais possuam a
 	 * data de expiracao valida. Pega as permissoes desses perfis validos e verifica
 	 * se alguma destas eh igual a permissao recebida no parametro.
 	 * 
+	 * @param idUsuario   int
+	 * @param idPermissao int
 	 * @return Retorna true caso ele possua um perfil ativo que possua a 'permissao'
 	 *         recebida no parametro.
+	 * @throws Exception
 	 */
 	@GetMapping("/perfildeusuario/usuario/{idUsuario}/permissao/{idPermissao}")
 	public boolean usuarioPossuiPermissaoPara(int idUsuario, int idPermissao) {
@@ -212,12 +233,19 @@ public class PerfilDeUsuarioControllerApi {
 	 * parametro.
 	 * 
 	 * <p>
+	 * Verifica se existe um usuario e perfil com os id's informados. Se nao
+	 * existir, retorna uma excessao. Se existir prossegue.
+	 * 
+	 * <p>
 	 * Chama o metodo listarPerfisAtivosDeUmUsuario para percorrer todos os perfis
 	 * ativos do usuario recebido no parametro. Verifica se algum destes perfis eh
 	 * igual ao perfil recebido no parametro.
 	 * 
+	 * @param idUsuario int
+	 * @param idPerfil  int
 	 * @return Retorna true caso encontre um perfil ativo igual ao perfil recebido
 	 *         no parametro.
+	 * @throws Exception
 	 */
 	@GetMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
 	public boolean usuarioPossuiOPerfil(int idUsuario, int idPerfil) {
@@ -235,6 +263,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
+	 * @throws Exception
 	 */
 	@GetMapping("/perfildeusuario/permissao/{id}")
 	public boolean permissaoAtiva(int id) {

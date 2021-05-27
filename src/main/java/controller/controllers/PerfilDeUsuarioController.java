@@ -28,14 +28,19 @@ public class PerfilDeUsuarioController {
 	 * Atribui um {@link Perfil} a um {@link Usuario}.
 	 * 
 	 * <p>
-	 * Metodo responsavel por atribuir um {@link Perfil} a um {@link Usuario}.
+	 * Verifica se existe um {@link Usuario} e {@link Perfil} com o id informado, se
+	 * existir, verifica se a data de expiraca eh posterior a data atual, se for,
+	 * atribui o perfil ao usuario informados. Caso usuario e perfil nao existam ou
+	 * data nao seja valida, retorna uma excessao.
 	 * 
 	 * @param usuario Usuario {@link Usuario} que recebera um perfil de acesso.
 	 * @param perfil  Perfil {@link Perfil} que sera atribuido a um usuario.
-	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
-	 *                   não seja possivel.
+	 * @throws Exception - Caso usuario e perfil nao existam ou data nao seja
+	 *                   valida.
+	 * @return boolean Retorna true caso as validacoes passem, retorna false caso as
+	 *         validacoes nao passem.
 	 */
-	public boolean atribuirPerfilAUmUsuario(int idUsuario, int idPerfil, LocalDate dataExpiracao) {
+	public boolean atribuirPerfilAUmUsuario(int idUsuario, int idPerfil, LocalDate dataExpiracao) throws Exception {
 		UsuarioController usuarioController = new UsuarioController();
 		Usuario usuario = usuarioController.consultarUsuario(idUsuario);
 
@@ -43,7 +48,10 @@ public class PerfilDeUsuarioController {
 		Perfil perfil = perfilController.consultarPerfil(idPerfil);
 
 		if (usuario == null && perfil == null)
-			return false;
+			throw (new Exception("O usuário ou perfil não foi encontrado no banco de dados."));
+
+		if (dataExpiracao.isBefore(LocalDate.now()))
+			throw (new Exception("A data de expiração não pode ser anterior a data atual."));
 
 		PerfilDeUsuario perfilDeUsuario = new PerfilDeUsuario(usuario, perfil, dataExpiracao, true);
 		ligacaoDAO.criar(perfilDeUsuario);
@@ -130,6 +138,10 @@ public class PerfilDeUsuarioController {
 	 * no parametro.
 	 * 
 	 * <p>
+	 * Verifica se existe um usuario e permissao com os id's informados. Se nao
+	 * existir, retorna uma excessao. Se existir prossegue.
+	 * 
+	 * <p>
 	 * Busca todos os registros da tabela {@link PerfilDeUsuario} os quais possuam a
 	 * data de expiracao valida. Pega as permissoes desses perfis validos e verifica
 	 * se alguma destas eh igual a permissao recebida no parametro.
@@ -174,6 +186,10 @@ public class PerfilDeUsuarioController {
 	 * parametro.
 	 * 
 	 * <p>
+	 * Verifica se existe um usuario e perfil com os id's informados. Se nao
+	 * existir, retorna uma excessao. Se existir prossegue.
+	 * 
+	 * <p>
 	 * Chama o metodo listarPerfisAtivosDeUmUsuario para percorrer todos os perfis
 	 * ativos do usuario recebido no parametro. Verifica se algum destes perfis eh
 	 * igual ao perfil recebido no parametro.
@@ -211,7 +227,7 @@ public class PerfilDeUsuarioController {
 	 * 
 	 * @param ligacao PerfilDeUsuario Ligacao entre usuario e perfil a ser validada.
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public boolean permissaoAtiva(PerfilDeUsuario ligacao) throws Exception {
 		if (consultarPorId(ligacao.getId()) == null)
@@ -260,7 +276,12 @@ public class PerfilDeUsuarioController {
 	 * Deleta um registro da tabela {@link PerfilDeUsuario} que corresponde ao
 	 * 'objeto' recebido no parametro.
 	 * 
+	 * <p>
+	 * Verifica se existe um registro com o id informado. Se existir, deleta e
+	 * retorna true. Se nao existir, retorna false.
+	 * 
 	 * @param id int Id do objeto a ser deletado.
+	 * @return boolean
 	 */
 	public boolean deletar(int id) {
 		PerfilDeUsuario objeto = consultarPorId(id);
@@ -278,15 +299,16 @@ public class PerfilDeUsuarioController {
 	}
 
 	/**
-	 * 
 	 * Altera um PerfilDeUsuario no banco de dados.
 	 * 
+	 * <p>
 	 * Recebe um objeto do tipo {@link PerfilDeUsuario} no parametro e atualiza o
-	 * registro correspondente que está no banco de dados.
+	 * registro correspondente que esta no banco de dados caso exista um objeto com
+	 * o id informado. Caso exista retorna true, caso nao exista, retorna false.
 	 * 
 	 * @param id     int Id do objeto a ser alterado.
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
-	 * @boolean Retorna true.
+	 * @return boolean
 	 */
 	public boolean alterar(int id, PerfilDeUsuario novo) {
 		PerfilDeUsuario objeto = consultarPorId(id);
