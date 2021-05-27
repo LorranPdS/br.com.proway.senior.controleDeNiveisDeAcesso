@@ -25,9 +25,11 @@ public class PermissaoController {
 	 * banco de dados e retorna true. Se existir, retorna false.
 	 * 
 	 * @param nomePermissao String Nome da permissao.
+	 * @return boolean Se ja existir uma {@link Permissao} com o nome informado,
+	 *         retorna false. Se nao existir, retorna true.
 	 */
 	public boolean criarPermissao(String nomePermissao) {
-		if (permissaoDAO.consultarPorNome(nomePermissao) != null)
+		if (permissaoDAO.consultarPorNomeExato(nomePermissao) != null)
 			return false;
 
 		Permissao permissao = new Permissao(nomePermissao);
@@ -39,13 +41,14 @@ public class PermissaoController {
 	 * Alteracao de uma {@link Permissao}.
 	 * 
 	 * <p>
-	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves do id
-	 * e nome da permissao, o qual retornara o objeto completo. Feito isso, o novo
-	 * nome da {@link Permissao} sera setado ao objeto e enviado ao
-	 * {@link PermissaoDAO} para ser atualizado no banco de dados.
+	 * Verifica se existe uma {@link Permissao} no banco de dados com o id
+	 * informado, se existir, seta os novos valores e altera no banco de dados
+	 * retornando true. Se nao existir, retorna false e nao altera.
 	 * 
 	 * @param idPermissao   - Integer
 	 * @param nomePermissao - String
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
 	public boolean alterarPermissao(Integer idPermissao, String nomePermissao) {
 		if (permissaoDAO.consultarPorId(idPermissao) == null)
@@ -58,15 +61,15 @@ public class PermissaoController {
 	}
 
 	/**
-	 * Remocao de uma {@link Permissao} pelo id.
+	 * Deleta uma {@link Permissao} pelo id.
 	 * 
 	 * <p>
-	 * Responsavel por consultar uma {@link Permissao} pelo seu id no banco de
-	 * dados, retornando o objeto com os dados de uma {@link Permissao} preenchidos
-	 * e, posteriormente, enviando ao {@link PermissaoDAO} para ser removido do
-	 * banco de dados.
+	 * Verifica se existe uma {@link Permissao} no banco de dados com o id recebido,
+	 * se existir, deleta o registro e retorna true. Se nao existir, retorna false.
 	 * 
 	 * @param idPermissao Integer
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
 	public boolean deletarPermissao(Integer idPermissao) {
 		if (permissaoDAO.consultarPorId(idPermissao) == null)
@@ -101,8 +104,8 @@ public class PermissaoController {
 	 * @param nomePermissao String Nome do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	public Permissao consultarPermissaoPorNome(String nomePermissao) {
-		return permissaoDAO.consultarPorNome(nomePermissao);
+	public Permissao consultarPermissaoPorNomeExato(String nomePermissao) {
+		return permissaoDAO.consultarPorNomeExato(nomePermissao);
 	}
 
 	/**

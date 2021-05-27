@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PermissaoController;
@@ -25,6 +26,7 @@ import model.entidades.Permissao;
  *
  */
 @RestController
+@RequestMapping("/permissao")
 public class PermissaoControllerApi {
 	PermissaoController controller = new PermissaoController();
 
@@ -37,8 +39,10 @@ public class PermissaoControllerApi {
 	 * persistido no banco de dados.
 	 * 
 	 * @param nomePermissao String Nome da permissao.
+	 * @return boolean Se ja existir uma {@link Permissao} com o nome informado,
+	 *         retorna false. Se nao existir, retorna true.
 	 */
-	@PostMapping("/permissao/criar")
+	@PostMapping("/criar")
 	public boolean criarPermissao(@RequestBody Permissao permissao) {
 		return controller.criarPermissao(permissao.getNomePermissao());
 	}
@@ -54,8 +58,10 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param id            - Integer Identificador da permissao a ser alterada.
 	 * @param nomePermissao - String Novo nome da permissao
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
-	@PutMapping("/permissao/alterar/id/{id}")
+	@PutMapping("/alterar/id/{id}")
 	public boolean alterarPermissao(@PathVariable("id") Integer id, @RequestBody Permissao permissao) {
 		return controller.alterarPermissao(id, permissao.getNomePermissao());
 	}
@@ -67,8 +73,10 @@ public class PermissaoControllerApi {
 	 * Responsavel por deletar uma {@link Permissao} pelo seu id.
 	 * 
 	 * @param id Integer Id da permissao a ser deletada.
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
-	@DeleteMapping("/permissao/deletar/id/{id}")
+	@DeleteMapping("/deletar/id/{id}")
 	public boolean deletarPermissao(@PathVariable("id") Integer id) {
 		return controller.deletarPermissao(id);
 	}
@@ -81,10 +89,12 @@ public class PermissaoControllerApi {
 	 * o objeto completo.
 	 * 
 	 * @param id Integer Id do objeto a ser consultado.
-	 * @return Permissao
+	 * @return ResponseEntity<PermissaoDTO> Caso encontre uma {@link Permissao} no
+	 *         banco de dados com o id informado, retorna uma PermissaoDTO. Se nao
+	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 * @throws NotFoundException
 	 */
-	@GetMapping("/permissao/consultar/id/{id}")
+	@GetMapping("/consultar/id/{id}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorId(@PathVariable("id") Integer id)
 			throws NotFoundException {
 		Permissao permissao = controller.consultarPermissaoPorId(id);
@@ -102,11 +112,13 @@ public class PermissaoControllerApi {
 	 * retorna o objeto completo.
 	 * 
 	 * @param nome String Nome do objeto a ser consultado.
-	 * @return Permissao
+	 * @return ResponseEntity<PermissaoDTO> Caso encontre uma {@link Permissao} no
+	 *         banco de dados com o id informado, retorna uma PermissaoDTO. Se nao
+	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 */
-	@GetMapping("/permissao/consultar/nome/{nome}")
+	@GetMapping("/consultar/nome/{nome}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorNomeExato(@PathVariable("nome") String nome) {
-		Permissao permissao = controller.consultarPermissaoPorNome(nome);
+		Permissao permissao = controller.consultarPermissaoPorNomeExato(nome);
 		if (permissao == null) {
 			return new ResponseEntity<PermissaoDTO>(HttpStatus.NOT_FOUND);
 		}
@@ -121,7 +133,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @return List<Permissao>
 	 */
-	@GetMapping("/permissao/listar")
+	@GetMapping("/listar")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
 		List<Permissao> listaModel = controller.listarTodasAsPermissoes();
 		List<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
