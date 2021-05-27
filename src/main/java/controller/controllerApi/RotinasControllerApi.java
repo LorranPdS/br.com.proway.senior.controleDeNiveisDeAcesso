@@ -1,5 +1,6 @@
 package controller.controllerApi;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.RotinasController;
@@ -25,6 +26,7 @@ public class RotinasControllerApi {
 	 * 
 	 * @return Integer Quantidade de permissoes expiradas deletadas.
 	 */
+	@PostMapping("/rotinas/desativarpermissoesexpiradas")
 	public int desativarTodasPermissoesExpiradas() {
 		return controller.desativarTodasPermissoesExpiradas();
 	}
