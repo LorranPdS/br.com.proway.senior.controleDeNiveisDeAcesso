@@ -4,12 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +31,7 @@ import model.entidades.Usuario;
  *
  */
 @RestController
+@RequestMapping("/perfildeusuario")
 public class PerfilDeUsuarioControllerApi {
 	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 
@@ -47,7 +51,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return boolean Retorna true caso as validacoes passem, retorna false caso as
 	 *         validacoes nao passem.
 	 */
-	@PostMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
+	@PostMapping("/atribuirPerfilAUmUsuario/usuario/{idUsuario}/perfil/{idPerfil}")
 	public boolean atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
 			@RequestParam LocalDate dataExpiracao) {
 		try {
@@ -68,14 +72,19 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	@GetMapping("/perfildeusuario/usuario/{id}")
-	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoUsuario(@PathVariable("id") Integer id) {
+	@SuppressWarnings("unused")
+	@GetMapping("/consultar/usuario/id/{id}")
+	public ResponseEntity<List<PerfilDeUsuarioDTO>> consultarPorIdDoUsuario(@PathVariable("id") Integer id) {
 		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoUsuario(id);
-		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
+		List<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
 			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
 		}
-		return listaDTO;
+		if (listaDTO == null)
+			return new ResponseEntity<List<PerfilDeUsuarioDTO>>(HttpStatus.NOT_FOUND);
+
+		return ResponseEntity.ok(listaDTO);
+
 	}
 
 	/**
@@ -88,14 +97,18 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return ArrayList Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	@GetMapping("/perfildeusuario/perfil/{id}")
-	public ArrayList<PerfilDeUsuarioDTO> consultarPorIdDoPerfil(@PathVariable("id") Integer id) {
+	@SuppressWarnings("unused")
+	@GetMapping("/consultar/perfil/id/{id}")
+	public ResponseEntity<List<PerfilDeUsuarioDTO>> consultarPorIdDoPerfil(@PathVariable("id") Integer id) {
 		ArrayList<PerfilDeUsuario> listaModel = controller.consultarPorIdDoPerfil(id);
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
 			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
 		}
-		return listaDTO;
+		if (listaDTO == null)
+			return new ResponseEntity<List<PerfilDeUsuarioDTO>>(HttpStatus.NOT_FOUND);
+
+		return ResponseEntity.ok(listaDTO);
 	}
 
 	/**
@@ -111,14 +124,18 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todas as {@link Permissao} do {@link Usuario}.
 	 */
-	@GetMapping("/perfildeusuario/permissao/usuario/{id}/")
-	public ArrayList<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable("id") int id) {
+	@SuppressWarnings("unused")
+	@GetMapping("/listar/permissao/usuario/id/{id}/")
+	public ResponseEntity<List<PermissaoDTO>> listarPermissoesDeUmUsuario(@PathVariable("id") int id) {
 		List<Permissao> listaModel = controller.listarPermissoesDeUmUsuario(id);
 		ArrayList<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();
 		for (Permissao permissao : listaModel) {
 			listaDTO.add(new PermissaoDTO(permissao));
 		}
-		return listaDTO;
+		if (listaDTO == null)
+			return new ResponseEntity<List<PermissaoDTO>>(HttpStatus.NOT_FOUND);
+
+		return ResponseEntity.ok(listaDTO);
 	}
 
 	/**
@@ -130,14 +147,18 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
 	 */
-	@GetMapping("/perfildeusuario/perfil/usuario/{id}")
-	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable("id") int id) {
+	@SuppressWarnings("unused")
+	@GetMapping("/listar/perfil/usuario/id/{id}")
+	public ResponseEntity<List<PerfilDTO>> listarPerfisDeUmUsuario(@PathVariable("id") int id) {
 		List<Perfil> listaModel = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> listaDTO = new ArrayList<PerfilDTO>();
 		for (Perfil perfil : listaModel) {
 			listaDTO.add(new PerfilDTO(perfil));
 		}
-		return listaDTO;
+		if (listaDTO == null)
+			return new ResponseEntity<List<PerfilDTO>>(HttpStatus.NOT_FOUND);
+
+		return ResponseEntity.ok(listaDTO);
 	}
 
 	/**
@@ -151,7 +172,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param id int Id do objeto a ser deletado.
 	 * @return boolean
 	 */
-	@DeleteMapping("/perfildeusuario/usuario/{id}")
+	@DeleteMapping("/deletar/id/{id}")
 	public boolean deletar(@PathVariable("id") int id) {
 		return controller.deletar(id);
 	}
@@ -168,7 +189,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param objeto PerfilDeUsuario Objeto a ser atualizado no banco de dados.
 	 * @return boolean
 	 */
-	@PutMapping("/perfildeusuario/usuario/{id}")
+	@PutMapping("/alterar/{id}")
 	public boolean alterar(@PathVariable("id") int id, @RequestBody PerfilDeUsuario objeto) {
 		return controller.alterar(id, objeto);
 	}
@@ -189,14 +210,18 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @return List Lista contendo objetos do tipo {@link PerfilDeUsuario}.
 	 */
-	@GetMapping("/perfildeusuario")
-	public List<PerfilDeUsuarioDTO> listar() {
+	@SuppressWarnings("unused")
+	@GetMapping("/listar")
+	public ResponseEntity<List<PerfilDeUsuarioDTO>> listar() {
 		List<PerfilDeUsuario> listaModel = controller.listar();
 		ArrayList<PerfilDeUsuarioDTO> listaDTO = new ArrayList<PerfilDeUsuarioDTO>();
 		for (PerfilDeUsuario ligacao : listaModel) {
 			listaDTO.add(new PerfilDeUsuarioDTO(ligacao));
 		}
-		return listaDTO;
+		if (listaDTO == null)
+			return new ResponseEntity<List<PerfilDeUsuarioDTO>>(HttpStatus.NOT_FOUND);
+
+		return ResponseEntity.ok(listaDTO);
 	}
 
 	/**
@@ -218,7 +243,7 @@ public class PerfilDeUsuarioControllerApi {
 	 *         recebida no parametro.
 	 * @throws Exception
 	 */
-	@GetMapping("/perfildeusuario/usuario/{idUsuario}/permissao/{idPermissao}")
+	@GetMapping("/usuarioPossui/permissao/id/{idPermissao}/usuario/id/{idUsuario}")
 	public boolean usuarioPossuiPermissaoPara(int idUsuario, int idPermissao) {
 		try {
 			return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
@@ -247,7 +272,7 @@ public class PerfilDeUsuarioControllerApi {
 	 *         no parametro.
 	 * @throws Exception
 	 */
-	@GetMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
+	@GetMapping("/usuarioPossui/perfil/id/{idPerfil}/usuario/id/{idUsuario}")
 	public boolean usuarioPossuiOPerfil(int idUsuario, int idPerfil) {
 		try {
 			return controller.usuarioPossuiOPerfil(idUsuario, idPerfil);
@@ -265,7 +290,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return True caso a ligacao esteja ativa e com data posterior a data atual.
 	 * @throws Exception
 	 */
-	@GetMapping("/perfildeusuario/permissao/{id}")
+	@GetMapping("/estaAtivo/id/{id}")
 	public boolean permissaoAtiva(int id) {
 		PerfilDeUsuario ligacao = controller.consultarPorId(id);
 		try {
