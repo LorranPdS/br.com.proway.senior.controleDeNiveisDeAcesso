@@ -4,18 +4,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-
 		<groupId>org.springframework.boot</groupId>
-
 		<artifactId>spring-boot-starter-parent</artifactId>
-
 		<version>2.5.0</version>
-
 		<relativePath />
-
-
 	</parent>
-
 	<name>demo</name>
 	<groupId>br.com.proway.senior.controleacesso</groupId>
 	<artifactId>controleNiveisAcesso</artifactId>
@@ -36,7 +29,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.7.2</version>
+			<version>5.7.2</version><!--$NO-MVN-MAN-VER$-->
 			<scope>test</scope>
 		</dependency>
 		<dependency>
