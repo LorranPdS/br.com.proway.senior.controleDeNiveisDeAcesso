@@ -109,14 +109,14 @@ public class UsuarioControllerApi {
 	 * @param String
 	 * @return UsuarioDTo
 	 */
-	@GetMapping("/usuario/{login}")
-	public ResponseEntity<UsuarioDTO> consultarUsuario(@PathVariable("login") String login) {
-		
-		if (condition) {
-			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login));
-		}
-		}
-	}
+//	@GetMapping("/usuario/{login}")
+//	public ResponseEntity<UsuarioDTO> consultarUsuario(@PathVariable("login") String login) {
+//		
+//		if (condition) {
+//			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login));
+//		}
+//		}
+//	}
 
 	/**
 	 * Lista todos os {@link UsuarioDTO}.
@@ -183,10 +183,10 @@ public class UsuarioControllerApi {
 	 * @param idPermissao int
 	 * @return ArrayList<Permissao>
 	 */
-	@GetMapping("/usuario/{idUsuario}/perfil/{idPermissao}")
-	public boolean possuiPermissoes(@PathVariable("idUsuario") int idUsuario,@PathVariable("idPermissao") int idPermissao) {
-		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
-	}
+//	@GetMapping("/usuario/{idUsuario}/perfil/{idPermissao}")
+//	public boolean possuiPermissoes(@PathVariable("idUsuario") int idUsuario,@PathVariable("idPermissao") int idPermissao) {
+//		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
+//	}
 
 	/**
 	 * Lista todas as {@link PermissaoDTO} do {@link Usuario}.

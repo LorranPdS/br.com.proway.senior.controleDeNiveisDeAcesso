@@ -1,9 +1,11 @@
 package controller.controllerApi;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,9 +55,9 @@ public class PerfilDeUsuarioControllerApi {
 	 */
 	@PostMapping("/atribuirPerfilAUmUsuario/usuario/{idUsuario}/perfil/{idPerfil}")
 	public boolean atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
-			@RequestParam LocalDate dataExpiracao) {
+			@RequestBody String dataExpiracao) {
 		try {
-			return controller.atribuirPerfilAUmUsuario(idUsuario, idPerfil, dataExpiracao);
+			return controller.atribuirPerfilAUmUsuario(idUsuario, idPerfil, LocalDate.parse(dataExpiracao, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -199,7 +201,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * 
 	 * @param id int Id do objeto a ser consultado.
 	 */
-	@GetMapping("/perfildeusuario/{id}")
+	@GetMapping("/consultar/id/{id}")
 	public PerfilDeUsuarioDTO consultarPorId(@PathVariable("id") int id) {
 		return new PerfilDeUsuarioDTO(controller.consultarPorId(id));
 	}
