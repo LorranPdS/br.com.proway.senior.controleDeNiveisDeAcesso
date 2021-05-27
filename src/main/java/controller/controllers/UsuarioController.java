@@ -124,9 +124,8 @@ public class UsuarioController {
 	 * @param login
 	 * @param senha
 	 */
-	public void criarUsuario(String login, String senha) {
-		Usuario usuario1 = new Usuario(login, senha);
-		UsuarioDAO.getInstance().criar(usuario1);
+	public void criarUsuario(Usuario usuario) {
+		UsuarioDAO.getInstance().criar(usuario);
 	}
 
 	/**

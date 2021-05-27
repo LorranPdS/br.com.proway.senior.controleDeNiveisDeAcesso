@@ -3,11 +3,13 @@ package controller.controllerApi;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.UsuarioController;
+import model.entidades.Usuario;
 
 /**
  * a classe possui metodos que não são de nenhuma entidade do sistema, fazem
@@ -54,8 +56,8 @@ public class LoginControllerApi {
 	 * @throws Exception
 	 */
 	@PostMapping("/login/{emailDoDestinatario} ")
-	public boolean enviarEmailDeConfirmacaoDeLogin(@PathVariable String emailDoDestinario) throws Exception {
-		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(emailDoDestinario);
+	public boolean enviarEmailDeConfirmacaoDeLogin(@RequestBody Usuario usuario) throws Exception {
+		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(usuario.getLogin());
 	}
 
 	/**
@@ -69,9 +71,8 @@ public class LoginControllerApi {
 	 * @param codigoDeConfirmacao
 	 */
 	@GetMapping("/login/{login}")
-	public boolean confirmarCodigoDeConfirmacao(@PathVariable("login") String login,
-			@RequestParam Integer codigoDeConfirmacao) {
-		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(login, codigoDeConfirmacao);
+	public boolean confirmarCodigoDeConfirmacao(@RequestBody Usuario usuario) {
+		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(usuario.getLogin(), usuario.getUltimoCodigo2FA());
 	}
 
 }

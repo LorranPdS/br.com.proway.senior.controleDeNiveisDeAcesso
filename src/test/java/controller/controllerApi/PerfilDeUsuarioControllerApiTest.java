@@ -83,7 +83,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
 		perfil = perfilController.consultarPerfil("Vendedor");
 
-		usuarioApi.criarUsuario("thiago@gmail.com", "admin");
+		usuarioApi.criarUsuario(new Usuario("thiago@gmail.com", "admin"));
 		usuario = usuarioController.consultarUsuario("thiago@gmail.com");
 	}
 

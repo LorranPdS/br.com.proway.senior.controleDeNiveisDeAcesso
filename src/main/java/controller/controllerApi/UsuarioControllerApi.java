@@ -3,13 +3,13 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
@@ -42,9 +42,10 @@ public class UsuarioControllerApi {
 	 * @param login
 	 * @param senha
 	 */
-	@PostMapping("/usuario")
-	public void criarUsuario(@RequestParam String login, @RequestParam String senha) {
-		UsuarioController.getInstance().criarUsuario(login, senha);
+	@PostMapping("/usuario/criar")
+	public boolean criarUsuario(@RequestBody Usuario usuario) {
+		UsuarioController.getInstance().criarUsuario(usuario);
+		return true;
 	}
 
 	/**
@@ -57,9 +58,10 @@ public class UsuarioControllerApi {
 	 * 
 	 * @param Integer - id
 	 */
-	@DeleteMapping("/usuario/{id}")
-	public void deletarUsuario(@PathVariable("id") Integer id) {
+	@DeleteMapping("/usuario/deletar/{id}")
+	public boolean deletarUsuario(@PathVariable("id") Integer id) {
 		UsuarioController.getInstance().deletarUsuario(id);
+		return true;
 	}
 
 	/**
@@ -74,9 +76,10 @@ public class UsuarioControllerApi {
 	 * @param String  - login
 	 * @param String  - senha
 	 */
-	@PutMapping("usuario/{id}")
-	public void alterarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario) {
+	@PutMapping("usuario/alterar/{id}")
+	public boolean alterarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario) {
 		UsuarioController.getInstance().alterarUsuario(usuario);
+		return true;
 	}
 
 	/**
@@ -88,7 +91,7 @@ public class UsuarioControllerApi {
 	 * @param Integer - idUsuario
 	 * @return UsuarioDTO
 	 */
-	@GetMapping("/usuario/{id}")
+	@GetMapping("/usuario/consulta/{id}")
 	public UsuarioDTO consultarUsuarioPorId(@PathVariable("id") Integer id) {
 		try {
 			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorId(id));
@@ -107,12 +110,11 @@ public class UsuarioControllerApi {
 	 * @return UsuarioDTo
 	 */
 	@GetMapping("/usuario/{login}")
-	public UsuarioDTO consultarUsuario(@PathVariable("login") String login) {
-		try {
+	public ResponseEntity<UsuarioDTO> consultarUsuario(@PathVariable("login") String login) {
+		
+		if (condition) {
 			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login));
-		} catch (Exception e) {
-			e.getMessage();
-			return null;
+		}
 		}
 	}
 
@@ -126,7 +128,7 @@ public class UsuarioControllerApi {
 	 * 
 	 * @return ArrayList<UsuarioDTO>
 	 */
-	@GetMapping("/usuario")
+	@GetMapping("/usuario/lista")
 	public ArrayList<UsuarioDTO> listarTodosOsUsuarios() {
 		ArrayList<Usuario> usuariosEncontrados = (ArrayList<Usuario>) UsuarioDAO.getInstance().listar();
 		ArrayList<UsuarioDTO> resultado = new ArrayList<>();
@@ -154,7 +156,7 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PerfilDTO>
 	 */
-	@GetMapping("/usuario/perfil/usuario/{id}")
+	@GetMapping("/usuario/listar/perfil/usuario/id/{id}")
 	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable("id") int id) {
 		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> resultado = new ArrayList<>();
@@ -197,7 +199,7 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PermissaoDTO>
 	 */
-	@GetMapping("/usuario/permissao/usuario/{id}")
+	@GetMapping("/usuario/listar/permissao/usuario/id/{id}")
 	public List<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable("id") Integer id) {
 		List<PermissaoDTO> resultado = new ArrayList<>();
 		List<PermissaoDTO> listaPermissao = new ArrayList<>();
