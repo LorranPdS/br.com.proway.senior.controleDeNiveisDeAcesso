@@ -9,9 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.UsuarioController;
 
+/**
+ * a classe possui metodos que não são de nenhuma entidade do sistema, fazem
+ * interaçoes com email, e o login de um usuario
+ * 
+ * @author Marcelo schaefer <b>marceloshaeferfilho@gmail.com</b> - sprint7
+ *
+ */
 @RestController
 public class LoginControllerApi {
-	
+
 	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
 	UsuarioController UController = new UsuarioController();
 
