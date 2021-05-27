@@ -71,11 +71,11 @@ class RotinasControllerApiTest {
 		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
 		perfil = perfilController.consultarPerfil("Vendedor");
 
-		usuarioApi.criarUsuario("carlos@gmail.com", "admin");
-		usuarioApi.criarUsuario("julia@gmail.com", "admin123");
-		usuarioApi.criarUsuario("joao@gmail.com", "admin");
-		usuarioApi.criarUsuario("maria@gmail.com", "admin");
-		usuarioApi.criarUsuario("alan@gmail.com", "admin");
+		usuarioApi.criarUsuario(new Usuario("carlos@gmail.com", "admin"));
+		usuarioApi.criarUsuario(new Usuario("julia@gmail.com", "admin123"));
+		usuarioApi.criarUsuario(new Usuario("joao@gmail.com", "admin"));
+		usuarioApi.criarUsuario(new Usuario("maria@gmail.com", "admin"));
+		usuarioApi.criarUsuario(new Usuario("alan@gmail.com", "admin"));
 
 		usuario1 = usuarioController.consultarUsuario("carlos@gmail.com");
 		usuario2 = usuarioController.consultarUsuario("julia@gmail.com");

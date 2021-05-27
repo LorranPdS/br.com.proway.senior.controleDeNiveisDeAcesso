@@ -68,7 +68,7 @@ public class UsuarioControllerApiTest {
 	public void testJCriarEConsultarUsuario() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
-		UsuarioController.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		UsuarioController.getInstance().criarUsuario(new Usuario(loginDoUsuario, senhaDoUsuario));
 		Usuario usuarioEncontradoPorNome = UsuarioController.getInstance().consultarUsuario(loginDoUsuario);
 		Usuario usuarioEncontradoPorId = UsuarioController.getInstance()
 				.consultarUsuario(usuarioEncontradoPorNome.getIdUsuario());
@@ -79,11 +79,11 @@ public class UsuarioControllerApiTest {
 	public void testListarTodosUsuarios() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
-		UsuarioController.getInstance().criarUsuario(loginDoUsuario, senhaDoUsuario);
+		UsuarioController.getInstance().criarUsuario(new Usuario(loginDoUsuario, senhaDoUsuario));
 
 		String loginDoUsuario2 = "marcelo@gmail.com";
 		String senhaDoUsuario2 = "456";
-		usuarioApi.criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+		usuarioApi.criarUsuario(new Usuario(loginDoUsuario2, senhaDoUsuario2));
 		assertEquals(2, usuarioApi.listarTodosOsUsuarios().size());
 	}
 
@@ -91,7 +91,7 @@ public class UsuarioControllerApiTest {
 	public void testVerificarEListarPermissaoDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
-		usuarioApi.criarUsuario(loginUsuario, senhaUsuario);
+		usuarioApi.criarUsuario(new Usuario(loginUsuario, senhaUsuario));
 
 		perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
@@ -116,7 +116,7 @@ public class UsuarioControllerApiTest {
 	public void testListarPerfisDeUmUsuario() {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
-		UsuarioController.getInstance().criarUsuario(loginUsuario, senhaUsuario);
+		UsuarioController.getInstance().criarUsuario(new Usuario(loginUsuario, senhaUsuario));
 
 		perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
@@ -141,7 +141,7 @@ public class UsuarioControllerApiTest {
 
 	@org.junit.jupiter.api.Test
 	public void testAlterarUsuario() {
-		usuarioApi.criarUsuario("AntesDaAlteracao@gmail.com", "6666666");
+		usuarioApi.criarUsuario(new Usuario("AntesDaAlteracao@gmail.com", "6666666"));
 
 		Usuario usuarioCadastrado = UsuarioController.getInstance()
 				.consultarUsuario("AntesDaAlteracao@gmail.com");
@@ -162,11 +162,11 @@ public class UsuarioControllerApiTest {
 	public void testDeletarUsuario() {
 		String loginDoUsuario = "UsuarioDeTesteDeDelecao@gmail.com";
 		String senhaDoUsuario = "123123123";
-		usuarioApi.criarUsuario(loginDoUsuario, senhaDoUsuario);
+		usuarioApi.criarUsuario(new Usuario(loginDoUsuario, senhaDoUsuario));
 
 		String loginDoUsuario2 = "marcelo@gmail.com";
 		String senhaDoUsuario2 = "456";
-		usuarioApi.criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+		usuarioApi.criarUsuario(new Usuario(loginDoUsuario2, senhaDoUsuario2));
 
 		UsuarioDTO usuarioASerDeletado = usuarioApi.consultarUsuario(loginDoUsuario);
 		usuarioApi.deletarUsuario(usuarioASerDeletado.getIdUsuario());
@@ -178,11 +178,11 @@ public class UsuarioControllerApiTest {
 	public void testMListarTodosUsuarios() {
 		String loginDoUsuario = "jonata@gmail.com";
 		String senhaDoUsuario = "123";
-		usuarioApi.criarUsuario(loginDoUsuario, senhaDoUsuario);
+		usuarioApi.criarUsuario(new Usuario(loginDoUsuario, senhaDoUsuario));
 
 		String loginDoUsuario2 = "marcelo@gmail.com";
 		String senhaDoUsuario2 = "456";
-		usuarioApi.criarUsuario(loginDoUsuario2, senhaDoUsuario2);
+		usuarioApi.criarUsuario(new Usuario(loginDoUsuario2, senhaDoUsuario2));
 		assertEquals(2, usuarioApi.listarTodosOsUsuarios().size());
 	}
 }

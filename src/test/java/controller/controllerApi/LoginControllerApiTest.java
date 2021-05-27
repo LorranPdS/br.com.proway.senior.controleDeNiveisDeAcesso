@@ -60,7 +60,7 @@ public class LoginControllerApiTest {
 		String loginExistente = "Grijo@gmail.com";
 		String senhaCorreta = "234";
 		String senhaIncorreta = "123";
-		UsuarioController.getInstance().criarUsuario(loginExistente, senhaCorreta);
+		UsuarioController.getInstance().criarUsuario(new Usuario(loginExistente, senhaCorreta));
 		assertTrue(loginApi.logar(loginExistente, senhaCorreta));
 		assertFalse(loginApi.logar(loginExistente, senhaIncorreta));
 	}
@@ -76,7 +76,7 @@ public class LoginControllerApiTest {
 
 		String destinatario = "Email@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
 		String senha = "123";
-		UsuarioController.getInstance().criarUsuario(destinatario, senha);
+		UsuarioController.getInstance().criarUsuario(new Usuario(destinatario, senha));
 
 		boolean resultadoEnvioEmail = loginApi.enviarEmailDeConfirmacaoDeLogin(destinatario);
 		assertTrue(resultadoEnvioEmail);
