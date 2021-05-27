@@ -3,15 +3,19 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PermissaoController;
+import javassist.NotFoundException;
 import model.dao.PermissaoDAO;
 import model.dto.PermissaoDTO;
 import model.entidades.Permissao;
@@ -22,6 +26,7 @@ import model.entidades.Permissao;
  *
  */
 @RestController
+@RequestMapping("/permissao")
 public class PermissaoControllerApi {
 	PermissaoController controller = new PermissaoController();
 
@@ -34,10 +39,12 @@ public class PermissaoControllerApi {
 	 * persistido no banco de dados.
 	 * 
 	 * @param nomePermissao String Nome da permissao.
+	 * @return boolean Se ja existir uma {@link Permissao} com o nome informado,
+	 *         retorna false. Se nao existir, retorna true.
 	 */
-	@PostMapping("/permissao")
-	public void criarPermissao(@RequestParam String nomePermissao) {
-		controller.criarPermissao(nomePermissao);
+	@PostMapping("/criar")
+	public boolean criarPermissao(@RequestBody Permissao permissao) {
+		return controller.criarPermissao(permissao.getNomePermissao());
 	}
 
 	/**
@@ -51,10 +58,12 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param id            - Integer Identificador da permissao a ser alterada.
 	 * @param nomePermissao - String Novo nome da permissao
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
-	@PutMapping("/permissao/{id}")
-	public void alterarPermissao(@PathVariable("id") Integer id, @RequestParam String nomePermissao) {
-		controller.alterarPermissao(id, nomePermissao);
+	@PutMapping("/alterar/id/{id}")
+	public boolean alterarPermissao(@PathVariable("id") Integer id, @RequestBody Permissao permissao) {
+		return controller.alterarPermissao(id, permissao.getNomePermissao());
 	}
 
 	/**
@@ -64,10 +73,12 @@ public class PermissaoControllerApi {
 	 * Responsavel por deletar uma {@link Permissao} pelo seu id.
 	 * 
 	 * @param id Integer Id da permissao a ser deletada.
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
-	@DeleteMapping("/permissao/{id}")
-	public void deletarPermissao(@PathVariable("id") Integer id) {
-		controller.deletarPermissao(id);
+	@DeleteMapping("/deletar/id/{id}")
+	public boolean deletarPermissao(@PathVariable("id") Integer id) {
+		return controller.deletarPermissao(id);
 	}
 
 	/**
@@ -78,11 +89,19 @@ public class PermissaoControllerApi {
 	 * o objeto completo.
 	 * 
 	 * @param id Integer Id do objeto a ser consultado.
-	 * @return Permissao
+	 * @return ResponseEntity<PermissaoDTO> Caso encontre uma {@link Permissao} no
+	 *         banco de dados com o id informado, retorna uma PermissaoDTO. Se nao
+	 *         encontrar, retorna uma excessao NOT_FOUND.
+	 * @throws NotFoundException
 	 */
-	@GetMapping("/permissao/{id}")
-	public PermissaoDTO consultarPermissaoPorId(@PathVariable("id") Integer id) {
-		return new PermissaoDTO(controller.consultarPermissaoPorId(id));
+	@GetMapping("/consultar/id/{id}")
+	public ResponseEntity<PermissaoDTO> consultarPermissaoPorId(@PathVariable("id") Integer id)
+			throws NotFoundException {
+		Permissao permissao = controller.consultarPermissaoPorId(id);
+		if (permissao == null) {
+			return new ResponseEntity<PermissaoDTO>(HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok(new PermissaoDTO(permissao));
 	}
 
 	/**
@@ -93,11 +112,17 @@ public class PermissaoControllerApi {
 	 * retorna o objeto completo.
 	 * 
 	 * @param nome String Nome do objeto a ser consultado.
-	 * @return Permissao
+	 * @return ResponseEntity<PermissaoDTO> Caso encontre uma {@link Permissao} no
+	 *         banco de dados com o id informado, retorna uma PermissaoDTO. Se nao
+	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 */
-	@GetMapping("/permissao/{nome}")
-	public PermissaoDTO consultarPermissaoPorNome(@PathVariable("nome") String nome) {
-		return new PermissaoDTO(controller.consultarPermissaoPorNome(nome));
+	@GetMapping("/consultar/nome/{nome}")
+	public ResponseEntity<PermissaoDTO> consultarPermissaoPorNomeExato(@PathVariable("nome") String nome) {
+		Permissao permissao = controller.consultarPermissaoPorNomeExato(nome);
+		if (permissao == null) {
+			return new ResponseEntity<PermissaoDTO>(HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok(new PermissaoDTO(permissao));
 	}
 
 	/**
@@ -106,9 +131,9 @@ public class PermissaoControllerApi {
 	 * <p>
 	 * Consulta todos os registros e retorna uma lista.
 	 * 
-	 * @return List<Permissao>
+	 * @return List<Permissao> 
 	 */
-	@GetMapping("/permissao")
+	@GetMapping("/listar")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
 		List<Permissao> listaModel = controller.listarTodasAsPermissoes();
 		List<PermissaoDTO> listaDTO = new ArrayList<PermissaoDTO>();

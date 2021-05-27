@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import controller.controllers.PermissaoController;
 import model.dto.PermissaoDTO;
+import model.entidades.Permissao;
 
 /**
  * 
@@ -24,28 +25,31 @@ public class PermissaoControllerApiTest {
 		controller.deletarTodos();
 	}
 
+	Permissao permissao = new Permissao("Gerencia");
+	
 	@Test
 	public void testCriarPermissao() {
 		assertEquals(0, controllerApi.listarTodasAsPermissoes().size());
-		controllerApi.criarPermissao("Gerencia");
+		controllerApi.criarPermissao(permissao);
 		assertEquals(1, controllerApi.listarTodasAsPermissoes().size());
 	}
 
 	@Test
 	public void testAlterarPermissao() {
-		controllerApi.criarPermissao("Gerencia");
+		controllerApi.criarPermissao(permissao);
 		assertEquals(1, controllerApi.listarTodasAsPermissoes().size());
-		PermissaoDTO permissaoConsultada = controllerApi.consultarPermissaoPorNome("Gerencia");
-		String novoNomeDaPermissao = "Gerencia Novo";
-		controllerApi.alterarPermissao(permissaoConsultada.getIdPermissao(), novoNomeDaPermissao);
+		Permissao permissaoConsultada = controller.consultarPermissaoPorNome("Gerencia");
+		Permissao permissaoNova = permissaoConsultada;
+		permissaoNova.setNomePermissao("Novo nome");
+		controllerApi.alterarPermissao(permissaoConsultada.getIdPermissao(), permissaoNova);
 		PermissaoDTO permissaoAlterada = controllerApi.consultarPermissaoPorId(permissaoConsultada.getIdPermissao());
-		assertEquals("Gerencia Novo", permissaoAlterada.getNomePermissao());
+		assertEquals("Novo nome", permissaoAlterada.getNomePermissao());
 	}
 
 	@Test
 	public void testDeletarPermissao() {
 		assertEquals(0, controllerApi.listarTodasAsPermissoes().size());
-		controllerApi.criarPermissao("Gerencia");
+		controllerApi.criarPermissao(permissao);
 		assertEquals(1, controllerApi.listarTodasAsPermissoes().size());
 		PermissaoDTO permissaoConsultada = controllerApi.consultarPermissaoPorNome("Gerencia");
 		controllerApi.deletarPermissao(permissaoConsultada.getIdPermissao());
@@ -55,14 +59,15 @@ public class PermissaoControllerApiTest {
 	@Test
 	public void testListarTodasAsPermissoes() {
 		assertEquals(0, controllerApi.listarTodasAsPermissoes().size());
-		controllerApi.criarPermissao("Gerencia");
-		controllerApi.criarPermissao("Subordinado");
+		controllerApi.criarPermissao(permissao);
+		Permissao permissao2 = new Permissao("Outra permissao.");
+		controllerApi.criarPermissao(permissao2);
 		assertEquals(2, controllerApi.listarTodasAsPermissoes().size());
 	}
 
 	@Test
 	public void testDeletarTodos() {
-		controllerApi.criarPermissao("Gerencia");
+		controllerApi.criarPermissao(permissao);
 		controller.deletarTodos();
 		assertEquals(0, controllerApi.listarTodasAsPermissoes().size());
 	}

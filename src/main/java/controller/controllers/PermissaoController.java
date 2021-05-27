@@ -19,49 +19,65 @@ public class PermissaoController {
 	 * Cadastro de uma {@link Permissao} no banco de dados.
 	 * 
 	 * <p>
-	 * Responsavel por criar um objeto do tipo {@link Permissao}. O objeto
-	 * {@link Permissao} e enviado ao {@link PermissaoDAO} para ser persistido no
-	 * banco de dados.
+	 * Responsavel por criar um objeto do tipo {@link Permissao}. Verifica se já
+	 * existe uma permissao com o nome informado. Se não existir, o objeto
+	 * {@link Permissao} eh enviado ao {@link PermissaoDAO} para ser persistido no
+	 * banco de dados e retorna true. Se existir, retorna false.
 	 * 
 	 * @param nomePermissao String Nome da permissao.
+	 * @return boolean Se ja existir uma {@link Permissao} com o nome informado,
+	 *         retorna false. Se nao existir, retorna true.
 	 */
-	public void criarPermissao(String nomePermissao) {
+	public boolean criarPermissao(String nomePermissao) {
+		if (permissaoDAO.consultarPorNomeExato(nomePermissao) != null)
+			return false;
+
 		Permissao permissao = new Permissao(nomePermissao);
 		permissaoDAO.criar(permissao);
+		return true;
 	}
 
 	/**
 	 * Alteracao de uma {@link Permissao}.
 	 * 
 	 * <p>
-	 * Sera feita uma consulta da {@link Permissao} no banco de dados atraves do id
-	 * e nome da permissao, o qual retornara o objeto completo. Feito isso, o novo
-	 * nome da {@link Permissao} sera setado ao objeto e enviado ao
-	 * {@link PermissaoDAO} para ser atualizado no banco de dados.
+	 * Verifica se existe uma {@link Permissao} no banco de dados com o id
+	 * informado, se existir, seta os novos valores e altera no banco de dados
+	 * retornando true. Se nao existir, retorna false e nao altera.
 	 * 
 	 * @param idPermissao   - Integer
 	 * @param nomePermissao - String
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
-	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
-		Permissao p = consultarPermissaoPorId(idPermissao);
-		p.setNomePermissao(nomePermissao);
-		permissaoDAO.alterar(p);
+	public boolean alterarPermissao(Integer idPermissao, String nomePermissao) {
+		if (permissaoDAO.consultarPorId(idPermissao) == null)
+			return false;
+
+		Permissao permissao = consultarPermissaoPorId(idPermissao);
+		permissao.setNomePermissao(nomePermissao);
+		permissaoDAO.alterar(permissao);
+		return true;
 	}
 
 	/**
-	 * Remocao de uma {@link Permissao} pelo id.
+	 * Deleta uma {@link Permissao} pelo id.
 	 * 
 	 * <p>
-	 * Responsavel por consultar uma {@link Permissao} pelo seu id no banco de
-	 * dados, retornando o objeto com os dados de uma {@link Permissao} preenchidos
-	 * e, posteriormente, enviando ao {@link PermissaoDAO} para ser removido do
-	 * banco de dados.
+	 * Verifica se existe uma {@link Permissao} no banco de dados com o id recebido,
+	 * se existir, deleta o registro e retorna true. Se nao existir, retorna false.
 	 * 
 	 * @param idPermissao Integer
+	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
+	 *         recebido. Se nao existir, retorna false.
 	 */
-	public void deletarPermissao(Integer idPermissao) {
+	public boolean deletarPermissao(Integer idPermissao) {
+		if (permissaoDAO.consultarPorId(idPermissao) == null)
+			return false;
+
 		Permissao p = consultarPermissaoPorId(idPermissao);
 		permissaoDAO.deletar(p);
+		return true;
 	}
 
 	/**
@@ -88,8 +104,8 @@ public class PermissaoController {
 	 * @param nomePermissao String Nome do objeto a ser consultado.
 	 * @return Permissao
 	 */
-	public Permissao consultarPermissaoPorNome(String nomePermissao) {
-		return permissaoDAO.consultarPorNome(nomePermissao);
+	public Permissao consultarPermissaoPorNomeExato(String nomePermissao) {
+		return permissaoDAO.consultarPorNomeExato(nomePermissao);
 	}
 
 	/**
@@ -98,7 +114,7 @@ public class PermissaoController {
 	 * <p>
 	 * Consulta todos os registros e retorna uma lista.
 	 * 
-	 * @return List<Permissao> 
+	 * @return List<Permissao>
 	 */
 	public List<Permissao> listarTodasAsPermissoes() {
 		return permissaoDAO.listar();
