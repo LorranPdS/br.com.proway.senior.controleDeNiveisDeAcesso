@@ -56,8 +56,8 @@ public class PermissaoControllerApi {
 	 * @param nomePermissao - String Novo nome da permissao
 	 */
 	@PutMapping("/permissao/alterar/id/{id}")
-	public void alterarPermissao(@PathVariable("id") Integer id, @RequestBody Permissao permissao) {
-		controller.alterarPermissao(id, permissao.getNomePermissao());
+	public boolean alterarPermissao(@PathVariable("id") Integer id, @RequestBody Permissao permissao) {
+		return controller.alterarPermissao(id, permissao.getNomePermissao());
 	}
 
 	/**
@@ -69,8 +69,8 @@ public class PermissaoControllerApi {
 	 * @param id Integer Id da permissao a ser deletada.
 	 */
 	@DeleteMapping("/permissao/deletar/id/{id}")
-	public void deletarPermissao(@PathVariable("id") Integer id) {
-		controller.deletarPermissao(id);
+	public boolean deletarPermissao(@PathVariable("id") Integer id) {
+		return controller.deletarPermissao(id);
 	}
 
 	/**
@@ -82,14 +82,15 @@ public class PermissaoControllerApi {
 	 * 
 	 * @param id Integer Id do objeto a ser consultado.
 	 * @return Permissao
-	 * @throws NotFoundException 
+	 * @throws NotFoundException
 	 */
 	@GetMapping("/permissao/consultar/id/{id}")
-	public ResponseEntity<PermissaoDTO> consultarPermissaoPorId(@PathVariable("id") Integer id) throws NotFoundException {
+	public ResponseEntity<PermissaoDTO> consultarPermissaoPorId(@PathVariable("id") Integer id)
+			throws NotFoundException {
 		Permissao permissao = controller.consultarPermissaoPorId(id);
-		if(permissao == null) {
+		if (permissao == null) {
 			return new ResponseEntity<PermissaoDTO>(HttpStatus.NOT_FOUND);
-			}
+		}
 		return ResponseEntity.ok(new PermissaoDTO(permissao));
 	}
 
@@ -104,8 +105,12 @@ public class PermissaoControllerApi {
 	 * @return Permissao
 	 */
 	@GetMapping("/permissao/consultar/nome/{nome}")
-	public PermissaoDTO consultarPermissaoPorNome(@PathVariable("nome") String nome) {
-		return new PermissaoDTO(controller.consultarPermissaoPorNome(nome));
+	public ResponseEntity<PermissaoDTO> consultarPermissaoPorNomeExato(@PathVariable("nome") String nome) {
+		Permissao permissao = controller.consultarPermissaoPorNome(nome);
+		if (permissao == null) {
+			return new ResponseEntity<PermissaoDTO>(HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok(new PermissaoDTO(permissao));
 	}
 
 	/**

@@ -27,9 +27,9 @@ public class PermissaoController {
 	 * @param nomePermissao String Nome da permissao.
 	 */
 	public boolean criarPermissao(String nomePermissao) {
-		if(permissaoDAO.consultarPorNome(nomePermissao) != null)
+		if (permissaoDAO.consultarPorNome(nomePermissao) != null)
 			return false;
-		
+
 		Permissao permissao = new Permissao(nomePermissao);
 		permissaoDAO.criar(permissao);
 		return true;
@@ -47,10 +47,14 @@ public class PermissaoController {
 	 * @param idPermissao   - Integer
 	 * @param nomePermissao - String
 	 */
-	public void alterarPermissao(Integer idPermissao, String nomePermissao) {
-		Permissao p = consultarPermissaoPorId(idPermissao);
-		p.setNomePermissao(nomePermissao);
-		permissaoDAO.alterar(p);
+	public boolean alterarPermissao(Integer idPermissao, String nomePermissao) {
+		if (permissaoDAO.consultarPorId(idPermissao) == null)
+			return false;
+
+		Permissao permissao = consultarPermissaoPorId(idPermissao);
+		permissao.setNomePermissao(nomePermissao);
+		permissaoDAO.alterar(permissao);
+		return true;
 	}
 
 	/**
@@ -64,9 +68,13 @@ public class PermissaoController {
 	 * 
 	 * @param idPermissao Integer
 	 */
-	public void deletarPermissao(Integer idPermissao) {
+	public boolean deletarPermissao(Integer idPermissao) {
+		if (permissaoDAO.consultarPorId(idPermissao) == null)
+			return false;
+
 		Permissao p = consultarPermissaoPorId(idPermissao);
 		permissaoDAO.deletar(p);
+		return true;
 	}
 
 	/**
