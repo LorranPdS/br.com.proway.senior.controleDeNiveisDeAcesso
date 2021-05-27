@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import controller.controllers.PerfilController;
 import controller.controllers.PerfilDeUsuarioController;
-import controller.controllers.UsuarioController;
 import model.dto.PerfilDTO;
 import model.dto.PerfilDeUsuarioDTO;
 import model.dto.PermissaoDTO;
@@ -43,20 +41,13 @@ public class PerfilDeUsuarioControllerApi {
 	 * @param perfil  Perfil {@link Perfil} que sera atribuido a um usuario.
 	 * @throws Exception - Caso a atribuição do {@link Perfil} ao {@link Usuario}
 	 *                   não seja possivel.
-	 *                   
+	 * 
 	 *                   localhost:8080/usuario/123/perfil/456
 	 */
 	@PostMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
-	public void atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
+	public boolean atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
 			@RequestParam LocalDate dataExpiracao) {
-		
-		UsuarioController usuarioController = new UsuarioController();
-		Usuario usuario = usuarioController.consultarUsuario(idUsuario);
-		
-		PerfilController perfilController = new PerfilController();
-		Perfil perfil = perfilController.consultarPerfil(idPerfil);
-		
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, dataExpiracao);
+		return controller.atribuirPerfilAUmUsuario(idUsuario, idPerfil, dataExpiracao);
 	}
 
 	/**
@@ -208,7 +199,12 @@ public class PerfilDeUsuarioControllerApi {
 	 */
 	@GetMapping("/perfildeusuario/usuario/{idUsuario}/permissao/{idPermissao}")
 	public boolean usuarioPossuiPermissaoPara(int idUsuario, int idPermissao) {
-		return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
+		try {
+			return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -225,7 +221,12 @@ public class PerfilDeUsuarioControllerApi {
 	 */
 	@GetMapping("/perfildeusuario/usuario/{idUsuario}/perfil/{idPerfil}")
 	public boolean usuarioPossuiOPerfil(int idUsuario, int idPerfil) {
-		return controller.usuarioPossuiOPerfil(idUsuario, idPerfil);
+		try {
+			return controller.usuarioPossuiOPerfil(idUsuario, idPerfil);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
@@ -238,6 +239,11 @@ public class PerfilDeUsuarioControllerApi {
 	@GetMapping("/perfildeusuario/permissao/{id}")
 	public boolean permissaoAtiva(int id) {
 		PerfilDeUsuario ligacao = controller.consultarPorId(id);
-		return controller.permissaoAtiva(ligacao);
+		try {
+			return controller.permissaoAtiva(ligacao);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
