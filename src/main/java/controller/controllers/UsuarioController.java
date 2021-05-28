@@ -45,7 +45,8 @@ public class UsuarioController {
 			return false;
 		} else {
 			String senhaHash = HashSenha.criptografarSenha(login, senha);
-			if (senhaHash.equals(usuario.getHashSenha())||senha.equals(usuario.getHashSenha()) && usuario.getLogin().equals(login)) {
+			if (senhaHash.equals(usuario.getHashSenha())
+					|| senha.equals(usuario.getHashSenha()) && usuario.getLogin().equals(login)) {
 				return true;
 			} else {
 				return false;
