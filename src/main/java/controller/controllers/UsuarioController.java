@@ -294,8 +294,9 @@ public class UsuarioController {
 	 * 
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 * @throws Exception 
 	 */
-	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
+	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) throws Exception {
 		return controller.listarPerfisAtivosDeUmUsuario(idUsuario);
 	}
 }

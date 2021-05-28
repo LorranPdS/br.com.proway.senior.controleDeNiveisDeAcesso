@@ -28,9 +28,9 @@ import model.entidades.Usuario;
 import utils.HashSenha;
 
 public class UsuarioControllerApiTest {
-	
+
 	UsuarioControllerApi usuarioApi = new UsuarioControllerApi();
-	UsuarioController usuarioController = new UsuarioController();
+	UsuarioController usuarioController = UsuarioController.getInstance();
 
 	@BeforeEach
 	public void deletarTudo() {
@@ -87,7 +87,7 @@ public class UsuarioControllerApiTest {
 	}
 
 	@org.junit.jupiter.api.Test
-	public void testVerificarEListarPermissaoDeUmUsuario() {
+	public void testVerificarEListarPermissaoDeUmUsuario() throws Exception {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
 		usuarioApi.criarUsuario(new Usuario(loginUsuario, senhaUsuario));
@@ -100,7 +100,7 @@ public class UsuarioControllerApiTest {
 
 		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
 
 		List<PermissaoDTO> lista = new ArrayList<>();
 		for (PermissaoDTO permissao : usuarioApi.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
@@ -112,7 +112,7 @@ public class UsuarioControllerApiTest {
 	}
 
 	@org.junit.jupiter.api.Test
-	public void testListarPerfisDeUmUsuario() {
+	public void testListarPerfisDeUmUsuario() throws Exception {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
 		UsuarioController.getInstance().criarUsuario(new Usuario(loginUsuario, senhaUsuario));
@@ -127,12 +127,15 @@ public class UsuarioControllerApiTest {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, permissao);
 
-		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
+		@SuppressWarnings("unused")
+		ResponseEntity<UsuarioDTO> usuarioEntity = usuarioApi
+				.consultarUsuarioPorId(usuarioController.consultarUsuario(loginUsuario).getIdUsuario());
+		Usuario usuario = usuarioController.consultarUsuario(loginUsuario);
 
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil2.getIdPerfil(), LocalDate.now().plusYears(1));
 
 		List<PerfilDTO> lista = usuarioApi.listarPerfisDeUmUsuario(usuario.getIdUsuario());
 		assertEquals(2, lista.size());
@@ -142,18 +145,17 @@ public class UsuarioControllerApiTest {
 	public void testAlterarUsuario() {
 		usuarioApi.criarUsuario(new Usuario("AntesDaAlteracao@gmail.com", "6666666"));
 
-		Usuario usuarioCadastrado = UsuarioController.getInstance()
-				.consultarUsuario("AntesDaAlteracao@gmail.com");
-		
+		Usuario usuarioCadastrado = UsuarioController.getInstance().consultarUsuario("AntesDaAlteracao@gmail.com");
+
 		Usuario usuarioNovo = new Usuario();
 		usuarioNovo.setLogin("DepoisDaAlteracao@gmail.com");
 		usuarioNovo.setHashSenha("9999999");
 		usuarioNovo.setIdUsuario(usuarioCadastrado.getIdUsuario());
-		
+
 		usuarioApi.alterarUsuario(usuarioNovo.getIdUsuario(), usuarioNovo);
-		
+
 		Usuario usuarioAlterado = UsuarioController.getInstance().consultarUsuario("DepoisDaAlteracao@gmail.com");
-		
+
 		assertEquals("DepoisDaAlteracao@gmail.com", usuarioAlterado.getLogin());
 		assertEquals(HashSenha.criptografarSenha("DepoisDaAlteracao@gmail.com", "9999999"),
 				usuarioAlterado.getHashSenha());
