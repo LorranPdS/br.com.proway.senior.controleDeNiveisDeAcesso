@@ -118,6 +118,7 @@ public class PermissaoControllerApi {
 	 */
 	@GetMapping("/consultar/nome/{nome}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorNomeExato(@PathVariable("nome") String nome) {
+		
 		Permissao permissao = controller.consultarPermissaoPorNomeExato(nome);
 		if (permissao == null) {
 			return new ResponseEntity<PermissaoDTO>(HttpStatus.NOT_FOUND);

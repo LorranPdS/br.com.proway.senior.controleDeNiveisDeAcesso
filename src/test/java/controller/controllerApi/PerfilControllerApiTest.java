@@ -21,13 +21,13 @@ public class PerfilControllerApiTest {
 	PermissaoController controllerPermissao = new PermissaoController();
 	PerfilControllerApi controllerPerfilApi = new PerfilControllerApi();
 	PerfilController controllerPerfil = new PerfilController();
-
-	@AfterEach
-	@BeforeEach
-	public void deletarTudo() {
-		controllerPerfilApi.deletarTodos();
-		controllerPermissao.deletarTodos();
-	}
+//
+//	@AfterEach
+//	@BeforeEach
+//	public void deletarTudo() {
+//		controllerPerfilApi.deletarTodos();
+//		controllerPermissao.deletarTodos();
+//	}
 
 	@org.junit.jupiter.api.Test
 	public void testConsultarPerfil() {

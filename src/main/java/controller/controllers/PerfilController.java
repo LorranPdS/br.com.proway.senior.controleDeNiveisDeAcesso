@@ -64,9 +64,13 @@ public class PerfilController {
 	 * 
 	 * @param idPerfil - Integer
 	 */
-	public void deletarPerfil(Integer idPerfil) {
-		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
-		PerfilDAO.getInstance().deletar(perfil);
+	public boolean deletarPerfil(Integer idPerfil) {
+		if (PerfilDAO.getInstance().consultarPorId(idPerfil) == null)
+			return false;
+
+		Perfil p = consultarPerfil(idPerfil);
+		PerfilDAO.getInstance().deletar(p);
+		return true;
 	}
 
 	/**
