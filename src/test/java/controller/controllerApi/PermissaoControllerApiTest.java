@@ -26,7 +26,7 @@ public class PermissaoControllerApiTest {
 	}
 
 	Permissao permissao = new Permissao("Gerencia");
-	
+
 	@Test
 	public void testCriarPermissao() {
 		assertEquals(0, controllerApi.listarTodasAsPermissoes().size());
@@ -38,11 +38,11 @@ public class PermissaoControllerApiTest {
 	public void testAlterarPermissao() {
 		controllerApi.criarPermissao(permissao);
 		assertEquals(1, controllerApi.listarTodasAsPermissoes().size());
-		Permissao permissaoConsultada = controller.consultarPermissaoPorNome("Gerencia");
+		Permissao permissaoConsultada = controller.consultarPermissaoPorNomeExato("Gerencia");
 		Permissao permissaoNova = permissaoConsultada;
 		permissaoNova.setNomePermissao("Novo nome");
 		controllerApi.alterarPermissao(permissaoConsultada.getIdPermissao(), permissaoNova);
-		PermissaoDTO permissaoAlterada = controllerApi.consultarPermissaoPorId(permissaoConsultada.getIdPermissao());
+		Permissao permissaoAlterada = controller.consultarPermissaoPorId(permissaoConsultada.getIdPermissao());
 		assertEquals("Novo nome", permissaoAlterada.getNomePermissao());
 	}
 
@@ -51,7 +51,7 @@ public class PermissaoControllerApiTest {
 		assertEquals(0, controllerApi.listarTodasAsPermissoes().size());
 		controllerApi.criarPermissao(permissao);
 		assertEquals(1, controllerApi.listarTodasAsPermissoes().size());
-		PermissaoDTO permissaoConsultada = controllerApi.consultarPermissaoPorNome("Gerencia");
+		Permissao permissaoConsultada = controller.consultarPermissaoPorNomeExato("Gerencia");
 		controllerApi.deletarPermissao(permissaoConsultada.getIdPermissao());
 		assertEquals(0, controllerApi.listarTodasAsPermissoes().size());
 	}

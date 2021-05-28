@@ -41,7 +41,7 @@ public class PerfilDeUsuarioControllerApiTest {
 	public static void limparEPopularTabelas() {
 		controllerSemApi.deletarTodos();
 		usuarioController.deletarTodos();
-		perfilApi.deletarTodos();
+		perfilController.deletarTodos();
 		permissaoController.deletarTodos();
 
 		popularTabelas();
@@ -51,7 +51,7 @@ public class PerfilDeUsuarioControllerApiTest {
 	public static void limparTabelas() {
 		controllerSemApi.deletarTodos();
 		usuarioController.deletarTodos();
-		perfilApi.deletarTodos();
+		perfilController.deletarTodos();
 		permissaoController.deletarTodos();
 	}
 
@@ -75,7 +75,9 @@ public class PerfilDeUsuarioControllerApiTest {
 	static PerfilDTO perfilDTO;
 
 	public static void popularTabelas() {
-		perfilApi.criarPerfil("Vendedor");
+		Perfil perfil = new Perfil();
+		perfil.setNomePerfil("Vendedor");
+		perfilApi.criarPerfil(perfil);
 		perfil = perfilController.consultarPerfil("Vendedor");
 		
 		Permissao permissao1 = new Permissao("Relatório de compras");
@@ -83,7 +85,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		permissaoApi.criarPermissao(permissao);
 		permissao = permissaoController.consultarPermissaoPorNomeExato("Relatório de compras");
 
-		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
+		perfilApi.atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil.getIdPerfil());
 		perfil = perfilController.consultarPerfil("Vendedor");
 
 		usuarioApi.criarUsuario(new Usuario("thiago@gmail.com", "admin"));
@@ -102,7 +104,7 @@ public class PerfilDeUsuarioControllerApiTest {
 
 	@Test
 	public void testListarPermissoesDeUmUsuario() {
-		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
+		perfilApi.atribuirPermissaoAUmPerfil(permissao.getIdPermissao(), perfil.getIdPerfil());
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
 				LocalDate.now().plusYears(1).toString());
 
