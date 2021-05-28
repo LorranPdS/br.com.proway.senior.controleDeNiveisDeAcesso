@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -80,7 +81,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		Permissao permissao1 = new Permissao("Relatório de compras");
 		permissao = permissao1;
 		permissaoApi.criarPermissao(permissao);
-		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras");
+		permissao = permissaoController.consultarPermissaoPorNomeExato("Relatório de compras");
 
 		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
 		perfil = perfilController.consultarPerfil("Vendedor");
@@ -94,7 +95,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		usuario = usuarioController.consultarUsuario("thiago@gmail.com");
 
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
-				LocalDate.now().plusYears(1));
+				LocalDate.now().plusYears(1).toString());
 
 		assertEquals(1, controllerApi.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
 	}
@@ -103,9 +104,9 @@ public class PerfilDeUsuarioControllerApiTest {
 	public void testListarPermissoesDeUmUsuario() {
 		perfilApi.atribuirPermissaoAUmPerfil(permissao, perfil);
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
-				LocalDate.now().plusYears(1));
+				LocalDate.now().plusYears(1).toString());
 
-		ArrayList<PermissaoDTO> permissoes = controllerApi.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
+		List<PermissaoDTO> permissoes = (List<PermissaoDTO>) controllerApi.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
 
 		assertEquals(1, permissoes.size());
 		assertEquals("Relatório de compras", permissoes.get(0).getNomePermissao());
@@ -114,20 +115,20 @@ public class PerfilDeUsuarioControllerApiTest {
 	@Test
 	public void testConsultarPorIdDoPerfil() {
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
-				LocalDate.now().plusYears(1));
-		assertEquals(1, controllerApi.listar().size());
+				LocalDate.now().plusYears(1).toString());
+		assertEquals(1, controllerSemApi.listar().size());
 
-		assertEquals(1, controllerApi.consultarPorIdDoPerfil(perfil.getIdPerfil()).size());
+		assertEquals(1, (controllerApi.consultarPorIdDoPerfil(perfil.getIdPerfil())).size());
 	}
 
 	@Test
 	public void testConsultarPorIdDoUsuario() {
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
-				LocalDate.now().plusYears(1));
+				LocalDate.now().plusYears(1).toString());
 		assertEquals(1, controllerApi.listar().size());
 
 		usuario = usuarioController.consultarUsuario("thiago@gmail.com");
-		assertEquals(1, controllerApi.consultarPorIdDoUsuario(usuario.getIdUsuario()).size());
+		assertEquals(1, (controllerApi.consultarPorIdDoUsuario(usuario.getIdUsuario())).size());
 	}
 
 	@Test
@@ -136,7 +137,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 
 		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
-				ligacao.getDataExpiracao());
+				ligacao.getDataExpiracao().toString());
 		assertEquals(1, controllerApi.listar().size());
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
@@ -149,7 +150,7 @@ public class PerfilDeUsuarioControllerApiTest {
 	public void testAlterar() {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
-				ligacao.getDataExpiracao());
+				ligacao.getDataExpiracao().toString());
 		assertEquals(1, controllerApi.listar().size());
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
@@ -163,7 +164,7 @@ public class PerfilDeUsuarioControllerApiTest {
 	public void testConsultarPorId() {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
-				ligacao.getDataExpiracao());
+				ligacao.getDataExpiracao().toString());
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
@@ -175,15 +176,15 @@ public class PerfilDeUsuarioControllerApiTest {
 	public void testListar() {
 		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao1.getUsuario().getIdUsuario(), ligacao1.getPerfil().getIdPerfil(),
-				ligacao1.getDataExpiracao());
+				ligacao1.getDataExpiracao().toString());
 
 		PerfilDeUsuario ligacao2 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao2.getUsuario().getIdUsuario(), ligacao2.getPerfil().getIdPerfil(),
-				ligacao2.getDataExpiracao());
+				ligacao2.getDataExpiracao().toString());
 
 		PerfilDeUsuario ligacao3 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao3.getUsuario().getIdUsuario(), ligacao3.getPerfil().getIdPerfil(),
-				ligacao3.getDataExpiracao());
+				ligacao3.getDataExpiracao().toString());
 
 		assertEquals(3, controllerApi.listar().size());
 	}
@@ -196,14 +197,14 @@ public class PerfilDeUsuarioControllerApiTest {
 
 	@Test
 	public void testUsuarioPossuiPermissaoPara() {
-		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now());
+		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().toString());
 		boolean possui = controllerApi.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao());
 		assertTrue(possui);
 	}
 
 	@Test
 	public void testUsuarioPossuiOPerfil() {
-		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now());
+		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().toString());
 		boolean possui = controllerApi.usuarioPossuiOPerfil(usuario.getIdUsuario(), perfil.getIdPerfil());
 		assertTrue(possui);
 	}
@@ -218,7 +219,7 @@ public class PerfilDeUsuarioControllerApiTest {
 	public void testPermissaoAtivaTrue() {
 		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao1.getUsuario().getIdUsuario(), ligacao1.getPerfil().getIdPerfil(),
-				ligacao1.getDataExpiracao());
+				ligacao1.getDataExpiracao().toString());
 
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao1 = ligacoes.get(0);
@@ -227,12 +228,16 @@ public class PerfilDeUsuarioControllerApiTest {
 
 	@Test
 	public void testPermissaoAtivaFalseData() {
-		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.of(2001, 01, 01));
+		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now());
 		controllerApi.atribuirPerfilAUmUsuario(ligacao1.getUsuario().getIdUsuario(), ligacao1.getPerfil().getIdPerfil(),
-				ligacao1.getDataExpiracao());
+				ligacao1.getDataExpiracao().toString());
 
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao1 = ligacoes.get(0);
+		controllerSemApi.desativar(ligacao1.getId());
+		
+		ArrayList<PerfilDeUsuario> ligacoes2 = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao1 = ligacoes2.get(0);
 		
 		assertFalse(controllerApi.permissaoAtiva(ligacao1.getId()));
 	}
@@ -241,7 +246,7 @@ public class PerfilDeUsuarioControllerApiTest {
 	public void testPermissaoAtivaFalse() {
 		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao1.getUsuario().getIdUsuario(), ligacao1.getPerfil().getIdPerfil(),
-				ligacao1.getDataExpiracao());
+				ligacao1.getDataExpiracao().toString());
 
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao1 = ligacoes.get(0);

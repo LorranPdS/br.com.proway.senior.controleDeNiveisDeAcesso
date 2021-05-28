@@ -250,9 +250,9 @@ public class UsuarioController {
 	 * @param idPermissao int
 	 * @return boolean
 	 */
-	public boolean possuiPermissoes(int idUsuario, int idPermissao) {
-		return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
-	}
+//	public boolean possuiPermissoes(int idUsuario, int idPermissao) {
+//		return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
+//	}
 
 	/**
 	 * Lista todas as {@link Permissao} do {@link Usuario}.
