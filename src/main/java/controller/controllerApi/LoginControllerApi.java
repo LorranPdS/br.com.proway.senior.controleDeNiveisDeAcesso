@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
@@ -57,9 +56,9 @@ public class LoginControllerApi {
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
 	 * @throws Exception
 	 */
-	@PostMapping("/{emailDoDestinatario} ")
-	public boolean enviarEmailDeConfirmacaoDeLogin(@RequestBody Usuario usuario) throws Exception {
-		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(usuario.getLogin());
+	@PostMapping("/email/{email}")
+	public boolean enviarEmailDeConfirmacaoDeLogin(@PathVariable("email") String email) throws Exception {
+		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(email);
 	}
 
 	/**
