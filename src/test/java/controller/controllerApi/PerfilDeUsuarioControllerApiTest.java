@@ -97,7 +97,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
 				LocalDate.now().plusYears(1).toString());
 
-		assertEquals(1, controllerApi.listarPerfisDeUmUsuario(usuario.getIdUsuario()));
+		assertEquals(1, controllerApi.listarPerfisDeUmUsuario(usuario.getIdUsuario()).size());
 	}
 
 	@Test
@@ -106,57 +106,52 @@ public class PerfilDeUsuarioControllerApiTest {
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
 				LocalDate.now().plusYears(1).toString());
 
-		@SuppressWarnings("unchecked")
 		List<PermissaoDTO> permissoes = (List<PermissaoDTO>) controllerApi.listarPermissoesDeUmUsuario(usuario.getIdUsuario());
 
 		assertEquals(1, permissoes.size());
 		assertEquals("Relatório de compras", permissoes.get(0).getNomePermissao());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testConsultarPorIdDoPerfil() {
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
 				LocalDate.now().plusYears(1).toString());
 		assertEquals(1, controllerSemApi.listar().size());
 
-		assertEquals(1, ((List<PermissaoDTO>) controllerApi.consultarPorIdDoPerfil(perfil.getIdPerfil())).size());
+		assertEquals(1, (controllerApi.consultarPorIdDoPerfil(perfil.getIdPerfil())).size());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testConsultarPorIdDoUsuario() {
 		controllerApi.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(),
 				LocalDate.now().plusYears(1).toString());
-		assertEquals(1, ((List<PermissaoDTO>) controllerApi.listar()).size());
+		assertEquals(1, controllerApi.listar().size());
 
 		usuario = usuarioController.consultarUsuario("thiago@gmail.com");
-		assertEquals(1, ((List<PermissaoDTO>) controllerApi.consultarPorIdDoUsuario(usuario.getIdUsuario())).size());
+		assertEquals(1, (controllerApi.consultarPorIdDoUsuario(usuario.getIdUsuario())).size());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testDeletar() {
-		assertEquals(0, ((List<PermissaoDTO>) controllerApi.listar()).size());
+		assertEquals(0, controllerApi.listar().size());
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 
 		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
 				ligacao.getDataExpiracao().toString());
-		assertEquals(1, ((List<PermissaoDTO>) controllerApi.listar()).size());
+		assertEquals(1, controllerApi.listar().size());
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
 		controllerApi.deletar(ligacao.getId());
-		assertEquals(0, ((List<PermissaoDTO>) controllerApi.listar()).size());
+		assertEquals(0, controllerApi.listar().size());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testAlterar() {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 		controllerApi.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
 				ligacao.getDataExpiracao().toString());
-		assertEquals(1, ((List<PermissaoDTO>) controllerApi.listar()).size());
+		assertEquals(1, controllerApi.listar().size());
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
@@ -165,7 +160,6 @@ public class PerfilDeUsuarioControllerApiTest {
 		assertEquals(LocalDate.now().plusMonths(3), controllerApi.consultarPorId(ligacao.getId()).getDataExpiracao());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testConsultarPorId() {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
@@ -174,11 +168,10 @@ public class PerfilDeUsuarioControllerApiTest {
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
-		assertEquals(1, ((List<PermissaoDTO>) controllerApi.listar()).size());
+		assertEquals(1, controllerApi.listar().size());
 		assertEquals("Vendedor", controllerApi.consultarPorId(ligacao.getId()).getPerfil().getNomePerfil());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testListar() {
 		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
@@ -193,7 +186,7 @@ public class PerfilDeUsuarioControllerApiTest {
 		controllerApi.atribuirPerfilAUmUsuario(ligacao3.getUsuario().getIdUsuario(), ligacao3.getPerfil().getIdPerfil(),
 				ligacao3.getDataExpiracao().toString());
 
-		assertEquals(3, ((List<PermissaoDTO>) controllerApi.listar()).size());
+		assertEquals(3, controllerApi.listar().size());
 	}
 
 	@Test
@@ -235,12 +228,16 @@ public class PerfilDeUsuarioControllerApiTest {
 
 	@Test
 	public void testPermissaoAtivaFalseData() {
-		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.of(2001, 01, 01));
+		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now());
 		controllerApi.atribuirPerfilAUmUsuario(ligacao1.getUsuario().getIdUsuario(), ligacao1.getPerfil().getIdPerfil(),
 				ligacao1.getDataExpiracao().toString());
 
 		ArrayList<PerfilDeUsuario> ligacoes = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao1 = ligacoes.get(0);
+		controllerSemApi.desativar(ligacao1.getId());
+		
+		ArrayList<PerfilDeUsuario> ligacoes2 = controllerSemApi.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao1 = ligacoes2.get(0);
 		
 		assertFalse(controllerApi.permissaoAtiva(ligacao1.getId()));
 	}
