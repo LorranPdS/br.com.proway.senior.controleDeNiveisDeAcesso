@@ -3,6 +3,8 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilController;
+import controller.controllers.PermissaoController;
+import javassist.NotFoundException;
 import model.dao.PerfilDAO;
 import model.dao.PermissaoDAO;
 import model.dto.PerfilDTO;
@@ -33,8 +37,8 @@ import model.entidades.Permissao;
 @RestController
 @RequestMapping("/perfil")
 public class PerfilControllerApi {
-
-	PerfilController controllerPerfil = PerfilController.getInstance();
+	PerfilController controllerPerfil = new PerfilController();
+	PermissaoController controllerPermissao = new PermissaoController();
 
 	/**
 	 * Criacao de um {@link Perfil}.
@@ -46,7 +50,8 @@ public class PerfilControllerApi {
 	 * @param String - nomePerfil
 	 */
 
-	@PostMapping("/criar/perfil")
+
+	@PostMapping("/criar")
 	public boolean criarPerfil(@RequestBody Perfil perfil) {
 		controllerPerfil.criarPerfil(perfil.getNomePerfil());
 		return true;
@@ -57,6 +62,7 @@ public class PerfilControllerApi {
 		PermissaoDAO.getInstance().criar(permissao);
 		return true;
 	}
+
 
 	/**
 	 * Alteracao de um {@link Perfil}.
@@ -69,10 +75,12 @@ public class PerfilControllerApi {
 	 * @param Integer idPerfil
 	 * @param String  nomePerfil
 	 */
+
 	@PutMapping("/alterar")
 	public boolean alterarPerfil(@RequestBody Perfil perfil) {
 		PerfilDAO.getInstance().alterar(perfil);
 		return true;
+
 	}
 
 	/**
@@ -101,14 +109,18 @@ public class PerfilControllerApi {
 	 *                              dados.
 	 * @return Perfil
 	 */
-	@GetMapping("/{idPerfil}")
-	public PerfilDTO consultarPerfilPorId(@PathVariable("idPerfil") Integer idPerfil) {
-		try {
-			return new PerfilDTO(controllerPerfil.consultarPerfil(idPerfil));
-		} catch (NullPointerException e) {
-			return null;
+
+	@GetMapping("/consultarPorId/{idPerfil}")
+	public ResponseEntity<PerfilDTO> consultarPerfilPorId(@PathVariable("idPerfil") Integer idPerfil) 
+		throws NotFoundException  {
+		
+			Perfil perfil = controllerPerfil.consultarPerfil(idPerfil);
+			if (perfil == null) {
+				return new ResponseEntity<PerfilDTO>(HttpStatus.NOT_FOUND);
+			}
+			return ResponseEntity.ok(new PerfilDTO(perfil));
 		}
-	}
+	
 
 	/**
 	 * Consulta um {@link Perfil} pelo nome.
@@ -121,7 +133,7 @@ public class PerfilControllerApi {
 	 * @exception NullPointerException (Retorna caso o resultado ser nulo).
 	 * @return {@link PerfilDTO}.
 	 */
-	@GetMapping("/consultarPorNome/Perfil/{nome}")
+	@GetMapping("/consultarPorNome/{nome}")
 	public PerfilDTO consultarPerfil(@PathVariable("nome") String nome) {
 		try {
 			return new PerfilDTO(controllerPerfil.consultarPerfil(nome));
@@ -188,7 +200,7 @@ public class PerfilControllerApi {
 	 * @param idPerfil
 	 * @return List<Permissao>
 	 */
-	@GetMapping("/listaDePermissoes/Perfil/{idPerfil}")
+	@GetMapping("/listaDePermissoes/{idPerfil}")
 	public List<Permissao> listarPermissoesDeUmPerfil(@PathVariable("idPerfil") int idPerfil) {
 		return PerfilDAO.getInstance().listarPermissoesDeUmPerfil(idPerfil);
 	}
@@ -202,10 +214,13 @@ public class PerfilControllerApi {
 	 * @param permissao Permissao
 	 * @param perfil    Perfil
 	 */
-	@PostMapping("/atribuirPermissaoAUmPerfil")
-	public boolean atribuirPermissaoAUmPerfil(@RequestBody Perfil perfil) {
-		controllerPerfil.atribuirPermissaoAUmPerfil(perfil.getPermissoes().get(0), perfil);
-		return true;
+	@PostMapping("/atribuirPermissaoAUmPerfil/{idPerfil}/{idPermissao}")
+	public boolean atribuirPermissaoAUmPerfil(@PathVariable("idPerfil") Integer idPerfil, @PathVariable("idPermissao") Integer idPermissao ) {
+		
+		Perfil perfil = controllerPerfil.consultarPerfil(idPerfil);
+		Permissao permissao = controllerPermissao.consultarPermissaoPorId(idPermissao);
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+	return true;
 	}
 
 	/**
