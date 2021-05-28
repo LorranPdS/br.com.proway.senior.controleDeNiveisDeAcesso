@@ -18,6 +18,7 @@ import controller.controllers.PerfilController;
 import controller.controllers.PermissaoController;
 import javassist.NotFoundException;
 import model.dao.PerfilDAO;
+import model.dao.PermissaoDAO;
 import model.dto.PerfilDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
@@ -36,7 +37,6 @@ import model.entidades.Permissao;
 @RestController
 @RequestMapping("/perfil")
 public class PerfilControllerApi {
-
 	PerfilController controllerPerfil = new PerfilController();
 	PermissaoController controllerPermissao = new PermissaoController();
 
@@ -50,11 +50,19 @@ public class PerfilControllerApi {
 	 * @param String - nomePerfil
 	 */
 
+
 	@PostMapping("/criar")
 	public boolean criarPerfil(@RequestBody Perfil perfil) {
 		controllerPerfil.criarPerfil(perfil.getNomePerfil());
 		return true;
 	}
+
+	@PostMapping("/criar/permissao")
+	public boolean criarPermissao(@RequestBody Permissao permissao) {
+		PermissaoDAO.getInstance().criar(permissao);
+		return true;
+	}
+
 
 	/**
 	 * Alteracao de um {@link Perfil}.
@@ -67,10 +75,12 @@ public class PerfilControllerApi {
 	 * @param Integer idPerfil
 	 * @param String  nomePerfil
 	 */
-	@PutMapping("/alterarPerfil/id/{idPerfil}")
-		public boolean alterarPerfil(@PathVariable("idPerfil") Integer idPerfil, @RequestBody Perfil perfil) {
-			 controllerPerfil.alterarPerfil(idPerfil, perfil.getNomePerfil());
-			 return true;
+
+	@PutMapping("/alterar")
+	public boolean alterarPerfil(@RequestBody Perfil perfil) {
+		PerfilDAO.getInstance().alterar(perfil);
+		return true;
+
 	}
 
 	/**
@@ -91,14 +101,15 @@ public class PerfilControllerApi {
 	/**
 	 * Consulta de {@link Perfil} pelo id.
 	 * 
-	 * Responsavel por consultar um {@link Perfil} existente com o 
-	 * idPerfil. A busca e realizada pelo idPerfil por intermedio do
-	 * {@link PerfilDAO}.
+	 * Responsavel por consultar um {@link Perfil} existente com o idPerfil. A busca
+	 * e realizada pelo idPerfil por intermedio do {@link PerfilDAO}.
 	 * 
-	 * @param Integer 
-	 * @throws NullPointerException Caso nao exista o {@link Perfil} no banco de dados.
+	 * @param Integer
+	 * @throws NullPointerException Caso nao exista o {@link Perfil} no banco de
+	 *                              dados.
 	 * @return Perfil
 	 */
+
 	@GetMapping("/consultarPorId/{idPerfil}")
 	public ResponseEntity<PerfilDTO> consultarPerfilPorId(@PathVariable("idPerfil") Integer idPerfil) 
 		throws NotFoundException  {
@@ -129,7 +140,6 @@ public class PerfilControllerApi {
 		} catch (NullPointerException e) {
 			return null;
 		}
-
 	}
 
 	/**
@@ -142,7 +152,7 @@ public class PerfilControllerApi {
 	 * 
 	 * @return resultado - ArrayList<Perfil>
 	 */
-	@GetMapping("/listarTodosOsPerfis")
+	@GetMapping("/")
 	public ArrayList<PerfilDTO> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
 
