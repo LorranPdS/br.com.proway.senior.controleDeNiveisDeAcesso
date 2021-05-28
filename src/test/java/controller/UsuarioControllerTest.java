@@ -56,7 +56,7 @@ public class UsuarioControllerTest {
 	UsuarioController UController = new UsuarioController();
 	PerfilDAO perfilDAO = PerfilDAO.getInstance();
 	UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
-	PerfilDeUsuarioController perfilDeUsaurio = new PerfilDeUsuarioController();
+	PerfilDeUsuarioController perfilDeUsuario = new PerfilDeUsuarioController();
 	static Usuario usuario;
 	static Perfil perfil;
 	static Permissao permissao;
