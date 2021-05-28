@@ -77,12 +77,15 @@ public class PerfilControllerApi {
 	 * @param String  nomePerfil
 	 */
 
-	@PutMapping("/alterar")
-	public boolean alterarPerfil(@RequestBody Perfil perfil) {
-		PerfilDAO.getInstance().alterar(perfil);
+	@PutMapping("/alterar/{idPerfil}")
+	public boolean alterarPerfil(@PathVariable("idPerfil") int idPerfil, @RequestBody Perfil perfilAlterado) {
+		perfilAlterado.setIdPerfil(idPerfil);
+		PerfilDAO.getInstance().alterar(perfilAlterado);
 		return true;
 
 	}
+	
+	
 
 	/**
 	 * Remocao de um {@link Perfil} pelo id.
@@ -182,7 +185,7 @@ public class PerfilControllerApi {
 	 * @param permissao.
 	 * @return boolean.
 	 */
-	@GetMapping("/consultar/permissoes/{idPerfil}/{idPermissao}")
+	@GetMapping("/{idPerfil}/permissoes/{idPermissao}")
 	public boolean possuiPermissoes(@PathVariable("idPerfil") int idPerfil, @PathVariable("idPermissao") int idPermissao) {
 		Permissao permissao = controllerPermissao.consultarPermissaoPorId(idPermissao);
 		List<Permissao> listaDePermissoesDessePerfil = listarPermissoesDeUmPerfil(idPerfil);
@@ -204,7 +207,7 @@ public class PerfilControllerApi {
 	 * @param idPerfil
 	 * @return List<Permissao>
 	 */
-	@GetMapping("/listaDePermissoes/{idPerfil}")
+	@GetMapping("/lista /permissao/{idPerfil}")
 	public List<Permissao> listarPermissoesDeUmPerfil(@PathVariable("idPerfil") int idPerfil) {
 		return PerfilDAO.getInstance().listarPermissoesDeUmPerfil(idPerfil);
 	}
@@ -218,7 +221,7 @@ public class PerfilControllerApi {
 	 * @param permissao Permissao
 	 * @param perfil    Perfil
 	 */
-	@PostMapping("/atribuirPermissaoAUmPerfil/{idPerfil}/{idPermissao}")
+	@PostMapping("/atribuir/{idPerfil}/permissao/{idPermissao}")
 	public boolean atribuirPermissaoAUmPerfil(@PathVariable("idPerfil") Integer idPerfil, @PathVariable("idPermissao") Integer idPermissao ) {
 		
 		Perfil perfil = controllerPerfil.consultarPerfil(idPerfil);

@@ -41,9 +41,9 @@ public class PerfilControllerTest {
 
 		Perfil perfil = PerfilController.getInstance().consultarPerfil(nomePerfil);
 
-		Permissao permissao1 = controllerPermissao.consultarPermissaoPorNome(nomePermissao1);
-		Permissao permissao2 = controllerPermissao.consultarPermissaoPorNome(nomePermissao2);
-		Permissao permissao3 = controllerPermissao.consultarPermissaoPorNome(nomePermissao3);
+		Permissao permissao1 = controllerPermissao.consultarPermissaoPorNomeExato(nomePermissao1);
+		Permissao permissao2 = controllerPermissao.consultarPermissaoPorNomeExato(nomePermissao2);
+		Permissao permissao3 = controllerPermissao.consultarPermissaoPorNomeExato(nomePermissao3);
 
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao1, perfil);
 		PerfilController.getInstance().atribuirPermissaoAUmPerfil(permissao2, perfil);
