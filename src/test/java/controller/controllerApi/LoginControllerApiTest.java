@@ -61,8 +61,12 @@ public class LoginControllerApiTest {
 		String senhaCorreta = "234";
 		String senhaIncorreta = "123";
 		UsuarioController.getInstance().criarUsuario(new Usuario(loginExistente, senhaCorreta));
-		assertTrue(loginApi.logar(loginExistente, senhaCorreta));
-		assertFalse(loginApi.logar(loginExistente, senhaIncorreta));
+		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginExistente);
+		Usuario usuarioErrado = new Usuario();
+		usuarioErrado.setLogin(loginExistente);
+		usuarioErrado.setHashSenha(senhaIncorreta);
+		assertTrue(loginApi.logar(usuario));
+		assertFalse(loginApi.logar(usuarioErrado));
 	}
 
 	/**
@@ -82,8 +86,7 @@ public class LoginControllerApiTest {
 		assertTrue(resultadoEnvioEmail);
 
 		Usuario u = UsuarioController.getInstance().consultarUsuario(destinatario);
-		Integer codigoDeConfirmacao = u.getUltimoCodigo2FA();
-		assertTrue(loginApi.confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
+		assertTrue(loginApi.confirmarCodigoDeConfirmacao(u));
 
 		// Limpar usuario do banco pós-teste
 		String sqlLimparUsuarioDoBanco = "DELETE FROM usuario WHERE login = '" + destinatario + "';";

@@ -123,7 +123,9 @@ public class UsuarioControllerTest {
 		Usuario usuarioCadastrado = UsuarioController.getInstance()
 				.consultarUsuario("AntesDaAlteracao@gmail.com");
 		
-		Usuario usuarioNovo = new Usuario("DepoisDaAlteracao@gmail.com", "9999999");
+		Usuario usuarioNovo = new Usuario();
+		usuarioNovo.setLogin("DepoisDaAlteracao@gmail.com");
+		usuarioNovo.setHashSenha("9999999");
 		usuarioNovo.setIdUsuario(usuarioCadastrado.getIdUsuario());
 		
 		UsuarioController.getInstance().alterarUsuario(usuarioNovo.getIdUsuario(),usuarioNovo.getLogin(), usuarioNovo.getHashSenha());
@@ -172,7 +174,7 @@ public class UsuarioControllerTest {
 		perfil = new Perfil("Vendedor");
 		PerfilDAO.getInstance().criar(perfil);
 		permissaoController.criarPermissao("Relatório de compras.");
-		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras.");
+		permissao = PermissaoDAO.getInstance().consultarPorNomeExato("Relatório de compras.");
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 
 		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
@@ -200,7 +202,7 @@ public class UsuarioControllerTest {
 		Perfil perfil2 = new Perfil("Comprador");
 		PerfilDAO.getInstance().criar(perfil2);
 		permissaoController.criarPermissao("Relatório de compras.");
-		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras.");
+		permissao = permissaoController.consultarPermissaoPorNomeExato("Relatório de compras.");
 
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, permissao);
@@ -222,7 +224,7 @@ public class UsuarioControllerTest {
 		perfil = perfilDAO.consultarPorNome("Vendedor");
 
 		PermissaoDAO.getInstance().criar(new Permissao("Relatório de compras"));
-		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras");
+		permissao = PermissaoDAO.getInstance().consultarPorNomeExato("Relatório de compras");
 
 		perfilDAO.atribuirPermissaoAUmPerfil(perfil, permissao);
 		perfil = perfilDAO.consultarPorNome("Vendedor");
@@ -253,7 +255,7 @@ public class UsuarioControllerTest {
 		Perfil perfil2 = new Perfil("Comprador");
 		PerfilDAO.getInstance().criar(perfil2);
 		permissaoController.criarPermissao("Relatório de compras.");
-		permissao = permissaoController.consultarPermissaoPorNome("Relatório de compras.");
+		permissao = permissaoController.consultarPermissaoPorNomeExato("Relatório de compras.");
 
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil2, permissao);
