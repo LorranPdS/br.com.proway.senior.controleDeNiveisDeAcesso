@@ -126,7 +126,7 @@ public class UsuarioControllerTest {
 		Usuario usuarioNovo = new Usuario("DepoisDaAlteracao@gmail.com", "9999999");
 		usuarioNovo.setIdUsuario(usuarioCadastrado.getIdUsuario());
 		
-		UsuarioController.getInstance().alterarUsuario(usuarioNovo);
+		UsuarioController.getInstance().alterarUsuario(usuarioNovo.getIdUsuario(),usuarioNovo.getLogin(), usuarioNovo.getHashSenha());
 		
 		Usuario usuarioAlterado = UsuarioController.getInstance().consultarUsuario("DepoisDaAlteracao@gmail.com");
 		

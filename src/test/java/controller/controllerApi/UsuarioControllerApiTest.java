@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.http.ResponseEntity;
 
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.PermissaoController;
@@ -168,8 +169,8 @@ public class UsuarioControllerApiTest {
 		String senhaDoUsuario2 = "456";
 		usuarioApi.criarUsuario(new Usuario(loginDoUsuario2, senhaDoUsuario2));
 
-		UsuarioDTO usuarioASerDeletado = usuarioApi.consultarUsuario(loginDoUsuario);
-		usuarioApi.deletarUsuario(usuarioASerDeletado.getIdUsuario());
+		ResponseEntity<UsuarioDTO> usuarioASerDeletado = usuarioApi.consultarUsuario(loginDoUsuario);
+		usuarioApi.deletarUsuario(usuarioASerDeletado.getBody().getIdUsuario());
 		int numeroDeUsuariosDepoisDoTeste = usuarioApi.listarTodosOsUsuarios().size();
 		assertEquals(1, numeroDeUsuariosDepoisDoTeste);
 	}

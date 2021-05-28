@@ -1,5 +1,6 @@
 package controller.controllers;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -39,14 +40,12 @@ public class UsuarioController {
 	 */
 	public boolean logar(String login, String senha) {
 
-		String senhaCriptografada = HashSenha.criptografarSenha(login, senha);
-
 		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin(login);
 		if (usuario == null) {
 			return false;
 		} else {
-
-			if (senhaCriptografada.equals(usuario.getHashSenha()) && usuario.getLogin().equals(login)) {
+			String senhaHash = HashSenha.criptografarSenha(login, senha);
+			if (senhaHash.equals(usuario.getHashSenha())||senha.equals(usuario.getHashSenha()) && usuario.getLogin().equals(login)) {
 				return true;
 			} else {
 				return false;
@@ -153,11 +152,22 @@ public class UsuarioController {
 	 * 
 	 * @param Usuario usuarioNovo
 	 */
-	public void alterarUsuario(Usuario usuarioNovo) {
-		Usuario usuario = consultarUsuario(usuarioNovo.getIdUsuario());
-		usuario.setLogin(usuarioNovo.getLogin());
-		usuario.setHashSenha(usuarioNovo.getHashSenha());
+	@SuppressWarnings("static-access")
+	public boolean alterarUsuario(Integer id, String login, String senha) {
+		if (usuarioDAO.getInstance().consultarPorId(id) == null) {
+			return false;
+		}
+		Usuario usuario = usuarioDAO.getInstance().consultarPorId(id);
+		usuario.setLogin(login);
+		if (usuarioDAO.getInstance().consultarPorId(id).getHashSenha().equals(senha)) {
+			UsuarioDAO.getInstance().alterar(usuario);
+		} else {
+			usuario.setHashSenha(HashSenha.criptografarSenha(login, senha));
+			usuario.setUltimaAlteracaoSenha(LocalDate.now());
+			UsuarioDAO.getInstance().alterar(usuario);
+		}
 		UsuarioDAO.getInstance().alterar(usuario);
+		return true;
 	}
 
 	/**
@@ -232,9 +242,10 @@ public class UsuarioController {
 	// provavel alteracao
 	/**
 	 * Vai ser feita uma consulta no banco de dados pelo ID do usuario para saber se
-	 * o {@link Usuario} tem permissoes. Acessando o metodo da classe {@link PerfilDeUsuarioController}.
+	 * o {@link Usuario} tem permissoes. Acessando o metodo da classe
+	 * {@link PerfilDeUsuarioController}.
 	 * 
-	 * @param idUsuario int 
+	 * @param idUsuario   int
 	 * @param idPermissao int
 	 * @return boolean
 	 */
