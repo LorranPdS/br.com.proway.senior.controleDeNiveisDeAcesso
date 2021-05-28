@@ -2,6 +2,7 @@ package controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -114,7 +115,8 @@ public class PerfilDeUsuarioControllerTest {
 		assertEquals(0, controller.listar().size());
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
 
-		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(), ligacao.getDataExpiracao());
+		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
+				ligacao.getDataExpiracao());
 		assertEquals(1, controller.listar().size());
 		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
@@ -126,7 +128,8 @@ public class PerfilDeUsuarioControllerTest {
 	@Test
 	public void testAlterar() throws Exception {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(), ligacao.getDataExpiracao());
+		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
+				ligacao.getDataExpiracao());
 		assertEquals(1, controller.listar().size());
 		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
@@ -139,7 +142,8 @@ public class PerfilDeUsuarioControllerTest {
 	@Test
 	public void testConsultarPorId() throws Exception {
 		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(), ligacao.getDataExpiracao());
+		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
+				ligacao.getDataExpiracao());
 		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
 		ligacao = ligacoes.get(0);
 
@@ -150,21 +154,18 @@ public class PerfilDeUsuarioControllerTest {
 	@Test
 	public void testListar() throws Exception {
 		PerfilDeUsuario ligacao1 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao1.getUsuario().getIdUsuario(), ligacao1.getPerfil().getIdPerfil(), ligacao1.getDataExpiracao());
+		controller.atribuirPerfilAUmUsuario(ligacao1.getUsuario().getIdUsuario(), ligacao1.getPerfil().getIdPerfil(),
+				ligacao1.getDataExpiracao());
 
 		PerfilDeUsuario ligacao2 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao2.getUsuario().getIdUsuario(), ligacao2.getPerfil().getIdPerfil(), ligacao2.getDataExpiracao());
+		controller.atribuirPerfilAUmUsuario(ligacao2.getUsuario().getIdUsuario(), ligacao2.getPerfil().getIdPerfil(),
+				ligacao2.getDataExpiracao());
 
 		PerfilDeUsuario ligacao3 = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(ligacao3.getUsuario().getIdUsuario(), ligacao3.getPerfil().getIdPerfil(), ligacao3.getDataExpiracao());
+		controller.atribuirPerfilAUmUsuario(ligacao3.getUsuario().getIdUsuario(), ligacao3.getPerfil().getIdPerfil(),
+				ligacao3.getDataExpiracao());
 
 		assertEquals(3, controller.listar().size());
-	}
-
-	@Test
-	public void testUsuarioNaoPossuiPermissaoPara() throws Exception {
-		boolean possui = controller.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao());
-		assertFalse(possui);
 	}
 
 	@Test
@@ -183,66 +184,95 @@ public class PerfilDeUsuarioControllerTest {
 
 	@Test
 	public void testUsuarioNaoPossuiOPerfil() throws Exception {
-		boolean possui = controller.usuarioPossuiOPerfil(usuario.getIdUsuario(), perfil.getIdPerfil());
+		perfilDAO.criar(new Perfil("Atendente"));
+		Perfil perfil2 = perfilDAO.consultarPorNome("Atendente");
+
+		PermissaoDAO.getInstance().criar(new Permissao("Relatório de check-in"));
+		Permissao permissao2 = PermissaoDAO.getInstance().consultarPorNomeExato("Relatório de check-in");
+
+		perfilDAO.atribuirPermissaoAUmPerfil(perfil2, permissao2);
+		perfil2 = perfilDAO.consultarPorNome("Atendente");
+
+		controller.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now());
+
+		boolean possui = controller.usuarioPossuiOPerfil(usuario.getIdUsuario(), perfil2.getIdPerfil());
 		assertFalse(possui);
 	}
 
 	@Test
 	public void testPermissaoAtivaTrue() throws Exception {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setAtivo(true);
-		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		assertEquals(0, controller.listar().size());
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+
+		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
+				ligacao.getDataExpiracao());
+		assertEquals(1, controller.listar().size());
+		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao = ligacoes.get(0);
+
 		assertTrue(controller.permissaoAtiva(ligacao));
 	}
 
 	@Test
 	public void testPermissaoAtivaFalse() throws Exception {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
+		assertEquals(0, controller.listar().size());
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+
+		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
+				ligacao.getDataExpiracao());
+		assertEquals(1, controller.listar().size());
+		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao = ligacoes.get(0);
+
 		ligacao.setAtivo(false);
-		ligacao.setDataExpiracao(LocalDate.now().plusDays(10));
+		controller.alterar(ligacao.getId(), ligacao);
 		assertFalse(controller.permissaoAtiva(ligacao));
 	}
 
 	@Test
 	public void testPermissaoAtivaFalseData() throws Exception {
-		PerfilDeUsuario ligacao = new PerfilDeUsuario();
-		ligacao.setAtivo(true);
+		assertEquals(0, controller.listar().size());
+		PerfilDeUsuario ligacao = new PerfilDeUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+
+		controller.atribuirPerfilAUmUsuario(ligacao.getUsuario().getIdUsuario(), ligacao.getPerfil().getIdPerfil(),
+				ligacao.getDataExpiracao());
+		assertEquals(1, controller.listar().size());
+		ArrayList<PerfilDeUsuario> ligacoes = controller.consultarPorIdDoPerfil(perfil.getIdPerfil());
+		ligacao = ligacoes.get(0);
+
+		controller.alterar(ligacao.getId(), ligacao);
+
 		ligacao.setDataExpiracao(LocalDate.of(2019, 01, 01));
 		assertFalse(controller.permissaoAtiva(ligacao));
 	}
-	
-	@Test 
+
+	@Test
 	public void testDesativarLigacaoIdZero() {
 		assertFalse(controller.desativar(0));
 	}
-	
-	@Test 
+
+	@Test
 	public void testDesativarLigacaoIdInexistente() {
 		assertFalse(controller.desativar(1684684654));
 	}
-	
+
 	@Test
 	public void testListarPerfisAtivosDeUmUsuario() throws Exception {
 		controller.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(2));
-		
+
 		assertEquals(2, controller.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
-		
+
 		assertTrue(controller.desativar(controller.listar().get(0).getId()));
 		assertEquals(1, controller.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
 	}
-	
-	@Test
-	public void testListarPerfisAtivosDeUmUsuarioInvalido() throws Exception {
-		assertEquals(0, controller.listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario()).size());
-	}
-	
+
 	@Test
 	public void testListarTodasLigacoesAtivas() throws Exception {
 		controller.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
 		controller.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(2));
-		
+
 		assertEquals(2, controller.listarTodasLigacoesAtivas().size());
 	}
-	
+
 }
