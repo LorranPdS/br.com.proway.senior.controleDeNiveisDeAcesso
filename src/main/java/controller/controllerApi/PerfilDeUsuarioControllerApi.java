@@ -51,7 +51,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @return boolean Retorna true caso as validacoes passem, retorna false caso as
 	 *         validacoes nao passem.
 	 */
-	@PostMapping("/atribuirPerfilAUmUsuario/usuario/{idUsuario}/perfil/{idPerfil}")
+	@PostMapping("/atribuir/usuario/{idUsuario}/perfil/{idPerfil}")
 	public boolean atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
 			@RequestBody String dataExpiracao) {
 		try {
