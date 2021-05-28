@@ -246,7 +246,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @throws Exception
 	 */
 	@GetMapping("/usuarioPossui/permissao/id/{idPermissao}/usuario/id/{idUsuario}")
-	public boolean usuarioPossuiPermissaoPara(int idUsuario, int idPermissao) {
+	public boolean usuarioPossuiPermissaoPara(Integer idUsuario, Integer idPermissao) {
 		try {
 			return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
 		} catch (Exception e) {
