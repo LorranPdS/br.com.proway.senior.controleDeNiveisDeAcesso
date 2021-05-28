@@ -20,6 +20,7 @@ import javassist.NotFoundException;
 import model.dao.PerfilDAO;
 import model.dao.PermissaoDAO;
 import model.dto.PerfilDTO;
+import model.dto.PermissaoDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 
@@ -110,7 +111,7 @@ public class PerfilControllerApi {
 	 * @return Perfil
 	 */
 
-	@GetMapping("/consultarPorId/{idPerfil}")
+	@GetMapping("/consultar/id/{idPerfil}")
 	public ResponseEntity<PerfilDTO> consultarPerfilPorId(@PathVariable("idPerfil") Integer idPerfil) 
 		throws NotFoundException  {
 		
@@ -120,7 +121,8 @@ public class PerfilControllerApi {
 			}
 			return ResponseEntity.ok(new PerfilDTO(perfil));
 		}
-	
+
+
 
 	/**
 	 * Consulta um {@link Perfil} pelo nome.
@@ -133,13 +135,14 @@ public class PerfilControllerApi {
 	 * @exception NullPointerException (Retorna caso o resultado ser nulo).
 	 * @return {@link PerfilDTO}.
 	 */
-	@GetMapping("/consultarPorNome/{nome}")
-	public PerfilDTO consultarPerfil(@PathVariable("nome") String nome) {
-		try {
-			return new PerfilDTO(controllerPerfil.consultarPerfil(nome));
-		} catch (NullPointerException e) {
-			return null;
+	@GetMapping("/consultar/nome/{nome}")
+	public ResponseEntity<PerfilDTO> consultarPerfil(@PathVariable("nome") String nome) {
+		Perfil perfil = controllerPerfil.consultarPerfil(nome);
+		if(perfil == null) {
+			return new ResponseEntity<PerfilDTO>(HttpStatus.NOT_FOUND);
 		}
+		return ResponseEntity.ok(new PerfilDTO(perfil));
+		
 	}
 
 	/**
@@ -152,7 +155,7 @@ public class PerfilControllerApi {
 	 * 
 	 * @return resultado - ArrayList<Perfil>
 	 */
-	@GetMapping("/")
+	@GetMapping("/lista")
 	public ArrayList<PerfilDTO> listarTodosOsPerfis() {
 		ArrayList<Perfil> perfisEncontrados = (ArrayList<Perfil>) PerfilDAO.getInstance().listar();
 
@@ -179,9 +182,10 @@ public class PerfilControllerApi {
 	 * @param permissao.
 	 * @return boolean.
 	 */
-	@GetMapping("/consultarPermissoes")
-	public boolean possuiPermissoes(@RequestBody Perfil perfil, @RequestBody Permissao permissao) {
-		List<Permissao> listaDePermissoesDessePerfil = listarPermissoesDeUmPerfil(perfil.getIdPerfil());
+	@GetMapping("/consultar/permissoes/{idPerfil}/{idPermissao}")
+	public boolean possuiPermissoes(@PathVariable("idPerfil") int idPerfil, @PathVariable("idPermissao") int idPermissao) {
+		Permissao permissao = controllerPermissao.consultarPermissaoPorId(idPermissao);
+		List<Permissao> listaDePermissoesDessePerfil = listarPermissoesDeUmPerfil(idPerfil);
 		if (listaDePermissoesDessePerfil.contains(permissao)) {
 			return true;
 		} else {
@@ -222,13 +226,4 @@ public class PerfilControllerApi {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	return true;
 	}
-
-	/**
-	 * Deleta todos os registros da tabela {@link Perfil}.
-	 */
-	@GetMapping("/deletaTodosOsPerfis")
-	public void deletarTodos() {
-		PerfilDAO.getInstance().deletarTodos();
-	}
-
 }
