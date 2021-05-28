@@ -57,7 +57,8 @@ public class PerfilDeUsuarioControllerApi {
 	public boolean atribuirPerfilAUmUsuario(@PathVariable Integer idUsuario, @PathVariable Integer idPerfil,
 			@RequestBody String dataExpiracao) {
 		try {
-			return controller.atribuirPerfilAUmUsuario(idUsuario, idPerfil, LocalDate.parse(dataExpiracao, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+			return controller.atribuirPerfilAUmUsuario(idUsuario, idPerfil,
+					LocalDate.parse(dataExpiracao, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -246,7 +247,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @throws Exception
 	 */
 	@GetMapping("/usuarioPossui/permissao/id/{idPermissao}/usuario/id/{idUsuario}")
-	public boolean usuarioPossuiPermissaoPara(Integer idUsuario, Integer idPermissao) {
+	public boolean usuarioPossuiPermissaoPara(@PathVariable("idUsuario") Integer idUsuario,
+			@PathVariable("idPermissao") Integer idPermissao) {
 		try {
 			return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
 		} catch (Exception e) {
@@ -275,7 +277,8 @@ public class PerfilDeUsuarioControllerApi {
 	 * @throws Exception
 	 */
 	@GetMapping("/usuarioPossui/perfil/id/{idPerfil}/usuario/id/{idUsuario}")
-	public boolean usuarioPossuiOPerfil(int idUsuario, int idPerfil) {
+	public boolean usuarioPossuiOPerfil(@PathVariable("idUsuario") int idUsuario,
+			@PathVariable("idPerfil") int idPerfil) {
 		try {
 			return controller.usuarioPossuiOPerfil(idUsuario, idPerfil);
 		} catch (Exception e) {
@@ -293,7 +296,7 @@ public class PerfilDeUsuarioControllerApi {
 	 * @throws Exception
 	 */
 	@GetMapping("/estaAtivo/id/{id}")
-	public boolean permissaoAtiva(int id) {
+	public boolean permissaoAtiva(@PathVariable("id") int id) {
 		PerfilDeUsuario ligacao = controller.consultarPorId(id);
 		try {
 			return controller.permissaoAtiva(ligacao);

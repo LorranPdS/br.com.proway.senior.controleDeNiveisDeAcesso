@@ -210,7 +210,7 @@ public class PerfilDeUsuarioController {
 			throw (new Exception("O perfil não existe."));
 
 		List<Perfil> perfis = listarPerfisAtivosDeUmUsuario(idUsuario);
-		if (perfis.size() == 0)
+		if (perfis == null || perfis.size() == 0)
 			return false;
 
 		Perfil _perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
@@ -246,9 +246,13 @@ public class PerfilDeUsuarioController {
 	 * 
 	 * @param idUsuario int Id do {@link Usuario} a ser consultado.
 	 * @return List Lista contendo todos os {@link Perfil} do {@link Usuario}.
+	 * @throws Exception
 	 */
-	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) {
+	public List<Perfil> listarPerfisAtivosDeUmUsuario(int idUsuario) throws Exception {
 		List<PerfilDeUsuario> lista = consultarPorIdDoUsuario(idUsuario);
+		if (lista == null || lista.size() == 0)
+			throw (new Exception("Não encontramos registros para o Usuario de id informado."));
+
 		List<Perfil> perfis = new ArrayList<>();
 		for (PerfilDeUsuario ligacao : lista) {
 			if (ligacao.getAtivo())
