@@ -194,11 +194,12 @@ public class UsuarioControllerApi {
 	 * @param idUsuario   int
 	 * @param idPermissao int
 	 * @return ArrayList<Permissao>
+	 * @throws Exception 
 	 */
 	@GetMapping("/{idUsuario}/permissao/{idPermissao}")
 	public boolean possuiPermissoes(@PathVariable("idUsuario") int idUsuario,
-			@PathVariable("idPermissao") int idPermissao) {
-		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
+			@PathVariable("idPermissao") int idPermissao) throws Exception {
+		return controller.usuarioPossuiPermissaoPara(idUsuario, idPermissao);
 	}
 
 	/**

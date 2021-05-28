@@ -56,6 +56,7 @@ public class UsuarioControllerTest {
 	UsuarioController UController = new UsuarioController();
 	PerfilDAO perfilDAO = PerfilDAO.getInstance();
 	UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
+	PerfilDeUsuarioController perfilDeUsuario = new PerfilDeUsuarioController();
 	static Usuario usuario;
 	static Perfil perfil;
 	static Permissao permissao;
@@ -166,7 +167,7 @@ public class UsuarioControllerTest {
 	}
 
 	@Test
-	public void testVerificarEListarPermissaoDeUmUsuario() {
+	public void testVerificarEListarPermissaoDeUmUsuario() throws Exception {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
 		UsuarioController.getInstance().criarUsuario(new Usuario(loginUsuario, senhaUsuario));
@@ -178,8 +179,7 @@ public class UsuarioControllerTest {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 
 		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginUsuario);
-		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		perfilDeUsaurio.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
 		List<Permissao> lista = new ArrayList<>();
 
 		for (Permissao permissao1 : UController.listarPermissoesDeUmUsuario(usuario.getIdUsuario())) {
@@ -187,12 +187,12 @@ public class UsuarioControllerTest {
 		}
 
 		assertTrue(
-				UsuarioController.getInstance().possuiPermissoes(usuario.getIdUsuario(), permissao.getIdPermissao()));
+				perfilDeUsaurio.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao()));
 		assertEquals(1, lista.size());
 	}
 
 	@Test
-	public void testListarPerfisDeUmUsuario() {
+	public void testListarPerfisDeUmUsuario() throws Exception {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
 		UsuarioController.getInstance().criarUsuario(new Usuario(loginUsuario, senhaUsuario));
@@ -211,15 +211,15 @@ public class UsuarioControllerTest {
 
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil2.getIdPerfil(), LocalDate.now().plusYears(1));
 
 		List<Perfil> lista = UsuarioController.getInstance().listarPerfisDeUmUsuario(usuario.getIdUsuario());
 		assertEquals(2, lista.size());
 	}
 
 	@Test
-	public void testListarPerfisAtivosDeUmUsuario() {
+	public void testListarPerfisAtivosDeUmUsuario() throws Exception {
 		perfilDAO.criar(new Perfil("Vendedor"));
 		perfil = perfilDAO.consultarPorNome("Vendedor");
 
@@ -234,8 +234,8 @@ public class UsuarioControllerTest {
 		usuario = usuarioDAO.consultarPorLogin("thiago@gmail.com");
 
 		PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		controller.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
+		controller.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
+		controller.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
 
 		List<Perfil> lista = UsuarioController.getInstance().listarPerfisAtivosDeUmUsuario(usuario.getIdUsuario());
 
@@ -245,7 +245,7 @@ public class UsuarioControllerTest {
 	}
 
 	@Test
-	public void testPossuiPermissao() {
+	public void testPossuiPermissao() throws Exception {
 		String loginUsuario = "UsuarioDeTesteDeVerificacaoDePermissao@gmail.com";
 		String senhaUsuario = "244466666";
 		UsuarioController.getInstance().criarUsuario(new Usuario(loginUsuario, senhaUsuario));
@@ -264,9 +264,9 @@ public class UsuarioControllerTest {
 
 		PerfilDeUsuarioController perfilDeUsuarioController = new PerfilDeUsuarioController();
 
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil, LocalDate.now().plusYears(1));
-		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario, perfil2, LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil.getIdPerfil(), LocalDate.now().plusYears(1));
+		perfilDeUsuarioController.atribuirPerfilAUmUsuario(usuario.getIdUsuario(), perfil2.getIdPerfil(), LocalDate.now().plusYears(1));
 
-		assertTrue(UController.possuiPermissoes(usuario.getIdUsuario(), permissao.getIdPermissao()));
+		assertTrue(perfilDeUsaurio.usuarioPossuiPermissaoPara(usuario.getIdUsuario(), permissao.getIdPermissao()));
 	}
 }
