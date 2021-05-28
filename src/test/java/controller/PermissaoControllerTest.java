@@ -35,7 +35,7 @@ public class PermissaoControllerTest {
 	public void testAlterarPermissao() {
 		controller.criarPermissao("Gerencia");
 		assertEquals(1, controller.listarTodasAsPermissoes().size());
-		Permissao permissaoConsultada = controller.consultarPermissaoPorNome("Gerencia");
+		Permissao permissaoConsultada = controller.consultarPermissaoPorNomeExato("Gerencia");
 		String novoNomeDaPermissao = "Gerencia Novo";
 		controller.alterarPermissao(permissaoConsultada.getIdPermissao(), novoNomeDaPermissao);
 		Permissao permissaoAlterada = controller.consultarPermissaoPorId(permissaoConsultada.getIdPermissao());
@@ -47,7 +47,7 @@ public class PermissaoControllerTest {
 		assertEquals(0, controller.listarTodasAsPermissoes().size());
 		controller.criarPermissao("Gerencia");
 		assertEquals(1, controller.listarTodasAsPermissoes().size());
-		Permissao permissaoConsultada = controller.consultarPermissaoPorNome("Gerencia");
+		Permissao permissaoConsultada = controller.consultarPermissaoPorNomeExato("Gerencia");
 		controller.deletarPermissao(permissaoConsultada.getIdPermissao());
 		assertEquals(0, controller.listarTodasAsPermissoes().size());
 	}
