@@ -3,6 +3,7 @@ package controller.controllerApi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
@@ -23,6 +25,7 @@ import model.entidades.Permissao;
 import model.entidades.Usuario;
 
 @RestController
+@RequestMapping("/usuario")
 public class UsuarioControllerApi {
 
 	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
@@ -42,10 +45,14 @@ public class UsuarioControllerApi {
 	 * @param login
 	 * @param senha
 	 */
-	@PostMapping("/usuario/criar")
+	@PostMapping("/criar")
 	public boolean criarUsuario(@RequestBody Usuario usuario) {
-		UsuarioController.getInstance().criarUsuario(usuario);
+		if (usuario != null) {
+		Usuario usuarioHash = new Usuario(usuario.getLogin(), usuario.getHashSenha());
+		UsuarioController.getInstance().criarUsuario(usuarioHash);
 		return true;
+		}
+		return false;
 	}
 
 	/**
@@ -58,10 +65,15 @@ public class UsuarioControllerApi {
 	 * 
 	 * @param Integer - id
 	 */
-	@DeleteMapping("/usuario/deletar/{id}")
+	@DeleteMapping("/deletar/id/{id}")
 	public boolean deletarUsuario(@PathVariable("id") Integer id) {
-		UsuarioController.getInstance().deletarUsuario(id);
-		return true;
+		Usuario usuario = UController.consultarUsuario(id);
+		if (usuario != null) {
+			UsuarioController.getInstance().deletarUsuario(id);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	/**
@@ -76,10 +88,9 @@ public class UsuarioControllerApi {
 	 * @param String  - login
 	 * @param String  - senha
 	 */
-	@PutMapping("usuario/alterar/{id}")
+	@PutMapping("/alterar/id/{id}")
 	public boolean alterarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario) {
-		UsuarioController.getInstance().alterarUsuario(usuario);
-		return true;
+			return UsuarioController.getInstance().alterarUsuario(id, usuario.getLogin(), usuario.getHashSenha());
 	}
 
 	/**
@@ -91,13 +102,14 @@ public class UsuarioControllerApi {
 	 * @param Integer - idUsuario
 	 * @return UsuarioDTO
 	 */
-	@GetMapping("/usuario/consulta/{id}")
-	public UsuarioDTO consultarUsuarioPorId(@PathVariable("id") Integer id) {
-		try {
-			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorId(id));
-		} catch (NullPointerException e) {
-			return null;
+	@GetMapping("/consulta/id/{id}")
+	public ResponseEntity<UsuarioDTO> consultarUsuarioPorId(@PathVariable("id") Integer id) {
+		Usuario usuario = UsuarioDAO.getInstance().consultarPorId(id);
+		if (usuario == null) {
+			return new ResponseEntity<UsuarioDTO>(HttpStatus.NOT_FOUND);
 		}
+		return ResponseEntity.ok(new UsuarioDTO(UsuarioDAO.getInstance().consultarPorId(id)));
+	
 	}
 
 	/**
@@ -109,14 +121,14 @@ public class UsuarioControllerApi {
 	 * @param String
 	 * @return UsuarioDTo
 	 */
-//	@GetMapping("/usuario/{login}")
-//	public ResponseEntity<UsuarioDTO> consultarUsuario(@PathVariable("login") String login) {
-//		
-//		if (condition) {
-//			return new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login));
-//		}
-//		}
-//	}
+	@GetMapping("/login/{login}")
+	public ResponseEntity<UsuarioDTO> consultarUsuario(@PathVariable("login") String login) {
+		Usuario usuario = UsuarioDAO.getInstance().consultarPorLogin(login);
+		if (usuario == null) {
+			return new ResponseEntity<UsuarioDTO>(HttpStatus.NOT_FOUND);
+		}
+		return ResponseEntity.ok(new UsuarioDTO(UsuarioDAO.getInstance().consultarPorLogin(login)));
+	}
 
 	/**
 	 * Lista todos os {@link UsuarioDTO}.
@@ -128,7 +140,7 @@ public class UsuarioControllerApi {
 	 * 
 	 * @return ArrayList<UsuarioDTO>
 	 */
-	@GetMapping("/usuario/lista")
+	@GetMapping("/lista")
 	public ArrayList<UsuarioDTO> listarTodosOsUsuarios() {
 		ArrayList<Usuario> usuariosEncontrados = (ArrayList<Usuario>) UsuarioDAO.getInstance().listar();
 		ArrayList<UsuarioDTO> resultado = new ArrayList<>();
@@ -156,7 +168,7 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PerfilDTO>
 	 */
-	@GetMapping("/usuario/listar/perfil/usuario/id/{id}")
+	@GetMapping("/listar/perfil/usuario/id/{id}")
 	public List<PerfilDTO> listarPerfisDeUmUsuario(@PathVariable("id") int id) {
 		List<Perfil> listaPerfis = controller.listarPerfisDeUmUsuario(id);
 		ArrayList<PerfilDTO> resultado = new ArrayList<>();
@@ -183,10 +195,11 @@ public class UsuarioControllerApi {
 	 * @param idPermissao int
 	 * @return ArrayList<Permissao>
 	 */
-//	@GetMapping("/usuario/{idUsuario}/perfil/{idPermissao}")
-//	public boolean possuiPermissoes(@PathVariable("idUsuario") int idUsuario,@PathVariable("idPermissao") int idPermissao) {
-//		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
-//	}
+	@GetMapping("/{idUsuario}/permissao/{idPermissao}")
+	public boolean possuiPermissoes(@PathVariable("idUsuario") int idUsuario,
+			@PathVariable("idPermissao") int idPermissao) {
+		return UsuarioController.getInstance().possuiPermissoes(idUsuario, idPermissao);
+	}
 
 	/**
 	 * Lista todas as {@link PermissaoDTO} do {@link Usuario}.
@@ -199,7 +212,7 @@ public class UsuarioControllerApi {
 	 * @param idUsuario - int
 	 * @return List<PermissaoDTO>
 	 */
-	@GetMapping("/usuario/listar/permissao/usuario/id/{id}")
+	@GetMapping("/listar/permissao/usuario/id/{id}")
 	public List<PermissaoDTO> listarPermissoesDeUmUsuario(@PathVariable("id") Integer id) {
 		List<PermissaoDTO> resultado = new ArrayList<>();
 		List<PermissaoDTO> listaPermissao = new ArrayList<>();
