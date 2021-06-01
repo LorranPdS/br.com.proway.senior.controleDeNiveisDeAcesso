@@ -39,7 +39,7 @@ body{
 }
 
 .card-group > button{
-  background-image: linear-gradient(to right, #00C89B, #6A5D7B );
+  background-image: linear-gradient(to right, #00C89B, #00C89B );
   width: 100%;
   border-radius: 30px;
   padding: 15px;
@@ -50,7 +50,7 @@ body{
 }
 
 .btn button:hover{
-  background-image: linear-gradient(to roght, #00C89B, #6A5D7B );
+  background-image: linear-gradient(to roght, #00C89B, #00C89B );
 }
 
 .imglogin{
