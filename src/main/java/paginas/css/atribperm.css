@@ -10,7 +10,7 @@ div{
     border-radius: 5px;
 }
 
-h1 {
+header {
     text-align: center;
     text-shadow: 1px 1px 3px #ffff;
 }
@@ -72,4 +72,15 @@ img{
 
 .permissaoTopo img{
     border-radius: 5px;
+}
+
+footer{
+    position:absolute;
+    bottom:0;
+    width:90%;
+    height: 8%;
+}
+
+a:hover{
+    color: yellow;
 }
