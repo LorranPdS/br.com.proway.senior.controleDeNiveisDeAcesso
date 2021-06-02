@@ -41,7 +41,7 @@ public class PerfilDAOTest {
 	public static void popularTabelas() {
 
 		PermissaoDAO.getInstance().criar(new Permissao("Relatorio de compras"));
-		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatorio de compras");
+		permissao = PermissaoDAO.getInstance().consultarPorNomeExato("Relatorio de compras");
 	}
 
 	@Test
@@ -50,6 +50,18 @@ public class PerfilDAOTest {
 		perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor");
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		assertEquals(1, perfil.getPermissoes().size());
+	}
+	
+	@Test
+	public void testDesatribuirPermissaoDeUmPerfil() {
+		PerfilDAO.getInstance().criar(new Perfil("Vendedor"));
+		perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor");
+		
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+		assertEquals(1, perfil.getPermissoes().size());
+		
+		PerfilDAO.getInstance().desatribuirPermissaoDeUmPerfil(perfil, permissao);
+		assertEquals(0, perfil.getPermissoes().size());
 	}
 
 	@Test
