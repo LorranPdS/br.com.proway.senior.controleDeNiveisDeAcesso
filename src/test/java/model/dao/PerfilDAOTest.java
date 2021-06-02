@@ -41,7 +41,7 @@ public class PerfilDAOTest {
 	public static void popularTabelas() {
 
 		PermissaoDAO.getInstance().criar(new Permissao("Relatorio de compras"));
-		permissao = PermissaoDAO.getInstance().consultarPorNome("Relatorio de compras");
+		permissao = PermissaoDAO.getInstance().consultarPorNomeExato("Relatorio de compras");
 	}
 
 	@Test
@@ -51,6 +51,7 @@ public class PerfilDAOTest {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 		assertEquals(1, perfil.getPermissoes().size());
 	}
+	
 
 	@Test
 	public void testSalvarPerfil() {
