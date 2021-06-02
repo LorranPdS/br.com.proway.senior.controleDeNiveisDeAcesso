@@ -203,6 +203,15 @@ public class PerfilDAO implements ICrud<Perfil> {
 		perfil.setPermissoes(permissao);
 		alterar(perfil);
 	}
+	
+	/**
+	 * Desatribui uma {@link Permissao} de um {@link Perfil}.
+	 * @param perfil Perfil 
+	 * @param permissao Permissao
+	 */
+	public void desatribuirPermissaoDeUmPerfil(Perfil perfil, Permissao permissao) {
+		
+	}
 
 	/**
 	 * Deleta todos os registros da tabela {@link Perfil}.
