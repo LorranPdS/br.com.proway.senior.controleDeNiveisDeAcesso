@@ -52,17 +52,6 @@ public class PerfilDAOTest {
 		assertEquals(1, perfil.getPermissoes().size());
 	}
 	
-	@Test
-	public void testDesatribuirPermissaoDeUmPerfil() {
-		PerfilDAO.getInstance().criar(new Perfil("Vendedor"));
-		perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor");
-		
-		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
-		assertEquals(1, perfil.getPermissoes().size());
-		
-		PerfilDAO.getInstance().desatribuirPermissaoDeUmPerfil(perfil, permissao);
-		assertEquals(0, perfil.getPermissoes().size());
-	}
 
 	@Test
 	public void testSalvarPerfil() {

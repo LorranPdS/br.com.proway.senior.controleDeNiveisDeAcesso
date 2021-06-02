@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import controller.controllers.PerfilController;
 import controller.controllers.PermissaoController;
+import model.dao.PerfilDAO;
+import model.dao.PermissaoDAO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
 
@@ -20,12 +22,12 @@ public class PerfilControllerTest {
 
 	PermissaoController controllerPermissao = new PermissaoController();
 
-//	@AfterEach
-//	@BeforeEach
-//	public void deletarTudo() {
-//		PerfilController.getInstance().deletarTodos();
-//		controllerPermissao.deletarTodos();
-//	}
+	@AfterEach
+	@BeforeEach
+	public void deletarTudo() {
+		PerfilController.getInstance().deletarTodos();
+		controllerPermissao.deletarTodos();
+	}
 
 	@Test
 	public void testVerificarEListarPermissaoDeUmPerfil() {
@@ -125,7 +127,23 @@ public class PerfilControllerTest {
 	
 	@Test
 	public void testListarPerfisComListaVazia() {
-		assertNull(PerfilController.getInstance().listarTodosOsPerfis());
+		assertEquals(null, PerfilController.getInstance().listarTodosOsPerfis());
+	}
+	
+
+	@Test
+	public void testDesatribuirPermissaoDeUmPerfil() {
+		PerfilDAO.getInstance().criar(new Perfil("Vendedor"));
+		Perfil perfil = PerfilDAO.getInstance().consultarPorNome("Vendedor");
+		
+		PermissaoDAO.getInstance().criar(new Permissao("Relatorio de compras"));
+		Permissao permissao = PermissaoDAO.getInstance().consultarPorNomeExato("Relatorio de compras");
+		
+		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+		assertEquals(1, perfil.getPermissoes().size());
+		
+		PerfilController.getInstance().desatribuirPermissaoDeUmPerfil(perfil, permissao);
+		assertEquals(0, perfil.getPermissoes().size());
 	}
 
 }

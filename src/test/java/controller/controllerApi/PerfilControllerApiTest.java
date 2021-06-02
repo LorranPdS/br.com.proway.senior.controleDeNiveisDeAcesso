@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import controller.controllers.PerfilController;
 import controller.controllers.PermissaoController;
+import javassist.NotFoundException;
 import model.dto.PerfilDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
@@ -53,7 +54,7 @@ public class PerfilControllerApiTest {
 	}
 
 	@org.junit.jupiter.api.Test
-	public void testConsultarPerfilPorIdInexistente() {
+	public void testConsultarPerfilPorIdInexistente() throws NotFoundException {
 		assertNull(controllerPerfilApi.consultarPerfilPorId(9876));
 	}
 

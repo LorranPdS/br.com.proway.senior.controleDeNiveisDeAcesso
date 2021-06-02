@@ -229,4 +229,18 @@ public class PerfilControllerApi {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	return true;
 	}
+	
+	/**
+	 * Desatribui uma {@link Permissao} de um {@link Perfil}.
+	 * 
+	 * @param perfil    Perfil
+	 * @param permissao Permissao
+	 */
+	@PostMapping("/desatribuir/{idPerfil}/permissao/{idPermissao")
+	public void desatribuirPermissaoDeUmPerfil(int idPerfil, int idPermissao) {
+		Perfil perfil = controllerPerfil.consultarPerfil(idPerfil);
+		Permissao permissao = controllerPermissao.consultarPermissaoPorId(idPermissao);
+		
+		PerfilController.getInstance().desatribuirPermissaoDeUmPerfil(perfil, permissao);
+	}
 }

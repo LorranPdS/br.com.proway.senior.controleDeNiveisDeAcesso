@@ -164,6 +164,17 @@ public class PerfilController {
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}
+	
+	/**
+	 * Desatribui uma {@link Permissao} de um {@link Perfil}.
+	 * 
+	 * @param perfil    Perfil
+	 * @param permissao Permissao
+	 */
+	public void desatribuirPermissaoDeUmPerfil(Perfil perfil, Permissao permissao) {
+		perfil.getPermissoes().remove(permissao);
+		PerfilDAO.getInstance().alterar(perfil);
+	}
 
 	/**
 	 * Deleta todos os registros da tabela {@link Perfil}.
