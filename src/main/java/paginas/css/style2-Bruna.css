@@ -89,6 +89,12 @@ label #cancel{
     visibility: hidden;
 }
 
+#check:checked ~ label #cancel{
+    margin-left: 245px;
+    opacity: 1;
+    visibility: visible;
+}
+
 
 
 @media(max-width: 860px){.sisdebar{
