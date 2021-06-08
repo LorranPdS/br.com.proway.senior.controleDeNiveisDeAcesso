@@ -60,9 +60,13 @@ public class LoginControllerApiTest {
 		String loginExistente = "Grijo@gmail.com";
 		String senhaCorreta = "234";
 		String senhaIncorreta = "123";
-		UsuarioController.getInstance().criarUsuario(loginExistente, senhaCorreta);
-		assertTrue(loginApi.logar(loginExistente, senhaCorreta));
-		assertFalse(loginApi.logar(loginExistente, senhaIncorreta));
+		UsuarioController.getInstance().criarUsuario(new Usuario(loginExistente, senhaCorreta));
+		Usuario usuario = UsuarioController.getInstance().consultarUsuario(loginExistente);
+		Usuario usuarioErrado = new Usuario();
+		usuarioErrado.setLogin(loginExistente);
+		usuarioErrado.setHashSenha(senhaIncorreta);
+		assertTrue(loginApi.logar(usuario));
+		assertFalse(loginApi.logar(usuarioErrado));
 	}
 
 	/**
@@ -76,14 +80,13 @@ public class LoginControllerApiTest {
 
 		String destinatario = "Email@gmail.com"; // Seja responsável e não spame os amiguinhos. ^^
 		String senha = "123";
-		UsuarioController.getInstance().criarUsuario(destinatario, senha);
+		UsuarioController.getInstance().criarUsuario(new Usuario(destinatario, senha));
 
 		boolean resultadoEnvioEmail = loginApi.enviarEmailDeConfirmacaoDeLogin(destinatario);
 		assertTrue(resultadoEnvioEmail);
 
 		Usuario u = UsuarioController.getInstance().consultarUsuario(destinatario);
-		Integer codigoDeConfirmacao = u.getUltimoCodigo2FA();
-		assertTrue(loginApi.confirmarCodigoDeConfirmacao(destinatario, codigoDeConfirmacao));
+		assertTrue(loginApi.confirmarCodigoDeConfirmacao(u));
 
 		// Limpar usuario do banco pós-teste
 		String sqlLimparUsuarioDoBanco = "DELETE FROM usuario WHERE login = '" + destinatario + "';";

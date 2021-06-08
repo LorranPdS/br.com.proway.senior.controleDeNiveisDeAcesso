@@ -3,11 +3,13 @@ package controller.controllerApi;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.PerfilDeUsuarioController;
 import controller.controllers.UsuarioController;
+import model.entidades.Usuario;
 
 /**
  * a classe possui metodos que não são de nenhuma entidade do sistema, fazem
@@ -17,6 +19,7 @@ import controller.controllers.UsuarioController;
  *
  */
 @RestController
+@RequestMapping("/login")
 public class LoginControllerApi {
 
 	PerfilDeUsuarioController controller = new PerfilDeUsuarioController();
@@ -35,9 +38,9 @@ public class LoginControllerApi {
 	 * @param login
 	 * @param senha
 	 */
-	@PostMapping("/login")
-	public boolean logar(@RequestParam String login, @RequestParam String senha) {
-		return UsuarioController.getInstance().logar(login, senha);
+	@PostMapping("/logar")
+	public boolean logar(@RequestBody Usuario usuario) {
+		return UsuarioController.getInstance().logar(usuario.getLogin(), usuario.getHashSenha());
 
 	}
 
@@ -53,9 +56,9 @@ public class LoginControllerApi {
 	 * @param codigoGerado   Codigo aleatorio gerado pelo sistema
 	 * @throws Exception
 	 */
-	@PostMapping("/login/{emailDoDestinatario} ")
-	public boolean enviarEmailDeConfirmacaoDeLogin(@PathVariable String emailDoDestinario) throws Exception {
-		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(emailDoDestinario);
+	@PostMapping("/email/{email}")
+	public boolean enviarEmailDeConfirmacaoDeLogin(@PathVariable("email") String email) throws Exception {
+		return UsuarioController.getInstance().enviarEmailDeConfirmacaoDeLogin(email);
 	}
 
 	/**
@@ -68,10 +71,9 @@ public class LoginControllerApi {
 	 * @param login.
 	 * @param codigoDeConfirmacao
 	 */
-	@GetMapping("/login/{login}")
-	public boolean confirmarCodigoDeConfirmacao(@PathVariable("login") String login,
-			@RequestParam Integer codigoDeConfirmacao) {
-		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(login, codigoDeConfirmacao);
+	@GetMapping("/{login}")
+	public boolean confirmarCodigoDeConfirmacao(@RequestBody Usuario usuario) {
+		return UsuarioController.getInstance().confirmarCodigoDeConfirmacao(usuario.getLogin(), usuario.getUltimoCodigo2FA());
 	}
 
 }

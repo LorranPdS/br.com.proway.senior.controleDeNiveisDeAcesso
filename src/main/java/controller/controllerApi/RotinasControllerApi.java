@@ -1,6 +1,7 @@
 package controller.controllerApi;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import controller.controllers.RotinasController;
@@ -14,6 +15,7 @@ import model.entidades.PerfilDeUsuario;
  *
  */
 @RestController
+@RequestMapping("/rotinas")
 public class RotinasControllerApi {
 	RotinasController controller = new RotinasController();
 
@@ -26,7 +28,7 @@ public class RotinasControllerApi {
 	 * 
 	 * @return Integer Quantidade de permissoes expiradas deletadas.
 	 */
-	@PostMapping("/rotinas/desativarpermissoesexpiradas")
+	@PostMapping("/desativarpermissoesexpiradas")
 	public int desativarTodasPermissoesExpiradas() {
 		return controller.desativarTodasPermissoesExpiradas();
 	}

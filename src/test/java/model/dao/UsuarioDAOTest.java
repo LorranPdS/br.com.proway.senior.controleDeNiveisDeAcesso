@@ -43,7 +43,7 @@ public class UsuarioDAOTest {
 		PerfilDAO.getInstance().criar(perfil);
 
 		controllerPermissao.criarPermissao("Relatório de compras.");
-		Permissao permissao = PermissaoDAO.getInstance().consultarPorNome("Relatório de compras.");
+		Permissao permissao = PermissaoDAO.getInstance().consultarPorNomeExato("Relatório de compras.");
 
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
 	}

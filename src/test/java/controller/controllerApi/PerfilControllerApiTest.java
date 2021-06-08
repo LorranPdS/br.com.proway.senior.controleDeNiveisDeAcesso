@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import controller.controllers.PerfilController;
 import controller.controllers.PermissaoController;
+import javassist.NotFoundException;
 import model.dto.PerfilDTO;
 import model.entidades.Perfil;
 import model.entidades.Permissao;
@@ -21,13 +22,13 @@ public class PerfilControllerApiTest {
 	PermissaoController controllerPermissao = new PermissaoController();
 	PerfilControllerApi controllerPerfilApi = new PerfilControllerApi();
 	PerfilController controllerPerfil = new PerfilController();
-
-	@AfterEach
-	@BeforeEach
-	public void deletarTudo() {
-		controllerPerfilApi.deletarTodos();
-		controllerPermissao.deletarTodos();
-	}
+//
+//	@AfterEach
+//	@BeforeEach
+//	public void deletarTudo() {
+//		controllerPerfilApi.deletarTodos();
+//		controllerPermissao.deletarTodos();
+//	}
 
 	@org.junit.jupiter.api.Test
 	public void testConsultarPerfil() {
@@ -53,7 +54,7 @@ public class PerfilControllerApiTest {
 	}
 
 	@org.junit.jupiter.api.Test
-	public void testConsultarPerfilPorIdInexistente() {
+	public void testConsultarPerfilPorIdInexistente() throws NotFoundException {
 		assertNull(controllerPerfilApi.consultarPerfilPorId(9876));
 	}
 

@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -182,7 +183,7 @@ public class PerfilDAO implements ICrud<Perfil> {
 	 * Responsavel por recuperar do banco de dados todas as {@link Permissao} que um
 	 * {@link Perfil} possui.
 	 * 
-	 * @param int 
+	 * @param int
 	 * @return List<Permissao>.
 	 */
 	public List<Permissao> listarPermissoesDeUmPerfil(int idPerfil) {
@@ -207,8 +208,8 @@ public class PerfilDAO implements ICrud<Perfil> {
 	/**
 	 * Deleta todos os registros da tabela {@link Perfil}.
 	 * 
-	 * Responsavel por remover todos os dados das tabelas perfil_permissao e {@link Perfil},
-	 * nesta ordem.
+	 * Responsavel por remover todos os dados das tabelas perfil_permissao e
+	 * {@link Perfil}, nesta ordem.
 	 */
 	public void deletarTodos() {
 

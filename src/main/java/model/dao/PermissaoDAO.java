@@ -98,13 +98,17 @@ public class PermissaoDAO implements ICrud<Permissao> {
 	}
 
 	/**
-	 * Consultar uma {@link Permissao} por nome.
+	 * Consultar uma {@link Permissao} por nome exato.
+	 * 
+	 * <p>
+	 * Retorna uma {@link Permissao} que possua o nome exatamente igual ao nome
+	 * recebido no parametro.
 	 * 
 	 * @param nome String Nome da permissao a ser consultada.
 	 * @return Permissao
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Permissao consultarPorNome(String nome) {
+	public Permissao consultarPorNomeExato(String nome) {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Permissao> criteria = builder.createQuery(Permissao.class);
 		Root<Permissao> root = criteria.from(Permissao.class);
@@ -112,9 +116,14 @@ public class PermissaoDAO implements ICrud<Permissao> {
 		criteria.select(root);
 		Expression nomeEX = (Expression) root.get("nomePermissao");
 
-		criteria.select(root).where(builder.like(nomeEX, nome + "%"));
+		criteria.select(root).where(builder.like(nomeEX, nome));
 		Query query = session.createQuery(criteria);
-		return (Permissao) query.getSingleResult();
+		try {
+			Permissao permissao = (Permissao) query.getSingleResult();
+			return permissao;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/**

@@ -64,9 +64,13 @@ public class PerfilController {
 	 * 
 	 * @param idPerfil - Integer
 	 */
-	public void deletarPerfil(Integer idPerfil) {
-		Perfil perfil = PerfilDAO.getInstance().consultarPorId(idPerfil);
-		PerfilDAO.getInstance().deletar(perfil);
+	public boolean deletarPerfil(Integer idPerfil) {
+		if (PerfilDAO.getInstance().consultarPorId(idPerfil) == null)
+			return false;
+
+		Perfil p = consultarPerfil(idPerfil);
+		PerfilDAO.getInstance().deletar(p);
+		return true;
 	}
 
 	/**
@@ -159,6 +163,17 @@ public class PerfilController {
 	 */
 	public void atribuirPermissaoAUmPerfil(Permissao permissao, Perfil perfil) {
 		PerfilDAO.getInstance().atribuirPermissaoAUmPerfil(perfil, permissao);
+	}
+	
+	/**
+	 * Desatribui uma {@link Permissao} de um {@link Perfil}.
+	 * 
+	 * @param perfil    Perfil
+	 * @param permissao Permissao
+	 */
+	public void desatribuirPermissaoDeUmPerfil(Perfil perfil, Permissao permissao) {
+		perfil.getPermissoes().remove(permissao);
+		PerfilDAO.getInstance().alterar(perfil);
 	}
 
 	/**
