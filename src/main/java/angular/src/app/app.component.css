@@ -1,0 +1,12 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.global {
+    margin-left: 160px;
+}
+
+a {
+    cursor: pointer;
+}

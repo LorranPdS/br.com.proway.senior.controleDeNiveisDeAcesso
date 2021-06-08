@@ -1,0 +1,46 @@
+.global {
+    margin-left: 310px;
+}
+
+.formulario {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 40%;
+}
+
+.formtexto {
+    display: flex;
+    flex-direction: column;
+}
+
+.formbotao {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tabela {
+    width: 50%;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+input[type=text] {
+    width: 100%;
+}
