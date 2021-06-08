@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AcessoComponent } from './acesso/acesso.component';
+
 import { MenuComponent } from './menu/menu.component';
 
 import { PerfilComponent } from './perfil/perfil.component';
-
-import { AcessoComponent } from './acesso/acesso.component';
 
 import { PermissaoComponent } from './permissao/permissao.component';
 
@@ -14,10 +14,14 @@ import { UsuarioConsultaComponent } from './usuario-consulta/usuario-consulta.co
 
 
 const routes: Routes = [
-  { path: 'menu', component: MenuComponent },
-  { path: 'perfil', component: PerfilComponent },
   { path: 'acesso', component: AcessoComponent },
+
+  { path: 'menu', component: MenuComponent },
+
+  { path: 'perfil', component: PerfilComponent },
+
   { path: 'permissao', component: PermissaoComponent },
+  
   { path: 'usuario', component: UsuarioComponent },
   { path: 'usuario-consulta', component: UsuarioConsultaComponent}
 ];

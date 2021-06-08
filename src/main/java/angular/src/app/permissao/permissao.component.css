@@ -1,5 +1,11 @@
-.global {
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600|Open+Sans:600&display=swap');
+* {
+    margin: 0px;
     margin-left: 310px;
+}
+
+.global {
+    margin-left: 240px;
 }
 
 .formulario {
@@ -22,16 +28,26 @@
     width: 50%;
 }
 
+.tabelaContainer {
+    height: 400px;
+    overflow: scroll;
+}
+
 * {
     margin: 0px;
     padding: 0px;
 }
 
 header {
+    font-size: 28px;
+    color: white;
+    font-family: 'Monteserrat', sans-serif;
+    padding-left: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 60px;
+    background-color: #1b1b1b;
 }
 
 main {
