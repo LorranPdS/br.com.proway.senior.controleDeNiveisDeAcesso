@@ -1,7 +1,7 @@
 <div class="global">
 
     <header>
-        <h1>Permissões</h1>
+        Permissões
 
         <nav>
             <button>exemplo1</button>
@@ -34,14 +34,14 @@
             <div class="formbotao">
                 <button>Pesquisar</button>
             </div>
-            <div>
+            <div class="tabelaContainer">
                 <table>
 
                     <tr>
                         <th>Id</th>
                         <th>Descrição</th>
                     </tr>
-                    <tr *ngFor="let permissao of permissoes">
+                    <tr *ngFor="let permissao of permissoes ">
 
                         <td>{{permissao.id}}</td>
                         <td>{{permissao.nome}}</td>
