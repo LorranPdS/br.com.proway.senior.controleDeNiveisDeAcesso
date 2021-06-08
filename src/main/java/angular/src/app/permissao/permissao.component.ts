@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./permissao.component.css']
 })
 export class PermissaoComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit(): void {
