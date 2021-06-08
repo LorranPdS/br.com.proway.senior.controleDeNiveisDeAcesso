@@ -40,11 +40,13 @@
                     <tr>
                         <th>Id</th>
                         <th>Descrição</th>
+                        <th></th>
                     </tr>
                     <tr *ngFor="let permissao of permissoes ">
 
                         <td>{{permissao.id}}</td>
                         <td>{{permissao.nome}}</td>
+                        <th><button class="botaolista">apagar</button> <button class="botaolista">editar</button></th>
                     </tr>
 
 
