@@ -4,14 +4,17 @@
         <h1>Permissões</h1>
 
         <nav>
-            <button>Editar</button>
+            <button>exemplo1</button>
+            <button>exemplo2</button>
+            <button>exemplo3</button>
         </nav>
     </header>
 
     <main>
         <div class="formulario">
             <!--div esquerda para cadastro, deve conter um pequeno formulário-->
-            <h3>Cadastrar Permissão</h3>
+            <h3>Cadastrar</h3>
+
             <div class="formtexto">
                 <label>Descrição:</label>
                 <input type="text" placeholder="Insira a descrição da permissão" />
@@ -19,11 +22,34 @@
             <div class="formbotao">
                 <button>Cadastrar</button>
             </div>
+
         </div>
 
         <div class="tabela">
             <h3>Lista de Permissões:</h3>
-            <p>aqui tem uma tabela com todos os registros</p>
+            <div class="formtexto">
+                <label>Pesquisar:</label>
+                <input type="text" placeholder="Pesquisar por nome que contenha:" />
+            </div>
+            <div class="formbotao">
+                <button>Pesquisar</button>
+            </div>
+            <div>
+                <table>
+
+                    <tr>
+                        <th>Id</th>
+                        <th>Descrição</th>
+                    </tr>
+                    <tr *ngFor="let permissao of permissoes">
+
+                        <td>{{permissao.id}}</td>
+                        <td>{{permissao.nome}}</td>
+                    </tr>
+
+
+                </table>
+            </div>
             <!--div direita, mostrar as permissões já cadastradas-->
             <!--para cada permissao na lista permissoes, mostrar na tabela-->
         </div>

@@ -4,7 +4,6 @@
 
 .formulario {
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
     width: 40%;
 }
@@ -43,4 +42,19 @@ main {
 
 input[type=text] {
     width: 100%;
+}
+
+
+/*teste*/
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    padding: 5px 10px;
+    text-align: left;
 }
