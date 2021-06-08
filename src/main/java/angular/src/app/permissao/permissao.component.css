@@ -41,6 +41,7 @@
     padding-right: 5px;
     margin-left: 3px;
     font-size: 14px;
+    background-color: white;
 }
 
 .titulo {
@@ -65,6 +66,58 @@
     margin: 5px;
     margin-right: 20px;
 }
+
+
+/*===========================*/
+
+.btn {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    font-size: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px 8px;
+    text-align: center;
+}
+
+.fourth {
+    border-color: black;
+    color: black;
+    background-image: -webkit-linear-gradient(45deg, black 50%, transparent 50%);
+    background-image: linear-gradient(45deg, black 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.fourth:hover {
+    color: white;
+    background-position: 0;
+}
+
+.cabecalho {
+    border-color: white;
+    color: white;
+    background-image: -webkit-linear-gradient(45deg, white 50%, transparent 50%);
+    background-image: linear-gradient(45deg, white 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.cabecalho:hover {
+    color: black;
+    background-position: 0;
+}
+
+
+/*===================*/
 
 input[type=text] {
     width: 400px;
