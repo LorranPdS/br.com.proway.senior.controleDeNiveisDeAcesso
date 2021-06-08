@@ -3,14 +3,26 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
+import { UsuarioConsultaComponent } from './usuario-consulta/usuario-consulta.component';
+import { UsuarioComponent } from './usuario/usuario.component';
+import { AppRoutingModule } from './app-routing.module';
+import { PerfilComponent } from './perfil/perfil.component';
+import { PermissaoComponent } from './permissao/permissao.component';
+import { AcessoComponent } from './acesso/acesso.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+    MenuComponent,
+    UsuarioConsultaComponent,
+    UsuarioComponent,
+    PerfilComponent,
+    PermissaoComponent,
+    AcessoComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
