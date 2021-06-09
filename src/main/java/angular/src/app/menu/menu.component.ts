@@ -9,7 +9,11 @@ export class MenuComponent implements OnInit {
 
   constructor() { }
 
+  search(term: string): void {
+  }
+
   ngOnInit(): void {
   }
 
 }
+

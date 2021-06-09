@@ -1,0 +1,127 @@
+.global{
+    margin-left: 240px;
+    width: 84%;
+    height: 732px;
+    font-family: sans-serif;
+    background-color: #00c89b;
+    background: linear-gradient(90deg, #00c89B, #00c89d77);
+}
+
+ div{
+    display: inline-block;
+    border-radius: 5px;
+}
+
+header {
+    font-size: 28px;
+    color: white;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: #1b1b1b;
+}
+
+img{
+    width: 20px;
+    height: 20px;
+    float: right;
+}
+
+.perfilTopo{
+    width: 600px;
+   /* border: 3px solid blue; */
+}
+
+.perfilTopo input{
+   margin-left: 382px;
+   border-radius: 3px;
+   border: 3px, solid, #00c89b;
+}
+
+.perfilTopo label {
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px #ffff;
+}
+
+.perfilTabela {
+    width: 600px;
+    height: 95%;
+    border: 1px solid black;
+    background-color: #f7f7f2;
+}
+
+.permissaoTopo{
+    width: 600px;
+    /* border: 3px solid red; */
+    float: right;
+}
+
+.permissaoTopo label{
+    margin-left: 280px;
+    font-weight: bold;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px #ffff;
+}
+
+.permissaoTopo input{
+    border-radius: 3px;
+    border: 3px, solid, #6a5d7b;
+ }
+
+.permissaoTabela {
+    width: 600px;
+    height: 95%;
+    border: 1px solid black;
+    background-color: #f7f7f2;
+}
+
+.permissaoTopo img{
+    border-radius: 5px;
+}
+
+footer{
+    position:absolute;
+    bottom:0;
+    width:90%;
+    height: 8%;
+}
+
+a:hover{
+    color: yellow;
+}
+
+
+
+
+.btn {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    font-size: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px 8px;
+    text-align: center;
+}
+
+.cabecalho {
+    border-color: white;
+    color: white;
+    background-image: -webkit-linear-gradient(45deg, white 50%, transparent 50%);
+    background-image: linear-gradient(45deg, white 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.cabecalho:hover {
+    color: black;
+    background-position: 0;
+}

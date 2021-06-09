@@ -1,6 +1,8 @@
+
 @import url('https://fonts.googleapis.com/css?family=Montserrat:600|Open+Sans:600&display=swap');
 * {
     margin: 0px;
+    margin-left: 310px;
     font-family: 'Monteserrat', sans-serif;
 }
 
@@ -12,6 +14,22 @@
     display: flex;
     flex-direction: column;
     width: 40%;
+    border-style: solid;
+    padding: 20px;
+    padding-bottom: 50px;
+    padding-top: 0px;
+    border-radius: 20px;
+}
+
+
+.botaoHorizontal{
+    display: flex;
+    height: auto;
+    width: auto;
+}
+
+.espaço{
+    margin-right: 10px;
 }
 
 .formtexto {
@@ -81,6 +99,7 @@
     margin-bottom: 8px;
     padding: 8px 8px;
     text-align: center;
+   
 }
 
 .fourth {
@@ -119,20 +138,13 @@
 /*===================*/
 
 input[type=text] {
-    width: 98%;
+    width: 400px;
     height: 30px;
+    padding: 3px;
     margin-top: 10px;
-    
-    padding-top: 5px;
-    padding-bottom: 2px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-width: 1px;
     outline: none;
     font-size: 15px;
 }
-
 
 * {
     margin: 0px;
@@ -156,6 +168,19 @@ main {
     margin-top: 10px;
 }
 
+input[type=text] {
+    width: 98%;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: 1px;
+}
+
+
+/*teste*/
+
 table {
     border: 1px solid black;
     border-collapse: collapse;
@@ -174,3 +199,4 @@ h3 {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+

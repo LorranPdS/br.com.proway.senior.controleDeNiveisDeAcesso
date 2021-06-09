@@ -1,3 +1,71 @@
-<p>usuario works!</p>
 
-<a routerLink="/usuario-consulta">Consultar Usuário</a>
+<div class="global">
+
+    <header>
+        Usuarios
+
+        <nav class="botaoHorizontal">
+                <button routerLink="/acesso" class="btn cabecalho espaço" > Perfis / Permissão</button>
+                <button routerLink="/usuario-consulta" class="btn cabecalho"> Consultar Usuário</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="formulario">
+            <!--div esquerda para cadastro, deve conter um pequeno formulário-->
+            <h3>Cadastrar</h3>
+
+            
+            <div class="formtexto">
+                <label class="titulo">Login:</label>
+                <input type="text" placeholder="Insira o novo login..." />
+
+                <br>
+                <label class="titulo">Senha:</label>
+                <input type="text" placeholder="Insira a nova senha..." />
+            </div>
+            <div class="formbotao">
+                <button class="btn fourth">Cadastrar</button>
+            </div>
+
+        </div>
+
+        <div class="tabela">
+            <h3>Lista de Usuarios:</h3>
+            <div class="formtexto">
+                <label class="titulo">Pesquisar:</label>
+                <input type="text" placeholder="Pesquisar por login que contenha..." />
+            </div>
+            <div class="formbotao">
+                <button class="btn fourth">Pesquisar</button>
+            </div>
+            <div class="tabelaContainer">
+                <table border="1">
+
+                    <tr>
+                        <th>Id</th>
+                        <th>Login</th>
+                        <th>Ultima alteração de senha</th>
+                        <th>Codigo de confirmação</th>
+                        <th> Ferramentas</th>
+                    </tr>
+                    <tr *ngFor= "let usuario of usuarios">
+                        <td>{{usuario.id}}</td>
+                        <td>{{usuario.login}}</td>
+                        <td>{{usuario.ultimaAlteracaoSenha}}</td>
+                        <td>{{usuario.ultimoCodigo2FA}}</td>
+                        <th><button class="botaolista fourth">apagar</button> <button class="botaolista fourth">editar</button></th>
+                    </tr>
+
+
+                </table>
+            </div>
+            <!--div direita, mostrar od ususarios já cadastradas-->
+            <!--para cada ususario na lista usuarios, mostrar na tabela-->
+        </div>
+    </main>
+
+
+
+</div>
+

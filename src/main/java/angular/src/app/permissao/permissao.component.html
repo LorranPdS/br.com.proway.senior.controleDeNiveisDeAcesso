@@ -1,10 +1,10 @@
 <div class="global">
-
+ 
     <header>
         Permissões
 
         <nav>
-            <button class="btn cabecalho">Atribuir a um Perfil</button>
+            <button routerLink="/perfil-permissao" class="btn cabecalho">Atribuir a um Perfil</button>
         </nav>
     </header>
 
@@ -44,7 +44,7 @@
 
                         <td>{{permissao.id}}</td>
                         <td>{{permissao.nome}}</td>
-                        <th><button class="botaolista fourth">apagar</button> <button class="botaolista fourth">editar</button></th>
+                        <th><button class="botaolista fourth">apagar</button> <button routerLink="/permissao-editar" class="botaolista fourth">editar</button></th>
                     </tr>
 
 
