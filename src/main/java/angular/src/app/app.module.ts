@@ -13,6 +13,8 @@ import { PerfilCadastroComponent } from './perfil-cadastro/perfil-cadastro.compo
 
 import { PerfilPermissaoComponent } from './perfil-permissao/perfil-permissao.component';
 import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.component';
+import { AcessoNovoComponent } from './acesso-novo/acesso-novo.component';
+import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usuario-perfil-permissao.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
     PerfilCadastroComponent,
     PerfilPermissaoComponent,
     PermissaoEditarComponent,
+    AcessoNovoComponent,
+    UsuarioPerfilPermissaoComponent
   ],
   imports: [
     BrowserModule,

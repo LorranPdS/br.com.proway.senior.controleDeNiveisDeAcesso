@@ -1,0 +1,75 @@
+<div class="global">
+
+    <header>
+        Perfis e Permissoes de um Usuário
+
+        <nav>
+            <button routerLink="/acesso" class="btn cabecalho">Consultar</button>
+        </nav>
+    </header>
+
+    <main>
+
+        <div class="consulta">
+            <div class="formulario">
+
+                <div class="formtexto">
+                    <label class="titulo">Pesquisar Perfis e Permissões do Usuário:</label>
+                    <input type="text" placeholder="Login do usuário.." />
+                </div>
+                <div class="formbotao">
+                    <button class="btn fourth">Pesquisar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dados">
+
+            <div class="perfis">
+                <label class="titulo">Perfis:</label>
+
+                <div class="tabelaContainer">
+
+                    <table>
+                        <tr>
+                            <th>Id</th>
+                            <th>Descricao</th>
+                            <th></th>
+                        </tr>
+                        <tr *ngFor="let perfil of perfis ">
+                            <td>{{perfil.id}}</td>
+                            <td>{{perfil.nome}}</td>
+                        </tr>
+
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="permissoes">
+                <label class="titulo">Permissões:</label>
+
+                <div class="tabelaContainer">
+
+                    <table>
+                        <tr>
+                            <th>Id</th>
+                            <th>Descrição</th>
+                            <th></th>
+                        </tr>
+                        <tr *ngFor="let permissao of permissoes ">
+                            <td>{{permissao.id}}</td>
+                            <td>{{permissao.nome}}</td>
+                        </tr>
+
+
+                    </table>
+                </div>
+                <!--div direita, mostrar as permissões já cadastradas-->
+                <!--para cada permissao na lista permissoes, mostrar na tabela-->
+            </div>
+
+
+        </div>
+    </main>
+</div>
