@@ -2,11 +2,10 @@
 <div class="global">
 
     <header>
-        Usuarios
+        | Usuarios
 
         <nav class="botaoHorizontal">
-                <button routerLink="/acesso" class="btn cabecalho espaço" > Perfis / Permissão</button>
-                <button routerLink="/usuario-consulta" class="btn cabecalho"> Consultar Usuário</button>
+                <button routerLink="/perfil-permissao" class="btn cabecalho espaço" > Perfis / Permissão</button>
         </nav>
     </header>
 
@@ -47,7 +46,7 @@
                         <th>Login</th>
                         <th>Ultima alteração de senha</th>
                         <th>Codigo de confirmação</th>
-                        <th> Ferramentas</th>
+                        <th></th>
                     </tr>
                     <tr *ngFor= "let usuario of usuarios">
                         <td>{{usuario.id}}</td>
