@@ -3,7 +3,6 @@
     width: 84%;
     height: 732px;
     font-family: sans-serif;
-    /** background-color: #00c89b; */
 }
 
  div{
@@ -30,7 +29,7 @@ img{
 
 .perfilTopo{
     width: 600px;
-   /* border: 3px solid blue; */
+    margin: 1%;
 }
 
 .perfilTopo input{
@@ -54,7 +53,7 @@ img{
 
 .permissaoTopo{
     width: 600px;
-    /* border: 3px solid red; */
+    margin: 1%;
     float: right;
 }
 
@@ -89,8 +88,8 @@ footer{
 }
 
 a:hover{
-    background-color: red;
-    color: #ffff;
+    padding: 8px;
+    color: red;
     cursor: pointer;
 }
 
