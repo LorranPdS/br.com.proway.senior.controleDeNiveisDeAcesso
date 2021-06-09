@@ -6,6 +6,10 @@
     text-decoration: none;
 }
 
+.global {
+    margin-left: 240px;
+}
+
 .sidebar {
     position: fixed;
     width: 240px;

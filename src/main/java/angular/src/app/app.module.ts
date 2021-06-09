@@ -29,7 +29,7 @@ import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usua
     PerfilPermissaoComponent,
     PermissaoEditarComponent,
     AcessoNovoComponent,
-    UsuarioPerfilPermissaoComponent
+    UsuarioPerfilPermissaoComponent,
   ],
   imports: [
     BrowserModule,
