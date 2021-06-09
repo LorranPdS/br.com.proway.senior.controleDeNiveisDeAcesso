@@ -21,7 +21,7 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
     PerfilComponent,
     PermissaoComponent,
     AcessoComponent,
-    PerfilPermissaoComponent
+    PerfilPermissaoComponent,
     PermissaoEditarComponent
   ],
   imports: [
