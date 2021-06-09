@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PerfilDeUsuario } from '../entidades/perfildeusuario';
+import { Usuario } from '../entidades/usuario';
+import { PerfilComponent } from '../perfil/perfil.component';
 
 @Component({
   selector: 'app-acesso',
@@ -7,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcessoComponent implements OnInit {
 
+  acessos: PerfilDeUsuario[] = []
   constructor() { }
 
   ngOnInit(): void {

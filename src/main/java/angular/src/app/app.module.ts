@@ -11,6 +11,7 @@ import { PermissaoComponent } from './permissao/permissao.component';
 import { AcessoComponent } from './acesso/acesso.component';
 import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
