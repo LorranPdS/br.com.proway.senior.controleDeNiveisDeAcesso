@@ -2,6 +2,7 @@
 * {
     margin: 0px;
     margin-left: 310px;
+    font-family: 'Monteserrat', sans-serif;
 }
 
 .global {
@@ -31,6 +32,100 @@
 .tabelaContainer {
     height: 400px;
     overflow: scroll;
+    overflow-x: scroll;
+}
+
+.botaolista {
+    padding: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 3px;
+    font-size: 14px;
+    background-color: white;
+}
+
+.titulo {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+.botao {
+    height: 37px;
+    width: 80px;
+    padding: 5px;
+    font-size: 15px;
+    margin: 5px;
+    margin-right: 0;
+}
+
+.botaocabecalho {
+    height: 37px;
+    width: 150px;
+    padding: 5px;
+    font-size: 15px;
+    margin: 5px;
+    margin-right: 20px;
+}
+
+
+/*===========================*/
+
+.btn {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    font-size: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px 8px;
+    text-align: center;
+}
+
+.fourth {
+    border-color: black;
+    color: black;
+    background-image: -webkit-linear-gradient(45deg, black 50%, transparent 50%);
+    background-image: linear-gradient(45deg, black 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.fourth:hover {
+    color: white;
+    background-position: 0;
+}
+
+.cabecalho {
+    border-color: white;
+    color: white;
+    background-image: -webkit-linear-gradient(45deg, white 50%, transparent 50%);
+    background-image: linear-gradient(45deg, white 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.cabecalho:hover {
+    color: black;
+    background-position: 0;
+}
+
+
+/*===================*/
+
+input[type=text] {
+    width: 400px;
+    height: 30px;
+    padding: 3px;
+    margin-top: 10px;
+    outline: none;
+    font-size: 15px;
 }
 
 * {
@@ -41,7 +136,6 @@
 header {
     font-size: 28px;
     color: white;
-    font-family: 'Monteserrat', sans-serif;
     padding-left: 10px;
     display: flex;
     justify-content: space-between;
@@ -57,7 +151,13 @@ main {
 }
 
 input[type=text] {
-    width: 100%;
+    width: 98%;
+    padding-top: 5px;
+    padding-bottom: 2px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: 1px;
 }
 
 
@@ -73,4 +173,11 @@ th,
 td {
     padding: 5px 10px;
     text-align: left;
+    white-space: nowrap;
+}
+
+h3 {
+    font-size: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
