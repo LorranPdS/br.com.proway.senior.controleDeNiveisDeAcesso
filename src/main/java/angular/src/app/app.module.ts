@@ -16,8 +16,6 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
 import { AcessoNovoComponent } from './acesso-novo/acesso-novo.component';
 import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usuario-perfil-permissao.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

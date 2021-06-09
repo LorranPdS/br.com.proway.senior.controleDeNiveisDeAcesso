@@ -122,7 +122,6 @@
     background-position: 0;
 }
 
-
 /*===================*/
 
 input[type=text] {
@@ -137,6 +136,11 @@ input[type=text] {
 * {
     margin: 0px;
     padding: 0px;
+}
+
+nav{
+    display: flex;
+    justify-content: flex-end;
 }
 
 header {
@@ -175,10 +179,9 @@ table {
     width: 100%;
 }
 
-th,
-td {
-    padding: 5px 10px;
-    text-align: left;
+th, td{
+    padding: 10px 50px;
+    align-self: center;
     white-space: nowrap;
 }
 
@@ -188,7 +191,4 @@ h3 {
     margin-bottom: 5px;
 }
 
-nav{
-    display: flex;
-    justify-content: flex-end;
-}
+
