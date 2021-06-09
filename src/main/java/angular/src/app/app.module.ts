@@ -8,9 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { PerfilComponent } from './perfil/perfil.component';
 import { PermissaoComponent } from './permissao/permissao.component';
 import { AcessoComponent } from './acesso/acesso.component';
-
+import { LoginComponent } from './login/login.component';
 import { PerfilCadastroComponent } from './perfil-cadastro/perfil-cadastro.component';
-
 import { PerfilPermissaoComponent } from './perfil-permissao/perfil-permissao.component';
 import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.component';
 import { AcessoNovoComponent } from './acesso-novo/acesso-novo.component';
@@ -25,6 +24,7 @@ import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usua
     PerfilComponent,
     PermissaoComponent,
     AcessoComponent,
+    LoginComponent,
     PerfilCadastroComponent,
     PerfilPermissaoComponent,
     PermissaoEditarComponent,

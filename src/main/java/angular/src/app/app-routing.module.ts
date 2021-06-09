@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { LoginComponent,  } from './login/login.component';
+
 import { AcessoComponent } from './acesso/acesso.component';
 import { AcessoNovoComponent } from './acesso-novo/acesso-novo.component';
 
@@ -22,6 +24,9 @@ import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usua
 
 
 const routes: Routes = [
+
+  { path: 'login', component: LoginComponent},
+
   { path: 'acesso', component: AcessoComponent },
   { path: 'acesso-novo', component: AcessoNovoComponent },
 
