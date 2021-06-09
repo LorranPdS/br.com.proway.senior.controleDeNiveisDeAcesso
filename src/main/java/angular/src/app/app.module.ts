@@ -26,10 +26,10 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
     PermissaoComponent,
     AcessoComponent,
 
-    PerfilCadastroComponent
+    PerfilCadastroComponent,
 
     PerfilPermissaoComponent,
-    PermissaoEditarComponent
+    PermissaoEditarComponent,
 
   ],
   imports: [
