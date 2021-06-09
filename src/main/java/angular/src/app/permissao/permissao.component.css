@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:600|Open+Sans:600&display=swap');
 * {
     margin: 0px;
-    margin-left: 310px;
     font-family: 'Monteserrat', sans-serif;
 }
 
@@ -120,13 +119,20 @@
 /*===================*/
 
 input[type=text] {
-    width: 400px;
+    width: 98%;
     height: 30px;
-    padding: 3px;
     margin-top: 10px;
+    
+    padding-top: 5px;
+    padding-bottom: 2px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: 1px;
     outline: none;
     font-size: 15px;
 }
+
 
 * {
     margin: 0px;
@@ -148,16 +154,6 @@ main {
     display: flex;
     justify-content: space-around;
     margin-top: 10px;
-}
-
-input[type=text] {
-    width: 98%;
-    padding-top: 5px;
-    padding-bottom: 2px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-width: 1px;
 }
 
 

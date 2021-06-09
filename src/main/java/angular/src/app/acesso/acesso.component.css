@@ -1,4 +1,166 @@
 * {
     margin: 0px;
-    margin-left: 310px;
+    font-family: 'Monteserrat', sans-serif;
+}
+
+.global {
+    margin-left: 240px;
+    height: 100%;
+}
+
+.botaocabecalho {
+    height: 37px;
+    width: 150px;
+    padding: 5px;
+    font-size: 15px;
+    margin: 5px;
+    margin-right: 20px;
+}
+
+/*===========================*/
+
+.btn {
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    font-size: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px 8px;
+    text-align: center;
+}
+
+.fourth {
+    border-color: black;
+    color: black;
+    background-image: -webkit-linear-gradient(45deg, black 50%, transparent 50%);
+    background-image: linear-gradient(45deg, black 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.fourth:hover {
+    color: white;
+    background-position: 0;
+}
+
+.cabecalho {
+    border-color: white;
+    color: white;
+    background-image: -webkit-linear-gradient(45deg, white 50%, transparent 50%);
+    background-image: linear-gradient(45deg, white 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.cabecalho:hover {
+    color: black;
+    background-position: 0;
+}
+
+/*===================*/
+
+header {
+    font-size: 28px;
+    color: white;
+    padding-left: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    background-color: #1b1b1b;
+}
+
+
+main {
+    margin-top: 3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  
+}
+
+.formulario {
+    display: flex;
+    margin-left: 3%;
+}
+
+.forminicio {
+    width: 40%;
+    flex-direction: column;
+}
+
+.formconsulta {
+    width: 50%;
+    display: block;
+}
+
+.opcao-consulta {
+    margin-top: 10px;
+    display: flex;
+}
+
+.direita {
+    margin-left: 5%;
+}
+
+.radio {
+    margin-top: 5px;
+}
+
+.formtexto {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.formbotao {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.titulo {
+    font-size: 22px;
+    margin-bottom: 3px;
+}
+
+.tabela {
+    margin-top: 20px;
+    display: flex;
+    margin-left: 3%;
+    width: 100%;
+}
+
+.tabelaContainer {
+    height: 400px;
+    width: 97%;
+    overflow: scroll;
+    overflow-x: scroll;
+}
+
+h3 {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+input[type=text] {
+    width: 98%;
+    height: 30px;
+    margin-top: 10px;
+    
+    padding-top: 5px;
+    padding-bottom: 2px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-width: 1px;
+    outline: none;
+    font-size: 15px;
 }

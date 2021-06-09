@@ -9,6 +9,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { PerfilPermissaoComponent } from './perfil-permissao/perfil-permissao.component';
 
 import { PermissaoComponent } from './permissao/permissao.component';
+import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.component';
 
 import { UsuarioComponent } from './usuario/usuario.component';
 import { UsuarioConsultaComponent } from './usuario-consulta/usuario-consulta.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'perfil-permissao', component: PerfilPermissaoComponent },
 
   { path: 'permissao', component: PermissaoComponent },
+  { path: 'permissao-editar', component: PermissaoEditarComponent },
   
   { path: 'usuario', component: UsuarioComponent },
   { path: 'usuario-consulta', component: UsuarioConsultaComponent}
