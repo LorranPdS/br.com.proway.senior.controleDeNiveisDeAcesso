@@ -21,4 +21,10 @@ export class PerfilPermissaoComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  listarPermissoes(id: Perfil){
+    this.perfis.forEach(idPerfil => {
+        return idPerfil.permissoes;      
+    });
+  }
+
 }

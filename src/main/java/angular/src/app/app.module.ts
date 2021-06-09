@@ -33,7 +33,7 @@ import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usua
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
