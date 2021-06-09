@@ -2,8 +2,7 @@
 
     <header>| Perfil
     <nav>
-        <button class="btn cabecalho fourth" routerLink="/perfil-cadastro"> Cadastrar Perfil</button>
-        <button class="btn cabecalho fourth"> Ver todos</button>
+        <button class="btn cabecalho fourth espaço" routerLink="/perfil-cadastro"> Cadastrar Perfil</button>
     </nav>
     </header>
 <main>
@@ -31,11 +30,12 @@
       
 
             <div class="tabelaContainer">
-                <table>
+                <table border="1">
                     <tr>
                         <th>Id</th>
                         <th>Nome</th>
                         <th>Numero de Permissões</th>
+                        <th></th>
 
                     </tr>
                     <tr *ngFor="let perfil of perfis" id="ajuste">
