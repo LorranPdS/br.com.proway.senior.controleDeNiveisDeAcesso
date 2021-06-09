@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:600|Open+Sans:600&display=swap');
+* {
+    margin: 0px;
+    margin-left: 310px;
+    font-family: 'Monteserrat', sans-serif;
+}
+
+.btnVoltar {
+    height: 37px;
+    width: 150px;
+    padding: 5px;
+    font-size: 15px;
+    margin: 5px;
+    margin-right: 20px;
+}
+
+.fourth {
+    border-color: black;
+    color: black;
+    background-image: -webkit-linear-gradient(45deg, black 50%, transparent 50%);
+    background-image: linear-gradient(45deg, black 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    -webkit-transition: background 300ms ease-in-out;
+    transition: background 300ms ease-in-out;
+}
+
+.fourth:hover {
+    color: white;
+    background-position: 0;
+}
+
+.navCabecalho{
+    display: flex;
+    align-self: flex-end;
+}
