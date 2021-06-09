@@ -26,7 +26,7 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

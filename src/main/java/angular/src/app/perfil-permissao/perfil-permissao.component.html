@@ -1,6 +1,6 @@
 <div class="global">
     <header>
-        Atribuição de permissões a um perfil
+        | Atribuição de permissões a um perfil
         <nav>
             <button routerLink="/permissao" class="btn cabecalho">Voltar para Permissões</button>
         </nav>
@@ -12,7 +12,11 @@
             <div class="perfilTabela">
                 <table>
                     <tr *ngFor="let perfil of perfis">
-                        <td>{{perfil.nome}} </td>
+
+                        <a>
+                            <td (click)="listarPermissoes">{{perfil.nome}}</td>
+                        </a>
+
                     </tr>
                 </table>
             </div>
@@ -22,6 +26,7 @@
 
             <input type="text" placeholder="Consultar por nome">
 
+            <!-- Precisam ser criadas rotas para esse <a>, então vai mudar -->
             <a href="metodoAdicionarPermissao()"><img src="../../assets/adicao_img.jpg" alt="adicionar"
                     title="Adicionar permissão"></a>
             <a href="metodoRemoverPermissao()"><img src="../../assets/subtracao_img.png" alt="remover"
@@ -29,41 +34,16 @@
             <label>Permissão</label>
             <div class="permissaoTabela">
                 <table>
-                    <tr *ngFor="let perfil of perfis">
-                        <td>{{perfil.permissoes}}</td>
-                    </tr>
                     
-                    <!-- 
-                    <tr *ngFor="let perfil of perfis">
-                        <td>{{perfil.permissoes}} </td>
-                    </tr>
-                    -->
-                    
-                    
-                    <tr>
-                        <td>Permissão 3 exemplo</td>
-                    </tr>
-                    <tr>
-                        <td>Permissão 4 exemplo</td>
-                    </tr>
-                    <tr>
-                        <td>Permissão 5 exemplo</td>
-                    </tr>
-                    <tr>
-                        <td>Permissão 6 exemplo</td>
-                    </tr>
-                    <tr>
-                        <td>Permissão 7 exemplo</td>
-                    </tr>
-                    <tr>
-                        <td>Permissão 8 exemplo</td>
-                    </tr>
+                    <!--
+                    <div *ngFor="let perfil of perfis">
+                        <tr *ngFor="let permissao of perfil.permissoes">
+                            <td>{{permissao.nome}}</td>
+                        </tr>
+                    </div>
+                -->
                 </table>
             </div>
         </div>
     </nav>
-
-    <footer>
-        <a href="consulta de permissao.html">Voltar à página inicial (simulação)</a>
-    </footer>
 </div>
