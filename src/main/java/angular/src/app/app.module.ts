@@ -25,12 +25,9 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
     PerfilComponent,
     PermissaoComponent,
     AcessoComponent,
-
-    PerfilCadastroComponent
-
+    PerfilCadastroComponent,
     PerfilPermissaoComponent,
     PermissaoEditarComponent
-
   ],
   imports: [
     BrowserModule,
