@@ -14,6 +14,7 @@ import { PerfilPermissaoComponent } from './perfil-permissao/perfil-permissao.co
 import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.component';
 import { AcessoNovoComponent } from './acesso-novo/acesso-novo.component';
 import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usuario-perfil-permissao.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { UsuarioPerfilPermissaoComponent } from './usuario-perfil-permissao/usua
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
