@@ -6,6 +6,7 @@ import { AcessoComponent } from './acesso/acesso.component';
 import { MenuComponent } from './menu/menu.component';
 
 import { PerfilComponent } from './perfil/perfil.component';
+import { PerfilPermissaoComponent } from './perfil-permissao/perfil-permissao.component';
 
 import { PermissaoComponent } from './permissao/permissao.component';
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'menu', component: MenuComponent },
 
   { path: 'perfil', component: PerfilComponent },
+  { path: 'perfil-permissao', component: PerfilPermissaoComponent },
 
   { path: 'permissao', component: PermissaoComponent },
   
