@@ -1,1 +1,82 @@
-<p>acesso works!</p>
+<div class="global">
+
+    <header>
+        Acessos
+
+        <nav>
+            <button routerLink="/permissao" class="btn cabecalho">Novo Acesso</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="formulario">
+            
+
+            <div class="formconsulta">
+                <label class="titulo">Consultar por: </label>
+                <div class="opcao-consulta">
+                    <div class="esquerda">
+                        <div class="radio"><input type="radio" name="tipo-consulta"> Ativos</div>
+                        <div class="radio"><input type="radio" name="tipo-consulta"> Inativos</div>
+                    </div>
+                    <div class="direita">
+                        <div class="radio"><input type="radio" name="tipo-consulta"> Nome do usuário</div>
+                        <div class="radio"><input type="radio" name="tipo-consulta"> Nome do perfil</div>
+                    </div>
+
+                </div>
+
+
+                <div class="inputtext">
+                    <input type="text" placeholder="Insira o nome do usuário..." />
+                    <!--<input #searchBox id="search-box" (input)="search(searchBox.value)" /> 
+                    
+                        Aqui quero que o usuário digite o nome do usuário/perfil, depende do que
+                        ele irá selecionar no tipo de consulta, e que na caixa retorne todos os usuários 
+                        que o nome contém o que ele escreveu, quando ele clicar quero que a tabela seja 
+                        atualizada
+                    
+                    -->
+                    
+                </div>
+                <div class="formbotao">
+                    <button class="btn fourth">Consultar</button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="tabela">
+
+            <div class="tabelaContainer">
+                <table>
+
+                    <tr>
+                        <th>Usuário</th>
+                        <th>Perfil</th>
+                        <th>Expira em:</th>
+                        <th>Ativo:</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr *ngFor="let acesso of acessos ">
+
+                        <td>{{acesso.usuario.login}}</td>
+                        <td>{{acesso.perfil.nome}}</td>
+                        <td>{{acesso.dataExpiracao}}</td>
+                        <td>{{acesso.ativo}}</td>
+                        <th><button class="botaolista fourth">apagar</button> <button routerLink="/permissao-editar"
+                                class="botaolista fourth">editar</button></th>
+                    </tr>
+
+
+                </table>
+
+            </div>
+
+
+        </div>
+
+    </main>
+</div>

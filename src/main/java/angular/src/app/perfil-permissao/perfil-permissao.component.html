@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Atribuir permissao</title>
-    <link rel="stylesheet" href="../css/atribperm.css">
-</head>
-
-<body>
+<div class="global">
     <header>
-        <h1>Atribuição de permissões a um perfil</h1>
+        Atribuição de permissões a um perfil
+        <nav>
+            <button routerLink="/permissao" class="btn cabecalho">Voltar para Permissões</button>
+        </nav>
     </header>
     <nav>
         <div class="perfilTopo">
@@ -17,14 +11,8 @@
             <input type="text" placeholder="Consultar por nome">
             <div class="perfilTabela">
                 <table>
-                    <tr>
-                        <td>Perfil 1 exemplo</td>
-                    </tr>
-                    <tr>
-                        <td>Perfil 2 exemplo</td>
-                    </tr>
-                    <tr>
-                        <td>Perfil 3 exemplo</td>
+                    <tr *ngFor="let perfil of perfis">
+                        <td>{{perfil.nome}} </td>
                     </tr>
                 </table>
             </div>
@@ -34,19 +22,24 @@
 
             <input type="text" placeholder="Consultar por nome">
 
-            <a href="metodoAdicionarPermissao()"><img src="../imagem/adicao_img.jpg" alt="adicionar"
+            <a href="metodoAdicionarPermissao()"><img src="../../assets/adicao_img.jpg" alt="adicionar"
                     title="Adicionar permissão"></a>
-            <a href="metodoRemoverPermissao()"><img src="../imagem/subtracao_img.png" alt="remover"
+            <a href="metodoRemoverPermissao()"><img src="../../assets/subtracao_img.png" alt="remover"
                     title="Remover permissão"></a>
             <label>Permissão</label>
             <div class="permissaoTabela">
                 <table>
-                    <tr>
-                        <td>Permissão 1 exemplo</td>
+                    <tr *ngFor="let perfil of perfis">
+                        <td>{{perfil.permissoes}}</td>
                     </tr>
-                    <tr>
-                        <td>Permissão 2 exemplo</td>
+                    
+                    <!-- 
+                    <tr *ngFor="let perfil of perfis">
+                        <td>{{perfil.permissoes}} </td>
                     </tr>
+                    -->
+                    
+                    
                     <tr>
                         <td>Permissão 3 exemplo</td>
                     </tr>
@@ -73,6 +66,4 @@
     <footer>
         <a href="consulta de permissao.html">Voltar à página inicial (simulação)</a>
     </footer>
-</body>
-
-</html>
+</div>
