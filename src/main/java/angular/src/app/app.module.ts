@@ -8,8 +8,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { PerfilComponent } from './perfil/perfil.component';
 import { PermissaoComponent } from './permissao/permissao.component';
 import { AcessoComponent } from './acesso/acesso.component';
+
+import { PerfilCadastroComponent } from './perfil-cadastro/perfil-cadastro.component';
+
 import { PerfilPermissaoComponent } from './perfil-permissao/perfil-permissao.component';
 import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.component';
+
 
 
 @NgModule({
@@ -21,8 +25,12 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
     PerfilComponent,
     PermissaoComponent,
     AcessoComponent,
+
+    PerfilCadastroComponent
+
     PerfilPermissaoComponent,
     PermissaoEditarComponent
+
   ],
   imports: [
     BrowserModule,
