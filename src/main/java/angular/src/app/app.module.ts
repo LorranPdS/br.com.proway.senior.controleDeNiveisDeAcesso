@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { UsuarioConsultaComponent } from './usuario-consulta/usuario-consulta.component';
@@ -9,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PerfilComponent } from './perfil/perfil.component';
 import { PermissaoComponent } from './permissao/permissao.component';
 import { AcessoComponent } from './acesso/acesso.component';
+import { PerfilPermissaoComponent } from './perfil-permissao/perfil-permissao.component';
 import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.component';
 
 
@@ -21,6 +21,7 @@ import { PermissaoEditarComponent } from './permissao-editar/permissao-editar.co
     PerfilComponent,
     PermissaoComponent,
     AcessoComponent,
+    PerfilPermissaoComponent
     PermissaoEditarComponent
   ],
   imports: [
