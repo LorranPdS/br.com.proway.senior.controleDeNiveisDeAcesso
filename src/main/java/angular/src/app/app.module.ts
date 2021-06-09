@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PerfilComponent } from './perfil/perfil.component';
 import { PermissaoComponent } from './permissao/permissao.component';
 import { AcessoComponent } from './acesso/acesso.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { AcessoComponent } from './acesso/acesso.component';
     UsuarioComponent,
     PerfilComponent,
     PermissaoComponent,
-    AcessoComponent
+    AcessoComponent,
+    LoginComponent,
+
   ],
   imports: [
     BrowserModule,
