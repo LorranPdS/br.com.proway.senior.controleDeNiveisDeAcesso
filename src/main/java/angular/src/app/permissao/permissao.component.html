@@ -27,11 +27,11 @@
         <div class="tabela">
             <h3>Lista de Permissões:</h3>
             <div class="formtexto">
-                <label class="titulo" (click)="getPermissao()">Pesquisar:</label>
+                <label class="titulo">Pesquisar:</label>
                 <input type="text" placeholder="Pesquisar por nome que contenha..." />
             </div>
             <div class="formbotao">
-                <button class="btn fourth">Pesquisar</button>
+                <button class="btn fourth" (click)="getPermissao()">Pesquisar</button>
             </div>
             <div class="tabelaContainer">
                 <table border="1">
