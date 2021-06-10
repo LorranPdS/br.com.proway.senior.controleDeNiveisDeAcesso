@@ -1,8 +1,8 @@
 <app-menu></app-menu>
 <div class="global">
- 
+
     <header>
-       | Permissões
+        | Permissões
 
         <nav>
             <button routerLink="/perfil-permissao" class="btn cabecalho">Atribuir a um Perfil</button>
@@ -19,7 +19,8 @@
                 <input #permissao type="text" placeholder="Insira a descrição da permissão..." />
             </div>
             <div class="formbotao">
-                <button class="btn fourth" (click)="cadastrar(permissao.value); permissao.value= ''" (click)=pesquisar>Cadastrar</button>
+                <button class="btn fourth" (click)="cadastrar(permissao.value); permissao.value= ''"
+                    (click)=pesquisar>Cadastrar</button>
             </div>
 
         </div>
@@ -31,7 +32,7 @@
                 <input type="text" placeholder="Pesquisar por nome que contenha..." />
             </div>
             <div class="formbotao">
-                <button  #pesquisar class="btn fourth" (click)="getPermissao()">Pesquisar</button>
+                <button #pesquisar class="btn fourth" (click)="getPermissao()">Pesquisar</button>
             </div>
             <div class="tabelaContainer">
                 <table>
@@ -45,7 +46,10 @@
 
                         <td>{{permissao.idPermissao}}</td>
                         <td>{{permissao.nomePermissao}}</td>
-                        <th><button class="botaolista fourth">apagar</button> <button routerLink="/permissao-editar" class="botaolista fourth">editar</button></th>
+                        <td>
+                            <button class="botaolista fourth" (click)="deletar(permissao)">apagar</button>
+                            <button routerLink="/permissao-editar" class="botaolista fourth">editar</button>
+                        </td>
                     </tr>
 
 

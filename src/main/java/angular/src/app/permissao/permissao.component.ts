@@ -17,7 +17,6 @@ export class PermissaoComponent implements OnInit {
   }
 
   getPermissao(): void {
-  
     this.permissaoService.getPermissao().subscribe(permissoes => this.permissoes = permissoes);
   }
 
@@ -27,6 +26,10 @@ export class PermissaoComponent implements OnInit {
     this.permissaoService.cadastrar({ nomePermissao } as Permissao).subscribe(permissaoo => {
         this.permissoes.push(permissaoo);
       });
+  }
+
+  deletar(permissao : Permissao): void{
+    this.permissaoService.deletar(permissao.idPermissao as number).subscribe();
   }
   
  

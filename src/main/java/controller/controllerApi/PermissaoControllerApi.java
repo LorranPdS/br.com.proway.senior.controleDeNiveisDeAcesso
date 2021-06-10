@@ -81,7 +81,7 @@ public class PermissaoControllerApi {
 	 *         recebido. Se nao existir, retorna false.
 	 */
 	@CrossOrigin
-	@DeleteMapping("/deletar/id/{id}")
+	@DeleteMapping("/{id}")
 	public boolean deletarPermissao(@PathVariable("id") Integer id) {
 		return controller.deletarPermissao(id);
 	}

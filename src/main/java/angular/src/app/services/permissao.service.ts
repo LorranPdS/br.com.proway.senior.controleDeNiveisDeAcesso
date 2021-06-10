@@ -23,4 +23,9 @@ export class PermissaoService {
   cadastrar(permissao: Permissao) : Observable<Permissao>{
     return this.http.post<Permissao>(this.permissaoUrl + '/criar', permissao, this.httpOptions)
   }
+
+  deletar(id : number): Observable<Permissao>{
+    const url = `${this.permissaoUrl}/${id}`;
+    return this.http.delete<Permissao>(url, this.httpOptions) 
+  }
 }
