@@ -13,11 +13,11 @@ export class PermissaoComponent implements OnInit {
   constructor(private permissaoService: PermissaoService) { }
 
   ngOnInit(): void {
-    this.getPermissao();
+    this.listarTodos();
   }
 
-  getPermissao(): void {
-    this.permissaoService.getPermissao().subscribe(permissoes => this.permissoes = permissoes);
+  listarTodos(): void {
+    this.permissaoService.listarTodos().subscribe(permissoes => this.permissoes = permissoes);
   }
 
   cadastrar(nomePermissao: string): void{

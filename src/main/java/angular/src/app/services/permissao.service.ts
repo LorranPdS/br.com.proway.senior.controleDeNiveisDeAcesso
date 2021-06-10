@@ -16,7 +16,7 @@ export class PermissaoService {
 
   constructor(private http: HttpClient) { }
 
-  getPermissao(): Observable<Permissao[]> {
+  listarTodos(): Observable<Permissao[]> {
     return this.http.get<Permissao[]>(this.permissaoUrl + '/listar')
   }
 
