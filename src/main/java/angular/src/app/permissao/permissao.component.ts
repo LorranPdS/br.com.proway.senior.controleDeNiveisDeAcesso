@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Permissao } from '../entidades/permissao';
-import { PermissaoService } from '../services/permissao.service';
+import {PermissaoService} from '../services/permissao.service'
 
 @Component({
   selector: 'app-permissao',
@@ -19,4 +19,5 @@ export class PermissaoComponent implements OnInit {
     this.permissaoService.getPermissao().subscribe(permissoes => this.permissoes = permissoes);
   }
   
+ 
 }
