@@ -48,7 +48,7 @@
                         <td>{{permissao.nomePermissao}}</td>
                         <td>
                             <button class="botaolista fourth" (click)="deletar(permissao)">apagar</button>
-                            <button routerLink="/permissao-editar" class="botaolista fourth">editar</button>
+                            <button routerLink="/permissao-editar" (click)="preparoEditar(permissao)" class="botaolista fourth">editar</button>
                         </td>
                     </tr>
 

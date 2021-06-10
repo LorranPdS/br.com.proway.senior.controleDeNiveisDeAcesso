@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class PermissaoService {
+  permissao!: Permissao;
 
   private permissaoUrl = 'http://localhost:8080/permissao';
 
@@ -22,6 +23,19 @@ export class PermissaoService {
 
   cadastrar(permissao: Permissao) : Observable<Permissao>{
     return this.http.post<Permissao>(this.permissaoUrl + '/criar', permissao, this.httpOptions)
+  }
+
+  preparoEditar(permissao: Permissao): void {
+    this.permissao = permissao;
+  }
+
+  buscarPermissaoAEditar(): Permissao {
+    return this.permissao;
+  }
+
+  editar(id: number, permissao: Permissao): Observable<any> {
+    const url = `${this.permissaoUrl}/alterar/id/${id}`;
+    return this.http.put(url, permissao, this.httpOptions);
   }
 
   deletar(id : number): Observable<Permissao>{

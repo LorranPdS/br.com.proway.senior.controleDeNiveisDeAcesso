@@ -9,7 +9,6 @@ import { PermissaoService } from '../services/permissao.service'
 })
 export class PermissaoComponent implements OnInit {
   permissoes: Permissao[] = [];
-  permissao!: Permissao;
   constructor(private permissaoService: PermissaoService) { }
 
   ngOnInit(): void {
@@ -24,6 +23,10 @@ export class PermissaoComponent implements OnInit {
     nomePermissao = nomePermissao.trim();
     if (!nomePermissao) { return; }
     this.permissaoService.cadastrar({ nomePermissao } as Permissao).subscribe( (_) =>  this.listarTodos())
+  }
+
+  preparoEditar(permissao: Permissao): void {
+    this.permissaoService.preparoEditar(permissao);
   }
 
   deletar(permissao: Permissao): void {
