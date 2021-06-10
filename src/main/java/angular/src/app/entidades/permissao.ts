@@ -1,4 +1,4 @@
 export interface Permissao {
-    idPermissao: number,
+    idPermissao?: number,
     nomePermissao: string
 }

@@ -9,6 +9,7 @@ import {PermissaoService} from '../services/permissao.service'
 })
 export class PermissaoComponent implements OnInit {
   permissoes: Permissao[] = [];
+  permissao!: Permissao;
   constructor(private permissaoService: PermissaoService) { }
 
   ngOnInit(): void {
@@ -17,9 +18,15 @@ export class PermissaoComponent implements OnInit {
 
   getPermissao(): void {
   
-    this.permissaoService.getPermissao().subscribe(permissoes => {
-      debugger;
-      this.permissoes = permissoes});
+    this.permissaoService.getPermissao().subscribe(permissoes => this.permissoes = permissoes);
+  }
+
+  cadastrar(nomePermissao: string): void{
+    nomePermissao = nomePermissao.trim();
+    if (!nomePermissao) { return; }
+    this.permissaoService.cadastrar({ nomePermissao } as Permissao).subscribe(permissaoo => {
+        this.permissoes.push(permissaoo);
+      });
   }
   
  

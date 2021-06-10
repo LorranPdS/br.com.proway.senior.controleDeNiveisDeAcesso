@@ -8,11 +8,19 @@ import { Observable, of } from 'rxjs';
 })
 export class PermissaoService {
 
-  private permissaoUrl = 'http://localhost:8080/permissao/listar';
+  private permissaoUrl = 'http://localhost:8080/permissao';
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(private http: HttpClient) { }
 
   getPermissao(): Observable<Permissao[]> {
-    return this.http.get<Permissao[]>(this.permissaoUrl)
+    return this.http.get<Permissao[]>(this.permissaoUrl + '/listar')
+  }
+
+  cadastrar(permissao: Permissao) : Observable<Permissao>{
+    return this.http.post<Permissao>(this.permissaoUrl + '/criar', permissao, this.httpOptions)
   }
 }
