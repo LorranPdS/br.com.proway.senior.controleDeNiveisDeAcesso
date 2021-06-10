@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class PermissaoControllerApi {
 	 * @return boolean Se ja existir uma {@link Permissao} com o nome informado,
 	 *         retorna false. Se nao existir, retorna true.
 	 */
+	@CrossOrigin
 	@PostMapping("/criar")
 	public boolean criarPermissao(@RequestBody Permissao permissao) {
 		return controller.criarPermissao(permissao.getNomePermissao());
@@ -62,6 +64,7 @@ public class PermissaoControllerApi {
 	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
 	 *         recebido. Se nao existir, retorna false.
 	 */
+	@CrossOrigin
 	@PutMapping("/alterar/id/{id}")
 	public boolean alterarPermissao(@PathVariable("id") Integer id, @RequestBody Permissao permissao) {
 		return controller.alterarPermissao(id, permissao.getNomePermissao());
@@ -77,7 +80,8 @@ public class PermissaoControllerApi {
 	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
 	 *         recebido. Se nao existir, retorna false.
 	 */
-	@DeleteMapping("/deletar/id/{id}")
+	@CrossOrigin
+	@DeleteMapping("/{id}")
 	public boolean deletarPermissao(@PathVariable("id") Integer id) {
 		return controller.deletarPermissao(id);
 	}
@@ -95,6 +99,7 @@ public class PermissaoControllerApi {
 	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 * @throws NotFoundException
 	 */
+	@CrossOrigin
 	@GetMapping("/consultar/id/{id}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorId(@PathVariable("id") Integer id)
 			throws NotFoundException {
@@ -117,7 +122,8 @@ public class PermissaoControllerApi {
 	 *         banco de dados com o id informado, retorna uma PermissaoDTO. Se nao
 	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 */
-	@GetMapping("/consultar/nome/{nome}")
+	@CrossOrigin
+	@GetMapping("/nome/{nome}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorNomeExato(@PathVariable("nome") String nome) {
 		
 		Permissao permissao = controller.consultarPermissaoPorNomeExato(nome);
@@ -135,6 +141,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @return List<Permissao> 
 	 */
+	@CrossOrigin
 	@GetMapping("/listar")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
 		List<Permissao> listaModel = controller.listarTodasAsPermissoes();

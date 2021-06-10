@@ -1,6 +1,7 @@
+import { NgForOf, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Permissao } from '../entidades/permissao';
-import { PermissaoService } from '../services/permissao.service';
+import { PermissaoService } from '../services/permissao.service'
 
 @Component({
   selector: 'app-permissao',
@@ -17,5 +18,27 @@ export class PermissaoComponent implements OnInit {
 
   listarTodos(): void {
     this.permissaoService.listarTodos().subscribe(permissoes => this.permissoes = permissoes);
+  }
+
+  cadastrar(nomePermissao: string): void {
+    nomePermissao = nomePermissao.trim();
+    if (!nomePermissao) { return; }
+    this.permissaoService.cadastrar({ nomePermissao } as Permissao).subscribe( (_) =>  this.listarTodos())
+  }
+
+  preparoEditar(permissao: Permissao): void {
+    this.permissaoService.preparoEditar(permissao);
+  }
+
+  deletar(permissao: Permissao): void {
+    this.permissaoService.deletar(permissao.idPermissao as number).subscribe(
+      (_) =>  this.listarTodos()
+    )
+   
+  }
+
+  buscarPorNome(nomePermissao: string): void {
+    this.permissoes = [];
+    this.permissaoService.buscarPorNome(nomePermissao).subscribe(permissao => this.permissoes.push(permissao));
   }
 }
