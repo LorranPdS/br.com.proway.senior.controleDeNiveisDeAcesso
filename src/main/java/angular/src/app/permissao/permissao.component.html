@@ -19,7 +19,7 @@
                 <input #permissao type="text" placeholder="Insira a descrição da permissão..." />
             </div>
             <div class="formbotao">
-                <button class="btn fourth" (click)="cadastrar(permissao.value); permissao.value= ''">Cadastrar</button>
+                <button class="btn fourth" (click)="cadastrar(permissao.value);permissao.value= ''">Cadastrar</button>
             </div>
 
         </div>
@@ -27,12 +27,12 @@
         <div class="tabela">
             <h3>Lista de Permissões:</h3>
             <div class="formtexto">
-                <label class="titulo" (click)= "buscarPorNome(nomeDaPermissao.value)">Pesquisar:</label>
+                <label class="titulo">Pesquisar:</label>
                 <input #nomeDaPermissao type="text" placeholder="Pesquisar por nome que contenha..." />
             </div>
             <div class="formbotao">
-                <button class="btn fourth margem" (click)="listarTodos()">Listar Todos</button>
-                <button class="btn fourth margem">Pesquisar</button>
+                <button #botaoListarTodos class="btn fourth margem" (click)="listarTodos()">Listar Todos</button>
+                <button class="btn fourth margem" (click)="buscarPorNome(nomeDaPermissao.value)">Pesquisar</button>
             </div>
             <div class="tabelaContainer">
                 <table>

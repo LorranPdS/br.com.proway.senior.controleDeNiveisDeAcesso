@@ -44,7 +44,7 @@ export class PermissaoService {
   }
 
   buscarPorNome(nomePermissao: string): Observable<Permissao>{
-    const url = `${this.permissaoUrl}/${nomePermissao}`;
+    const url = `${this.permissaoUrl + '/nome'}/${nomePermissao}`;
     return this.http.get<Permissao>(url, this.httpOptions)
   }
 }
