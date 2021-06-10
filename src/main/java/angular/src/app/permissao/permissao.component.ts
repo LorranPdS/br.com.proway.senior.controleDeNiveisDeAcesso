@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Permissao } from '../entidades/permissao';
-import {PermissaoService} from '../services/permissao.service'
+import { PermissaoService } from '../services/permissao.service'
 
 @Component({
   selector: 'app-permissao',
@@ -20,21 +20,22 @@ export class PermissaoComponent implements OnInit {
     this.permissaoService.listarTodos().subscribe(permissoes => this.permissoes = permissoes);
   }
 
-  cadastrar(nomePermissao: string): void{
+  cadastrar(nomePermissao: string): void {
     nomePermissao = nomePermissao.trim();
     if (!nomePermissao) { return; }
-    this.permissaoService.cadastrar({ nomePermissao } as Permissao).subscribe(permissaoo => {
-        this.permissoes.push(permissaoo);
-      });
+    this.permissaoService.cadastrar({ nomePermissao } as Permissao).subscribe( (_) =>  this.listarTodos())
   }
 
-  deletar(permissao : Permissao): void{
-    this.permissaoService.deletar(permissao.idPermissao as number).subscribe();
+  deletar(permissao: Permissao): void {
+    this.permissaoService.deletar(permissao.idPermissao as number).subscribe(
+      (_) =>  this.listarTodos()
+    )
+   
   }
 
-  buscarPorNome(nomePermissao: string): void{
+  buscarPorNome(nomePermissao: string): void {
     this.permissaoService.buscarPorNome(nomePermissao).subscribe();
   }
-  
- 
+
+
 }
