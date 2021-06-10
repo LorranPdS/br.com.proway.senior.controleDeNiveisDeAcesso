@@ -8,7 +8,8 @@
     </head>
         
     <body>
-        <form class="form change-font" action="#" method="#" > <!--o action Atributo que define a URL que será enviado, o method indica qual HTTP para enviar os dados-->
+        <form class="form change-font" action="#" method="#" ng-submit=”login()
+        > <!--o action Atributo que define a URL que será enviado, o method indica qual HTTP para enviar os dados-->
             <div class="card">
                 <div class="card-top">
                     <h2 class="title">Controle de Acesso</h2>
@@ -16,7 +17,7 @@
                 </div>           
                 <div class="card-group">
                     <label for="email"><b>E-mail</b></label>
-                    <input type="email" name="email" id="email" placeholder="Digite seu e-mail"> <!--Placeholder indica o texto que deverá ser inserido-->
+                    <input type="email" name="email" id="email" placeholder="Digite seu e-mail" required> <!--Placeholder indica o texto que deverá ser inserido-->
                 </div>
                <div class="card-group">
                     <label><b>Senha</b></label>
@@ -29,7 +30,7 @@
                 <div class="card-group btn">
                     <p></p>
                     <p></p>
-                    <button routerLink="/menu" type="checkbox"><b> ACESSAR</b></button>
+                    <button routerLink="/menu" type="checkbox" class=”button button-assertive” ng-click=”login()”><b> ACESSAR</b></button>
                 </div>
             </div>
         </form>
