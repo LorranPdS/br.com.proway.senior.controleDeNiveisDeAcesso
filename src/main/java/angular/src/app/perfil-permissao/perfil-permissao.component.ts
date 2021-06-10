@@ -8,13 +8,13 @@ import { Perfil } from '../entidades/perfil';
 })
 export class PerfilPermissaoComponent implements OnInit {
 
-  perfis: Perfil[] = [
+  // perfis: Perfil[] = [
 
-    { id: 2, nome: 'ADMIN', permissoes: [ { id: 3, nome: 'tudão' } ]},
-    { id: 3, nome: 'VENDEDOR', permissoes: [ { id: 5, nome: 'vendas' } ]},
-    { id: 4, nome: 'GERENTE', permissoes: [ { id: 5, nome: 'vendas' }, { id: 6, nome: 'consultas' } ]},
+  //   { id: 2, nome: 'ADMIN', permissoes: [ { id: 3, nome: 'tudão' } ]},
+  //   { id: 3, nome: 'VENDEDOR', permissoes: [ { id: 5, nome: 'vendas' } ]},
+  //   { id: 4, nome: 'GERENTE', permissoes: [ { id: 5, nome: 'vendas' }, { id: 6, nome: 'consultas' } ]},
     
-  ];
+  // ];
 
   constructor() { }
 
@@ -22,9 +22,9 @@ export class PerfilPermissaoComponent implements OnInit {
   }
 
   listarPermissoes(id: Perfil){
-    this.perfis.forEach(idPerfil => {
-        return idPerfil.permissoes;      
-    });
+    // this.perfis.forEach(idPerfil => {
+    //     return idPerfil.permissoes;      
+    // });
   }
 
 }

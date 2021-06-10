@@ -44,6 +44,7 @@ public class PermissaoControllerApi {
 	 * @return boolean Se ja existir uma {@link Permissao} com o nome informado,
 	 *         retorna false. Se nao existir, retorna true.
 	 */
+	@CrossOrigin
 	@PostMapping("/criar")
 	public boolean criarPermissao(@RequestBody Permissao permissao) {
 		return controller.criarPermissao(permissao.getNomePermissao());
@@ -63,6 +64,7 @@ public class PermissaoControllerApi {
 	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
 	 *         recebido. Se nao existir, retorna false.
 	 */
+	@CrossOrigin
 	@PutMapping("/alterar/id/{id}")
 	public boolean alterarPermissao(@PathVariable("id") Integer id, @RequestBody Permissao permissao) {
 		return controller.alterarPermissao(id, permissao.getNomePermissao());
@@ -78,6 +80,7 @@ public class PermissaoControllerApi {
 	 * @return boolean Retorna true caso exista uma {@link Permissao} com o id
 	 *         recebido. Se nao existir, retorna false.
 	 */
+	@CrossOrigin
 	@DeleteMapping("/deletar/id/{id}")
 	public boolean deletarPermissao(@PathVariable("id") Integer id) {
 		return controller.deletarPermissao(id);
@@ -96,6 +99,7 @@ public class PermissaoControllerApi {
 	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 * @throws NotFoundException
 	 */
+	@CrossOrigin
 	@GetMapping("/consultar/id/{id}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorId(@PathVariable("id") Integer id)
 			throws NotFoundException {
@@ -118,6 +122,7 @@ public class PermissaoControllerApi {
 	 *         banco de dados com o id informado, retorna uma PermissaoDTO. Se nao
 	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 */
+	@CrossOrigin
 	@GetMapping("/consultar/nome/{nome}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorNomeExato(@PathVariable("nome") String nome) {
 		
@@ -136,6 +141,7 @@ public class PermissaoControllerApi {
 	 * 
 	 * @return List<Permissao> 
 	 */
+	@CrossOrigin
 	@GetMapping("/listar")
 	public List<PermissaoDTO> listarTodasAsPermissoes() {
 		List<Permissao> listaModel = controller.listarTodasAsPermissoes();

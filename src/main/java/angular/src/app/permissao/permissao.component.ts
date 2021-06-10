@@ -16,7 +16,10 @@ export class PermissaoComponent implements OnInit {
   }
 
   getPermissao(): void {
-    this.permissaoService.getPermissao().subscribe(permissoes => this.permissoes = permissoes);
+  
+    this.permissaoService.getPermissao().subscribe(permissoes => {
+      debugger;
+      this.permissoes = permissoes});
   }
   
  

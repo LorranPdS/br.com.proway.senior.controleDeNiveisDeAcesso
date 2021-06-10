@@ -34,7 +34,7 @@
                 <button class="btn fourth" (click)="getPermissao()">Pesquisar</button>
             </div>
             <div class="tabelaContainer">
-                <table border="1">
+                <table>
 
                     <tr>
                         <th>Id</th>
@@ -43,8 +43,8 @@
                     </tr>
                     <tr *ngFor="let permissao of permissoes ">
 
-                        <td>{{permissao.id}}</td>
-                        <td>{{permissao.nome}}</td>
+                        <td>{{permissao.idPermissao}}</td>
+                        <td>{{permissao.nomePermissao}}</td>
                         <th><button class="botaolista fourth">apagar</button> <button routerLink="/permissao-editar" class="botaolista fourth">editar</button></th>
                     </tr>
 

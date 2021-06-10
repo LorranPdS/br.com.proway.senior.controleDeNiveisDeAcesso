@@ -7,11 +7,11 @@ import { Perfil } from 'app/entidades/perfil';
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
-  perfis: Perfil[] = [
-    {id: 2, nome: 'ADMIN', permissoes: []},
-    {id: 2, nome: 'ADMIN', permissoes: []},
-    {id: 2, nome: 'ADMIN', permissoes: [{id: 3, nome: 'Geral'}]}
-  ];
+  // perfis: Perfil[] = [
+  //   {id: 2, nome: 'ADMIN', permissoes: []},
+  //   {id: 2, nome: 'ADMIN', permissoes: []},
+  //   {id: 2, nome: 'ADMIN', permissoes: [{id: 3, nome: 'Geral'}]}
+  // ];
 
   constructor() { }
 

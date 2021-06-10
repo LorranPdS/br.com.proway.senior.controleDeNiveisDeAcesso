@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 })
 export class PermissaoService {
 
-  private permissaoUrl = 'localhost:8080/permissao/listar';
+  private permissaoUrl = 'http://localhost:8080/permissao/listar';
 
   constructor(private http: HttpClient) { }
 
