@@ -1,3 +1,4 @@
+import { NgForOf, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Permissao } from '../entidades/permissao';
 import { PermissaoService } from '../services/permissao.service'
@@ -34,8 +35,7 @@ export class PermissaoComponent implements OnInit {
   }
 
   buscarPorNome(nomePermissao: string): void {
-    this.permissaoService.buscarPorNome(nomePermissao).subscribe();
+    this.permissoes = [];
+    this.permissaoService.buscarPorNome(nomePermissao).subscribe(permissao => this.permissoes.push(permissao));
   }
-
-
 }
