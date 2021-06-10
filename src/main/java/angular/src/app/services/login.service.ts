@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 })
 export class LoginService {
 
-  private loginUrl = 'http://localhost:4200/login';
+  private loginUrl = 'http://localhost:8080/login';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
