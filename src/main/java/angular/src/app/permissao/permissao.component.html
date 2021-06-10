@@ -19,8 +19,7 @@
                 <input #permissao type="text" placeholder="Insira a descrição da permissão..." />
             </div>
             <div class="formbotao">
-                <button class="btn fourth" (click)="cadastrar(permissao.value); permissao.value= ''"
-                    (click)=pesquisar>Cadastrar</button>
+                <button class="btn fourth" (click)="cadastrar(permissao.value); permissao.value= ''">Cadastrar</button>
             </div>
 
         </div>
@@ -32,7 +31,8 @@
                 <input type="text" placeholder="Pesquisar por nome que contenha..." />
             </div>
             <div class="formbotao">
-                <button #pesquisar class="btn fourth" (click)="getPermissao()">Pesquisar</button>
+                <button class="btn fourth margem" (click)="listarTodos()">Listar Todos</button>
+                <button class="btn fourth margem">Pesquisar</button>
             </div>
             <div class="tabelaContainer">
                 <table>
