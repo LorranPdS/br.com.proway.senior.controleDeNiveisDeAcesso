@@ -15,10 +15,10 @@
 
             <div class="formtexto">
                 <label class="titulo">Insira as alterações desejadas:</label>
-                <input type="text" placeholder="A descrição deverá estar aqui" />
+                <input #descricao type="text" value="{{permissao.nomePermissao}}">
             </div>
             <div class="formbotao">
-                <button class="btn fourth">Concluir</button>
+                <button class="btn fourth" (click)="editar(descricao.value)">Concluir</button>
             </div>
 
         </div>
