@@ -28,4 +28,9 @@ export class PermissaoService {
     const url = `${this.permissaoUrl}/${id}`;
     return this.http.delete<Permissao>(url, this.httpOptions) 
   }
+
+  buscarPorNome(nomePermissao: string): Observable<Permissao>{
+    const url = `${this.permissaoUrl}/${nomePermissao}`;
+    return this.http.get<Permissao>(url, this.httpOptions)
+  }
 }

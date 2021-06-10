@@ -123,7 +123,7 @@ public class PermissaoControllerApi {
 	 *         encontrar, retorna uma excessao NOT_FOUND.
 	 */
 	@CrossOrigin
-	@GetMapping("/consultar/nome/{nome}")
+	@GetMapping("/nome/{nome}")
 	public ResponseEntity<PermissaoDTO> consultarPermissaoPorNomeExato(@PathVariable("nome") String nome) {
 		
 		Permissao permissao = controller.consultarPermissaoPorNomeExato(nome);

@@ -31,6 +31,10 @@ export class PermissaoComponent implements OnInit {
   deletar(permissao : Permissao): void{
     this.permissaoService.deletar(permissao.idPermissao as number).subscribe();
   }
+
+  buscarPorNome(nomePermissao: string): void{
+    this.permissaoService.buscarPorNome(nomePermissao).subscribe();
+  }
   
  
 }

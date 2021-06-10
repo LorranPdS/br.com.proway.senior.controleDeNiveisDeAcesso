@@ -28,8 +28,8 @@
         <div class="tabela">
             <h3>Lista de Permissões:</h3>
             <div class="formtexto">
-                <label class="titulo">Pesquisar:</label>
-                <input type="text" placeholder="Pesquisar por nome que contenha..." />
+                <label class="titulo" (click)= "buscarPorNome(nomeDaPermissao.value)">Pesquisar:</label>
+                <input #nomeDaPermissao type="text" placeholder="Pesquisar por nome que contenha..." />
             </div>
             <div class="formbotao">
                 <button #pesquisar class="btn fourth" (click)="getPermissao()">Pesquisar</button>
