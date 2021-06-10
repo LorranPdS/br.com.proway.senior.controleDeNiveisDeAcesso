@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Perfil } from 'app/entidades/perfil';
 import { Permissao } from 'app/entidades/permissao';
+import { Usuario } from 'app/entidades/usuario';
 
 @Component({
   selector: 'app-acesso-novo',
@@ -8,7 +9,7 @@ import { Permissao } from 'app/entidades/permissao';
   styleUrls: ['./acesso-novo.component.css']
 })
 export class AcessoNovoComponent implements OnInit {
-  
+
   constructor() { }
 
   ngOnInit(): void {

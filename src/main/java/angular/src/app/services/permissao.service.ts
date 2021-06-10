@@ -3,7 +3,6 @@ import { Permissao } from 'app/entidades/permissao';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,5 +14,6 @@ export class PermissaoService {
 
   getPermissao(): Observable<Permissao[]> {
     return this.http.get<Permissao[]>(this.permissaoUrl)
-  }
+
+}
 }

@@ -1,11 +1,10 @@
 body{
-  background-color: #f0f0f0;
+  background-color: #fff;
   font-family: sans-serif;  
   font-size: .8rem;
   padding-top: 5vh;
   background-size: cover;
   background-position-y: -150px;
-   
 }
 
 .form{
@@ -74,4 +73,8 @@ body{
 
 .title{
   color: #00C89B(9, 177, 154);
+}
+
+head {
+  height: 100%;
 }

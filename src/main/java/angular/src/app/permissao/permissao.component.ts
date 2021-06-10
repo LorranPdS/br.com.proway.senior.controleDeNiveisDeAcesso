@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Permissao } from '../entidades/permissao';
-import {PermissaoService} from '../services/permissao.service'
+import { PermissaoService } from '../services/permissao.service';
 
 @Component({
   selector: 'app-permissao',
@@ -9,15 +9,14 @@ import {PermissaoService} from '../services/permissao.service'
 })
 export class PermissaoComponent implements OnInit {
   permissoes: Permissao[] = [];
-
   constructor(private permissaoService: PermissaoService) { }
 
   ngOnInit(): void {
+    this.getPermissao();
   }
 
   getPermissao(): void {
     this.permissaoService.getPermissao().subscribe(permissoes => this.permissoes = permissoes);
   }
   
-
 }

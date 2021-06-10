@@ -25,6 +25,7 @@ import model.entidades.Permissao;
  * @author Janaina Mai <b>janaina.mai@senior.com</b> - Sprint 6
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/permissao")
 public class PermissaoControllerApi {
